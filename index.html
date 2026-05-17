@@ -805,7 +805,7 @@
       noticeText: '课程日程有变动时会在这里更新。当前可查看最新课程安排通知。'
     };
 
-    const defaultConfigVersion = '2026-05-17-lessons-08-09-topic-update';
+    const defaultConfigVersion = '2026-05-18-hide-recording-password';
 
     const defaultCourses = [
       {
@@ -856,7 +856,6 @@
         topics: ['弹性势能', '动量', '碰撞'],
         note: 'course-notes/mechanics-04.pdf',
         video: 'https://meeting.tencent.com/crm/K0qMvRXG71',
-        videoPassword: 'TBBT',
         homework: 'assignments/mechanics-hw04.pdf'
       },
       {
@@ -1030,15 +1029,12 @@
 
         const topics = course.topics.map((topic) => `<span class="topic">${topic}</span>`).join('');
         const date = course.date ? `<span class="date">更新日期：${course.date}</span>` : '<span class="date">资料待上传</span>';
-        const videoPassword = course.videoPassword ? `<span class="date">录播密码：${course.videoPassword}</span>` : '';
-
         return `
           <article class="course-card">
             <div>
               <div class="course-meta">
                 <span class="badge">${course.unit} ${String(course.no).padStart(2, '0')}</span>
                 ${date}
-                ${videoPassword}
               </div>
               <h3>第${course.no}讲：${course.title}</h3>
               <p>${course.summary}</p>
