@@ -239,8 +239,8 @@
     </section>
 
     <section class="login-card" aria-label="登录表单">
-      <h2>学生登录</h2>
-      <p class="subtitle">登录后即可查看课程资料。账号仅供内部学生使用。</p>
+      <h2 id="loginTitle">学生登录</h2>
+      <p class="subtitle" id="loginSubtitle">登录后即可查看课程资料。账号仅供内部学生使用。</p>
 
       <form id="loginForm">
         <div class="form-group">
@@ -269,15 +269,32 @@
     const passwordInput = document.getElementById('password');
     const generalError = document.getElementById('generalError');
     const submitBtn = document.getElementById('submitBtn');
+    const loginTitle = document.getElementById('loginTitle');
+    const loginSubtitle = document.getElementById('loginSubtitle');
 
-    const VALID_USERNAME = 'tabito';
-    const VALID_PASSWORD = 'butsuri';
     const params = new URLSearchParams(window.location.search);
-    const requestedNext = params.get('next') || 'index.html';
-    const nextPage = /^[a-z0-9-]+\.html$/i.test(requestedNext) ? requestedNext : 'index.html';
+    const subjectKey = params.get('subject') || 'physics';
+    const courseLogins = {
+      physics: {
+        label: '共通考试物理',
+        password: 'butsuri',
+        authKey: 'physicsSiteAuth',
+        destination: /^[a-z0-9-]+\.html$/i.test(params.get('next') || '') ? params.get('next') : 'physics.html'
+      },
+      'math-ia': {
+        label: '数学IA',
+        password: 'suugaku',
+        authKey: 'mathIaSiteAuth',
+        destination: 'https://paulfields83.github.io/math-notes/'
+      }
+    };
+    const currentCourse = courseLogins[subjectKey] || courseLogins.physics;
+    const VALID_USERNAME = 'tabito';
+    loginTitle.textContent = `${currentCourse.label}资料库登录`;
+    loginSubtitle.textContent = `登录后即可查看${currentCourse.label}课程资料。账号仅供已报名学生使用。`;
 
-    if (localStorage.getItem('physicsSiteAuth') === 'true') {
-      window.location.href = nextPage;
+    if (localStorage.getItem(currentCourse.authKey) === 'true') {
+      window.location.href = currentCourse.destination;
     }
 
     function clearErrors() {
@@ -311,12 +328,12 @@
         return;
       }
 
-      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+      if (username === VALID_USERNAME && password === currentCourse.password) {
         submitBtn.disabled = true;
         submitBtn.textContent = '登录中...';
-        localStorage.setItem('physicsSiteAuth', 'true');
+        localStorage.setItem(currentCourse.authKey, 'true');
         setTimeout(() => {
-          window.location.href = nextPage;
+          window.location.href = currentCourse.destination;
         }, 300);
         return;
       }

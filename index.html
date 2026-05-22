@@ -561,7 +561,7 @@
         <a href="#subjects">科目入口</a>
         <a href="#official">官方入口</a>
         <a href="physics.html">共通考试物理</a>
-        <a href="login.html?next=physics.html" class="logout">学生登录</a>
+        <a href="login.html?subject=physics&next=physics.html" class="logout">学生登录</a>
       </nav>
     </div>
   </header>
@@ -674,7 +674,13 @@
         href: 'physics.html',
         meta: '物理'
       },
-      { name: '数学IA', description: '数与式、二次函数、图形、概率与数据分析。', meta: '数学' },
+      {
+        name: '数学IA',
+        description: '数与式、二次函数、图形、概率与数据分析。',
+        status: '开放中',
+        href: 'login.html?subject=math-ia',
+        meta: '数学'
+      },
       { name: '数学IIBC', description: '三角函数、指数对数、微积分、数列、向量与复平面。', meta: '数学' },
       { name: '化学', description: '理论化学、无机化学、有机化学与实验题整理。', meta: '理科' },
       { name: '生物', description: '细胞、代谢、遗传、生态与生物综合题。', meta: '理科' },
