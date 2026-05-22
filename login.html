@@ -272,9 +272,12 @@
 
     const VALID_USERNAME = 'tabito';
     const VALID_PASSWORD = 'butsuri';
+    const params = new URLSearchParams(window.location.search);
+    const requestedNext = params.get('next') || 'index.html';
+    const nextPage = /^[a-z0-9-]+\.html$/i.test(requestedNext) ? requestedNext : 'index.html';
 
     if (localStorage.getItem('physicsSiteAuth') === 'true') {
-      window.location.href = 'index.html';
+      window.location.href = nextPage;
     }
 
     function clearErrors() {
@@ -313,7 +316,7 @@
         submitBtn.textContent = '登录中...';
         localStorage.setItem('physicsSiteAuth', 'true');
         setTimeout(() => {
-          window.location.href = 'index.html';
+          window.location.href = nextPage;
         }, 300);
         return;
       }

@@ -361,12 +361,6 @@
   </style>
 </head>
 <body>
-  <script>
-    if (localStorage.getItem('physicsSiteAuth') !== 'true') {
-      window.location.href = 'login.html';
-    }
-  </script>
-
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="index.html">
@@ -376,7 +370,7 @@
       <nav aria-label="主要导航">
         <a href="#subjects">科目入口</a>
         <a href="physics.html">共通考试物理</a>
-        <a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')" class="logout">退出登录</a>
+        <a href="login.html?next=physics.html" class="logout">学生登录</a>
       </nav>
     </div>
   </header>
