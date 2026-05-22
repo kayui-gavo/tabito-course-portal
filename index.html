@@ -18,6 +18,7 @@
       --blue-dark: #164a7f;
       --green: #16846b;
       --amber: #a96513;
+      --red: #b44646;
       --disabled: #c6ceda;
       --shadow: 0 14px 34px rgba(31, 45, 69, 0.08);
       --radius: 8px;
@@ -121,10 +122,11 @@
     }
 
     .hero-inner {
-      padding: 48px 0 38px;
+      min-height: 430px;
+      padding: 54px 0 42px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 34px;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 42px;
       align-items: center;
     }
 
@@ -151,6 +153,59 @@
       line-height: 1.85;
     }
 
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 7px;
+      padding: 10px 15px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .hero-btn.primary {
+      border: 1px solid #f6f0de;
+      background: #f6f0de;
+      color: #17304d;
+    }
+
+    .hero-btn.secondary {
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-card {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      box-shadow: 0 24px 54px rgba(5, 18, 34, 0.18);
+    }
+
+    .hero-logo {
+      width: 100%;
+      display: block;
+      border-radius: 7px;
+      background: #5aa4cc;
+    }
+
+    .hero-card p {
+      margin-top: 14px;
+      color: #dbe9f8;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
     .hero-illustration {
       width: min(100%, 270px);
       aspect-ratio: 1;
@@ -162,6 +217,130 @@
 
     main {
       padding: 26px 0 70px;
+    }
+
+    .official-panel {
+      margin-bottom: 26px;
+    }
+
+    .official-feature {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .official-main,
+    .official-link-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 1px 0 rgba(31, 45, 69, 0.02);
+    }
+
+    .official-main {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 20px;
+      align-items: center;
+      padding: 22px;
+    }
+
+    .official-main img {
+      width: 130px;
+      border-radius: 7px;
+      background: #5aa4cc;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 5px;
+    }
+
+    .official-main h2 {
+      font-size: 24px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .official-main p,
+    .official-link-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .official-main a,
+    .official-link-card a {
+      display: inline-flex;
+      margin-top: 14px;
+      min-height: 38px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      padding: 8px 12px;
+      color: #ffffff;
+      background: var(--blue);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .official-side {
+      display: grid;
+      gap: 14px;
+    }
+
+    .official-note {
+      border: 1px solid #cfe0dc;
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius);
+      background: #f1faf6;
+      padding: 17px;
+    }
+
+    .official-note strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #0d5f4b;
+      font-size: 15px;
+    }
+
+    .official-note span {
+      color: #537168;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .official-links-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .official-link-card {
+      min-height: 156px;
+      padding: 16px;
+    }
+
+    .official-link-card .tag {
+      display: inline-flex;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: var(--amber);
+      background: #fff5e7;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .official-link-card h3 {
+      font-size: 16px;
+      line-height: 1.35;
+      margin-bottom: 7px;
     }
 
     .notice {
@@ -310,10 +489,20 @@
         grid-template-columns: 1fr;
       }
 
-      .hero-illustration {
-        display: none;
+      .hero-card {
+        max-width: 360px;
       }
 
+      .official-feature,
+      .official-main {
+        grid-template-columns: 1fr;
+      }
+
+      .official-main img {
+        width: 150px;
+      }
+
+      .official-links-grid,
       .subject-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -354,6 +543,7 @@
         display: block;
       }
 
+      .official-links-grid,
       .subject-grid {
         grid-template-columns: 1fr;
       }
@@ -369,6 +559,7 @@
       </a>
       <nav aria-label="主要导航">
         <a href="#subjects">科目入口</a>
+        <a href="#official">官方入口</a>
         <a href="physics.html">共通考试物理</a>
         <a href="login.html?next=physics.html" class="logout">学生登录</a>
       </nav>
@@ -381,12 +572,70 @@
         <div class="hero-label">TABITO · 共通考试课程</div>
         <h1>旅人教育课程资料库</h1>
         <p>这里是旅人教育内部学生查看各科课程资料的统一入口。当前物理资料库已经开放，其他科目的资料站正在建设中，开放后会从这里进入。</p>
+        <div class="hero-actions">
+          <a class="hero-btn primary" href="https://www.tabitoedu.com" target="_blank" rel="noopener">打开旅人学堂官网</a>
+          <a class="hero-btn secondary" href="physics.html">进入共通考试物理</a>
+        </div>
       </div>
-      <img class="hero-illustration" src="assets/images/tabito-illustration.jpg" alt="旅人教育课程插画" />
+      <div class="hero-card" aria-label="旅人教育品牌">
+        <img class="hero-logo" src="assets/tabito-logo.svg" alt="旅人教育 TABITO 标识" />
+        <p>课程报名、升学服务和机构信息请以旅人学堂官网发布内容为准。</p>
+      </div>
     </div>
   </section>
 
   <main>
+    <section class="official-panel" id="official">
+      <div class="official-feature">
+        <article class="official-main">
+          <img src="assets/tabito-logo.svg" alt="旅人教育 TABITO 标识" />
+          <div>
+            <div class="eyebrow">OFFICIAL SITE</div>
+            <h2>旅人学堂官网</h2>
+            <p>查看课程报名、升学服务、机构介绍和最新公开信息。学生资料库用于课内资料查看，正式课程与机构信息以官网为准。</p>
+            <a href="https://www.tabitoedu.com" target="_blank" rel="noopener">前往官网</a>
+          </div>
+        </article>
+        <div class="official-side">
+          <div class="official-note">
+            <strong>资料库与官网分工</strong>
+            <span>本页负责课程资料入口；官网负责公司介绍、课程报名与公开信息。已报名学生从对应科目入口登录查看资料。</span>
+          </div>
+          <div class="official-note">
+            <strong>考试官方信息</strong>
+            <span>考试日程、出题范围和制度说明请以 JASSO 与大学入学考试中心的公开页面为准。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="official-links-grid" aria-label="官方信息入口">
+        <article class="official-link-card">
+          <span class="tag">EJU</span>
+          <h3>JASSO 日本留学考试</h3>
+          <p>查看 EJU 概要、实施要项、考试日程、成绩说明和官方资料。</p>
+          <a href="https://www.jasso.go.jp/ryugaku/eju/index.html" target="_blank" rel="noopener">打开 JASSO</a>
+        </article>
+        <article class="official-link-card">
+          <span class="tag">EJU 物理</span>
+          <h3>EJU 物理出题范围</h3>
+          <p>查看 EJU 理科物理官方出题范围，作为课程范围确认参考。</p>
+          <a href="https://www.jasso.go.jp/ryugaku/eju/examinee/syllabus/science_phy.html" target="_blank" rel="noopener">打开范围</a>
+        </article>
+        <article class="official-link-card">
+          <span class="tag">共通考试</span>
+          <h3>大学入学考试中心</h3>
+          <p>共通考试官方机构入口，包含考试信息、说明资料和通知。</p>
+          <a href="https://www.dnc.ac.jp/" target="_blank" rel="noopener">打开中心</a>
+        </article>
+        <article class="official-link-card">
+          <span class="tag">考生信息</span>
+          <h3>考生与家长页面</h3>
+          <p>面向考生的共通考试信息入口，包含年度考试信息和过去问题。</p>
+          <a href="https://www.dnc.ac.jp/studentandparent/index.html" target="_blank" rel="noopener">打开页面</a>
+        </article>
+      </div>
+    </section>
+
     <section class="notice">
       <div>
         <h2>课程入口建设中</h2>
