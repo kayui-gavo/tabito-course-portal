@@ -1,6 +1,6 @@
-# 旅人教育共通考试物理课程资料库：GitHub Pages 部署指南
+# 旅人教育课程门户：GitHub Pages 部署指南
 
-本网站是静态网站，可以直接用 GitHub Pages 免费发布。当前目录还不是 Git 仓库，按下面步骤操作即可。
+本网站是静态网站，可以直接用 GitHub Pages 免费发布。当前仓库建议命名为 `tabito-course-portal`，对应 GitHub Pages 地址会从旧的物理课程站路径改为课程门户路径。
 
 ## 重要提醒
 
@@ -9,7 +9,7 @@ GitHub Pages 发布后，网页会被外部访问。当前登录功能是前端 
 ## 一、创建 GitHub 仓库
 
 1. 登录 GitHub。
-2. 新建仓库，例如：`physics-class-site`。
+2. 新建仓库，例如：`tabito-course-portal`。
 3. 如果使用 GitHub Free，建议设为 Public 后启用 Pages。
 4. 不要勾选自动创建 README，避免和本地文件冲突。
 
@@ -23,7 +23,7 @@ git init
 git branch -M main
 git add .
 git commit -m "Initial course site"
-git remote add origin https://github.com/你的用户名/physics-class-site.git
+git remote add origin https://github.com/你的用户名/tabito-course-portal.git
 git push -u origin main
 ```
 
@@ -43,13 +43,13 @@ git push -u origin main
 几分钟后会生成访问地址，通常是：
 
 ```text
-https://你的用户名.github.io/physics-class-site/
+https://你的用户名.github.io/tabito-course-portal/
 ```
 
 学生访问：
 
 ```text
-https://你的用户名.github.io/physics-class-site/login.html
+https://你的用户名.github.io/tabito-course-portal/login.html
 ```
 
 ## 四、更新网站内容
@@ -72,7 +72,7 @@ assignments/         作业题与答案 PDF
 course-notes/        课堂板书 PDF
 notices/             通知 PDF
 resources/           网站内资料页面
-index.html           课程资料主页
+index.html           课程门户主页
 login.html           登录页
 ```
 
