@@ -2,27 +2,9 @@
 
 面向旅人教育内部学生的课程资料门户。网站用于集中查看各科课程入口、课程板书、录播、作业题、答案解析、通知和补充资料。
 
-## 本地查看
-
-```bash
-cd /Users/ryukayuiii/Documents/physics-class-site
-python3 -m http.server 8000
-```
-
-浏览器访问：
-
-```text
-http://localhost:8000/login.html
-```
-
 ## 登录
 
-默认账号见 `login.html` 中：
-
-```javascript
-const VALID_USERNAME = 'tabito';
-const VALID_PASSWORD = 'butsuri';
-```
+默认账号由各科老师提供。
 
 ## 目录结构
 
