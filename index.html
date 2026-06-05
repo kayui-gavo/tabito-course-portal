@@ -273,101 +273,6 @@
       margin-bottom: 7px;
     }
 
-    .notice {
-      border: 1px solid #e6d4b9;
-      border-left: 5px solid var(--amber);
-      border-radius: var(--radius);
-      background: #fff9ef;
-      padding: 16px 18px;
-      margin-bottom: 20px;
-    }
-
-    .notice h2 {
-      font-size: 17px;
-      color: #6f410d;
-      margin-bottom: 3px;
-    }
-
-    .notice p {
-      color: #705a3f;
-      font-size: 14px;
-    }
-
-    .notice-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-
-    .notice-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .notice-item {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: center;
-      border-top: 1px solid #efdcbf;
-      padding-top: 10px;
-    }
-
-    .notice-item:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-
-    .notice-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      color: #8a673d;
-      font-size: 12px;
-      font-weight: 850;
-      margin-bottom: 4px;
-    }
-
-    .notice-latest {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 2px 7px;
-      background: #235f9f;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .notice-title {
-      color: #4f2f0b;
-      font-size: 15px;
-      font-weight: 850;
-      line-height: 1.45;
-    }
-
-    .notice-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      border-radius: 7px;
-      padding: 7px 11px;
-      color: #ffffff;
-      background: var(--blue);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .notice-link:hover {
-      background: var(--blue-dark);
-    }
-
     .section-head {
       display: flex;
       justify-content: space-between;
@@ -527,23 +432,6 @@
         padding: 34px 0 30px;
       }
 
-      .notice-head {
-        display: block;
-      }
-
-      .notice-head .status {
-        display: inline-flex;
-        margin-top: 8px;
-      }
-
-      .notice-item {
-        grid-template-columns: 1fr;
-      }
-
-      .notice-link {
-        width: 100%;
-      }
-
       .section-head {
         display: block;
       }
@@ -564,6 +452,7 @@
       </a>
       <nav aria-label="主要导航">
         <a href="#subjects">科目入口</a>
+        <a href="#company">旅人内容</a>
         <a href="#official">官方入口</a>
       </nav>
     </div>
@@ -624,42 +513,25 @@
       </div>
     </section>
 
-    <section class="notice" aria-labelledby="courseNoticeTitle">
-      <div class="notice-head">
+    <section class="official-panel" id="company">
+      <div class="section-head">
         <div>
-          <h2 id="courseNoticeTitle">课程通知</h2>
-          <p>最新课程通知会优先显示在这里；旧通知会按日期保留，方便回查。</p>
+          <h2>旅人教育内容入口</h2>
+          <p>课程资料库以外的机构内容、老师制作的小工具和公众号文章会集中放在这里。</p>
         </div>
-        <span class="status">内部资料</span>
       </div>
-      <div class="notice-list">
-        <article class="notice-item">
-          <div>
-            <div class="notice-meta">
-              <span>2026-06-06</span>
-              <span class="notice-latest">最新通知</span>
-            </div>
-            <div class="notice-title">第七回作业答案订正：弹簧惯性力题有误，最新版中日答案已上传</div>
-          </div>
-          <a class="notice-link" href="physics.html" target="_blank" rel="noopener">查看第七回</a>
+      <div class="official-links-grid" aria-label="旅人教育内容入口">
+        <article class="official-link-card">
+          <span class="tag">生物</span>
+          <h3>生物等级考题小程序</h3>
+          <p>生物老师制作的等级考练习小程序，用于刷题和复习。</p>
+          <a href="weixin://dl/business/?t=ysnnptatzPgrEGG">打开小程序</a>
         </article>
-        <article class="notice-item">
-          <div>
-            <div class="notice-meta">
-              <span>2026-06-04</span>
-            </div>
-            <div class="notice-title">课程表变动通知</div>
-          </div>
-          <a class="notice-link" href="notices/class-schedule-notice-2026-06-04.pdf" target="_blank" rel="noopener">查看通知</a>
-        </article>
-        <article class="notice-item">
-          <div>
-            <div class="notice-meta">
-              <span>2026-05-08</span>
-            </div>
-            <div class="notice-title">课程表变动通知</div>
-          </div>
-          <a class="notice-link" href="notices/class-schedule-notice.pdf" target="_blank" rel="noopener">查看通知</a>
+        <article class="official-link-card">
+          <span class="tag">公众号</span>
+          <h3>旅人教育微信公众号</h3>
+          <p>查看旅人教育发布的升学、课程和备考相关内容。</p>
+          <a href="https://mp.weixin.qq.com/s/ZMtJsMmy-gfTXMUUDcR7HQ" target="_blank" rel="noopener">打开文章</a>
         </article>
       </div>
     </section>
