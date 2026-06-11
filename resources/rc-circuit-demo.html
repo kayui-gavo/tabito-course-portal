@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RC回路デモ · 旅人教育共通テスト物理</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--amber:#a96513;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 300px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#fbfcfe}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.seg button{min-height:40px;border:1px solid var(--line);border-radius:7px;background:#fff;font-weight:850;color:#164a7f}.seg button.active{background:#164a7f;color:#fff}.value{color:#164a7f;font-weight:850}.formula{font-size:18px;font-weight:850;color:#164a7f}.lamp{height:22px;border-radius:999px;background:#fde9a9;box-shadow:0 0 18px #f4bd32}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/rc-circuit-demo.html'}</script>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">電</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <main class="page">
+    <section class="panel"><div class="label">コンデンサー</div><h1>RC回路の充電・放電</h1><p class="lead">コンデンサーの電圧は一瞬では変わりません。変化の速さは時定数 τ = RC で決まり、τ が大きいほどゆっくり変化します。</p></section>
+    <section class="layout">
+      <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
+      <aside class="controls">
+        <div class="control"><div class="seg"><button id="charge" class="active">充電</button><button id="discharge">放電</button></div></div>
+        <div class="control"><label>抵抗 R：<span class="value" id="rValue">4.0</span> kΩ</label><input id="r" type="range" min="1" max="10" value="4" step="0.1"></div>
+        <div class="control"><label>静電容量 C：<span class="value" id="cValue">2.0</span> mF</label><input id="c" type="range" min="0.5" max="5" value="2" step="0.1"></div>
+        <div class="control"><p class="formula">τ = RC = <span id="tau">8.0</span> s</p><p>グラフの横軸は時間、縦軸はコンデンサーの電圧と電流の大きさです。</p></div>
+        <div class="control"><label>ランプの明るさ</label><div id="lamp" class="lamp"></div><p id="lampText">充電直後は電流が大きく、だんだん暗くなります。</p></div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),r=document.getElementById('r'),c=document.getElementById('c'),rValue=document.getElementById('rValue'),cValue=document.getElementById('cValue'),tauEl=document.getElementById('tau'),charge=document.getElementById('charge'),discharge=document.getElementById('discharge'),lamp=document.getElementById('lamp'),lampText=document.getElementById('lampText');let mode='charge';
+    charge.onclick=()=>{mode='charge';charge.classList.add('active');discharge.classList.remove('active');draw()};discharge.onclick=()=>{mode='discharge';discharge.classList.add('active');charge.classList.remove('active');draw()};
+    function draw(){const R=Number(r.value),C=Number(c.value),tau=R*C,W=canvas.width,H=canvas.height,left=78,right=W-45,top=55,bottom=H-72;rValue.textContent=R.toFixed(1);cValue.textContent=C.toFixed(1);tauEl.textContent=tau.toFixed(1);ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#d9e1ec';ctx.lineWidth=1;for(let i=0;i<=5;i++){const y=top+(bottom-top)*i/5;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke()}ctx.strokeStyle='#172033';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(right,bottom);ctx.stroke();ctx.fillStyle='#667085';ctx.font='700 14px sans-serif';ctx.fillText('0',left-18,bottom+6);ctx.fillText('時間 t',right-44,bottom+34);ctx.fillText('電圧・電流',left-52,top-18);
+      const Tmax=Math.max(24,tau*5),V=mode==='charge'?t=>1-Math.exp(-t/tau):t=>Math.exp(-t/tau),I=t=>Math.exp(-t/tau);function plot(color,fn,label,offset){ctx.strokeStyle=color;ctx.lineWidth=4;ctx.beginPath();for(let px=0;px<=right-left;px++){const t=Tmax*px/(right-left),y=bottom-fn(t)*(bottom-top);if(px===0)ctx.moveTo(left+px,y);else ctx.lineTo(left+px,y)}ctx.stroke();ctx.fillStyle=color;ctx.fillText(label,right-150,top+offset)}
+      plot('#235f9f',V,mode==='charge'?'Vc 充電で増加':'Vc 放電で減少',18);plot('#a96513',I,'|I| 電流は減少',44);
+      [1,2,3].forEach(k=>{const x=left+(right-left)*(k*tau/Tmax);ctx.strokeStyle='#cfd9e6';ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,bottom);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#667085';ctx.fillText(k+'τ',x-8,bottom+24)});
+      const bright=Math.exp(-1);lamp.style.opacity=String(.25+.75*bright);lampText.textContent=mode==='charge'?'充電直後は電流が大きく、時間とともに暗くなります。':'放電直後は電流が大きく、時間とともに暗くなります。';
+    }
+    [r,c].forEach(el=>el.addEventListener('input',draw));draw();
+  </script>
+</body>
+</html>

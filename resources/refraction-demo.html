@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>屈折と全反射デモ · 旅人教育共通テスト物理</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--red:#b2443b;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 300px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#fbfcfe}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.value{color:#164a7f;font-weight:850}.result{font-size:24px;font-weight:900;color:var(--green)}.tir{color:var(--red)}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/refraction-demo.html'}</script>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">光</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <main class="page">
+    <section class="panel"><div class="label">スネルの法則</div><h1>屈折と全反射</h1><p class="lead">光が境界面を通るとき、n1 sinθ1 = n2 sinθ2 が成り立ちます。密な媒質から疎な媒質へ出るとき、条件によっては全反射が起こります。</p></section>
+    <section class="layout">
+      <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
+      <aside class="controls">
+        <div class="control"><label>入射角 θ1：<span class="value" id="angleValue">40</span>°</label><input id="angle" type="range" min="0" max="80" value="40"></div>
+        <div class="control"><label>上側の屈折率 n1：<span class="value" id="n1Value">1.00</span></label><input id="n1" type="range" min="1" max="2.4" value="1" step="0.01"></div>
+        <div class="control"><label>下側の屈折率 n2：<span class="value" id="n2Value">1.50</span></label><input id="n2" type="range" min="1" max="2.4" value="1.5" step="0.01"></div>
+        <div class="control"><div id="result" class="result">屈折角 θ2 = 25.4°</div><p id="hint">屈折率が大きい媒質へ進むので、法線に近づきます。</p></div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),angle=document.getElementById('angle'),n1=document.getElementById('n1'),n2=document.getElementById('n2'),angleValue=document.getElementById('angleValue'),n1Value=document.getElementById('n1Value'),n2Value=document.getElementById('n2Value'),result=document.getElementById('result'),hint=document.getElementById('hint');
+    function drawArrow(x1,y1,x2,y2,color){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-18*Math.cos(a-.45),y2-18*Math.sin(a-.45));ctx.lineTo(x2-18*Math.cos(a+.45),y2-18*Math.sin(a+.45));ctx.closePath();ctx.fill()}
+    function update(){const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2,th=Number(angle.value)*Math.PI/180,N1=Number(n1.value),N2=Number(n2.value),s=N1/N2*Math.sin(th),tir=Math.abs(s)>1;angleValue.textContent=angle.value;n1Value.textContent=N1.toFixed(2);n2Value.textContent=N2.toFixed(2);ctx.clearRect(0,0,W,H);ctx.fillStyle='#edf6ff';ctx.fillRect(0,0,W,cy);ctx.fillStyle='#eef8f3';ctx.fillRect(0,cy,W,cy);ctx.strokeStyle='#172033';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();ctx.setLineDash([8,8]);ctx.strokeStyle='#667085';ctx.beginPath();ctx.moveTo(cx,50);ctx.lineTo(cx,H-50);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#172033';ctx.font='800 18px sans-serif';ctx.fillText('媒質1  n1 = '+N1.toFixed(2),40,52);ctx.fillText('媒質2  n2 = '+N2.toFixed(2),40,H-38);
+      const L=260;drawArrow(cx-L*Math.sin(th),cy-L*Math.cos(th),cx,cy,'#235f9f');ctx.fillStyle='#235f9f';ctx.fillText('入射光',cx-L*Math.sin(th)-70,cy-L*Math.cos(th)+8);
+      if(tir){drawArrow(cx,cy,cx+L*Math.sin(th),cy-L*Math.cos(th),'#b2443b');result.textContent='全反射';result.classList.add('tir');hint.textContent='n1 > n2 で入射角が臨界角を超えたため、下側へ進む屈折光はありません。'}else{const th2=Math.asin(s);drawArrow(cx,cy,cx+L*Math.sin(th2),cy+L*Math.cos(th2),'#16846b');result.textContent='屈折角 θ2 = '+(th2*180/Math.PI).toFixed(1)+'°';result.classList.remove('tir');hint.textContent=N2>N1?'屈折率が大きい媒質へ進むので、法線に近づきます。':'屈折率が小さい媒質へ進むので、法線から遠ざかります。'}
+    }
+    [angle,n1,n2].forEach(el=>el.addEventListener('input',update));update();
+  </script>
+</body>
+</html>
