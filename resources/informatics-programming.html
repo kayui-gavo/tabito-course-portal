@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <title>情報Ⅰ · 计算机与程序设计</title>
+  <title>情报Ⅰ · わかりやすい算法の部屋</title>
   <style>
     :root {
       --ink: #172033;
@@ -16,81 +16,570 @@
       --blue: #235f9f;
       --blue-dark: #164a7f;
       --green: #16846b;
+      --amber: #a96513;
+      --red: #b6432b;
       --shadow: 0 14px 34px rgba(31, 45, 69, 0.08);
       --radius: 8px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif; color: var(--ink); background: var(--canvas); line-height: 1.7; }
-    .topbar { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(217, 225, 236, 0.94); background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(14px); }
-    .topbar-inner, .hero-inner, main, .footer-inner { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
-    .topbar-inner { min-height: 62px; display: flex; align-items: center; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 10px; min-width: 250px; color: var(--ink); text-decoration: none; font-weight: 850; }
-    .brand img { width: 92px; height: 30px; object-fit: contain; border-radius: 4px; }
-    nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-    nav a { color: var(--muted); text-decoration: none; white-space: nowrap; font-size: 14px; font-weight: 750; padding: 8px 11px; border-radius: 7px; }
-    nav a:hover { background: var(--surface); color: var(--blue-dark); }
-    .hero { color: #fff; background: linear-gradient(112deg, rgba(18, 46, 68, 0.96), rgba(35, 95, 159, 0.86)), #17304d; }
-    .hero-inner { padding: 48px 0 42px; }
-    .hero-label { color: #d6e6f7; font-size: 13px; font-weight: 850; letter-spacing: .08em; margin-bottom: 10px; }
-    h1 { font-size: clamp(31px, 4.5vw, 50px); line-height: 1.15; margin-bottom: 12px; }
-    .hero p { max-width: 820px; color: #e5eef9; }
-    main { padding: 28px 0 72px; }
-    section { scroll-margin-top: 80px; margin-top: 20px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); padding: 20px; }
-    h2 { font-size: 25px; line-height: 1.3; margin-bottom: 8px; }
-    h3 { font-size: 18px; margin: 14px 0 6px; }
-    p, li { color: var(--muted); }
-    ul, ol { padding-left: 20px; }
-    .formula { border-left: 4px solid var(--blue); padding-left: 12px; margin-top: 12px; }
-    code, pre { font-family: "SFMono-Regular", Consolas, monospace; }
-    pre { border-radius: 7px; background: #122237; color: #eaf3ff; padding: 14px; overflow-x: auto; line-height: 1.65; margin: 12px 0; }
-    .bits { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; margin-top: 12px; }
-    .bit { min-height: 58px; display: grid; place-items: center; border: 1px solid #d5e1ee; border-radius: 7px; background: #fff; text-align: center; color: var(--muted); font-size: 12px; }
-    .bit b { display: block; color: var(--ink); font-size: 18px; line-height: 1; }
-    .bit.on { border-color: #8ac1b5; background: #edf9f6; color: #126852; }
-    .control-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; }
-    input[type="range"] { accent-color: var(--blue); min-width: 190px; }
-    .pill { border: 1px solid #c9d8e8; border-radius: 999px; padding: 5px 9px; color: var(--blue-dark); background: #f7fbff; font-size: 12px; font-weight: 850; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { padding: 8px 9px; border-bottom: 1px solid #edf1f6; text-align: left; }
-    th { color: var(--muted); background: #f7faff; }
-    .coming { border-style: dashed; background: #f8fafc; color: var(--muted); }
-    .back { display: inline-flex; margin-top: 18px; color: var(--blue-dark); font-weight: 850; text-decoration: none; }
-    footer { background: #142338; color: #dce8f6; padding: 24px 0; }
-    footer p { color: #c7d5e7; font-size: 13px; }
-    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .topbar-inner { align-items: flex-start; flex-direction: column; gap: 6px; padding: 10px 0; } .bits { grid-template-columns: repeat(4, 1fr); } }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--canvas);
+      line-height: 1.72;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(217, 225, 236, 0.94);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner,
+    .hero-inner,
+    main,
+    .footer-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 260px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 850;
+    }
+
+    .brand img {
+      width: 92px;
+      height: 30px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 750;
+      padding: 8px 11px;
+      border-radius: 7px;
+    }
+
+    nav a:hover {
+      background: var(--surface);
+      color: var(--blue-dark);
+    }
+
+    .hero {
+      color: #ffffff;
+      background:
+        linear-gradient(112deg, rgba(18, 46, 68, 0.96), rgba(35, 95, 159, 0.86)),
+        #17304d;
+    }
+
+    .hero-inner {
+      padding: 46px 0 36px;
+    }
+
+    .hero-label {
+      color: #d6e6f7;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(31px, 4.5vw, 50px);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      max-width: 880px;
+      color: #e5eef9;
+    }
+
+    main {
+      padding: 24px 0 72px;
+    }
+
+    section {
+      scroll-margin-top: 82px;
+      margin-top: 18px;
+    }
+
+    h2 {
+      font-size: 25px;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin: 14px 0 6px;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+    }
+
+    .room-map {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .room-map h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .shelf {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .shelf a {
+      display: block;
+      min-height: 84px;
+      border: 1px solid #dce6f2;
+      border-radius: 7px;
+      background: #fbfdff;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 12px;
+    }
+
+    .shelf span {
+      display: block;
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .shelf b {
+      display: block;
+      line-height: 1.35;
+    }
+
+    .shelf small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .panel.full {
+      grid-column: 1 / -1;
+    }
+
+    .formula {
+      border-left: 4px solid var(--blue);
+      padding-left: 12px;
+      margin-top: 12px;
+    }
+
+    .warn {
+      border-left-color: var(--amber);
+      background: #fffaf1;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    code,
+    pre {
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
+    pre {
+      border-radius: 7px;
+      background: #122237;
+      color: #eaf3ff;
+      padding: 14px;
+      overflow-x: auto;
+      line-height: 1.65;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 12px 0;
+    }
+
+    label {
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      accent-color: var(--blue);
+      min-width: 190px;
+    }
+
+    input[type="number"] {
+      width: 92px;
+      border: 1px solid #cbd8e6;
+      border-radius: 7px;
+      padding: 8px 9px;
+    }
+
+    .btn {
+      min-height: 40px;
+      border-radius: 7px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: #ffffff;
+      padding: 8px 13px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .btn.ghost {
+      border-color: var(--line);
+      background: #ffffff;
+      color: var(--blue-dark);
+    }
+
+    .pill {
+      border: 1px solid #c9d8e8;
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: var(--blue-dark);
+      background: #f7fbff;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 8px 9px;
+      border-bottom: 1px solid #edf1f6;
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      background: #f7faff;
+    }
+
+    .bits {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .bit {
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d5e1ee;
+      border-radius: 7px;
+      background: #fff;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .bit b {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .bit.on {
+      border-color: #8ac1b5;
+      background: #edf9f6;
+      color: #126852;
+    }
+
+    .array-row {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .array-cell {
+      min-height: 62px;
+      border: 1px solid #d5e1ee;
+      border-radius: 7px;
+      background: #ffffff;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .array-cell b {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .array-cell.active {
+      border-color: var(--green);
+      background: #edf9f6;
+    }
+
+    .array-cell.hit {
+      border-color: var(--amber);
+      background: #fff5df;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      min-height: 250px;
+      border: 1px solid #dce6f2;
+      border-radius: 7px;
+      background: #ffffff;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini {
+      border: 1px solid #dce6f2;
+      border-radius: 7px;
+      background: #fbfdff;
+      padding: 12px;
+    }
+
+    .mini b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mini code {
+      color: var(--blue-dark);
+      background: #eef4fb;
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+
+    .back {
+      display: inline-flex;
+      margin-top: 18px;
+      color: var(--blue-dark);
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #142338;
+      color: #dce8f6;
+      padding: 24px 0;
+    }
+
+    footer p {
+      color: #c7d5e7;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .shelf {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner,
+      .hero-inner,
+      main,
+      .footer-inner {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 0;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .shelf,
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bits,
+      .array-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="../informatics.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>情報Ⅰ专题</span></a>
-      <nav>
+      <a class="brand" href="../informatics.html">
+        <img src="../assets/images/tabito-logo.jpg" alt="旅人教育" />
+        <span>情報Ⅰの部屋</span>
+      </a>
+      <nav aria-label="算法专题导航">
         <a href="#binary">二进制</a>
-        <a href="#algorithm">程序追踪</a>
-        <a href="#simulation">模拟</a>
-        <a href="../informatics.html">返回情报首页</a>
+        <a href="#trace">变量追踪</a>
+        <a href="#branch">分支循环</a>
+        <a href="#array">数组</a>
+        <a href="#search">搜索</a>
+        <a href="#sort">排序</a>
+        <a href="#complexity">效率</a>
+        <a href="../informatics.html">返回首页</a>
       </nav>
     </div>
   </header>
+
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-label">コンピュータとプログラミング</div>
-      <h1>计算机与程序设计</h1>
-      <p>这一部分的重点不是记住某一种编程语言，而是读懂数据如何被表示、程序如何一步一步改变变量，以及算法为什么能稳定得到结果。</p>
+      <h1>わかりやすい算法の部屋</h1>
+      <p>
+        共通考试「情報Ⅰ」的程序题不会要求记住某一种编程语言，而是考查能否读懂变量、条件、循环、数组和算法的过程。
+        这一页按“先看结论，再动手追踪”的顺序整理。
+      </p>
     </div>
   </section>
+
   <main>
+    <section class="room-map" aria-label="算法房间目录">
+      <h2>算法房间目录</h2>
+      <div class="shelf">
+        <a href="#binary"><span>01</span><b>二进制与编码</b><small>bit、byte、位权、数据量</small></a>
+        <a href="#trace"><span>02</span><b>变量追踪</b><small>代入、更新、循环后的值</small></a>
+        <a href="#branch"><span>03</span><b>条件分支与循环</b><small>if、while、for、边界条件</small></a>
+        <a href="#array"><span>04</span><b>数组与下标</b><small>添字、遍历、最大值</small></a>
+        <a href="#search"><span>05</span><b>线性搜索</b><small>从头查找、命中、未命中</small></a>
+        <a href="#sort"><span>06</span><b>排序</b><small>相邻比较、交换、稳定得到顺序</small></a>
+        <a href="#complexity"><span>07</span><b>算法效率</b><small>O(n)、O(n²)、数据量增长</small></a>
+        <a href="#simulation"><span>08</span><b>模型化与模拟</b><small>假设、规则、重复计算</small></a>
+      </div>
+    </section>
+
+    <section id="exam" class="grid">
+      <article class="panel">
+        <h2>共通考试里算法题怎么考</h2>
+        <p>
+          大学入試センター的问题作成方针说明，程序题会使用考生初见也能理解的独自程序表记。
+          所以重点不是背语法，而是把题目中的处理过程翻译成“变量怎样变、条件何时成立、循环执行几次”。
+        </p>
+        <div class="formula">
+          <p><strong>做题顺序：</strong>确认输入输出 → 标出变量初始值 → 逐行执行 → 写追踪表 → 检查最后输出。</p>
+        </div>
+      </article>
+      <article class="panel">
+        <h2>本页覆盖的核心能力</h2>
+        <ul>
+          <li>二进制、位、字节和数据量计算。</li>
+          <li>读懂赋值、条件分支、循环和数组。</li>
+          <li>追踪线性搜索、最大值查找、相邻交换排序。</li>
+          <li>比较算法效率，理解数据量变大后的影响。</li>
+          <li>用简单规则建立模型并进行模拟。</li>
+        </ul>
+      </article>
+    </section>
+
     <section id="binary" class="grid">
       <article class="panel">
-        <h2>二进制与位</h2>
-        <p>计算机内部用 0 和 1 表示信息。一个二进制位叫 bit，8 bit 通常称为 1 byte。做题时要能在十进制和二进制之间转换。</p>
+        <h2>01 二进制与位</h2>
+        <p>计算机内部用 0 和 1 表示信息。一个二进制位叫 bit，8 bit 通常称为 1 byte。</p>
         <div class="formula"><p><strong>重要结论：</strong>从右往左，第 k 位的权重是 2^k。8 bit 无符号整数的范围是 0 到 255。</p></div>
         <div class="control-row">
           <label for="decimalInput">十进制</label>
           <input id="decimalInput" type="range" min="0" max="255" value="173" />
+          <input id="decimalNumber" type="number" min="0" max="255" value="173" />
           <span class="pill" id="binaryResult">173 = 10101101₂</span>
         </div>
         <div class="bits" id="bitGrid"></div>
@@ -100,21 +589,16 @@
         <ol>
           <li>先写出位权：128, 64, 32, 16, 8, 4, 2, 1。</li>
           <li>从最大的位权开始，能减就写 1，不能减就写 0。</li>
-          <li>转换字符编码时，注意题目给的是十进制、十六进制还是二进制。</li>
+          <li>数据量换算时注意 1 byte = 8 bit。</li>
         </ol>
-        <h3>容易错的地方</h3>
-        <ul>
-          <li>把 1000₂ 看成一千，而不是 8。</li>
-          <li>忘记最高位的权重随 bit 数增加而改变。</li>
-          <li>把数据量单位 bit 和 byte 混用。</li>
-        </ul>
+        <div class="formula warn"><p><strong>常见错误：</strong>把 1000₂ 看成一千；把 bit 和 byte 混用；忘记最高位权重随位数改变。</p></div>
       </article>
     </section>
 
-    <section id="algorithm" class="grid">
+    <section id="trace" class="grid">
       <article class="panel">
-        <h2>伪代码与变量追踪</h2>
-        <p>共通考试的程序题通常用初见也能读懂的伪代码。解题时不要凭感觉跳到结论，而要把变量每一步的值写出来。</p>
+        <h2>02 变量追踪</h2>
+        <p>赋值符号「←」表示把右边的计算结果放进左边变量。变量被重新赋值后，旧值会被覆盖。</p>
         <pre>合計 ← 0
 i を 1 から n まで 1 ずつ増やす:
   合計 ← 合計 + i
@@ -130,49 +614,202 @@ i を 1 から n まで 1 ずつ増やす:
         </table>
       </article>
       <article class="panel">
-        <h2>读程序的固定步骤</h2>
+        <h2>追踪表怎么写</h2>
         <ol>
-          <li>确认输入、输出和初始值。</li>
-          <li>把循环条件和更新位置圈出来。</li>
-          <li>每循环一次记录一次变量。</li>
-          <li>最后检查输出发生在循环内还是循环后。</li>
+          <li>每个变量单独开一列。</li>
+          <li>循环每执行一次，就追加一行。</li>
+          <li>如果输出在循环外，最后一行才是答案。</li>
+          <li>如果输出在循环内，要看第几次输出。</li>
         </ol>
-        <div class="formula"><p><strong>考试意识：</strong>程序题常考“第几次循环后变量是多少”“条件分支走哪一边”“数组下标有没有越界”。</p></div>
+        <div class="formula"><p><strong>考试意识：</strong>程序题常用“第几次循环后”“当 i = ? 时”来考边界条件。</p></div>
+      </article>
+    </section>
+
+    <section id="branch" class="grid">
+      <article class="panel">
+        <h2>03 条件分支与循环</h2>
+        <p>条件分支决定“走哪条路”，循环决定“重复几次”。算法题最容易错在边界：等号有没有包含、循环什么时候结束。</p>
+        <pre>もし x が 2 で割り切れる ならば:
+  表示する("偶数")
+そうでなければ:
+  表示する("奇数")</pre>
+        <div class="control-row">
+          <label for="branchX">x</label>
+          <input id="branchX" type="range" min="0" max="30" value="14" />
+          <span class="pill" id="branchResult">14 是偶数</span>
+        </div>
+      </article>
+      <article class="panel">
+        <h2>分支题的检查点</h2>
+        <ul>
+          <li><code>&lt;</code> 和 <code>≤</code> 的差别。</li>
+          <li>多个条件同时出现时，是“且”还是“或”。</li>
+          <li>循环变量是否在循环内更新。</li>
+          <li>循环结束后变量已经变成什么。</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="array" class="grid">
+      <article class="panel">
+        <h2>04 数组与下标</h2>
+        <p>数组把多个数据按顺序放在一起。共通考试题会在题干说明下标从 0 还是从 1 开始，一定要先确认。</p>
+        <pre>最大 ← 点数[1]
+i を 2 から データ数 まで 1 ずつ増やす:
+  もし 点数[i] > 最大 ならば:
+    最大 ← 点数[i]</pre>
+        <div class="control-row">
+          <button class="btn" id="arrayStep">下一步查最大值</button>
+          <button class="btn ghost" id="arrayReset">重置</button>
+          <span class="pill" id="arrayStatus">准备开始</span>
+        </div>
+        <div class="array-row" id="arrayCells"></div>
+      </article>
+      <article class="panel">
+        <h2>数组题的核心</h2>
+        <ol>
+          <li>确认数组长度和下标起点。</li>
+          <li>确认循环从第几个元素开始。</li>
+          <li>更新最大值、最小值、合计时，记录旧值和新值。</li>
+          <li>不要把“第 i 个”与“下标 i”混在一起。</li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="search" class="grid">
+      <article class="panel">
+        <h2>05 线性搜索</h2>
+        <p>线性搜索从头到尾逐个比较，直到找到目标，或确认没有目标。数据没有排序时，这是一种最直观的查找方法。</p>
+        <pre>見つかった ← 偽
+i を 1 から データ数 まで 1 ずつ増やす:
+  もし データ[i] = 目標 ならば:
+    見つかった ← 真</pre>
+        <div class="control-row">
+          <label for="searchTarget">目标</label>
+          <input id="searchTarget" type="number" min="0" max="99" value="68" />
+          <button class="btn" id="searchStep">下一步搜索</button>
+          <button class="btn ghost" id="searchReset">重置</button>
+          <span class="pill" id="searchStatus">目标 68</span>
+        </div>
+        <div class="array-row" id="searchCells"></div>
+      </article>
+      <article class="panel">
+        <h2>命中与未命中</h2>
+        <ul>
+          <li>最好情况：第一个元素就是目标，只比较 1 次。</li>
+          <li>最坏情况：目标在最后，或根本不存在，要比较 n 次。</li>
+          <li>如果数据已经排序，可以使用二分搜索；如果未排序，不能直接二分。</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="sort" class="grid">
+      <article class="panel full">
+        <h2>06 排序：相邻比较与交换</h2>
+        <p>排序是把数据按规则排成顺序。这里用相邻比较演示：如果左边比右边大，就交换。重复进行后，大的数会逐步移到右侧。</p>
+        <div class="control-row">
+          <button class="btn" id="sortStep">下一步比较</button>
+          <button class="btn ghost" id="sortAuto">自动演示</button>
+          <button class="btn ghost" id="sortReset">重置数据</button>
+          <span class="pill" id="sortStatus">准备开始</span>
+        </div>
+        <canvas id="sortCanvas" height="260" aria-label="排序条形图"></canvas>
+        <div class="formula">
+          <p><strong>观察点：</strong>一次 pass 结束后，当前未排序部分的最大值会确定在右端。数据量增加时，比较次数会明显增加。</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="complexity" class="grid">
+      <article class="panel">
+        <h2>07 算法效率</h2>
+        <p>算法效率关注数据量 n 变大时，处理次数怎样增长。共通考试不要求严格证明，但要能比较“哪个增长更快”。</p>
+        <div class="control-row">
+          <label for="sizeN">数据量 n</label>
+          <input id="sizeN" type="range" min="1" max="80" value="20" />
+          <span class="pill" id="sizeLabel">n = 20</span>
+        </div>
+        <canvas id="complexityCanvas" height="260" aria-label="复杂度比较图"></canvas>
+      </article>
+      <article class="panel">
+        <h2>常见增长方式</h2>
+        <div class="compare-grid">
+          <div class="mini"><b>常数时间</b><p><code>O(1)</code><br>取数组第 3 个元素。</p></div>
+          <div class="mini"><b>线性时间</b><p><code>O(n)</code><br>逐个检查所有元素。</p></div>
+          <div class="mini"><b>平方时间</b><p><code>O(n²)</code><br>两层循环比较所有组合。</p></div>
+        </div>
+        <div class="formula warn"><p><strong>考试意识：</strong>数据量变成 2 倍时，O(n) 约变 2 倍，O(n²) 约变 4 倍。</p></div>
       </article>
     </section>
 
     <section id="simulation" class="grid">
       <article class="panel">
-        <h2>模型化与模拟</h2>
-        <p>现实问题太复杂时，可以用变量和规则建立模型，再用程序重复计算。模拟结果不是绝对真实，而是“在设定条件下会怎样”。</p>
+        <h2>08 模型化与模拟</h2>
+        <p>现实问题太复杂时，可以用变量和规则建立模型，再让程序重复计算。模拟结果不是绝对真实，而是“在这些假设下会怎样”。</p>
         <ul>
           <li>先明确假设：忽略什么、保留什么。</li>
-          <li>每一步如何更新状态。</li>
-          <li>结果是否会受初始值或随机数影响。</li>
+          <li>决定每一步如何更新状态。</li>
+          <li>结果是否受初始值、随机数或参数影响。</li>
         </ul>
       </article>
-      <article class="panel coming">
-        <h2>准备中的小专题</h2>
-        <p>后续将加入：搜索算法、排序算法复杂度、数组与表格处理、随机数模拟。页面位置先保留，方便课程逐步追加。</p>
+      <article class="panel">
+        <h2>简单增长模拟</h2>
+        <p>每一步人数增加 15%，观察步数增加时结果如何变化。</p>
+        <div class="control-row">
+          <label for="simSteps">步数</label>
+          <input id="simSteps" type="range" min="0" max="20" value="8" />
+          <span class="pill" id="simResult">8 步后约 306</span>
+        </div>
+        <table>
+          <thead><tr><th>步数</th><th>人数</th></tr></thead>
+          <tbody id="simTable"></tbody>
+        </table>
       </article>
     </section>
+
+    <section id="summary" class="grid">
+      <article class="panel full">
+        <h2>算法题最后检查</h2>
+        <div class="compare-grid">
+          <div class="mini"><b>变量</b><p>初始值、更新位置、最后输出。</p></div>
+          <div class="mini"><b>条件</b><p>等号、且/或、分支顺序。</p></div>
+          <div class="mini"><b>循环</b><p>开始、结束、执行次数。</p></div>
+          <div class="mini"><b>数组</b><p>下标起点、长度、越界。</p></div>
+          <div class="mini"><b>搜索</b><p>命中、未命中、最坏情况。</p></div>
+          <div class="mini"><b>排序</b><p>比较、交换、pass 后确定的位置。</p></div>
+        </div>
+      </article>
+    </section>
+
     <a class="back" href="../informatics.html">返回共通考试情报首页</a>
   </main>
-  <footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+
+  <footer>
+    <div class="footer-inner">
+      <p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p>
+    </div>
+  </footer>
+
   <script>
     const decimalInput = document.getElementById('decimalInput');
+    const decimalNumber = document.getElementById('decimalNumber');
     const binaryResult = document.getElementById('binaryResult');
     const bitGrid = document.getElementById('bitGrid');
+
     function renderBits(value) {
-      const bits = Number(value).toString(2).padStart(8, '0');
-      binaryResult.textContent = `${value} = ${bits}₂`;
+      const clamped = Math.max(0, Math.min(255, Number(value) || 0));
+      decimalInput.value = clamped;
+      decimalNumber.value = clamped;
+      const bits = clamped.toString(2).padStart(8, '0');
+      binaryResult.textContent = `${clamped} = ${bits}₂`;
       bitGrid.innerHTML = bits.split('').map((bit, index) => {
         const power = 7 - index;
         return `<div class="bit ${bit === '1' ? 'on' : ''}"><div><b>${bit}</b><span>2^${power}<br>${2 ** power}</span></div></div>`;
       }).join('');
     }
     decimalInput.addEventListener('input', (event) => renderBits(event.target.value));
-    renderBits(decimalInput.value);
+    decimalNumber.addEventListener('input', (event) => renderBits(event.target.value));
+    renderBits(173);
 
     const traceN = document.getElementById('traceN');
     const traceLabel = document.getElementById('traceLabel');
@@ -190,6 +827,241 @@ i を 1 から n まで 1 ずつ増やす:
     }
     traceN.addEventListener('input', renderTrace);
     renderTrace();
+
+    const branchX = document.getElementById('branchX');
+    const branchResult = document.getElementById('branchResult');
+    function renderBranch() {
+      const x = Number(branchX.value);
+      branchResult.textContent = `${x} 是${x % 2 === 0 ? '偶数' : '奇数'}`;
+    }
+    branchX.addEventListener('input', renderBranch);
+    renderBranch();
+
+    const arrayData = [42, 78, 24, 91, 56, 33, 68, 15];
+    const arrayCells = document.getElementById('arrayCells');
+    const arrayStatus = document.getElementById('arrayStatus');
+    let arrayIndex = 0;
+    let arrayMax = arrayData[0];
+    function renderArray() {
+      arrayCells.innerHTML = arrayData.map((value, index) => {
+        const active = index === arrayIndex ? 'active' : '';
+        const hit = value === arrayMax ? 'hit' : '';
+        return `<div class="array-cell ${active} ${hit}"><div><span>${index + 1}番目</span><b>${value}</b></div></div>`;
+      }).join('');
+    }
+    function resetArray() {
+      arrayIndex = 0;
+      arrayMax = arrayData[0];
+      arrayStatus.textContent = `最大候補 ${arrayMax}`;
+      renderArray();
+    }
+    document.getElementById('arrayStep').addEventListener('click', () => {
+      arrayIndex = Math.min(arrayIndex + 1, arrayData.length - 1);
+      if (arrayData[arrayIndex] > arrayMax) {
+        arrayMax = arrayData[arrayIndex];
+        arrayStatus.textContent = `${arrayIndex + 1}番目で最大候補を ${arrayMax} に更新`;
+      } else {
+        arrayStatus.textContent = `${arrayIndex + 1}番目 ${arrayData[arrayIndex]} は更新なし`;
+      }
+      renderArray();
+    });
+    document.getElementById('arrayReset').addEventListener('click', resetArray);
+    resetArray();
+
+    const searchData = [42, 78, 24, 91, 56, 33, 68, 15];
+    const searchTarget = document.getElementById('searchTarget');
+    const searchCells = document.getElementById('searchCells');
+    const searchStatus = document.getElementById('searchStatus');
+    let searchIndex = -1;
+    let searchDone = false;
+    function renderSearch() {
+      const target = Number(searchTarget.value);
+      searchCells.innerHTML = searchData.map((value, index) => {
+        const active = index === searchIndex ? 'active' : '';
+        const hit = value === target && searchDone ? 'hit' : '';
+        return `<div class="array-cell ${active} ${hit}"><div><span>${index + 1}番目</span><b>${value}</b></div></div>`;
+      }).join('');
+    }
+    function resetSearch() {
+      searchIndex = -1;
+      searchDone = false;
+      searchStatus.textContent = `目标 ${Number(searchTarget.value)}`;
+      renderSearch();
+    }
+    document.getElementById('searchStep').addEventListener('click', () => {
+      if (searchDone) return;
+      const target = Number(searchTarget.value);
+      searchIndex += 1;
+      if (searchIndex >= searchData.length) {
+        searchDone = true;
+        searchStatus.textContent = `未找到 ${target}`;
+        renderSearch();
+        return;
+      }
+      if (searchData[searchIndex] === target) {
+        searchDone = true;
+        searchStatus.textContent = `${searchIndex + 1}番目で找到 ${target}`;
+      } else {
+        searchStatus.textContent = `${searchIndex + 1}番目を確認：${searchData[searchIndex]} 不是目标`;
+      }
+      renderSearch();
+    });
+    document.getElementById('searchReset').addEventListener('click', resetSearch);
+    searchTarget.addEventListener('input', resetSearch);
+    resetSearch();
+
+    const sortCanvas = document.getElementById('sortCanvas');
+    const sortCtx = sortCanvas.getContext('2d');
+    const sortStatus = document.getElementById('sortStatus');
+    const sortAuto = document.getElementById('sortAuto');
+    let sortValues = [];
+    let sortI = 0;
+    let sortPass = 0;
+    let sortTimer = null;
+    function fitCanvas(canvas) {
+      const width = canvas.clientWidth;
+      const height = Number(canvas.getAttribute('height'));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    }
+    function resetSort() {
+      sortValues = [42, 78, 24, 91, 56, 33, 68, 15, 84, 49];
+      sortI = 0;
+      sortPass = 0;
+      sortStatus.textContent = '准备开始';
+      drawSort();
+    }
+    function drawSort(activeA = -1, activeB = -1) {
+      fitCanvas(sortCanvas);
+      sortCtx.clearRect(0, 0, sortCanvas.width, sortCanvas.height);
+      const pad = 28;
+      const max = Math.max(...sortValues);
+      const barW = (sortCanvas.width - pad * 2) / sortValues.length;
+      sortValues.forEach((value, index) => {
+        const h = (sortCanvas.height - 64) * value / max;
+        const x = pad + index * barW + 5;
+        const y = sortCanvas.height - h - 34;
+        sortCtx.fillStyle = index === activeA || index === activeB ? '#16846b' : '#235f9f';
+        sortCtx.fillRect(x, y, Math.max(12, barW - 10), h);
+        sortCtx.fillStyle = '#172033';
+        sortCtx.font = '13px sans-serif';
+        sortCtx.textAlign = 'center';
+        sortCtx.fillText(value, x + Math.max(12, barW - 10) / 2, sortCanvas.height - 12);
+      });
+    }
+    function stepSort() {
+      const limit = sortValues.length - 1 - sortPass;
+      if (sortPass >= sortValues.length - 1) {
+        sortStatus.textContent = '排序完成';
+        clearInterval(sortTimer);
+        sortTimer = null;
+        sortAuto.textContent = '自动演示';
+        drawSort();
+        return;
+      }
+      const a = sortI;
+      const b = sortI + 1;
+      if (sortValues[a] > sortValues[b]) {
+        [sortValues[a], sortValues[b]] = [sortValues[b], sortValues[a]];
+        sortStatus.textContent = `比较 ${a + 1} 和 ${b + 1}：交换`;
+      } else {
+        sortStatus.textContent = `比较 ${a + 1} 和 ${b + 1}：不交换`;
+      }
+      drawSort(a, b);
+      sortI += 1;
+      if (sortI >= limit) {
+        sortI = 0;
+        sortPass += 1;
+      }
+    }
+    document.getElementById('sortStep').addEventListener('click', stepSort);
+    sortAuto.addEventListener('click', () => {
+      if (sortTimer) {
+        clearInterval(sortTimer);
+        sortTimer = null;
+        sortAuto.textContent = '自动演示';
+        return;
+      }
+      sortAuto.textContent = '暂停';
+      sortTimer = setInterval(stepSort, 650);
+    });
+    document.getElementById('sortReset').addEventListener('click', () => {
+      clearInterval(sortTimer);
+      sortTimer = null;
+      sortAuto.textContent = '自动演示';
+      resetSort();
+    });
+    resetSort();
+
+    const sizeN = document.getElementById('sizeN');
+    const sizeLabel = document.getElementById('sizeLabel');
+    const complexityCanvas = document.getElementById('complexityCanvas');
+    const complexityCtx = complexityCanvas.getContext('2d');
+    function renderComplexity() {
+      const n = Number(sizeN.value);
+      sizeLabel.textContent = `n = ${n}`;
+      fitCanvas(complexityCanvas);
+      complexityCtx.clearRect(0, 0, complexityCanvas.width, complexityCanvas.height);
+      const pad = 38;
+      const maxY = 80 * 80;
+      const plot = (fn, color, label) => {
+        complexityCtx.strokeStyle = color;
+        complexityCtx.lineWidth = 3;
+        complexityCtx.beginPath();
+        for (let x = 1; x <= 80; x += 1) {
+          const px = pad + (x - 1) / 79 * (complexityCanvas.width - pad * 2);
+          const py = complexityCanvas.height - pad - fn(x) / maxY * (complexityCanvas.height - pad * 2);
+          if (x === 1) complexityCtx.moveTo(px, py);
+          else complexityCtx.lineTo(px, py);
+        }
+        complexityCtx.stroke();
+        complexityCtx.fillStyle = color;
+        complexityCtx.font = '13px sans-serif';
+        complexityCtx.fillText(label, complexityCanvas.width - pad - 62, fn(70) / maxY > 0.5 ? 40 : complexityCanvas.height - pad - fn(70) / maxY * (complexityCanvas.height - pad * 2) - 8);
+      };
+      complexityCtx.strokeStyle = '#dce6f2';
+      complexityCtx.beginPath();
+      complexityCtx.moveTo(pad, 20);
+      complexityCtx.lineTo(pad, complexityCanvas.height - pad);
+      complexityCtx.lineTo(complexityCanvas.width - 18, complexityCanvas.height - pad);
+      complexityCtx.stroke();
+      plot((x) => 1, '#a96513', 'O(1)');
+      plot((x) => x * 80, '#16846b', 'O(n)');
+      plot((x) => x * x, '#235f9f', 'O(n²)');
+      const px = pad + (n - 1) / 79 * (complexityCanvas.width - pad * 2);
+      complexityCtx.strokeStyle = '#b6432b';
+      complexityCtx.lineWidth = 2;
+      complexityCtx.beginPath();
+      complexityCtx.moveTo(px, 22);
+      complexityCtx.lineTo(px, complexityCanvas.height - pad);
+      complexityCtx.stroke();
+    }
+    sizeN.addEventListener('input', renderComplexity);
+    renderComplexity();
+
+    const simSteps = document.getElementById('simSteps');
+    const simResult = document.getElementById('simResult');
+    const simTable = document.getElementById('simTable');
+    function renderSimulation() {
+      const steps = Number(simSteps.value);
+      let value = 100;
+      const rows = [`<tr><td>0</td><td>${value.toFixed(0)}</td></tr>`];
+      for (let i = 1; i <= steps; i += 1) {
+        value *= 1.15;
+        rows.push(`<tr><td>${i}</td><td>${value.toFixed(0)}</td></tr>`);
+      }
+      simResult.textContent = `${steps} 步后约 ${value.toFixed(0)}`;
+      simTable.innerHTML = rows.join('');
+    }
+    simSteps.addEventListener('input', renderSimulation);
+    renderSimulation();
+
+    window.addEventListener('resize', () => {
+      drawSort();
+      renderComplexity();
+    });
   </script>
 </body>
 </html>
