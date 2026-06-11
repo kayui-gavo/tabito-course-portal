@@ -13,7 +13,7 @@
   <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/doppler-demo.html'}</script>
   <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">音</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
   <main class="page">
-    <section class="panel"><div class="label">音波・観測者</div><h1>ドップラー効果</h1><p class="lead">音源が観測者へ近づくと波面の間隔が狭くなり、高い音に聞こえます。遠ざかる側では波面の間隔が広がり、低い音に聞こえます。</p><div class="key-formula">前方：f' = f v/(v - vs)　後方：f' = f v/(v + vs)</div></section>
+    <section class="panel"><div class="label">波動：ドップラー効果</div><h1>ドップラー効果</h1><p class="lead">音源が観測者へ近づくと波面の間隔が狭くなり、高い音に聞こえます。遠ざかる側では波面の間隔が広がり、低い音に聞こえます。</p><div class="key-formula">前方：f' = f v/(v - vs)　後方：f' = f v/(v + vs)</div></section>
     <section class="demo-steps" aria-label="授業で見る順番">
       <div class="step-card"><strong>1. まず円の間隔を見る</strong><span>音源の前では波面が混み、後ろでは広がります。</span></div>
       <div class="step-card"><strong>2. スライダーで速さを上げる</strong><span>速く動くほど、前後の振動数差が大きくなります。</span></div>
@@ -30,6 +30,7 @@
         <div class="control"><label>音源の速さ vs：<span class="value" id="vsText">0.30</span> v音</label><input id="vs" type="range" min="0" max="0.75" value="0.30" step="0.01"></div>
         <div class="control"><label>音源の振動数 f：<span class="value" id="fText">440</span> Hz</label><input id="freq" type="range" min="220" max="880" value="440" step="10"></div>
         <div class="control result"><div><span>前方で聞こえる音</span><strong id="front">629 Hz</strong></div><div><span>後方で聞こえる音</span><strong id="back">338 Hz</strong></div></div>
+        <div class="control formula-sheet"><strong>公式・重要結論</strong><ul class="formula-list"><li><code>f' = f v/(v - vs)</code>：音源が近づく前方。</li><li><code>f' = f v/(v + vs)</code>：音源が遠ざかる後方。</li><li>波面の間隔が狭いほど、波長は短く、音は高い。</li></ul></div>
         <div class="control"><p><strong>式：</strong>音源が近づく前方では f' = f・v/(v - vs)、後方では f' = f・v/(v + vs)。図の円は、音源が過去に出した波面です。</p></div>
       </aside>
     </section>
