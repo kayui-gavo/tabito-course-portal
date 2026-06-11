@@ -347,6 +347,56 @@
       font-size: 14px;
     }
 
+    .knowledge-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      width: 100%;
+      margin-top: 14px;
+      border: 1px solid #c9d8e8;
+      border-radius: 7px;
+      color: var(--blue-dark);
+      background: #f7fbff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .topic-tile {
+      border: 1px solid #dce6f2;
+      border-radius: 7px;
+      background: #ffffff;
+      padding: 13px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .topic-tile span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      margin-bottom: 4px;
+    }
+
+    .topic-tile b {
+      display: block;
+      line-height: 1.35;
+    }
+
+    .topic-tile.coming {
+      color: var(--soft);
+      background: #f8fafc;
+    }
+
     .demo-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -674,6 +724,7 @@
       }
 
       .knowledge-grid,
+      .topic-grid,
       .formula-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -708,6 +759,7 @@
       }
 
       .knowledge-grid,
+      .topic-grid,
       .formula-strip,
       .stat-grid,
       .feedback {
@@ -744,10 +796,10 @@
     <div class="hero-inner">
       <div>
         <div class="hero-label">TABITO · 共通考试 情報Ⅰ</div>
-        <h1>把“情报”做成可以操作的课堂资料库</h1>
+        <h1>共通考试情报Ⅰ课程资料库</h1>
         <p>
-          按日本高中「情報Ⅰ」范围整理知识点，并把二进制、算法、数据分析、网络通信和信息设计做成可以直接展示的互动 demo。
-          适合课上投屏：先看到结论，再动手改变数据、程序和传输过程。
+          面向共通考试「情報Ⅰ」备考，系统整理信息社会、信息设计、程序设计、网络与数据活用的核心内容。
+          课堂中可以配合互动演示理解概念，课后可以进入专题页面复习知识点。
         </p>
         <div class="hero-actions">
           <a class="hero-btn primary" href="#demos">打开实操 demo</a>
@@ -805,6 +857,7 @@
             <li>信息安全、认证、密码、风险判断</li>
             <li>信息技术对社会的影响</li>
           </ul>
+          <a class="knowledge-link" href="resources/informatics-social-problem.html">进入讲解页</a>
         </article>
         <article class="knowledge-card">
           <span class="number">2</span>
@@ -815,6 +868,7 @@
             <li>通用设计与用户视角</li>
             <li>用图像、文字、数据传达意图</li>
           </ul>
+          <a class="knowledge-link" href="resources/informatics-information-design.html">进入讲解页</a>
         </article>
         <article class="knowledge-card">
           <span class="number">3</span>
@@ -825,6 +879,7 @@
             <li>算法追踪、排序、搜索</li>
             <li>模型化、模拟、误差与限制</li>
           </ul>
+          <a class="knowledge-link" href="resources/informatics-programming.html">进入讲解页</a>
         </article>
         <article class="knowledge-card">
           <span class="number">4</span>
@@ -835,7 +890,18 @@
             <li>平均、分散、标准偏差、相关</li>
             <li>图表选择、回归、结果解释</li>
           </ul>
+          <a class="knowledge-link" href="resources/informatics-data-network.html">进入讲解页</a>
         </article>
+      </div>
+      <div class="topic-grid" aria-label="后续专题页面规划">
+        <a class="topic-tile" href="resources/informatics-programming.html#binary"><span>已开放</span><b>二进制与编码</b></a>
+        <a class="topic-tile" href="resources/informatics-programming.html#algorithm"><span>已开放</span><b>伪代码与变量追踪</b></a>
+        <a class="topic-tile" href="resources/informatics-data-network.html#correlation"><span>已开放</span><b>散布图与相关係数</b></a>
+        <a class="topic-tile" href="resources/informatics-data-network.html#packet"><span>已开放</span><b>网络分包通信</b></a>
+        <div class="topic-tile coming"><span>准备中</span><b>著作权与引用判断题</b></div>
+        <div class="topic-tile coming"><span>准备中</span><b>信息安全与密码强度</b></div>
+        <div class="topic-tile coming"><span>准备中</span><b>图表选择与误导图表</b></div>
+        <div class="topic-tile coming"><span>准备中</span><b>数据库与表格筛选</b></div>
       </div>
     </section>
 
@@ -976,7 +1042,7 @@ i を 1 から n まで 1 ずつ増やす:
           <div class="demo-header">
             <div>
               <h3>信息设计检查表</h3>
-              <p>把“好不好看”变成可以判断的传达效果。</p>
+              <p>用对比、顺序、单位和图表类型检查传达效果。</p>
             </div>
             <span class="pill">信息设计</span>
           </div>

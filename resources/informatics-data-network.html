@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <title>情報Ⅰ · 网络与数据活用</title>
+  <style>
+    :root { --ink:#172033; --muted:#667085; --line:#d9e1ec; --paper:#fff; --canvas:#f5f7fb; --surface:#eef4fb; --blue:#235f9f; --blue-dark:#164a7f; --green:#16846b; --shadow:0 14px 34px rgba(31,45,69,.08); --radius:8px; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--canvas); line-height:1.7; }
+    .topbar { position:sticky; top:0; z-index:20; border-bottom:1px solid rgba(217,225,236,.94); background:rgba(255,255,255,.94); backdrop-filter:blur(14px); }
+    .topbar-inner,.hero-inner,main,.footer-inner { width:min(1120px, calc(100% - 40px)); margin:0 auto; }
+    .topbar-inner { min-height:62px; display:flex; align-items:center; gap:16px; }
+    .brand { display:flex; align-items:center; gap:10px; min-width:250px; color:var(--ink); text-decoration:none; font-weight:850; }
+    .brand img { width:92px; height:30px; object-fit:contain; border-radius:4px; }
+    nav { display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+    nav a { color:var(--muted); text-decoration:none; white-space:nowrap; font-size:14px; font-weight:750; padding:8px 11px; border-radius:7px; }
+    nav a:hover { background:var(--surface); color:var(--blue-dark); }
+    .hero { color:#fff; background:linear-gradient(112deg, rgba(18,46,68,.96), rgba(35,95,159,.86)), #17304d; }
+    .hero-inner { padding:48px 0 42px; }
+    .hero-label { color:#d6e6f7; font-size:13px; font-weight:850; letter-spacing:.08em; margin-bottom:10px; }
+    h1 { font-size:clamp(31px,4.5vw,50px); line-height:1.15; margin-bottom:12px; }
+    .hero p { max-width:820px; color:#e5eef9; }
+    main { padding:28px 0 72px; }
+    section { scroll-margin-top:80px; margin-top:20px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .panel { border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); box-shadow:var(--shadow); padding:20px; }
+    h2 { font-size:25px; line-height:1.3; margin-bottom:8px; }
+    h3 { font-size:18px; margin:14px 0 6px; }
+    p,li { color:var(--muted); }
+    ul,ol { padding-left:20px; }
+    textarea { width:100%; min-height:82px; resize:vertical; border:1px solid #cbd8e6; border-radius:7px; padding:10px 11px; font:inherit; }
+    .control-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:12px 0; }
+    .btn { min-height:40px; border-radius:7px; border:1px solid var(--blue); background:var(--blue); color:#fff; padding:8px 13px; font-weight:850; cursor:pointer; }
+    .btn.ghost { border-color:var(--line); background:#fff; color:var(--blue-dark); }
+    .stat-grid { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; margin:12px 0; }
+    .stat { border:1px solid #dce6f2; border-radius:7px; padding:10px; background:#fbfdff; }
+    .stat span { display:block; color:var(--muted); font-size:12px; font-weight:850; }
+    .stat b { font-size:20px; }
+    canvas { display:block; width:100%; min-height:280px; border:1px solid #dce6f2; border-radius:7px; background:#fff; }
+    .packets { display:grid; gap:8px; margin-top:12px; }
+    .packet { display:grid; grid-template-columns:74px 1fr; gap:8px; align-items:center; border:1px solid #dce6f2; border-radius:7px; background:#fff; padding:9px; }
+    .packet.lost { opacity:.45; text-decoration:line-through; }
+    .packet span { color:var(--blue-dark); font-weight:900; }
+    .formula { border-left:4px solid var(--blue); padding-left:12px; margin-top:12px; }
+    .coming { border-style:dashed; background:#f8fafc; }
+    .back { display:inline-flex; margin-top:18px; color:var(--blue-dark); font-weight:850; text-decoration:none; }
+    footer { background:#142338; color:#dce8f6; padding:24px 0; }
+    footer p { color:#c7d5e7; font-size:13px; }
+    @media (max-width:900px) { .grid { grid-template-columns:1fr; } .stat-grid { grid-template-columns:1fr 1fr; } .topbar-inner { align-items:flex-start; flex-direction:column; gap:6px; padding:10px 0; } }
+    @media (max-width:560px) { .stat-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../informatics.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>情報Ⅰ专题</span></a>
+      <nav>
+        <a href="#correlation">数据分析</a>
+        <a href="#packet">分包通信</a>
+        <a href="#database">数据库</a>
+        <a href="../informatics.html">返回情报首页</a>
+      </nav>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-label">情報通信ネットワークとデータの活用</div>
+      <h1>网络与数据活用</h1>
+      <p>这一部分要求学生能读懂现实数据、选择合适的图表和统计量，并理解网络通信为什么需要协议、分包、确认和重传。</p>
+    </div>
+  </section>
+  <main>
+    <section id="correlation" class="grid">
+      <article class="panel">
+        <h2>散布图与相关係数</h2>
+        <p>散布图用来观察两个数量之间的关系。相关係数 r 在 -1 到 1 之间，接近 1 表示强正相关，接近 -1 表示强负相关。</p>
+        <textarea id="dataInput">1,48
+2,52
+3,60
+4,63
+5,72
+6,75
+7,84
+8,89</textarea>
+        <div class="control-row">
+          <button class="btn" id="dataApply">更新图表</button>
+          <button class="btn ghost" id="dataPreset">切换样本</button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><span>x 平均</span><b id="meanX">0</b></div>
+          <div class="stat"><span>y 平均</span><b id="meanY">0</b></div>
+          <div class="stat"><span>相关係数 r</span><b id="corrR">0</b></div>
+          <div class="stat"><span>回归式</span><b id="regLine">-</b></div>
+        </div>
+        <canvas id="scatterCanvas" height="300"></canvas>
+      </article>
+      <article class="panel">
+        <h2>解释数据时的注意点</h2>
+        <ul>
+          <li>相关不等于因果。两个量一起变化，不代表其中一个一定导致另一个。</li>
+          <li>离群值可能大幅改变平均值、相关係数和回归线。</li>
+          <li>图表的坐标轴范围会影响读者的直观判断。</li>
+        </ul>
+        <div class="formula"><p><strong>考试意识：</strong>看到数据题，先问“数据来源是什么”“样本数是否足够”“图表是否支持题目结论”。</p></div>
+      </article>
+    </section>
+
+    <section id="packet" class="grid">
+      <article class="panel">
+        <h2>网络分包通信</h2>
+        <p>网络传输中，信息常被拆成多个 packet。packet 可以不同顺序到达，接收方需要根据序号重新组合；如果丢失，则需要重传。</p>
+        <textarea id="messageInput">共通考试情报科目需要把概念、数据和程序联系起来。</textarea>
+        <div class="control-row">
+          <button class="btn" id="sendPackets">发送</button>
+          <button class="btn ghost" id="shufflePackets">打乱到达顺序</button>
+          <button class="btn ghost" id="losePacket">模拟丢包</button>
+        </div>
+        <div class="packets" id="packetList"></div>
+        <div class="formula"><p id="packetResult">等待发送</p></div>
+      </article>
+      <article class="panel">
+        <h2>网络知识点</h2>
+        <ul>
+          <li>协议：通信双方共同遵守的规则。</li>
+          <li>IP 地址：网络中的位置标识。</li>
+          <li>DNS：把域名转换为 IP 地址的机制。</li>
+          <li>暗号化与认证：保护内容和确认对方身份。</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="database" class="grid">
+      <article class="panel">
+        <h2>数据库与表格处理</h2>
+        <p>数据活用题经常要求筛选、排序、分组、汇总。关键是看清字段、条件和单位。</p>
+        <ol>
+          <li>先确认每一列表示什么。</li>
+          <li>把筛选条件翻译成逻辑式。</li>
+          <li>按题目要求选择平均、合计、最大值或比例。</li>
+        </ol>
+      </article>
+      <article class="panel coming">
+        <h2>准备中的小专题</h2>
+        <p>后续将加入：表格筛选器、数据库键、交叉表、箱线图、标准偏差和误导图表。</p>
+      </article>
+    </section>
+    <a class="back" href="../informatics.html">返回共通考试情报首页</a>
+  </main>
+  <footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const dataInput = document.getElementById('dataInput');
+    const scatterCanvas = document.getElementById('scatterCanvas');
+    const scatterCtx = scatterCanvas.getContext('2d');
+    const meanXEl = document.getElementById('meanX');
+    const meanYEl = document.getElementById('meanY');
+    const corrREl = document.getElementById('corrR');
+    const regLineEl = document.getElementById('regLine');
+    let presetIndex = 0;
+    const presets = ['1,48\n2,52\n3,60\n4,63\n5,72\n6,75\n7,84\n8,89', '1,82\n2,76\n3,78\n4,70\n5,64\n6,60\n7,55\n8,52', '1,64\n2,68\n3,58\n4,74\n5,70\n6,69\n7,86\n8,80'];
+    function fitCanvas(canvas) {
+      const width = canvas.clientWidth;
+      const height = Number(canvas.getAttribute('height'));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    }
+    function parseData() {
+      return dataInput.value.split(/\n+/).map((line) => line.split(',').map((item) => Number(item.trim()))).filter(([x, y]) => Number.isFinite(x) && Number.isFinite(y));
+    }
+    function renderScatter() {
+      const data = parseData();
+      if (data.length < 2) return;
+      const xs = data.map(([x]) => x);
+      const ys = data.map(([, y]) => y);
+      const meanX = xs.reduce((a, b) => a + b, 0) / xs.length;
+      const meanY = ys.reduce((a, b) => a + b, 0) / ys.length;
+      const sxx = xs.reduce((sum, x) => sum + (x - meanX) ** 2, 0);
+      const syy = ys.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
+      const sxy = data.reduce((sum, [x, y]) => sum + (x - meanX) * (y - meanY), 0);
+      const r = sxy / Math.sqrt(sxx * syy || 1);
+      const slope = sxy / (sxx || 1);
+      const intercept = meanY - slope * meanX;
+      meanXEl.textContent = meanX.toFixed(1);
+      meanYEl.textContent = meanY.toFixed(1);
+      corrREl.textContent = r.toFixed(2);
+      regLineEl.textContent = `y=${slope.toFixed(1)}x+${intercept.toFixed(1)}`;
+      fitCanvas(scatterCanvas);
+      scatterCtx.clearRect(0, 0, scatterCanvas.width, scatterCanvas.height);
+      const pad = 42;
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const minY = Math.min(...ys);
+      const maxY = Math.max(...ys);
+      const scaleX = (x) => pad + (x - minX) / ((maxX - minX) || 1) * (scatterCanvas.width - pad * 2);
+      const scaleY = (y) => scatterCanvas.height - pad - (y - minY) / ((maxY - minY) || 1) * (scatterCanvas.height - pad * 2);
+      scatterCtx.strokeStyle = '#dce6f2';
+      scatterCtx.beginPath();
+      scatterCtx.moveTo(pad, 20);
+      scatterCtx.lineTo(pad, scatterCanvas.height - pad);
+      scatterCtx.lineTo(scatterCanvas.width - 18, scatterCanvas.height - pad);
+      scatterCtx.stroke();
+      scatterCtx.strokeStyle = '#16846b';
+      scatterCtx.lineWidth = 3;
+      scatterCtx.beginPath();
+      scatterCtx.moveTo(scaleX(minX), scaleY(slope * minX + intercept));
+      scatterCtx.lineTo(scaleX(maxX), scaleY(slope * maxX + intercept));
+      scatterCtx.stroke();
+      data.forEach(([x, y]) => {
+        scatterCtx.fillStyle = '#235f9f';
+        scatterCtx.beginPath();
+        scatterCtx.arc(scaleX(x), scaleY(y), 5, 0, Math.PI * 2);
+        scatterCtx.fill();
+      });
+    }
+    document.getElementById('dataApply').addEventListener('click', renderScatter);
+    document.getElementById('dataPreset').addEventListener('click', () => {
+      presetIndex = (presetIndex + 1) % presets.length;
+      dataInput.value = presets[presetIndex];
+      renderScatter();
+    });
+    renderScatter();
+
+    const messageInput = document.getElementById('messageInput');
+    const packetList = document.getElementById('packetList');
+    const packetResult = document.getElementById('packetResult');
+    let packets = [];
+    function renderPackets() {
+      packetList.innerHTML = packets.map((packet) => `<div class="packet ${packet.lost ? 'lost' : ''}"><span>#${packet.id}</span><div>${packet.text}</div></div>`).join('');
+      const received = packets.filter((packet) => !packet.lost).sort((a, b) => a.id - b.id);
+      const missing = packets.some((packet) => packet.lost);
+      packetResult.textContent = missing ? '有 packet 丢失：需要重传才能完整复原。' : `复原信息：${received.map((packet) => packet.text).join('')}`;
+    }
+    document.getElementById('sendPackets').addEventListener('click', () => {
+      const text = messageInput.value.trim();
+      packets = Array.from({ length: Math.ceil(text.length / 8) }, (_, index) => ({ id: index + 1, text: text.slice(index * 8, index * 8 + 8), lost: false }));
+      renderPackets();
+    });
+    document.getElementById('shufflePackets').addEventListener('click', () => {
+      packets = packets.map((packet) => ({ ...packet })).sort(() => Math.random() - 0.5);
+      renderPackets();
+    });
+    document.getElementById('losePacket').addEventListener('click', () => {
+      if (!packets.length) return;
+      packets[Math.floor(Math.random() * packets.length)].lost = true;
+      renderPackets();
+    });
+    document.getElementById('sendPackets').click();
+    window.addEventListener('resize', renderScatter);
+  </script>
+</body>
+</html>
