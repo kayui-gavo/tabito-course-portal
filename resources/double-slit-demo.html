@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ヤングの実験デモ · 旅人教育共通テスト物理</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 310px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#050914}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.value{color:#164a7f;font-weight:850}.formula{font-size:22px;font-weight:900;color:var(--green)}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/double-slit-demo.html'}</script>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">干</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <main class="page">
+    <section class="panel"><div class="label">光の干渉</div><h1>ヤングの二重スリット</h1><p class="lead">2 つのスリットから出た光が重なると、明線と暗線ができます。明線間隔は、波長とスクリーンまでの距離に比例し、スリット間隔に反比例します。</p></section>
+    <section class="layout">
+      <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
+      <aside class="controls">
+        <div class="control"><label>波長 λ：<span class="value" id="lambdaText">550</span> nm</label><input id="lambda" type="range" min="420" max="680" value="550"></div>
+        <div class="control"><label>スリット間隔 d：<span class="value" id="dText">0.25</span> mm</label><input id="d" type="range" min="0.12" max="0.6" value="0.25" step="0.01"></div>
+        <div class="control"><label>スクリーン距離 L：<span class="value" id="lText">1.20</span> m</label><input id="dist" type="range" min="0.5" max="2" value="1.2" step="0.01"></div>
+        <div class="control"><div class="formula">Δx = <span id="dxText">2.64</span> mm</div><p>明線間隔：Δx = Lλ/d。中央から左右対称に明るい線が並びます。</p></div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),lambda=document.getElementById('lambda'),d=document.getElementById('d'),dist=document.getElementById('dist'),lambdaText=document.getElementById('lambdaText'),dText=document.getElementById('dText'),lText=document.getElementById('lText'),dxText=document.getElementById('dxText');
+    function colorFor(nm){let r=0,g=0,b=0;if(nm<440){r=-(nm-440)/(440-380);b=1}else if(nm<490){g=(nm-440)/(490-440);b=1}else if(nm<510){g=1;b=-(nm-510)/(510-490)}else if(nm<580){r=(nm-510)/(580-510);g=1}else if(nm<645){r=1;g=-(nm-645)/(645-580)}else{r=1}return [r*255,g*255,b*255]}
+    function draw(){const nm=Number(lambda.value),D=Number(d.value),L=Number(dist.value),W=canvas.width,H=canvas.height,mid=H/2,screenX=W-120,slitX=150,lambdaM=nm*1e-9,dM=D*1e-3,dx=L*lambdaM/dM*1000;lambdaText.textContent=nm;dText.textContent=D.toFixed(2);lText.textContent=L.toFixed(2);dxText.textContent=dx.toFixed(2);ctx.clearRect(0,0,W,H);ctx.fillStyle='#050914';ctx.fillRect(0,0,W,H);const [r,g,b]=colorFor(nm);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(slitX,70);ctx.lineTo(slitX,H-70);ctx.stroke();ctx.strokeStyle=`rgb(${r},${g},${b})`;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(50,mid);ctx.lineTo(slitX,mid-34);ctx.moveTo(50,mid);ctx.lineTo(slitX,mid+34);ctx.stroke();ctx.fillStyle=`rgb(${r},${g},${b})`;ctx.fillRect(slitX-8,mid-42,16,16);ctx.fillRect(slitX-8,mid+26,16,16);
+      const image=ctx.createImageData(70,H-80);for(let y=0;y<image.height;y++){const yy=(y+40-mid)/12000;const delta=dM*yy/L;const I=Math.pow(Math.cos(Math.PI*delta/lambdaM),2);const env=Math.exp(-Math.pow((y+40-mid)/(H*.43),2));const v=Math.min(255,Math.round(255*I*env));for(let x=0;x<image.width;x++){const i=(y*image.width+x)*4;image.data[i]=r*v/255;image.data[i+1]=g*v/255;image.data[i+2]=b*v/255;image.data[i+3]=255}}ctx.putImageData(image,screenX,40);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.strokeRect(screenX,40,70,H-80);ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';ctx.fillText('スクリーン',screenX-8,28);ctx.fillText('中央明線',screenX-95,mid+5);ctx.strokeStyle='rgba(255,255,255,.45)';ctx.beginPath();ctx.moveTo(screenX-30,mid);ctx.lineTo(screenX+90,mid);ctx.stroke()}[lambda,d,dist].forEach(el=>el.addEventListener('input',draw));draw();
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>凸レンズ成像デモ · 旅人教育共通テスト物理</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--red:#b2443b;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 310px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#fbfcfe}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.value{color:#164a7f;font-weight:850}.result{font-size:24px;font-weight:900;color:var(--green)}.virtual{color:var(--red)}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/lens-demo.html'}</script>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">像</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <main class="page">
+    <section class="panel"><div class="label">幾何光学</div><h1>凸レンズの実像・虚像</h1><p class="lead">物体が焦点の外側にあると実像、焦点の内側にあると虚像ができます。光線図とレンズの式 1/a + 1/b = 1/f を対応させます。</p></section>
+    <section class="layout">
+      <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
+      <aside class="controls">
+        <div class="control"><label>焦点距離 f：<span class="value" id="fText">1.20</span> m</label><input id="focal" type="range" min="0.6" max="2" step="0.05" value="1.2"></div>
+        <div class="control"><label>物体距離 a：<span class="value" id="aText">2.40</span> m</label><input id="object" type="range" min="0.45" max="4" step="0.05" value="2.4"></div>
+        <div class="control"><div id="result" class="result">実像 b = 2.40 m</div><p id="hint">物体が焦点の外側にあるので、反対側に倒立実像ができます。</p></div>
+        <div class="control"><p><strong>作図ルール：</strong>軸に平行な光は焦点を通り、レンズの中心を通る光は直進します。2 本の交点が像の位置です。</p></div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),focal=document.getElementById('focal'),object=document.getElementById('object'),fText=document.getElementById('fText'),aText=document.getElementById('aText'),result=document.getElementById('result'),hint=document.getElementById('hint');
+    function arrow(x,y,h,color,label){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-h);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y-h);ctx.lineTo(x-10,y-h+18);ctx.lineTo(x+10,y-h+18);ctx.closePath();ctx.fill();ctx.font='800 15px sans-serif';ctx.fillText(label,x-18,y-h-12)}
+    function line(x1,y1,x2,y2,color,dash=false){ctx.strokeStyle=color;ctx.lineWidth=3;ctx.setLineDash(dash?[8,7]:[]);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([])}
+    function draw(){const f=Number(focal.value),a=Number(object.value),W=canvas.width,H=canvas.height,cx=W/2,axis=H/2,scale=105,objH=110;fText.textContent=f.toFixed(2);aText.textContent=a.toFixed(2);ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#172033';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(55,axis);ctx.lineTo(W-55,axis);ctx.stroke();ctx.strokeStyle='#235f9f';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(cx,70);ctx.quadraticCurveTo(cx+34,axis,cx,H-70);ctx.moveTo(cx,70);ctx.quadraticCurveTo(cx-34,axis,cx,H-70);ctx.stroke();ctx.fillStyle='#667085';ctx.font='800 14px sans-serif';ctx.fillText('F',cx+f*scale-6,axis+25);ctx.fillText('F',cx-f*scale-6,axis+25);ctx.beginPath();ctx.arc(cx+f*scale,axis,5,0,Math.PI*2);ctx.arc(cx-f*scale,axis,5,0,Math.PI*2);ctx.fill();const ox=cx-a*scale;arrow(ox,axis,objH,'#a96513','物体');
+      const b=1/(1/f-1/a),m=-b/a,ix=cx+b*scale,imgH=objH*m;const real=b>0;if(real){result.textContent='実像 b = '+b.toFixed(2)+' m';result.classList.remove('virtual');hint.textContent='物体が焦点の外側にあるので、反対側に倒立実像ができます。';arrow(ix,axis,imgH,'#16846b','像')}else{result.textContent='虚像 b = '+Math.abs(b).toFixed(2)+' m';result.classList.add('virtual');hint.textContent='物体が焦点の内側にあるので、物体と同じ側に正立虚像ができます。';arrow(ix,axis,imgH,'#b2443b','虚像')}
+      line(ox,axis-objH,cx,axis-objH,'#235f9f');line(cx,axis-objH,real?ix:W-70,real?axis-imgH:axis-objH+(W-70-cx)*(axis-(axis-objH))/(cx+f*scale-cx),'#235f9f');line(ox,axis-objH,real?ix:W-70,real?axis-imgH:axis-objH+(W-70-ox)*(axis-(axis-objH))/(cx-ox),'#16846b');if(!real){line(cx,axis-objH,ix,axis-imgH,'#b2443b',true);line(ox,axis-objH,ix,axis-imgH,'#b2443b',true)}
+    }
+    [focal,object].forEach(el=>el.addEventListener('input',draw));draw();
+  </script>
+</body>
+</html>

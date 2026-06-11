@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>気柱共鳴デモ · 旅人教育共通テスト物理</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--amber:#a96513;--red:#b2443b;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 310px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#fbfcfe}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.seg button{min-height:40px;border:1px solid var(--line);border-radius:7px;background:#fff;font-weight:850;color:#164a7f}.seg button.active{background:#164a7f;color:#fff}.value{color:#164a7f;font-weight:850}.freq{font-size:30px;font-weight:900;color:var(--green)}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/air-column-demo.html'}</script>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">管</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <main class="page">
+    <section class="panel"><div class="label">音波・定常波</div><h1>気柱共鳴と開管・閉管</h1><p class="lead">管の端では、開いている端が腹、閉じている端が節になります。開管と閉管では許される波長が変わるため、共鳴する振動数も変わります。</p></section>
+    <section class="layout">
+      <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
+      <aside class="controls">
+        <div class="control"><div class="seg"><button id="open" class="active">開管</button><button id="closed">閉管</button></div></div>
+        <div class="control"><label>管の長さ L：<span class="value" id="lenText">0.80</span> m</label><input id="len" type="range" min="0.3" max="1.5" step="0.01" value="0.8"></div>
+        <div class="control"><label>次数：<span class="value" id="modeText">1</span></label><input id="mode" type="range" min="1" max="5" step="1" value="1"></div>
+        <div class="control"><div class="freq" id="freqText">213 Hz</div><p id="formula">開管：f = n v / 2L</p></div>
+        <div class="control"><p><strong>見方：</strong>赤い点は節、緑の点は腹です。閉管では片端が必ず節になるので、基本振動の波長は 4L になります。</p></div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),openBtn=document.getElementById('open'),closedBtn=document.getElementById('closed'),len=document.getElementById('len'),mode=document.getElementById('mode'),lenText=document.getElementById('lenText'),modeText=document.getElementById('modeText'),freqText=document.getElementById('freqText'),formula=document.getElementById('formula');let pipe='open',time=0,last=performance.now();
+    openBtn.onclick=()=>{pipe='open';openBtn.classList.add('active');closedBtn.classList.remove('active');mode.max=5};closedBtn.onclick=()=>{pipe='closed';closedBtn.classList.add('active');openBtn.classList.remove('active');mode.max=5};
+    function draw(now){const dt=(now-last)/1000;last=now;time+=dt;const L=Number(len.value),n=Number(mode.value),v=340,W=canvas.width,H=canvas.height,left=95,right=W-85,cy=H/2,A=95,phase=Math.cos(2*Math.PI*time);lenText.textContent=L.toFixed(2);modeText.textContent=n;let f;if(pipe==='open'){f=n*v/(2*L);formula.textContent='開管：f = n v / 2L'}else{f=(2*n-1)*v/(4*L);formula.textContent='閉管：f = (2n - 1) v / 4L'}freqText.textContent=Math.round(f)+' Hz';ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,W,H);ctx.fillStyle='#eef4fb';ctx.fillRect(left,cy-70,right-left,140);ctx.strokeStyle='#172033';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(left,cy-70);ctx.lineTo(right,cy-70);ctx.stroke();ctx.beginPath();ctx.moveTo(left,cy+70);ctx.lineTo(right,cy+70);ctx.stroke();if(pipe==='closed'){ctx.beginPath();ctx.moveTo(left,cy-70);ctx.lineTo(left,cy+70);ctx.stroke()}ctx.fillStyle='#172033';ctx.font='800 16px sans-serif';ctx.fillText(pipe==='open'?'開管：両端が腹':'閉管：閉端が節・開端が腹',left,72);
+      ctx.strokeStyle='#235f9f';ctx.lineWidth=4;ctx.beginPath();for(let px=0;px<=right-left;px++){const x=px/(right-left);const shape=pipe==='open'?Math.cos(n*Math.PI*x):Math.sin((2*n-1)*Math.PI*x/2);const y=cy-shape*A*phase;if(px===0)ctx.moveTo(left+px,y);else ctx.lineTo(left+px,y)}ctx.stroke();
+      function dot(x,label,color){ctx.fillStyle=color;ctx.beginPath();ctx.arc(left+(right-left)*x,cy,7,0,Math.PI*2);ctx.fill();ctx.fillText(label,left+(right-left)*x-8,cy+110)}
+      if(pipe==='open'){for(let i=0;i<=n;i++){dot(i/n,i%2?'節':'腹',i%2?'#b2443b':'#16846b')}}else{dot(0,'節','#b2443b');dot(1,'腹','#16846b');for(let i=1;i<2*n-1;i++){dot(i/(2*n-1),i%2?'腹':'節',i%2?'#16846b':'#b2443b')}}
+      requestAnimationFrame(draw)}requestAnimationFrame(draw);
+  </script>
+</body>
+</html>
