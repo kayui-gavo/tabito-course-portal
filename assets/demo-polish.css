@@ -1,0 +1,84 @@
+.demo-steps,
+.audio-pack,
+.quick-board {
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+  background: #ffffff;
+  margin: 14px 0;
+  padding: 18px;
+}
+
+.demo-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.step-card {
+  border: 1px solid #d9e1ec;
+  border-radius: 7px;
+  background: #fbfcfe;
+  padding: 14px;
+}
+
+.step-card strong,
+.audio-item strong,
+.quick-board strong {
+  display: block;
+  color: #172033;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.step-card span,
+.audio-item span,
+.quick-board p {
+  color: #667085;
+  font-size: 13px;
+}
+
+.audio-pack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.audio-item {
+  border: 1px solid #d9e1ec;
+  border-radius: 7px;
+  background: #fbfcfe;
+  padding: 12px;
+}
+
+.audio-item audio {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.teacher-note {
+  border-left: 4px solid #16846b;
+  background: #eef8f3;
+  border-radius: 8px;
+  color: #315a4d;
+  font-size: 14px;
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+
+.key-formula {
+  display: inline-block;
+  border: 1px solid #c7d6e8;
+  border-radius: 7px;
+  background: #f8fbff;
+  color: #164a7f;
+  font-weight: 900;
+  margin-top: 10px;
+  padding: 8px 10px;
+}
+
+@media (max-width: 900px) {
+  .demo-steps,
+  .audio-pack {
+    grid-template-columns: 1fr;
+  }
+}

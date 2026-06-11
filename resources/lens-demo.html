@@ -7,12 +7,18 @@
   <style>
     :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--blue:#235f9f;--green:#16846b;--red:#b2443b;--radius:8px}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.topbar{position:sticky;top:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:20}.topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}.topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between}.brand,.btn{text-decoration:none;color:var(--ink);font-weight:850}.brand{display:flex;gap:10px;align-items:center}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}.btn{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 12px;color:#164a7f;font-size:13px}.page{padding:36px 0 68px}.panel,.screen,.control{border:1px solid var(--line);border-radius:var(--radius);background:#fff}.panel{padding:24px;margin-bottom:14px}.label{color:#164a7f;font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:8px}h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin-bottom:10px}.lead,.control p{color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 310px;gap:14px}.screen{padding:18px}canvas{width:100%;height:430px;border:1px solid var(--line);border-radius:7px;background:#fbfcfe}.controls{display:grid;gap:14px}.control{padding:14px}label{display:block;font-weight:850;margin-bottom:8px}input{width:100%}.value{color:#164a7f;font-weight:850}.result{font-size:24px;font-weight:900;color:var(--green)}.virtual{color:var(--red)}@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}}
   </style>
+  <link rel="stylesheet" href="../assets/demo-polish.css" />
 </head>
 <body>
   <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/lens-demo.html'}</script>
   <header class="topbar"><div class="topbar-inner"><a class="brand" href="physics-demos.html"><span class="mark">像</span><span>物理デモ集</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
   <main class="page">
-    <section class="panel"><div class="label">幾何光学</div><h1>凸レンズの実像・虚像</h1><p class="lead">物体が焦点の外側にあると実像、焦点の内側にあると虚像ができます。光線図とレンズの式 1/a + 1/b = 1/f を対応させます。</p></section>
+    <section class="panel"><div class="label">幾何光学</div><h1>凸レンズの実像・虚像</h1><p class="lead">物体が焦点の外側にあると実像、焦点の内側にあると虚像ができます。光線図とレンズの式 1/a + 1/b = 1/f を対応させます。</p><div class="key-formula">1/a + 1/b = 1/f</div></section>
+    <section class="demo-steps" aria-label="授業で見る順番">
+      <div class="step-card"><strong>1. 物体を遠くに置く</strong><span>レンズの反対側に、小さな倒立実像ができます。</span></div>
+      <div class="step-card"><strong>2. 物体を焦点へ近づける</strong><span>像は遠くへ動き、大きくなります。</span></div>
+      <div class="step-card"><strong>3. 焦点の内側へ入れる</strong><span>実像ではなく、同じ側に正立虚像ができます。</span></div>
+    </section>
     <section class="layout">
       <div class="screen"><canvas id="canvas" width="1000" height="560"></canvas></div>
       <aside class="controls">
