@@ -66,9 +66,12 @@ function renderLessonLink(lesson, basePrefix = '') {
 
 function renderChapterDirectory(chapter, basePrefix = '') {
   return `<article class="chapter-block" id="${chapter.id}">
-    <div class="chapter-kicker">第${chapter.order}章</div>
+    <div class="chapter-topline">
+      <div class="chapter-kicker">第${chapter.order}章</div>
+      ${chapter.id === 'programming' ? '<span class="status-badge status-enhanced">重点：アルゴリズム</span>' : ''}
+    </div>
     <h2>${chapter.title.replace(/^第\d章　/, '')}</h2>
-    <p>${chapter.lead}</p>
+    <p class="chapter-lead">${chapter.lead}</p>
     <div class="section-list">
       ${chapter.sections.map(section => `<section class="section-card">
         <h3>${section.title}</h3>
@@ -90,7 +93,7 @@ function renderFeaturedLinks(basePrefix = '') {
 function renderTop() {
   renderChrome('');
   document.querySelector('#app').innerHTML = `<main class="page">
-    <section class="intro brand-intro">
+    <section class="intro brand-intro compact-intro">
       <div>
         <p class="eyebrow">旅人教育 情報Ⅰノート</p>
         <h1>${SITE.title}</h1>
@@ -100,20 +103,11 @@ function renderTop() {
 
     <section class="guide-box">
       <h2>学習の進め方</h2>
-      <p>まずは公式教材の章立てに沿って、第1章から順に全体像を確認できます。現在は「コンピュータとプログラミング」の内容を重点的に整備しています。</p>
-    </section>
-
-    <section class="focus-panel">
-      <div>
-        <p class="eyebrow">現在重点整備中</p>
-        <h2>アルゴリズム・プログラミング</h2>
-        <p>変数、条件分岐、繰り返し、配列、探索、整列を、図と短い手順で確認できます。</p>
-      </div>
-      ${renderFeaturedLinks('')}
+      <p>公式教材の章立てに沿って全体像を見ながら、第3章では変数、条件分岐、繰り返し、配列、探索、整列を詳しく確認できます。</p>
     </section>
 
     <section>
-      <h2>公式教材に沿った目次</h2>
+      <h2>目次</h2>
       <div class="directory">
         ${CHAPTERS.map(chapter => renderChapterDirectory(chapter)).join('')}
       </div>
@@ -126,12 +120,13 @@ function renderProgramming() {
   const programming = CHAPTERS.find(ch => ch.id === 'programming');
   document.querySelector('#app').innerHTML = `<main class="page">
     <p class="breadcrumb"><a href="index.html">目次</a> / ${programming.title}</p>
-    <section class="intro">
-      <p class="eyebrow">現在重点整備中</p>
+    <section class="intro compact-intro">
+      <p class="eyebrow">重点項目</p>
       <h1>${programming.title}</h1>
       <p>${programming.lead}</p>
     </section>
-    <section class="focus-panel slim">
+    <section class="quick-links">
+      <h2>すぐ確認したい項目</h2>
       ${renderFeaturedLinks('')}
     </section>
     ${renderChapterDirectory(programming)}
@@ -191,6 +186,7 @@ function renderLesson(id) {
         <h2>情報Ⅰではこう考える</h2>
         ${lesson.explanation.split('。').filter(Boolean).map(s => `<p>${s}。</p>`).join('')}
         ${lesson.code ? `<h3>疑似コード</h3><pre class="code-block">${lesson.code}</pre>` : ''}
+        ${lesson.python ? `<h3>Pythonで書くと</h3><pre class="code-block python-code">${lesson.python}</pre>` : ''}
       </section>
 
       <section>

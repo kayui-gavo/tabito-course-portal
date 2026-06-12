@@ -5,7 +5,7 @@ const SITE = {
 };
 
 const STATUS_LABELS = {
-  enhanced: '図解・疑似コードあり',
+  enhanced: '図解・疑似コード・Pythonあり',
   complete: '完成',
   draft: '初稿',
   stub: '準備中',
@@ -484,4 +484,52 @@ const QUESTION_IDS = [
 const QUESTIONS = QUESTION_IDS.map((id) => {
   const l = LESSONS[id];
   return [l.title, l.question, l.answer, `lessons/${id}.html`];
+});
+
+const EXTRA_EXPLANATIONS = {
+  algorithm: '教員研修用教材の第3章では、アルゴリズムを文章やフローチャートなどで正確に表すこと、そして手順の違いによって結果や効率が変わることが重視されています。したがって、このページでは「手順を作る」「表現する」「実行して確かめる」「よりよい方法を考える」という順番で考えます。プログラムの文法を覚える前に、どの値を使い、どの順に処理し、いつ終わるのかを説明できることが大切です。',
+  'input-process-output': '教員研修用教材の「コンピュータの仕組み」では、入力装置、処理を行う部分、出力装置の関係が扱われます。プログラムを読むときも同じで、まず入力、処理、出力に分けると全体像が見えます。特にセンサーや外部装置を扱うプログラムでは、何を測り、どの条件で判断し、どの装置へ出力するのかを分けて考えることが重要です。',
+  variable: '教員研修用教材の基本的プログラムでは、変数は順次・分岐・反復を支える基本として扱われます。変数は単なる記号ではなく、処理の途中で変化する値を記録するための場所です。プログラムを追跡するときは、各行の実行後に変数の中身がどう変わったかを表にすると、誤りにも気付きやすくなります。',
+  assignment: '代入は、変数の値を更新する操作です。基本的プログラムを理解するには、右辺を先に計算し、その結果で左辺の変数を上書きする、という流れを毎回確認します。合計を求める処理、回数を数える処理、最大値を更新する処理は、すべてこの「古い値を使って新しい値を作る」考え方で読めます。',
+  branch: '条件分岐は、教員研修用教材で扱われる基本的プログラムの中心の一つです。条件は真または偽になり、その結果によって実行される処理が変わります。複数の条件があるときは、条件を上から順に調べるのか、すべて独立に調べるのかで結果が変わることがあります。条件式だけでなく、処理の流れも図で確認しましょう。',
+  loop: '繰り返しは、反復とも呼ばれ、同じ形の処理を多数のデータに適用するときに使います。教員研修用教材では、順次・分岐・反復を組み合わせて基本的プログラムを作る流れが示されています。繰り返しでは、初期値、続ける条件、1回ごとの更新をそろえて確認することが大切です。',
+  array: '教員研修用教材の応用的プログラムでは、配列のように複数のデータをまとめて扱う考え方が重要になります。配列を使うと、同じ処理をデータ全体に繰り返し適用できます。探索や整列では、現在見ている位置と、そこに入っている値を分けて読むことが必要です。',
+  'counter-sum': 'カウンタと合計は、変数と繰り返しを組み合わせる典型例です。教材で重視される「プログラムを作成し、実行し、結果を振り返る」流れでは、途中経過を表にして確かめることが有効です。count は条件を満たした個数、total は値の累積というように、変数の役割を言葉で説明できるようにします。',
+  'max-min': '最大値・最小値を求める処理は、単純なアルゴリズムの代表例です。教員研修用教材では、平均、最大値、最小値、探索、整列などの典型的なアルゴリズムを扱うことが想定されています。暫定値を持ち、1つずつ比較して必要なら更新する、という流れを表で追うと理解しやすくなります。',
+  'linear-search': '線形探索は、探索アルゴリズムの比較で最初に確認したい方法です。並んでいないデータにも使える一方、最悪の場合は最後まで調べます。教材で重視される「アルゴリズムによる効率の違い」を考えるために、見つかる位置やデータ数によって比較回数がどう変わるかを確認します。',
+  'binary-search': '二分探索は、線形探索との比較によって効率の違いが見えやすい方法です。ただし、整列済みであることが前提です。1回ごとに探索範囲が半分になるため、データ数が多いほど効果が大きくなります。前処理として整列が必要な場合は、その手間も含めて方法を選ぶことが大切です。',
+  'sort-intro': '整列は、データを扱いやすくするための基本的な処理です。教員研修用教材では、探索や整列などの典型的なアルゴリズムを比較し、効率の違いを考えることが示されています。整列後は中央値を見つけやすくなったり、二分探索を使えるようになったりします。',
+  'selection-sort': '選択ソートは、比較と交換の役割が見えやすい整列方法です。毎回、未整列部分を調べて最小値を選ぶため、処理の意味を説明しやすい一方、データ数が増えると比較回数が多くなります。教材の観点では、正しく動くことだけでなく、どれくらい手間がかかるかも考えます。',
+  'bubble-sort': 'バブルソートは、隣同士の比較と交換を繰り返す整列方法です。各通過で端の値が確定していくため、途中経過を図で追いやすいという利点があります。一方、効率はよいとは限らないため、選択ソートや他の整列方法と比較して考える題材になります。',
+  flowchart: 'フローチャートは、アルゴリズムを表現する手段の一つです。教員研修用教材では、文章やフローチャートなどを使ってアルゴリズムを正確に表すことが重視されています。図にすると、分岐や繰り返しの戻り先が見えやすくなります。',
+  pseudocode: '疑似コードは、特定のプログラミング言語に寄りすぎず、処理の流れを表すための方法です。情報Ⅰでは、問題文に独自の表記が示されることがあります。表記を暗記するより、代入、条件、繰り返し、配列の意味を読み取ることが大切です。',
+  debug: '教員研修用教材では、作成したプログラムを実行し、結果を振り返って改善することも大切にされています。デバッグでは、エラー表示だけを見るのではなく、入力、途中の変数、出力を順に確認します。小さなデータで試すと、どこで考えと違ったかを見つけやすくなります。',
+  simulation: 'モデル化とシミュレーションは、第3章の大きな柱の一つです。現実をそのまま扱うのではなく、必要な要素を選んでモデルにし、条件を変えて結果を見ることで問題解決に役立てます。結果を読むときは、モデルの仮定と限界も必ず確認します。'
+};
+
+Object.entries(EXTRA_EXPLANATIONS).forEach(([id, text]) => {
+  if (LESSONS[id]) LESSONS[id].explanation += text;
+});
+
+const PYTHON_EXAMPLES = {
+  algorithm: `data = [5, 2, 8, 1]\nresult = []\n\nwhile data:\n    smallest = min(data)\n    result.append(smallest)\n    data.remove(smallest)\n\nprint(result)`,
+  'input-process-output': `score = 82          # 入力\nresult = score >= 80 # 処理\nprint(result)        # 出力`,
+  variable: `score = 0\nscore = score + 10\nprint(score)`,
+  assignment: `x = 3\nx = x + 1\nprint(x)  # 4`,
+  branch: `score = 75\n\nif score >= 80:\n    print("合格")\nelse:\n    print("再挑戦")`,
+  loop: `total = 0\n\nfor i in range(1, 6):\n    total = total + i\n\nprint(total)`,
+  array: `scores = [60, 75, 90]\nprint(scores[1])  # 75`,
+  'counter-sum': `scores = [72, 45, 88, 60]\ncount = 0\ntotal = 0\n\nfor score in scores:\n    total += score\n    if score >= 60:\n        count += 1\n\nprint("合計", total)\nprint("60点以上", count)`,
+  'max-min': `data = [42, 78, 24, 91, 56]\nmaximum = data[0]\n\nfor value in data[1:]:\n    if value > maximum:\n        maximum = value\n\nprint(maximum)`,
+  'linear-search': `data = [4, 7, 2, 9, 5]\ntarget = 9\nfound_index = -1\n\nfor i, value in enumerate(data):\n    if value == target:\n        found_index = i\n        break\n\nprint(found_index)`,
+  'binary-search': `data = [1, 3, 5, 7, 9, 11, 13]\ntarget = 9\nleft = 0\nright = len(data) - 1\nfound_index = -1\n\nwhile left <= right:\n    mid = (left + right) // 2\n    if data[mid] == target:\n        found_index = mid\n        break\n    elif target < data[mid]:\n        right = mid - 1\n    else:\n        left = mid + 1\n\nprint(found_index)`,
+  'sort-intro': `data = [5, 2, 8, 1]\nprint(sorted(data))`,
+  'selection-sort': `data = [5, 2, 8, 1]\n\nfor i in range(len(data) - 1):\n    min_index = i\n    for j in range(i + 1, len(data)):\n        if data[j] < data[min_index]:\n            min_index = j\n    data[i], data[min_index] = data[min_index], data[i]\n\nprint(data)`,
+  'bubble-sort': `data = [5, 2, 8, 1]\n\nfor i in range(len(data) - 1):\n    for j in range(len(data) - 1 - i):\n        if data[j] > data[j + 1]:\n            data[j], data[j + 1] = data[j + 1], data[j]\n\nprint(data)`,
+  debug: `def average(scores):\n    total = 0\n    for score in scores:\n        total += score\n        print("途中の合計:", total)\n    return total / len(scores)\n\nprint(average([70, 80, 90]))`,
+  simulation: `people = 100\ninfected = 1\nrate = 1.25\n\nfor day in range(1, 8):\n    infected = min(people, infected * rate)\n    print(day, round(infected, 1))`
+};
+
+Object.entries(PYTHON_EXAMPLES).forEach(([id, code]) => {
+  if (LESSONS[id]) LESSONS[id].python = code;
 });

@@ -83,15 +83,15 @@ a { color: var(--brand-primary); text-decoration-thickness: 1px; text-underline-
 }
 .global-nav a:hover { border-color: currentColor; }
 
-.page { padding: 24px 0 54px; }
-.intro, .guide-box, .focus-panel, .chapter-block, .question-box, .term-area, .lesson-article {
+.page { padding: 18px 0 48px; }
+.intro, .guide-box, .quick-links, .chapter-block, .question-box, .term-area, .lesson-article {
   background: var(--bg-card);
   border: 1px solid var(--border-soft);
   border-radius: 8px;
 }
-.intro, .guide-box, .focus-panel, .chapter-block, .question-box, .term-area {
-  padding: 18px;
-  margin: 16px 0;
+.intro, .guide-box, .quick-links, .chapter-block, .question-box, .term-area {
+  padding: 14px;
+  margin: 12px 0;
 }
 .brand-intro {
   border-top: 4px solid var(--brand-primary);
@@ -106,11 +106,11 @@ a { color: var(--brand-primary); text-decoration-thickness: 1px; text-underline-
 h1 {
   margin: 0 0 12px;
   color: var(--brand-deep);
-  font-size: 30px;
+  font-size: 28px;
   line-height: 1.35;
 }
 h2 {
-  margin: 28px 0 12px;
+  margin: 20px 0 10px;
   padding-left: 10px;
   border-left: 4px solid var(--brand-primary);
   color: var(--brand-deep);
@@ -125,15 +125,13 @@ p { margin: 9px 0; }
   background: var(--brand-soft);
   border-color: #c8ddeb;
 }
-.focus-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, .95fr);
-  gap: 18px;
-  align-items: start;
-  background: #fffdfa;
-  border-color: #ecd5b8;
+.guide-box h2 {
+  margin-top: 0;
 }
-.focus-panel.slim { display: block; }
+.compact-intro p:last-child,
+.guide-box p:last-child {
+  margin-bottom: 0;
+}
 .featured-list {
   display: grid;
   gap: 8px;
@@ -152,9 +150,27 @@ p { margin: 9px 0; }
   padding: 8px 10px;
 }
 
+.quick-links {
+  background: #fffdfa;
+  border-color: #ecd5b8;
+}
+.quick-links h2 {
+  margin-top: 0;
+}
 .directory {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.chapter-block {
+  padding: 14px;
+}
+.chapter-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 .chapter-kicker {
   color: var(--brand-secondary);
@@ -163,26 +179,34 @@ p { margin: 9px 0; }
 }
 .chapter-block h2 {
   margin-top: 4px;
+  margin-bottom: 6px;
+}
+.chapter-lead {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.65;
 }
 .section-list {
   display: grid;
-  gap: 12px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 10px;
 }
 .section-card {
   border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 7px;
+  padding: 9px;
   background: #fbfcfd;
 }
 .section-card h3 {
   margin-top: 0;
+  margin-bottom: 6px;
   color: var(--brand-deep);
+  font-size: 15px;
 }
 .link-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 16px;
+  grid-template-columns: 1fr;
+  gap: 5px;
   list-style: none;
   padding: 0;
   margin: 10px 0 0;
@@ -191,10 +215,12 @@ p { margin: 9px 0; }
   min-width: 0;
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   align-items: flex-start;
   border-top: 1px solid #edf1f4;
-  padding-top: 8px;
+  padding-top: 5px;
+  font-size: 13px;
+  line-height: 1.45;
 }
 .lesson-link:first-child { border-top: 0; padding-top: 0; }
 .muted-link { color: #8a95a3; }
@@ -205,8 +231,8 @@ p { margin: 9px 0; }
   flex: 0 0 auto;
   min-height: 22px;
   border-radius: 999px;
-  padding: 2px 8px;
-  font-size: 11px;
+  padding: 2px 7px;
+  font-size: 10px;
   font-weight: 800;
   white-space: nowrap;
 }
@@ -264,6 +290,9 @@ pre, .code-block {
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 14px;
   line-height: 1.65;
+}
+.python-code {
+  border-top: 4px solid var(--brand-deep);
 }
 code {
   background: #eef2f6;
@@ -357,7 +386,7 @@ th { background: #eef5fa; color: var(--brand-deep); }
   .brand-mark, .brand-mark img { width: 96px; }
   .site-title { font-size: 20px; }
   h1 { font-size: 25px; }
-  .focus-panel { grid-template-columns: 1fr; }
+  .directory { grid-template-columns: 1fr; }
   .link-list { grid-template-columns: 1fr; }
   .lesson-link { display: block; }
   .lesson-link .status-badge { margin-top: 5px; }
