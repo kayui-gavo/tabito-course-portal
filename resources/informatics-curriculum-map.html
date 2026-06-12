@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/informatics-room.css" />
+  <title>情報Ⅰ · 官方知识点地图</title>
+  <style>
+    .chapter {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .topic-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .topic-row {
+      display: grid;
+      grid-template-columns: 170px 1fr 110px;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #dce6f2;
+      border-radius: 7px;
+      background: #ffffff;
+      padding: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .topic-row span {
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .topic-row p {
+      font-size: 14px;
+    }
+
+    .status {
+      justify-self: end;
+      border: 1px solid #c9d8e8;
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: var(--blue-dark);
+      background: #f7fbff;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .status.todo {
+      color: #7b8190;
+      background: #f8fafc;
+      border-color: #e0e5ec;
+    }
+
+    @media (max-width: 820px) {
+      .chapter,
+      .topic-row {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        justify-self: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../informatics.html">
+        <img src="../assets/images/tabito-logo.jpg" alt="旅人教育" />
+        <span>情報Ⅰの部屋</span>
+      </a>
+      <nav>
+        <a href="#social">信息社会</a>
+        <a href="#design">信息设计</a>
+        <a href="#programming">程序设计</a>
+        <a href="#network">网络与数据</a>
+        <a href="../informatics.html">返回首页</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-label">文部科学省 · 情報Ⅰ</div>
+      <h1>官方知识点地图</h1>
+      <p>
+        本页根据文部科学省《高等学校学習指導要領解説 情報編》中「情報Ⅰ」的四个内容领域整理。
+        每个知识点最终都会建设成独立页面：教科书式讲解、代码示例、图解和可操作 demo。
+      </p>
+    </div>
+  </section>
+
+  <main>
+    <section class="panel">
+      <h2>建设原则</h2>
+      <div class="compare-grid">
+        <div class="mini"><b>按官方范围</b><p>先按「情報Ⅰ」四大领域拆章节，再拆成小知识点。</p></div>
+        <div class="mini"><b>像教科书</b><p>每页包含概念、为什么、例题视角、易错点。</p></div>
+        <div class="mini"><b>能动手</b><p>程序和数据相关页面配代码示例与浏览器 demo。</p></div>
+      </div>
+    </section>
+
+    <section id="social" class="chapter">
+      <article class="panel">
+        <h2>1. 信息社会的问题解决</h2>
+        <p>从信息和信息技术的角度发现问题、收集信息、提出方案，并考虑法律、伦理和安全。</p>
+      </article>
+      <div class="topic-list">
+        <a class="topic-row" href="informatics-social-problem.html"><span>问题发现与解决流程</span><p>目标设定、信息收集、方案比较、评价改善。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>个人信息与隐私</span><p>个人信息、匿名化、公开范围、最小必要原则。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>著作权与引用</span><p>复制、改编、引用、许可与出处表示。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>信息安全基础</span><p>密码、认证、备份、恶意软件、风险判断。</p><b class="status todo">准备中</b></div>
+      </div>
+    </section>
+
+    <section id="design" class="chapter">
+      <article class="panel">
+        <h2>2. 沟通与信息设计</h2>
+        <p>理解媒体与沟通方式，学习数字化、压缩、信息可视化、结构化和通用设计。</p>
+      </article>
+      <div class="topic-list">
+        <a class="topic-row" href="informatics-information-design.html"><span>信息设计总览</span><p>目的、读者、结构、表达和评价改善。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>媒体与沟通方式</span><p>同步/非同步、1对1/1对多、SNS 与电子邮件。</p><b class="status todo">准备中</b></div>
+        <a class="topic-row" href="informatics-algorithm-binary.html"><span>数字化与二进制</span><p>標本化、量子化、符号化、二进制表达。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>图像与压缩</span><p>分辨率、文件大小、可逆/非可逆压缩、光栅/矢量。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>可视化与结构化</span><p>表、图解、图表、页面层级、链接结构。</p><b class="status todo">准备中</b></div>
+      </div>
+    </section>
+
+    <section id="programming" class="chapter">
+      <article class="panel">
+        <h2>3. 计算机与程序设计</h2>
+        <p>理解计算机内部表示、算法表达、程序结构、探索/整列、效率、模型化与模拟。</p>
+      </article>
+      <div class="topic-list">
+        <a class="topic-row" href="informatics-algorithm-binary.html"><span>内部表示与数据量</span><p>bit、byte、整数表达、有限精度和误差。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-trace.html"><span>变量与追踪表</span><p>赋值、更新、循环后的值、输出位置。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-branch-loop.html"><span>分支与循环</span><p>条件、边界、for/while、执行次数。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-array.html"><span>数组与数据结构</span><p>下标、遍历、合计、最大值、最小值。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-search.html"><span>探索算法</span><p>线性搜索、命中/未命中、最坏情况。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-sort.html"><span>整列算法</span><p>相邻比较、交换、pass、冒泡排序。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-complexity.html"><span>算法效率</span><p>O(1)、O(n)、O(n²)、数据量增长。</p><b class="status">已开放</b></a>
+        <a class="topic-row" href="informatics-algorithm-simulation.html"><span>模型化与模拟</span><p>变量、规则、参数、模型限制。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>函数与结构化</span><p>函数定义、调用、程序分割、可读性。</p><b class="status todo">准备中</b></div>
+      </div>
+    </section>
+
+    <section id="network" class="chapter">
+      <article class="panel">
+        <h2>4. 网络与数据活用</h2>
+        <p>理解网络、协议、安全、数据库、数据收集整理分析与可视化。</p>
+      </article>
+      <div class="topic-list">
+        <a class="topic-row" href="informatics-data-network.html#packet"><span>网络分包通信</span><p>packet、序号、协议、重传。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>小规模网络设计</span><p>客户端、服务器、路由器、无线 LAN 安全。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>安全通信</span><p>暗号化、电子签名、数字证书、认证。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>数据库基础</span><p>表、键、数据模型、DBMS、服务与数据。</p><b class="status todo">准备中</b></div>
+        <a class="topic-row" href="informatics-data-network.html#correlation"><span>数据分析与相关</span><p>散布图、相关係数、回归、因果与交络。</p><b class="status">已开放</b></a>
+        <div class="topic-row"><span>数据清洗与尺度</span><p>欠損値、外れ値、質的/量的数据、尺度水准。</p><b class="status todo">准备中</b></div>
+        <div class="topic-row"><span>文本挖掘</span><p>词频、整形、标签云、文本数据的特点。</p><b class="status todo">准备中</b></div>
+      </div>
+    </section>
+
+    <a class="back" href="../informatics.html">返回情報Ⅰの部屋</a>
+  </main>
+
+  <footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+</body>
+</html>
