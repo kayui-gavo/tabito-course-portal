@@ -14,10 +14,13 @@ const STATUS_LABELS = {
 
 const FEATURED_LESSONS = [
   'algorithm',
+  'computer-structure',
+  'function',
   'variable',
   'branch',
   'loop',
   'array',
+  'deterministic-random-model',
   'linear-search',
   'binary-search',
   'selection-sort',
@@ -2243,6 +2246,183 @@ Object.assign(LESSONS.random, {
 
 LESSONS.random.python = `import random\n\ncount_six = 0\nfor i in range(100):\n    roll = random.randint(1, 6)\n    if roll == 6:\n        count_six = count_six + 1\n\nprint(count_six)`;
 
+Object.assign(LESSONS, {
+  'deterministic-random-model': L(
+    'deterministic-random-model',
+    '確定モデルと確率モデル',
+    'deterministicRandomModel',
+    '確定モデルは同じ条件なら同じ結果になり、確率モデルは偶然を含むため結果が変わることがあります。',
+    'サイコロを1回振る結果は毎回同じとは限りません。一方、税込価格を「価格 × 1.10」で求める計算は、同じ価格ならいつも同じ答えになります。',
+    'モデルとは、現実の一部を簡単に表したものです。確定モデルは、同じ入力や条件を与えると同じ結果になります。ルールが決まっている計算や、条件が固定された動きの予測に向いています。確率モデルは、乱数や偶然の影響を含むモデルです。模擬店の待ち時間、通学時間、天気、ガチャ、感染の広がりのように、結果が毎回少し変わる場面を考えるときに使います。確率モデルでは、1回の結果だけで結論を出さず、何回も試して傾向を見ることが大切です。乱数のページで学ぶ「試行ごとに結果が変わる」という考え方は、シミュレーションのページで扱うモデル化とつながっています。',
+    '確率モデルは結果が変わるので役に立たない、というわけではありません。何回も試して傾向を見ることで、混雑しやすい時間帯や不足しやすい人数を考える手がかりになります。乱数を使えば必ず現実と同じ結果になるわけでもありません。',
+    '確率モデルで1回だけの結果を見て判断するのが危険な理由を説明しなさい。',
+    '偶然のばらつきで、たまたま大きい値や小さい値になることがあるためです。複数回試して傾向を見る必要があります。',
+    `もし同じ条件でいつも同じ結果にしたいなら: 確定モデル\nもし偶然の影響を入れたいなら: 確率モデル\n確率モデルでは: 複数回試して傾向を見る`
+  ),
+  'function': L(
+    'function',
+    '関数',
+    'functionBox',
+    '関数とは、まとまった処理に名前をつけ、必要な値を受け取って結果を返せるようにしたものです。',
+    '税込価格を何度も計算するなら、そのたびに式を書くより「税込価格を求める関数」を作ると読みやすくなります。平均点、合否判定、あいさつ文の作成も関数にできます。',
+    '関数は、入力、処理、出力を一つの箱としてまとめる考え方です。関数に渡す値を引数、関数から返ってくる値を戻り値と呼びます。関数を使うと、同じ処理を何度も書かずにすみ、プログラムの意味も読み取りやすくなります。共通テスト風の問題では、関数の定義と呼び出しを読み、どの値が引数として入り、どの値が戻り値として返るかを追う力が大切です。print は画面に表示する命令です。return は、関数の外へ値を返す命令です。画面に見えるかどうかと、値を次の計算に使えるかどうかは別です。',
+    '関数は数学のグラフだけを意味する言葉ではありません。また、関数を作ると必ずプログラムが短くなるとは限りません。大切なのは、処理のまとまりに名前をつけて読みやすくすることです。print と return を同じものとして扱わないようにしましょう。',
+    'print と return の違いを説明しなさい。',
+    'print は画面に表示する命令で、return は関数の外へ値を返す命令です。return された値は次の計算に使えます。',
+    `関数 合計を求める(a, b)\n    return a + b\n\nresult ← 合計を求める(3, 5)`
+  ),
+  'computer-structure': L(
+    'computer-structure',
+    'コンピュータの仕組み',
+    'computerStructure',
+    'コンピュータは、入力装置、出力装置、CPU、メモリ、ストレージが役割を分担して動きます。',
+    '画像編集アプリを開く場面を考えます。保存してある画像ファイルはストレージにあります。編集するときはデータをメモリに読み出し、CPUが処理を行い、画面に結果が表示されます。',
+    '入力装置は、キーボード、マウス、タッチパネル、センサのようにデータや操作をコンピュータへ入れる部分です。出力装置は、画面、スピーカ、プリンタのように結果を外へ出す部分です。CPUは命令を取り出し、計算や制御を行います。メモリは、今使っているプログラムやデータを一時的に置く場所です。ストレージは、ファイルやプログラムを長期間保存する場所です。机の上に出しているノートはすぐ使えますが、置ける量には限りがあります。本棚にはたくさんしまえますが、使うときには取り出す必要があります。メモリとストレージの関係もこれに似ています。',
+    'メモリとストレージは同じではありません。CPUだけ速ければコンピュータ全体も必ず速い、というわけでもありません。プログラムは保存されているだけで自動的に動くのではなく、読み出され、命令として実行される必要があります。',
+    'メモリとストレージの違いを、机と本棚のたとえを使って説明しなさい。',
+    'メモリは机の上のように今すぐ使うものを一時的に置く場所で、ストレージは本棚のように多くのデータを長く保存する場所です。',
+    `入力装置 → メモリ → CPU → メモリ → 出力装置\nストレージ ↔ メモリ`
+  ),
+  api: L(
+    'api',
+    'API',
+    'apiFlow',
+    'APIとは、アプリやサービス同士が決められた形でデータをやりとりするための窓口です。',
+    '天気アプリは、地域や日付を指定して天気サービスへ問い合わせ、天気、気温、降水確率などのデータを受け取ります。このような決められたやりとりの方法をAPIと考えます。',
+    'APIは、アプリそのものではなく、サービスとデータをやりとりするための決まりや窓口です。アプリは、必要な情報をリクエストとして送り、サービスはレスポンスとしてデータを返します。データは、項目名と値が分かる形で返されることがあります。たとえば天気の情報なら、地域、天気、気温、降水確率などが含まれます。APIを使うと、地図、天気、翻訳、学校行事の予定など、別のサービスのデータを利用しやすくなります。ただし、どんなデータでも自由に取れるわけではありません。利用できる範囲、個人情報、認証、データの正しさや安全性を確認することが大切です。',
+    'APIはアプリそのものではありません。APIを使えば、どんなデータでも自由に取れるわけでもありません。APIから返ってきたデータを、必ずそのまま安全に使えると考えるのも危険です。',
+    'APIを使うときに、個人情報や安全性に注意する必要がある理由を説明しなさい。',
+    '外部サービスとデータをやりとりするため、送る情報や受け取ったデータの扱いを誤ると、個人情報の漏えいや不適切な表示につながることがあるからです。',
+    `アプリ → リクエスト → API → サービス\nアプリ ← レスポンス ← API ← サービス\n\n{\n  "place": "東京",\n  "weather": "晴れ",\n  "temperature": 27\n}`
+  )
+});
+
+Object.assign(LESSONS['deterministic-random-model'], {
+  tags: ['シミュレーション', '共通テスト重要', '図表読解'],
+  python: `import random\n\ncount_six = 0\nfor i in range(100):\n    roll = random.randint(1, 6)\n    if roll == 6:\n        count_six = count_six + 1\n\nprint(count_six)`,
+  details: [
+    { title: '確定モデルと確率モデルを比べる', paragraphs: ['モデルを作るときは、偶然の影響を入れるかどうかを考えます。同じ入力ならいつも同じ結果にしたい場合は確定モデル、偶然によるばらつきを表したい場合は確率モデルが向いています。'], table: { headers: ['見方', '確定モデル', '確率モデル'], rows: [['同じ条件での結果', 'いつも同じ', '変わることがある'], ['乱数', '使わない', '使うことがある'], ['向いている場面', 'ルールが決まっている場合', '偶然の影響がある場合'], ['結果の読み方', '1回の結果をそのまま使いやすい', '何回も試して傾向を見る']] } },
+    { title: '模擬店の待ち時間で考える', paragraphs: ['模擬店では、来客数や注文の間隔が毎回同じとは限りません。そこで、来客の有無や注文数を乱数で決めると、待ち時間のばらつきを含む確率モデルになります。1回だけ短い待ち時間になっても、別の回では混むかもしれません。複数回の結果を比べ、平均や最大値、混雑した回数を見ると判断しやすくなります。'] },
+    { title: '結果を読むときの三つの確認', bullets: ['モデルにどのような仮定を置いたか。', '試行回数は十分か。', '1回の結果ではなく、複数回の傾向を見ているか。'] }
+  ],
+  traceTables: [{ title: '確率モデルの結果を比べる', headers: ['試行', '来客数', '最大待ち人数', '読み取り'], rows: [['1回目', '18', '2', '比較的すいている'], ['2回目', '25', '6', '混雑が大きい'], ['3回目', '21', '4', '中間くらい'], ['まとめ', '-', '-', '1回だけでなく傾向を見る']] }],
+  workedExamples: [
+    { title: '例題：どちらのモデルか判断する', problem: '「価格に1.10をかけて税込価格を求めるモデル」と「サイコロを振って来客数を決めるモデル」は、それぞれ確定モデルと確率モデルのどちらですか。', thinking: ['同じ価格なら税込価格はいつも同じです。', 'サイコロは振るたびに結果が変わることがあります。'], answer: '税込価格の計算は確定モデル、サイコロで来客数を決めるモデルは確率モデルです。' },
+    { title: '例題：1回の結果だけでよいか', problem: '模擬店の待ち人数シミュレーションを1回行ったところ、最大待ち人数は1人でした。これだけで「店員は十分」と結論してよいですか。', thinking: ['来客は偶然で変わります。', '別の試行では来客が集中するかもしれません。'], answer: 'よくありません。複数回試して、最大待ち人数や混雑する回数の傾向を見る必要があります。' }
+  ],
+  practiceProblems: [
+    { question: '通学時間をモデル化するとき、雨や信号待ちのばらつきを入れるなら、確定モデルと確率モデルのどちらが向いていますか。', hint: '偶然の影響を入れます。', answer: '確率モデルです。' },
+    { question: '確率モデルで試行回数を増やす理由を説明しなさい。', hint: '1回だけでは偶然に左右されます。', answer: '偶然のばらつきをならし、全体の傾向を見やすくするためです。' },
+    { question: '乱数を使えば必ず現実と同じ結果になりますか。理由も答えなさい。', hint: 'モデルは現実の一部を簡単にしたものです。', answer: '必ず同じにはなりません。モデルの仮定や省略によって、現実とずれることがあるためです。' }
+  ],
+  examQuestions: [
+    { title: '複数回の結果を読む', passage: '模擬店の待ち人数シミュレーションを5回行った。最大待ち人数は 2, 5, 4, 6, 3 人であった。', question: 'この結果からの考察として最も適切なものを選びなさい。', choices: ['1回目が2人なので、最大待ち人数は必ず2人である', '結果にばらつきがあるため、複数回の傾向を見て余裕を考える', '確率モデルなので何も判断できない', '乱数を使ったので必ず現実と同じである'], answer: '2', explanation: '確率モデルでは試行ごとに結果が変わることがあります。複数回の傾向や大きめの値も見て判断します。' },
+    { title: 'モデルの種類', passage: '同じ条件を入れても、乱数によって来客数が変わるモデルを使う。', question: 'このモデルに最も近いものを選びなさい。', choices: ['確定モデル', '確率モデル', '文字コード', 'IPアドレス'], answer: '2', explanation: '乱数や偶然の影響を含み、結果が変わることがあるので確率モデルです。' }
+  ],
+  examFocus: '共通テスト風の問題では、表や会話文を読み、1回の結果だけで判断していないか、複数回の傾向を見ているかを選ぶ形で問われます。乱数、繰り返し、カウンタと組み合わせて出ることもあります。'
+});
+
+Object.assign(LESSONS['function'], {
+  tags: ['プログラムあり', '共通テスト重要', '苦手になりやすい'],
+  python: `def total(a, b):\n    return a + b\n\nresult = total(3, 5)\nprint(result)`,
+  details: [
+    { title: '関数を箱として見る', paragraphs: ['関数は、引数として値を受け取り、中で処理を行い、戻り値を返す箱のように考えられます。箱の中の処理を毎回細かく書かなくても、関数名を呼び出せば同じ処理を使えます。'], table: { headers: ['言葉', '意味', '例'], rows: [['関数名', '処理につけた名前', 'total'], ['引数', '関数へ渡す値', '3 と 5'], ['戻り値', '関数から返る値', '8']] } },
+    { title: 'print と return の違い', paragraphs: ['print は画面に表示する命令です。return は関数の外へ値を返す命令です。画面に表示された値は、人には見えますが、そのまま次の計算に使えるとは限りません。return で返した値は、変数に入れて次の処理に使えます。'] },
+    { title: '関数呼び出しを読む順番', steps: ['関数の定義を読み、引数の名前を確認します。', '呼び出しで渡される値を、引数に対応させます。', '関数の中の処理を追います。', 'return で返った値が、どの変数に入るかを確認します。'] }
+  ],
+  traceTables: [{ title: 'total(3, 5) の呼び出し', headers: ['手順', '式・命令', 'a', 'b', '戻り値', 'result'], rows: [['1', 'result = total(3, 5)', '3', '5', '-', '-'], ['2', 'return a + b', '3', '5', '8', '-'], ['3', 'result に入れる', '-', '-', '8', '8']] }],
+  workedExamples: [
+    { title: '例題：関数の戻り値を読む', problem: '関数 total(a, b) が a + b を返す。result = total(4, 6) のあと、result はいくつですか。', thinking: ['a に4、b に6が入ります。', 'return a + b なので 4 + 6 を返します。', '返った10が result に入ります。'], answer: 'result は10です。', code: `関数 total(a, b)\n    return a + b\n\nresult ← total(4, 6)` },
+    { title: '例題：return の役割', problem: '関数 average(a, b) が (a + b) / 2 を return する。x = average(70, 90) のあと、x はいくつですか。', thinking: ['70と90の平均を求めます。', '(70 + 90) / 2 = 80 です。'], answer: 'x は80です。' }
+  ],
+  practiceProblems: [
+    { question: '関数 judge(score) が score >= 80 なら「合格」、そうでなければ「再挑戦」を返す。judge(75) の戻り値は何ですか。', hint: '75は80以上ではありません。', answer: '「再挑戦」です。' },
+    { question: '引数とは何ですか。', hint: '関数へ渡します。', answer: '関数に渡す値のことです。' },
+    { question: 'return された値を次の計算に使うには、どうするとよいですか。', hint: '変数に入れます。', answer: '戻り値を変数に代入して、その変数を次の計算で使います。' }
+  ],
+  examQuestions: [
+    { title: '関数呼び出しの読解', code: `def add_tax(price):\n    return price * 1.1\n\nx = add_tax(100)\ny = add_tax(200)`, question: 'x と y の値の組として最も適切なものを選びなさい。', choices: ['x=100, y=200', 'x=110, y=220', 'x=1.1, y=1.1', 'x=300, y=330'], answer: '2', explanation: 'add_tax は受け取った price に1.1をかけて返します。100は110、200は220になります。' },
+    { title: 'print と return', code: `def total(a, b):\n    return a + b\n\nresult = total(3, 5)\nprint(result)`, question: '画面に表示される値として正しいものを選びなさい。', choices: ['3', '5', '8', 'total'], answer: '3', explanation: '関数は3+5の8を返し、それが result に入ります。print(result) で8が表示されます。' }
+  ],
+  examFocus: '共通テスト風の問題では、関数の定義と呼び出しを読み、引数にどの値が入り、戻り値がどこで使われるかを追う形で問われます。print と return の違いも混同しやすいポイントです。'
+});
+
+Object.assign(LESSONS['computer-structure'], {
+  tags: ['基礎', '共通テスト重要'],
+  details: [
+    { title: '基本構成を役割で覚える', paragraphs: ['コンピュータを部品名だけで覚えるのではなく、何をする部分かで整理します。入力、処理、記憶、出力の流れで見ると、プログラムがどのように実行されるかを考えやすくなります。'], table: { headers: ['装置・部分', '役割', '身近な例'], rows: [['入力装置', 'データや操作を入れる', 'キーボード、マウス、センサ'], ['出力装置', '結果を外へ出す', '画面、スピーカ、プリンタ'], ['CPU', '命令を実行し、計算や制御を行う', 'コンピュータの処理を担当する部分'], ['メモリ', '今使うデータやプログラムを一時的に置く', '机の上'], ['ストレージ', 'データやプログラムを長く保存する', '本棚、SSD、HDD']] } },
+    { title: 'プログラムが動くまで', paragraphs: ['保存されているアプリやファイルは、必要なときにストレージからメモリへ読み出されます。CPUはメモリ上の命令やデータを使って処理を行い、結果をメモリに書き戻したり、画面へ出力したりします。'] },
+    { title: '性能を考えるときの注意', bullets: ['CPUだけでなく、メモリ容量、ストレージ速度、ネットワークなども体感速度に関係します。', 'メモリが不足すると、同時に扱えるデータやアプリが限られます。', 'ストレージは長く保存できますが、使うときには読み出しが必要です。'] }
+  ],
+  traceTables: [{ title: '画像編集アプリを開くとき', headers: ['場面', '主に関係する部分', '何をしているか'], rows: [['ファイルを保存しておく', 'ストレージ', '長期間保存する'], ['アプリを開く', 'メモリ', '必要なプログラムやデータを置く'], ['明るさを変える', 'CPU', '計算や処理を行う'], ['結果を見る', '出力装置', '画面に表示する']] }],
+  workedExamples: [
+    { title: '例題：机と本棚で説明する', problem: 'メモリとストレージの違いを、机と本棚のたとえで説明しなさい。', thinking: ['机の上はすぐ使えます。', '本棚はたくさんしまえますが、使うときは取り出します。'], answer: 'メモリは机の上のように今使うデータを一時的に置く場所、ストレージは本棚のようにデータを長く保存する場所です。' },
+    { title: '例題：画像編集で役割を分ける', problem: '画像ファイルを長く保存する部分、編集中に一時的に置く部分、明るさ変更の処理をする部分をそれぞれ答えなさい。', thinking: ['長期保存はストレージです。', '作業中に使う場所はメモリです。', '計算や制御はCPUです。'], answer: '長期保存はストレージ、一時的に置く部分はメモリ、処理を行う部分はCPUです。' }
+  ],
+  practiceProblems: [
+    { question: 'キーボードは入力装置と出力装置のどちらですか。', hint: '人の操作をコンピュータに入れます。', answer: '入力装置です。' },
+    { question: 'スピーカはどの役割の装置ですか。', hint: '結果を音として出します。', answer: '出力装置です。' },
+    { question: 'CPUだけ速ければ全体が必ず速いと言えない理由を一つ答えなさい。', hint: '他の部分も関係します。', answer: 'メモリ容量やストレージ速度など、ほかの部分が処理の待ち時間になることがあるからです。' }
+  ],
+  examQuestions: [
+    { title: '画像編集アプリの動き', passage: '生徒が画像編集アプリを開き、保存してある写真を読み込み、明るさを変えて保存した。', question: '写真ファイルを長期的に保存する部分、編集中のデータを一時的に置く部分、明るさ変更を処理する部分の組として正しいものを選びなさい。', choices: ['メモリ、CPU、ストレージ', 'ストレージ、メモリ、CPU', 'CPU、出力装置、入力装置', '出力装置、ストレージ、メモリ'], answer: '2', explanation: '長期保存はストレージ、作業中の一時的な置き場所はメモリ、処理はCPUが担当します。' },
+    { title: '入力と出力', passage: 'タッチパネルに触れて、画面に結果が表示された。', question: 'タッチパネル操作と画面表示の役割の組として最も適切なものを選びなさい。', choices: ['入力、出力', '出力、入力', '記憶、制御', '保存、保存'], answer: '1', explanation: '操作を入れるのが入力、結果を表示するのが出力です。' }
+  ],
+  examFocus: '共通テスト風の問題では、部品名を暗記するだけでなく、具体的な場面の中で、入力、処理、一時的な記憶、長期保存、出力のどれに当たるかを判断する形で問われます。'
+});
+
+Object.assign(LESSONS.api, {
+  tags: ['データ活用', 'ネットワーク', '共通テスト重要'],
+  python: `weather = {\n    "place": "東京",\n    "weather": "晴れ",\n    "temperature": 27\n}\n\nprint(weather["weather"])\nprint(weather["temperature"])`,
+  details: [
+    { title: 'リクエストとレスポンス', paragraphs: ['APIでは、アプリが必要な情報をリクエストとして送り、サービスがレスポンスとして結果を返します。リクエストには、地域、日付、検索語のように、どのデータがほしいかを表す情報が含まれます。'], table: { headers: ['やりとり', '意味', '天気アプリの例'], rows: [['リクエスト', 'ほしい情報を指定して送る', '場所=東京、日付=今日'], ['レスポンス', 'サービスから返るデータ', '天気=晴れ、気温=27'], ['データ形式', '項目名と値の表し方', 'JSONに似た形']] } },
+    { title: '簡単な天気データの例', paragraphs: ['次のようなデータは、説明用に簡単にした例です。項目名を見れば、どの値が地域で、どの値が天気や気温かを読み取りやすくなります。'], table: { headers: ['項目', '値'], rows: [['place', '東京'], ['weather', '晴れ'], ['temperature', '27'], ['rain_chance', '20']] } },
+    { title: '安全に使うための注意', bullets: ['必要以上の個人情報を送らない。', '誰が提供しているサービスかを確認する。', '返ってきたデータをそのまま信用しすぎない。', '利用できる範囲や回数の決まりを守る。'] }
+  ],
+  traceTables: [{ title: '天気アプリのやりとり', headers: ['手順', '向き', '内容'], rows: [['1', 'アプリ → API', '場所と日付を送る'], ['2', 'API → サービス', '天気データを問い合わせる'], ['3', 'サービス → API', '天気、気温、降水確率を返す'], ['4', 'API → アプリ', '画面に使うデータを返す']] }],
+  workedExamples: [
+    { title: '例題：レスポンスを読む', problem: '天気APIのレスポンスが {"place":"東京","weather":"晴れ","temperature":27} のとき、天気と気温を答えなさい。', thinking: ['weather の値を見ます。', 'temperature の値を見ます。'], answer: '天気は晴れ、気温は27です。', code: `{\n  "place": "東京",\n  "weather": "晴れ",\n  "temperature": 27\n}` },
+    { title: '例題：必要なリクエストを考える', problem: '行事の日の天気を調べたい。天気サービスへ送る情報として、地域と日付のうちどちらが必要ですか。', thinking: ['どこの天気かが必要です。', 'いつの天気かも必要です。'], answer: '地域と日付の両方が必要です。' }
+  ],
+  practiceProblems: [
+    { question: 'APIはアプリそのものですか。', hint: '窓口や決まりです。', answer: 'アプリそのものではなく、サービスと決められた形でやりとりするための窓口や方法です。' },
+    { question: '天気APIのレスポンスに temperature: 27 とあるとき、何を表していますか。', hint: 'temperature は気温です。', answer: '気温が27であることを表します。' },
+    { question: 'APIに個人情報を送るときに注意が必要な理由を答えなさい。', hint: '送った情報は外部サービスで扱われます。', answer: '必要以上の情報を送ると、個人情報の扱いに問題が起こる可能性があるためです。' }
+  ],
+  examQuestions: [
+    { title: '学校行事サイトと天気サービス', passage: '学校行事サイトでは、屋外行事の日に天気を表示するため、天気サービスへ場所と日付を送る。返ってきたデータは {"place":"学校周辺","date":"6/20","weather":"くもり","rain_chance":40} であった。', question: 'レスポンスに含まれる降水確率として正しいものを選びなさい。', choices: ['6/20', '学校周辺', 'くもり', '40'], answer: '4', explanation: 'rain_chance の値が40なので、降水確率にあたる値は40です。' },
+    { title: '安全な使い方', passage: '行事サイトで天気を表示するため、外部サービスへデータを送る。', question: '注意として最も適切なものを選びなさい。', choices: ['必要のない個人情報は送らない', '返ってきた値は必ず正しいので確認しない', 'APIを使えばすべてのデータを自由に取れる', 'レスポンスは出力ではない'], answer: '1', explanation: '外部サービスとのやりとりでは、必要な情報だけを送り、返ってきたデータの扱いにも注意します。' }
+  ],
+  examFocus: '共通テスト風の問題では、会話文やデータ例を読み、何がリクエストで何がレスポンスか、どの項目を使えば目的の情報を取り出せるか、安全面でどの注意が必要かを判断する形で問われます。'
+});
+
+const EVENT_MODEL_EXAM_SET = {
+  title: 'イベント準備を助けるプログラムとモデル化',
+  difficulty: '共通テスト重要',
+  lead: '生徒会が学校行事の来場者数を見積もり、時間帯ごとのスタッフ配置が足りるかを考えます。来場者数は乱数で変わるため、複数回の結果を比べます。',
+  materials: [
+    { type: 'conversation', lines: [
+      { speaker: '生徒A', text: '午前と午後で来場者数が変わりそうだね。' },
+      { speaker: '生徒B', text: '乱数表を使って、時間帯ごとの来場者数を何回か試してみよう。' },
+      { speaker: '生徒C', text: 'スタッフ1人が20人まで対応できるとして、足りない時間帯を数えればよさそうだね。' }
+    ] },
+    { type: 'table', headers: ['乱数', '見積もる来場者数'], rows: [['0,1,2', '10人'], ['3,4,5,6', '20人'], ['7,8,9', '30人']] },
+    { type: 'code', code: `関数 必要人数(来場者数)\n  もし 来場者数 <= 20 ならば return 1\n  そうでなければ return 2\n\n不足回数 ← 0\n各 時間帯 について:\n  来場者数 ← 乱数表から決める\n  もし 必要人数(来場者数) > 配置人数 ならば:\n    不足回数 ← 不足回数 + 1` },
+    { type: 'table', headers: ['試行', '時間帯1', '時間帯2', '時間帯3', '不足回数'], rows: [['1', '20人', '30人', '10人', '1'], ['2', '30人', '30人', '20人', '2'], ['3', '10人', '20人', '20人', '0'], ['4', '20人', '30人', '30人', '2']] }
+  ],
+  questions: [
+    { title: 'モデルの種類', question: 'この来場者数の見積もりは、確定モデルと確率モデルのどちらに近いか。', choices: ['確定モデル', '確率モデル', 'データベース', '文字コード'], answer: '2', explanation: '乱数によって来場者数が変わるため、確率モデルに近いです。' },
+    { title: '関数の戻り値', question: '必要人数(30人) の戻り値はいくつか。', choices: ['0', '1', '2', '30'], answer: '3', explanation: '30人は20人以下ではないので、そうでなければの処理に進み、2を返します。' },
+    { title: 'カウンタの読み取り', question: '試行2では、不足回数はいくつか。', choices: ['0', '1', '2', '3'], answer: '3', explanation: '表より試行2の不足回数は2です。カウンタは不足した時間帯の数を表します。' },
+    { title: '結果の解釈', question: '4回の結果から考える結論として最も適切なものを選びなさい。', choices: ['試行3で不足が0なので、スタッフは必ず十分である', '不足回数が2の試行もあるため、余裕をもった配置を検討する', '乱数を使ったので結果はすべて無意味である', '1回目の結果だけを使えばよい'], answer: '2', explanation: '複数回の結果を見ると、不足が起こる試行があります。確率モデルでは1回だけでなく傾向を見て判断します。', mistake: '都合のよい1回だけを選んで結論にしないようにします。' }
+  ]
+};
+
+LESSONS['deterministic-random-model'].examSets = [EVENT_MODEL_EXAM_SET];
+LESSONS['function'].examSets = [EVENT_MODEL_EXAM_SET];
+LESSONS.random.examSets = [...(LESSONS.random.examSets || []), EVENT_MODEL_EXAM_SET];
+LESSONS.simulation.examSets = [...(LESSONS.simulation.examSets || []), EVENT_MODEL_EXAM_SET];
+
 function updateChapterLesson(id, href, status = 'enhanced') {
   CHAPTERS.forEach(chapter => chapter.sections.forEach(section => section.lessons.forEach(lesson => {
     if (lesson.id === id) {
@@ -2256,12 +2436,29 @@ updateChapterLesson('visualization', 'lessons/visualization.html', 'enhanced');
 updateChapterLesson('data-format', 'lessons/data-format.html', 'enhanced');
 updateChapterLesson('qualitative-data', 'lessons/qualitative-data.html', 'enhanced');
 updateChapterLesson('network-build', 'lessons/network-build.html', 'enhanced');
+updateChapterLesson('computer-structure', 'lessons/computer-structure.html', 'enhanced');
+updateChapterLesson('deterministic-random-model', 'lessons/deterministic-random-model.html', 'enhanced');
+
+const basicProgramSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'basic-program');
+if (basicProgramSection && !basicProgramSection.lessons.some(lesson => lesson.id === 'function')) {
+  const insertAt = basicProgramSection.lessons.findIndex(lesson => lesson.id === 'variable');
+  basicProgramSection.lessons.splice(insertAt, 0, { id: 'function', title: '関数', href: 'lessons/function.html', status: 'enhanced' });
+}
+
+const externalDeviceSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'external-device');
+if (externalDeviceSection && !externalDeviceSection.lessons.some(lesson => lesson.id === 'api')) {
+  externalDeviceSection.lessons.push({ id: 'api', title: 'API', href: 'lessons/api.html', status: 'enhanced' });
+}
 
 const modelSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'model-simulation');
 if (modelSection && !modelSection.lessons.some(lesson => lesson.id === 'random')) {
   modelSection.lessons.splice(1, 0, { id: 'random', title: '乱数', href: 'lessons/random.html', status: 'enhanced' });
 }
 if (!LESSON_ORDER.includes('random')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('simulation'), 0, 'random');
+if (!LESSON_ORDER.includes('computer-structure')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('input-process-output'), 0, 'computer-structure');
+if (!LESSON_ORDER.includes('api')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('algorithm'), 0, 'api');
+if (!LESSON_ORDER.includes('function')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('variable'), 0, 'function');
+if (!LESSON_ORDER.includes('deterministic-random-model')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('simulation') + 1, 0, 'deterministic-random-model');
 ['network-build', 'data-format', 'qualitative-data', 'visualization'].forEach(id => {
   if (!LESSON_ORDER.includes(id)) LESSON_ORDER.push(id);
 });
@@ -2297,6 +2494,23 @@ const DEFAULT_TAGS = {
 };
 Object.entries(DEFAULT_TAGS).forEach(([id, tags]) => {
   if (LESSONS[id] && !LESSONS[id].tags) LESSONS[id].tags = tags;
+});
+
+const EXAM_FOCUS_TEXTS = {
+  random: '共通テスト風の問題では、乱数表や短いプログラムを読み、条件に合う回数を数えたり、試行ごとのばらつきを考えたりします。乱数の値を上から順に使うこと、1回だけで結論を出さないことが大切です。',
+  simulation: '共通テスト風の問題では、モデルの仮定、変数、パラメータを読み取り、条件を変えたとき結果がどう変わるかを考える形で問われます。結果だけでなく、何を省略したモデルかも確認しましょう。',
+  statistics: '統計では、平均値だけでなく、中央値・最頻値・分布・外れ値を合わせて読む問題が出やすいです。表やグラフから、どの代表値を見るべきかを判断できるようにしましょう。',
+  visualization: 'データの可視化では、グラフ名を覚えるだけでなく、比較、変化、割合、分布、関係のどれを読みたいのかを判断する力が大切です。軸、単位、割合と人数の違いにも注意します。',
+  'data-format': 'データ形式では、CSV や JSON の名前だけでなく、どのようなデータを扱うときに向いているか、表や例を見て判断する力が大切です。項目名、区切り、文字コードにも注目します。',
+  database: 'データベースでは、表の行と列、主キー、条件抽出、並べ替えの意味を具体的な表から読み取る問題が出やすいです。どの条件でどの行が取り出されるかを丁寧に確認しましょう。',
+  'linear-search': '線形探索では、先頭から順に何回比較するか、見つからない場合はどこまで調べるかが問われやすいです。データが並んでいなくても使える一方、最後まで調べることがある点を押さえましょう。',
+  'binary-search': '二分探索では、名前を覚えるだけでは不十分です。left, right, mid がどのように変わるかを表で追い、次に調べる範囲を判断できるかが大切です。',
+  'selection-sort': '選択ソートでは、未整列部分から最小値を選び、どの位置が確定するかを追う問題が出やすいです。比較回数や交換後の配列を表で確認しましょう。',
+  'bubble-sort': 'バブルソートでは、隣同士を比べる順序、交換する条件、1回の通過後にどの値が端へ移動するかが問われやすいです。途中の配列を一段ずつ追いましょう。'
+};
+
+Object.entries(EXAM_FOCUS_TEXTS).forEach(([id, text]) => {
+  if (LESSONS[id] && !LESSONS[id].examFocus) LESSONS[id].examFocus = text;
 });
 
 Object.assign(LESSONS.branch, {
@@ -2366,7 +2580,9 @@ const SURVEY_EXAM_SET = {
   ]
 };
 
-LESSONS.random.examSets = [SIMULATION_EXAM_SET];
-LESSONS.simulation.examSets = [SIMULATION_EXAM_SET];
+LESSONS.random.examSets = [SIMULATION_EXAM_SET, EVENT_MODEL_EXAM_SET];
+LESSONS.simulation.examSets = [SIMULATION_EXAM_SET, EVENT_MODEL_EXAM_SET];
+LESSONS['deterministic-random-model'].examSets = [EVENT_MODEL_EXAM_SET];
+LESSONS['function'].examSets = [EVENT_MODEL_EXAM_SET];
 LESSONS.visualization.examSets = [SURVEY_EXAM_SET];
 LESSONS.statistics.examSets = [SURVEY_EXAM_SET];

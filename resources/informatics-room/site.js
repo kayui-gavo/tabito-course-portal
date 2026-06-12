@@ -212,6 +212,14 @@ function renderLessonExamples(lesson) {
   return `${worked}${practice}`;
 }
 
+function renderExamFocus(lesson) {
+  if (!lesson.examFocus) return '';
+  return `<section class="guide-box" id="exam-focus">
+    <h2>共通テストではどう問われるか</h2>
+    <p>${lesson.examFocus}</p>
+  </section>`;
+}
+
 function renderTraceTables(lesson) {
   if (!lesson.traceTables || !lesson.traceTables.length) return '';
   return `<section class="trace-area" id="trace">
@@ -360,6 +368,8 @@ function renderLesson(id) {
       ${renderTraceTables(lesson)}
 
       ${renderLessonExamples(lesson)}
+
+      ${renderExamFocus(lesson)}
 
       ${renderExamArea(lesson)}
 

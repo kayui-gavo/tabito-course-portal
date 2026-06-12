@@ -355,6 +355,84 @@ print(total)
     return count
 `,
     explanation: '乱数そのものを覚えるのではなく、条件に合う回数や割合を集計して傾向を見ます。'
+  },
+  'deterministic-random-model': {
+    id: 'model-dice-count',
+    mode: 'function',
+    title: '100回分の結果から6の回数を数える',
+    description: 'サイコロの結果 rolls から、6 が出た回数を返す関数 count_six を作りましょう。確率モデルでは、1回の結果ではなく、何回も試した結果を集計して傾向を見ます。',
+    initialCode: `def count_six(rolls):
+    count = 0
+
+    for roll in rolls:
+        # 6 が出たら count を増やしましょう
+        pass
+
+    return count
+`,
+    tests: [
+      { name: '6が2回', functionName: 'count_six', args: [[1, 6, 3, 6, 2]], expectedReturn: 2, visible: true },
+      { name: '6が出ない', functionName: 'count_six', args: [[1, 2, 3, 4, 5]], expectedReturn: 0, visible: true },
+      { name: 'すべて6', functionName: 'count_six', args: [[6, 6, 6]], expectedReturn: 3, visible: true }
+    ],
+    hints: [
+      'roll == 6 という条件を使います。',
+      '条件を満たしたときだけ count = count + 1 とします。'
+    ],
+    solutionCode: `def count_six(rolls):
+    count = 0
+
+    for roll in rolls:
+        if roll == 6:
+            count = count + 1
+
+    return count
+`,
+    explanation: '複数回の結果を集計すると、偶然を含むモデルの傾向を読み取りやすくなります。'
+  },
+  function: {
+    id: 'function-average',
+    mode: 'function',
+    title: '平均を返す関数',
+    description: '2つの点数 a, b の平均を返す関数 average を作りましょう。print ではなく return を使うと、戻り値を次の計算に使えます。',
+    initialCode: `def average(a, b):
+    # ここに平均を返す処理を書きましょう
+    pass
+`,
+    tests: [
+      { name: '70と90', functionName: 'average', args: [70, 90], expectedReturn: 80, visible: true },
+      { name: '60と80', functionName: 'average', args: [60, 80], expectedReturn: 70, visible: true },
+      { name: '100と50', functionName: 'average', args: [100, 50], expectedReturn: 75, visible: true }
+    ],
+    hints: [
+      '平均は、合計を個数で割ります。',
+      '(a + b) / 2 を return します。'
+    ],
+    solutionCode: `def average(a, b):
+    return (a + b) / 2
+`,
+    explanation: 'return で返した値は、変数に入れたり、別の計算に使ったりできます。'
+  },
+  api: {
+    id: 'api-weather-read',
+    mode: 'function',
+    title: '天気データから気温を取り出す',
+    description: '天気サービスから返ってきたものとして、辞書 weather_data を使います。実際の通信は行わず、手元のデータから temperature の値を返しましょう。',
+    initialCode: `def get_temperature(weather_data):
+    # temperature の値を返しましょう
+    pass
+`,
+    tests: [
+      { name: '東京', functionName: 'get_temperature', args: [{ place: '東京', weather: '晴れ', temperature: 27 }], expectedReturn: 27, visible: true },
+      { name: '大阪', functionName: 'get_temperature', args: [{ place: '大阪', weather: '雨', temperature: 22 }], expectedReturn: 22, visible: true }
+    ],
+    hints: [
+      '辞書では、weather_data["temperature"] のように項目名で値を取り出せます。'
+    ],
+    solutionCode: `def get_temperature(weather_data):
+    return weather_data["temperature"]
+`,
+    explanation: 'APIのレスポンスも、項目名と値の対応を読むことが大切です。'
   }
 };
 
