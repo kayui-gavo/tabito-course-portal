@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 算法效率</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">07 · algorithm efficiency</div><h1>算法效率</h1><p>算法效率关注数据量变大时，处理次数怎样增长。共通考试常用图表或表格比较不同算法。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>为什么要看效率</h2><p>数据很少时，很多算法都能马上结束。但数据量变大后，处理次数的增长方式会产生巨大差异。</p><div class="compare-grid"><div class="mini"><b>O(1)</b><p>不随 n 变化。</p></div><div class="mini"><b>O(n)</b><p>n 变 2 倍，处理约 2 倍。</p></div><div class="mini"><b>O(n²)</b><p>n 变 2 倍，处理约 4 倍。</p></div></div></article><article class="panel"><h2>考试题怎么判断</h2><ul><li>一层循环通常是 O(n)。</li><li>两层嵌套循环常常是 O(n²)。</li><li>每次把范围减半，常见于二分搜索。</li><li>只取一个位置的值，通常是 O(1)。</li></ul></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例：一层循环</h2><pre>合計 ← 0
+i を 1 から n まで 1 ずつ増やす:
+  合計 ← 合計 + データ[i]</pre><p>循环执行 n 次，所以处理次数与 n 成正比。</p></article><article class="panel"><h2>代码示例：两层循环</h2><pre>i を 1 から n まで 1 ずつ増やす:
+  j を 1 から n まで 1 ずつ増やす:
+    表[i][j] を処理する</pre><p>外层 n 次，内层每次 n 次，总共约 n² 次。</p></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：处理次数增长</h2><div class="control-row"><label for="sizeN">数据量 n</label><input id="sizeN" type="range" min="1" max="80" value="20" /><span class="pill" id="sizeLabel">n = 20</span></div><canvas id="complexityCanvas" height="270"></canvas></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>n 从 100 到 200，O(n²) 处理次数大约变几倍？</li><li>找最大值为什么是 O(n)？</li><li>冒泡排序为什么大致是 O(n²)？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const sizeN = document.getElementById('sizeN');
+    const sizeLabel = document.getElementById('sizeLabel');
+    const canvas = document.getElementById('complexityCanvas');
+    const ctx = canvas.getContext('2d');
+    function fit() { const w = canvas.clientWidth; const h = Number(canvas.getAttribute('height')); if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; } }
+    function render() {
+      const n = Number(sizeN.value); sizeLabel.textContent = `n = ${n}`; fit(); ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const pad = 38; const maxY = 80 * 80;
+      ctx.strokeStyle = '#dce6f2'; ctx.beginPath(); ctx.moveTo(pad, 20); ctx.lineTo(pad, canvas.height - pad); ctx.lineTo(canvas.width - 18, canvas.height - pad); ctx.stroke();
+      const plot = (fn, color, label) => { ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath(); for (let x = 1; x <= 80; x += 1) { const px = pad + (x - 1) / 79 * (canvas.width - pad * 2); const py = canvas.height - pad - fn(x) / maxY * (canvas.height - pad * 2); if (x === 1) ctx.moveTo(px, py); else ctx.lineTo(px, py); } ctx.stroke(); ctx.fillStyle = color; ctx.font = '13px sans-serif'; ctx.fillText(label, canvas.width - pad - 62, Math.max(28, canvas.height - pad - fn(70) / maxY * (canvas.height - pad * 2) - 8)); };
+      plot((x) => 1, '#a96513', 'O(1)'); plot((x) => x * 80, '#16846b', 'O(n)'); plot((x) => x * x, '#235f9f', 'O(n²)');
+      const px = pad + (n - 1) / 79 * (canvas.width - pad * 2); ctx.strokeStyle = '#b6432b'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(px, 22); ctx.lineTo(px, canvas.height - pad); ctx.stroke();
+    }
+    sizeN.addEventListener('input', render); window.addEventListener('resize', render); render();
+  </script>
+</body></html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 条件分支与循环</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">03 · if / for / while</div><h1>条件分支与循环</h1><p>条件分支决定程序走哪条路，循环决定同一处理重复几次。算法题最常考边界条件。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>条件分支</h2><p>条件为真时执行一组处理，否则执行另一组处理。多个条件出现时，要区分“且”和“或”。</p><pre>もし 点数 >= 80 ならば:
+  評価 ← "A"
+そうでなければ:
+  評価 ← "B"</pre></article><article class="panel"><h2>循环</h2><p>循环包括初始值、继续条件、更新。任何一个没看清，执行次数都会错。</p><ul><li>for：次数通常比较明确。</li><li>while：只要条件为真就继续。</li><li>循环变量必须在适当位置更新。</li></ul></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例：FizzBuzz 型判断</h2><pre>もし x が 15 で割り切れる ならば:
+  表示する("A")
+そうでなく もし x が 3 で割り切れる ならば:
+  表示する("B")
+そうでなく もし x が 5 で割り切れる ならば:
+  表示する("C")
+そうでなければ:
+  表示する(x)</pre><p>条件按顺序检查。15 的倍数也能被 3 和 5 整除，所以必须先判断 15。</p></article><article class="panel"><h2>边界检查</h2><ul><li><code>&lt;</code> 与 <code>≤</code> 是否包含边界。</li><li>分支顺序是否会遮住后面的条件。</li><li>循环是从 0 开始还是从 1 开始。</li><li>循环结束时变量已经更新到哪里。</li></ul></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：改变 x 看分支结果</h2><div class="control-row"><label for="branchX">x</label><input id="branchX" type="range" min="1" max="60" value="30" /><span class="pill" id="branchResult">30 → A</span></div><table><thead><tr><th>条件</th><th>结果</th></tr></thead><tbody id="branchTable"></tbody></table></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>x = 15 时，如果先判断 3 的倍数，会输出什么？</li><li>循环条件写成 i &lt; 10 和 i ≤ 10，执行次数差多少？</li><li>while 循环里忘记更新变量会发生什么？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const branchX = document.getElementById('branchX');
+    const branchResult = document.getElementById('branchResult');
+    const branchTable = document.getElementById('branchTable');
+    function renderBranch() {
+      const x = Number(branchX.value);
+      const checks = [
+        ['15で割り切れる', x % 15 === 0],
+        ['3で割り切れる', x % 3 === 0],
+        ['5で割り切れる', x % 5 === 0]
+      ];
+      const result = checks[0][1] ? 'A' : checks[1][1] ? 'B' : checks[2][1] ? 'C' : String(x);
+      branchResult.textContent = `${x} → ${result}`;
+      branchTable.innerHTML = checks.map(([label, ok]) => `<tr><td>${label}</td><td>${ok ? '真' : '偽'}</td></tr>`).join('');
+    }
+    branchX.addEventListener('input', renderBranch);
+    renderBranch();
+  </script>
+</body></html>

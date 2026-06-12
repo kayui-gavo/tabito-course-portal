@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 变量追踪</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">02 · trace table</div><h1>变量追踪</h1><p>程序题的基础是“变量什么时候变成什么”。追踪表能把脑内想象变成可检查的步骤。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>赋值不是等式</h2><p><code>合計 ← 合計 + i</code> 的意思是：先用旧的合計和 i 计算右边，再把结果写回合計。左边变量会被新值覆盖。</p><div class="formula"><p><strong>读法：</strong>「合計に、合計 + i の値を代入する」。</p></div></article><article class="panel"><h2>追踪表的列</h2><ul><li>循环次数</li><li>循环变量</li><li>每个会变化的变量</li><li>条件判断结果</li><li>输出内容</li></ul><div class="formula warn"><p><strong>易错点：</strong>输出在循环内还是循环外，会改变“出现几次输出”和“最后答案”。</p></div></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例：1 到 n 的合计</h2><pre>合計 ← 0
+i を 1 から n まで 1 ずつ増やす:
+  合計 ← 合計 + i
+表示する(合計)</pre></article><article class="panel"><h2>公式与程序的关系</h2><p>这个程序计算 1 + 2 + ... + n。公式是 n(n + 1) / 2，但程序题常常要求你理解“它为什么得到这个值”。</p></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：改变 n，自动生成追踪表</h2><div class="control-row"><label for="traceN">n</label><input id="traceN" type="range" min="1" max="15" value="6" /><span class="pill" id="traceLabel">n = 6</span></div><table><thead><tr><th>回数</th><th>i</th><th>旧合計</th><th>新合計</th></tr></thead><tbody id="traceTable"></tbody></table></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>n = 4 时，合計每一步是多少？</li><li>如果输出语句放到循环里面，会输出几次？</li><li>初始值改成 10 时，最终结果怎么变？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const traceN = document.getElementById('traceN');
+    const traceLabel = document.getElementById('traceLabel');
+    const traceTable = document.getElementById('traceTable');
+    function renderTrace() {
+      const n = Number(traceN.value);
+      let total = 0;
+      const rows = [];
+      for (let i = 1; i <= n; i += 1) {
+        const old = total;
+        total += i;
+        rows.push(`<tr><td>${i}</td><td>${i}</td><td>${old}</td><td>${total}</td></tr>`);
+      }
+      traceLabel.textContent = `n = ${n}`;
+      traceTable.innerHTML = rows.join('');
+    }
+    traceN.addEventListener('input', renderTrace);
+    renderTrace();
+  </script>
+</body></html>

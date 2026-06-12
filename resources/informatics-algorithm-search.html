@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 线性搜索</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">05 · linear search</div><h1>线性搜索</h1><p>线性搜索从头到尾逐个比较。它简单、可靠，适合没有排序的数据。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>算法思路</h2><ol><li>从第一个数据开始。</li><li>把当前数据和目标比较。</li><li>相等就找到。</li><li>不相等就看下一个。</li><li>全部看完还没有，就判断不存在。</li></ol></article><article class="panel"><h2>效率</h2><ul><li>最好情况：第一个就是目标，只比较 1 次。</li><li>最坏情况：目标在最后或不存在，比较 n 次。</li><li>平均情况：大约比较 n / 2 次。</li></ul></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例</h2><pre>見つかった ← 偽
+位置 ← 0
+i を 1 から データ数 まで 1 ずつ増やす:
+  もし データ[i] = 目標 ならば:
+    見つかった ← 真
+    位置 ← i</pre></article><article class="panel"><h2>是否要立刻停止</h2><p>找到后可以继续循环，也可以用条件让循环停止。考试题会根据题干设计问法：有时问“最后位置”，有时问“第一次出现的位置”。</p><div class="formula warn"><p><strong>关键：</strong>如果数据里目标出现多次，程序是否停止会影响位置变量。</p></div></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：一步一步搜索</h2><div class="control-row"><label for="searchTarget">目标</label><input id="searchTarget" type="number" min="0" max="99" value="68" /><button class="btn" id="searchStep">下一步</button><button class="btn ghost" id="searchReset">重置</button><span class="pill" id="searchStatus">目标 68</span></div><div class="array-row" id="searchCells"></div></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>目标是 91 时，需要比较几次？</li><li>目标是 100 时，程序如何判断不存在？</li><li>如果想找第一次出现的位置，找到后应该继续循环吗？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const data = [42, 78, 24, 91, 56, 33, 68, 15];
+    const target = document.getElementById('searchTarget');
+    const cells = document.getElementById('searchCells');
+    const status = document.getElementById('searchStatus');
+    let index = -1;
+    let done = false;
+    function render() {
+      const t = Number(target.value);
+      cells.innerHTML = data.map((value, i) => `<div class="array-cell ${i === index ? 'active' : ''} ${done && value === t ? 'hit' : ''}"><div><span>${i + 1}番目</span><b>${value}</b></div></div>`).join('');
+    }
+    function reset() {
+      index = -1;
+      done = false;
+      status.textContent = `目标 ${Number(target.value)}`;
+      render();
+    }
+    document.getElementById('searchStep').addEventListener('click', () => {
+      if (done) return;
+      const t = Number(target.value);
+      index += 1;
+      if (index >= data.length) {
+        done = true;
+        status.textContent = `未找到 ${t}`;
+        render();
+        return;
+      }
+      if (data[index] === t) {
+        done = true;
+        status.textContent = `${index + 1}番目で找到 ${t}`;
+      } else {
+        status.textContent = `${index + 1}番目：${data[index]} 不是目标`;
+      }
+      render();
+    });
+    document.getElementById('searchReset').addEventListener('click', reset);
+    target.addEventListener('input', reset);
+    reset();
+  </script>
+</body></html>

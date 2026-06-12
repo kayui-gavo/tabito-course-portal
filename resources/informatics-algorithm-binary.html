@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/informatics-room.css" />
+  <title>情報Ⅰ · 二进制与编码</title>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">01 · bit / byte / encoding</div><h1>二进制与编码</h1><p>计算机内部只直接处理 0 和 1。整数、文字、图片和声音都要先变成数字，再用二进制保存或传输。</p></div></section>
+  <main>
+    <section id="concept" class="grid">
+      <article class="panel"><h2>核心概念</h2><p>二进制每一位只有 0 或 1。右端是 2^0，往左依次是 2^1、2^2、2^3。某一位是 1，就把对应的位权加到总和里。</p><div class="formula"><p><strong>例：</strong>10101101₂ = 128 + 32 + 8 + 4 + 1 = 173。</p></div><h3>数据量</h3><ul><li>1 bit 可以表示 2 种状态。</li><li>n bit 可以表示 2^n 种状态。</li><li>1 byte = 8 bit，所以 1 byte 可表示 256 种状态。</li></ul></article>
+      <article class="panel"><h2>考试题怎么问</h2><ol><li>把十进制数转成二进制。</li><li>根据 bit 数求能表示的最大值。</li><li>计算文字、图片、声音的大致数据量。</li><li>比较 bit 和 byte，注意单位换算。</li></ol><div class="formula warn"><p><strong>易错点：</strong>1000₂ 不是一千，而是 8。KB、MB 的题目要先看题干是否按 1000 还是 1024 计算。</p></div></article>
+    </section>
+    <section id="code" class="grid">
+      <article class="panel"><h2>代码示例：反复除以 2</h2><pre>数 ← 173
+結果 ← ""
+数 が 0 より大きい間:
+  余り ← 数 を 2 で割った余り
+  結果 ← 余り + 結果
+  数 ← 数 を 2 で割った商
+表示する(結果)</pre><p>每次除以 2 得到一位余数。因为先得到的是低位，所以要把余数放到结果的左边。</p></article>
+      <article class="panel"><h2>读代码的关键</h2><ul><li>余り是当前最低位。</li><li>商会不断变小，直到 0。</li><li>结果从右往左生成，所以拼接顺序不能反。</li></ul></article>
+    </section>
+    <section id="demo" class="grid">
+      <article class="panel full"><h2>互动 demo：看每一位的权重</h2><div class="control-row"><label for="decimalInput">十进制</label><input id="decimalInput" type="range" min="0" max="255" value="173" /><input id="decimalNumber" type="number" min="0" max="255" value="173" /><span class="pill" id="binaryResult">173 = 10101101₂</span></div><div class="bits" id="bitGrid"></div></article>
+    </section>
+    <section class="panel"><h2>小练习</h2><ol><li>13₁₀ 写成二进制是多少？</li><li>8 bit 能表示的最大无符号整数是多少？</li><li>一张 100 × 100 像素、每像素 24 bit 的图片，未压缩时需要多少 bit？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main>
+  <footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const decimalInput = document.getElementById('decimalInput');
+    const decimalNumber = document.getElementById('decimalNumber');
+    const binaryResult = document.getElementById('binaryResult');
+    const bitGrid = document.getElementById('bitGrid');
+    function renderBits(value) {
+      const clamped = Math.max(0, Math.min(255, Number(value) || 0));
+      decimalInput.value = clamped;
+      decimalNumber.value = clamped;
+      const bits = clamped.toString(2).padStart(8, '0');
+      binaryResult.textContent = `${clamped} = ${bits}₂`;
+      bitGrid.innerHTML = bits.split('').map((bit, index) => {
+        const power = 7 - index;
+        return `<div class="bit ${bit === '1' ? 'on' : ''}"><div><b>${bit}</b><span>2^${power}<br>${2 ** power}</span></div></div>`;
+      }).join('');
+    }
+    decimalInput.addEventListener('input', (event) => renderBits(event.target.value));
+    decimalNumber.addEventListener('input', (event) => renderBits(event.target.value));
+    renderBits(173);
+  </script>
+</body>
+</html>

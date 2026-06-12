@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 数组与下标</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">04 · array / index</div><h1>数组与下标</h1><p>数组把多个数据按顺序放在一起。下标告诉我们取第几个位置的数据。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>数组是什么</h2><p>如果一个班有很多人的分数，用一个变量一个变量保存会很麻烦。数组可以把它们放成一列：点数[1], 点数[2], 点数[3] ...。</p><div class="formula"><p><strong>先看题干：</strong>共通考试会说明下标从 0 开始还是从 1 开始。两种写法都可能出现。</p></div></article><article class="panel"><h2>常见处理</h2><ul><li>从头到尾遍历所有元素。</li><li>求合计、平均、最大值、最小值。</li><li>按条件计数。</li><li>与另一个数组对应比较。</li></ul></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例：找最大值</h2><pre>最大 ← 点数[1]
+i を 2 から データ数 まで 1 ずつ増やす:
+  もし 点数[i] > 最大 ならば:
+    最大 ← 点数[i]
+表示する(最大)</pre><p>先把第一个值当作最大候选，再逐个比较。遇到更大的值就更新。</p></article><article class="panel"><h2>为什么从 2 开始</h2><p>因为第 1 个元素已经被放进最大候选。如果从 1 开始也能运行，但会多比较一次自己和自己。</p><div class="formula warn"><p><strong>易错点：</strong>数组长度是 n 时，最后一个下标不一定是 n。要看下标从 0 还是 1 开始。</p></div></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：逐步找最大值</h2><div class="control-row"><button class="btn" id="arrayStep">下一步</button><button class="btn ghost" id="arrayReset">重置</button><span class="pill" id="arrayStatus">准备开始</span></div><div class="array-row" id="arrayCells"></div></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>如果要求最小值，条件要怎么改？</li><li>如果要求 60 分以上的人数，需要哪些变量？</li><li>下标从 0 开始时，8 个数据的最后一个下标是多少？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const data = [42, 78, 24, 91, 56, 33, 68, 15];
+    const arrayCells = document.getElementById('arrayCells');
+    const arrayStatus = document.getElementById('arrayStatus');
+    let index = 0;
+    let maxValue = data[0];
+    function render() {
+      arrayCells.innerHTML = data.map((value, i) => `<div class="array-cell ${i === index ? 'active' : ''} ${value === maxValue ? 'hit' : ''}"><div><span>${i + 1}番目</span><b>${value}</b></div></div>`).join('');
+    }
+    function reset() {
+      index = 0;
+      maxValue = data[0];
+      arrayStatus.textContent = `最大候補 ${maxValue}`;
+      render();
+    }
+    document.getElementById('arrayStep').addEventListener('click', () => {
+      index = Math.min(index + 1, data.length - 1);
+      if (data[index] > maxValue) {
+        maxValue = data[index];
+        arrayStatus.textContent = `${index + 1}番目で最大候補を ${maxValue} に更新`;
+      } else {
+        arrayStatus.textContent = `${index + 1}番目 ${data[index]} は更新なし`;
+      }
+      render();
+    });
+    document.getElementById('arrayReset').addEventListener('click', reset);
+    reset();
+  </script>
+</body></html>

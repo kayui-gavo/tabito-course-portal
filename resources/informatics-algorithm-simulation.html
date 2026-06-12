@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/informatics-room.css" /><title>情報Ⅰ · 模型化与模拟</title></head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="informatics-programming.html"><img src="../assets/images/tabito-logo.jpg" alt="旅人教育" /><span>算法の部屋</span></a><nav><a href="#concept">讲解</a><a href="#code">代码</a><a href="#demo">Demo</a><a href="informatics-programming.html">返回算法目录</a></nav></div></header>
+  <section class="hero"><div class="hero-inner"><div class="hero-label">08 · modeling / simulation</div><h1>模型化与模拟</h1><p>模拟是把现实问题简化成变量和规则，再重复计算，观察在某些假设下会发生什么。</p></div></section>
+  <main>
+    <section id="concept" class="grid"><article class="panel"><h2>模型化的步骤</h2><ol><li>决定要研究的问题。</li><li>选择重要变量。</li><li>写出每一步的变化规则。</li><li>设定初始值和参数。</li><li>运行并解释结果。</li></ol></article><article class="panel"><h2>结果怎么解释</h2><p>模拟结果不是现实本身，而是“在这些假设下的结果”。如果假设改变，结果也可能改变。</p><div class="formula warn"><p><strong>考试意识：</strong>要能指出模型忽略了什么，以及参数变化会怎样影响结果。</p></div></article></section>
+    <section id="code" class="grid"><article class="panel"><h2>代码示例：每步增长</h2><pre>人数 ← 100
+i を 1 から ステップ数 まで 1 ずつ増やす:
+  人数 ← 人数 × 1.15
+表示する(人数)</pre><p>每一步都把人数乘以 1.15，表示增加 15%。</p></article><article class="panel"><h2>可以改变的参数</h2><ul><li>初始人数</li><li>增长率</li><li>步数</li><li>是否设置上限</li><li>是否加入随机因素</li></ul></article></section>
+    <section id="demo" class="grid"><article class="panel full"><h2>互动 demo：增长模拟</h2><div class="control-row"><label for="startValue">初始值</label><input id="startValue" type="number" min="1" max="1000" value="100" /><label for="rateValue">增长率%</label><input id="rateValue" type="number" min="-50" max="100" value="15" /><label for="steps">步数</label><input id="steps" type="range" min="0" max="20" value="8" /><span class="pill" id="simResult">8 步后约 306</span></div><table><thead><tr><th>步数</th><th>值</th></tr></thead><tbody id="simTable"></tbody></table></article></section>
+    <section class="panel"><h2>小练习</h2><ol><li>增长率从 15% 改成 5%，结果如何变化？</li><li>如果现实中有上限，这个模型哪里不合理？</li><li>如果增长率每次随机变化，结果会更稳定还是更不稳定？</li></ol></section>
+    <a class="back" href="informatics-programming.html">返回算法の部屋</a>
+  </main><footer><div class="footer-inner"><p>中国旅人教育集団株式会社 · 共通考试情报课程资料库</p></div></footer>
+  <script>
+    const startValue = document.getElementById('startValue');
+    const rateValue = document.getElementById('rateValue');
+    const steps = document.getElementById('steps');
+    const simResult = document.getElementById('simResult');
+    const simTable = document.getElementById('simTable');
+    function render() {
+      const count = Number(steps.value);
+      const rate = 1 + Number(rateValue.value) / 100;
+      let value = Number(startValue.value) || 0;
+      const rows = [`<tr><td>0</td><td>${value.toFixed(1)}</td></tr>`];
+      for (let i = 1; i <= count; i += 1) { value *= rate; rows.push(`<tr><td>${i}</td><td>${value.toFixed(1)}</td></tr>`); }
+      simResult.textContent = `${count} 步后约 ${value.toFixed(1)}`;
+      simTable.innerHTML = rows.join('');
+    }
+    [startValue, rateValue, steps].forEach((el) => el.addEventListener('input', render));
+    render();
+  </script>
+</body></html>
