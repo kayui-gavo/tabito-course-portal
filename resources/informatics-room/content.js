@@ -1,9 +1,35 @@
 const SITE = {
   title: 'わかりやすい高校情報Ⅰの部屋',
-  subtitle: '情報Ⅰを、図でゆっくり理解するための学習ノート'
+  subtitle: '旅人教育 情報Ⅰノート',
+  description: '公式教材の章立てに沿って、情報Ⅰの基礎を図と例でゆっくり学ぶ教材です。'
 };
 
+const STATUS_LABELS = {
+  enhanced: '図解・疑似コードあり',
+  complete: '完成',
+  draft: '初稿',
+  stub: '準備中',
+  planned: '予定'
+};
+
+const FEATURED_LESSONS = [
+  'algorithm',
+  'variable',
+  'branch',
+  'loop',
+  'array',
+  'linear-search',
+  'binary-search',
+  'selection-sort',
+  'bubble-sort'
+];
+
 const LESSON_ORDER = [
+  'information',
+  'bit-byte',
+  'binary',
+  'image-digital',
+  'sound-digital',
   'algorithm',
   'input-process-output',
   'variable',
@@ -21,71 +47,173 @@ const LESSON_ORDER = [
   'flowchart',
   'pseudocode',
   'debug',
-  'simulation'
+  'simulation',
+  'packet',
+  'ip-address',
+  'database',
+  'statistics'
 ];
 
-const CHAPTERS = [
-  {
-    id: 'programming',
-    title: '第3章　コンピュータとプログラミング',
-    lead: '現在もっとも重点的に作っている章です。コンピュータに手順を伝えるための考え方を、図と小さな例で確認します。',
-    topics: [
-      ['basic', 'アルゴリズムとは', 'lessons/algorithm.html'],
-      ['basic', '入力・処理・出力', 'lessons/input-process-output.html'],
-      ['basic', '変数', 'lessons/variable.html'],
-      ['basic', '代入', 'lessons/assignment.html'],
-      ['basic', '条件分岐', 'lessons/branch.html'],
-      ['basic', '繰り返し', 'lessons/loop.html'],
-      ['basic', '配列', 'lessons/array.html'],
-      ['basic', 'カウンタと合計', 'lessons/counter-sum.html'],
-      ['basic', '最大値・最小値を求める', 'lessons/max-min.html'],
-      ['basic', '線形探索', 'lessons/linear-search.html'],
-      ['basic', '二分探索', 'lessons/binary-search.html'],
-      ['basic', '並べ替えとは', 'lessons/sort-intro.html'],
-      ['extra', '選択ソート', 'lessons/selection-sort.html'],
-      ['extra', 'バブルソート', 'lessons/bubble-sort.html'],
-      ['extra', 'フローチャート', 'lessons/flowchart.html'],
-      ['extra', '疑似コード', 'lessons/pseudocode.html'],
-      ['extra', 'プログラムの誤りとデバッグ', 'lessons/debug.html'],
-      ['extra', 'シミュレーションとは', 'lessons/simulation.html']
-    ]
-  },
+const OFFICIAL_CHAPTERS = [
   {
     id: 'social',
+    order: 1,
     title: '第1章　情報社会の問題解決',
-    lead: '情報とは何か、情報モラル、個人情報、著作権、セキュリティなどを扱います。今後少しずつ増やします。',
-    topics: [
-      ['basic', '情報とは', 'lessons/information.html'],
-      ['basic', '問題の発見と解決', '#'],
-      ['basic', '個人情報', '#'],
-      ['basic', '著作権', '#'],
-      ['extra', '情報セキュリティ', '#']
+    sourceTitle: '高等学校情報科「情報Ⅰ」教員研修用教材 第1章　情報社会の問題解決',
+    sourceNote: '本単元の学習内容、学習1〜5の構成を参照し、本文は独自に再構成しています。',
+    lead: '情報・メディアの特性、情報セキュリティ、法規・モラル、情報社会の変化を、問題解決の流れと結び付けて学びます。',
+    sections: [
+      {
+        id: 'social-problem',
+        title: '問題の発見と情報の扱い',
+        lessons: [
+          { id: 'information', title: '情報やメディアの特性と問題の発見・解決', href: 'lessons/information.html', status: 'draft' },
+          { id: 'problem-solving-flow', title: '問題解決の流れ', href: '#', status: 'planned' }
+        ]
+      },
+      {
+        id: 'social-rules',
+        title: '安全・責任・社会との関わり',
+        lessons: [
+          { id: 'security', title: '情報セキュリティ', href: '#', status: 'planned' },
+          { id: 'law-moral', title: '情報に関する法規、情報モラル', href: '#', status: 'planned' },
+          { id: 'communication-merit', title: '情報社会におけるコミュニケーションのメリット・デメリット', href: '#', status: 'planned' },
+          { id: 'technology-development', title: '情報技術の発展', href: '#', status: 'planned' }
+        ]
+      }
     ]
   },
   {
     id: 'design',
+    order: 2,
     title: '第2章　コミュニケーションと情報デザイン',
-    lead: 'メディア、ディジタル化、画像・音・情報デザインを扱います。現在は基礎ページだけを置いています。',
-    topics: [
-      ['basic', 'ビットとバイト', 'lessons/bit-byte.html'],
-      ['basic', '2進数', 'lessons/binary.html'],
-      ['basic', '画像のディジタル化', 'lessons/image-digital.html'],
-      ['basic', '音のディジタル化', 'lessons/sound-digital.html'],
-      ['extra', '情報デザイン', '#']
+    sourceTitle: '高等学校情報科「情報Ⅰ」教員研修用教材 第2章　コミュニケーションと情報デザイン',
+    sourceNote: '学習6〜10の順序を参照し、ディジタル化と情報デザインの基本を配置しています。',
+    lead: 'ディジタル化、メディア、コミュニケーション、情報デザインの考え方を学びます。',
+    sections: [
+      {
+        id: 'digital',
+        title: 'デジタルにするということ',
+        lessons: [
+          { id: 'bit-byte', title: 'ビットとバイト', href: 'lessons/bit-byte.html', status: 'draft' },
+          { id: 'binary', title: '2進数', href: 'lessons/binary.html', status: 'draft' },
+          { id: 'image-digital', title: '画像のディジタル化', href: 'lessons/image-digital.html', status: 'draft' },
+          { id: 'sound-digital', title: '音のディジタル化', href: 'lessons/sound-digital.html', status: 'draft' }
+        ]
+      },
+      {
+        id: 'communication-design',
+        title: 'コミュニケーションと情報デザイン',
+        lessons: [
+          { id: 'communication-model', title: 'コミュニケーションを成立させるもの', href: '#', status: 'planned' },
+          { id: 'media-tools', title: 'メディアとコミュニケーション、そのツール', href: '#', status: 'planned' },
+          { id: 'design-meaning', title: '情報をデザインすることの意味', href: '#', status: 'planned' },
+          { id: 'design-process', title: 'デザインするための一連の進め方', href: '#', status: 'planned' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'programming',
+    order: 3,
+    title: '第3章　コンピュータとプログラミング',
+    sourceTitle: '高等学校情報科「情報Ⅰ」教員研修用教材 第3章　コンピュータとプログラミング',
+    sourceNote: '学習11〜17の順序を参照し、現在は基本的プログラムとアルゴリズムの比較を重点的に整備しています。',
+    lead: 'コンピュータの仕組み、外部装置、基本的・応用的プログラム、アルゴリズムの比較、モデル化とシミュレーションを学びます。',
+    sections: [
+      {
+        id: 'computer-basics',
+        title: 'コンピュータの仕組み',
+        lessons: [
+          { id: 'computer-structure', title: 'コンピュータの仕組み', href: '#', status: 'planned' },
+          { id: 'input-process-output', title: '入力・処理・出力', href: 'lessons/input-process-output.html', status: 'complete' }
+        ]
+      },
+      {
+        id: 'external-device',
+        title: '外部装置との接続',
+        lessons: [
+          { id: 'external-devices', title: '外部装置との接続', href: '#', status: 'planned' }
+        ]
+      },
+      {
+        id: 'basic-program',
+        title: '基本的プログラム',
+        lessons: [
+          { id: 'algorithm', title: 'アルゴリズムとは', href: 'lessons/algorithm.html', status: 'enhanced' },
+          { id: 'flowchart', title: 'フローチャート', href: 'lessons/flowchart.html', status: 'complete' },
+          { id: 'pseudocode', title: '疑似コード', href: 'lessons/pseudocode.html', status: 'complete' },
+          { id: 'variable', title: '変数', href: 'lessons/variable.html', status: 'enhanced' },
+          { id: 'assignment', title: '代入', href: 'lessons/assignment.html', status: 'complete' },
+          { id: 'branch', title: '条件分岐', href: 'lessons/branch.html', status: 'enhanced' },
+          { id: 'loop', title: '繰り返し', href: 'lessons/loop.html', status: 'enhanced' },
+          { id: 'debug', title: 'プログラムの誤りとデバッグ', href: 'lessons/debug.html', status: 'complete' }
+        ]
+      },
+      {
+        id: 'applied-program',
+        title: '応用的プログラム',
+        lessons: [
+          { id: 'array', title: '配列', href: 'lessons/array.html', status: 'enhanced' },
+          { id: 'counter-sum', title: 'カウンタと合計', href: 'lessons/counter-sum.html', status: 'enhanced' },
+          { id: 'max-min', title: '最大値・最小値を求める', href: 'lessons/max-min.html', status: 'complete' }
+        ]
+      },
+      {
+        id: 'algorithm-comparison',
+        title: 'アルゴリズムの比較',
+        lessons: [
+          { id: 'linear-search', title: '線形探索', href: 'lessons/linear-search.html', status: 'enhanced' },
+          { id: 'binary-search', title: '二分探索', href: 'lessons/binary-search.html', status: 'enhanced' },
+          { id: 'sort-intro', title: '並べ替えとは', href: 'lessons/sort-intro.html', status: 'complete' },
+          { id: 'selection-sort', title: '選択ソート', href: 'lessons/selection-sort.html', status: 'enhanced' },
+          { id: 'bubble-sort', title: 'バブルソート', href: 'lessons/bubble-sort.html', status: 'enhanced' }
+        ]
+      },
+      {
+        id: 'model-simulation',
+        title: 'モデル化とシミュレーション',
+        lessons: [
+          { id: 'simulation', title: 'シミュレーションとは', href: 'lessons/simulation.html', status: 'complete' },
+          { id: 'deterministic-random-model', title: '確定モデルと確率モデル', href: '#', status: 'planned' },
+          { id: 'natural-modeling', title: '自然現象のモデル化とシミュレーション', href: '#', status: 'planned' }
+        ]
+      }
     ]
   },
   {
     id: 'network',
+    order: 4,
     title: '第4章　情報通信ネットワークとデータの活用',
-    lead: 'ネットワーク、データベース、統計的な見方を扱います。現在は入口ページを用意しています。',
-    topics: [
-      ['basic', 'パケット通信', 'lessons/packet.html'],
-      ['basic', 'IPアドレス', 'lessons/ip-address.html'],
-      ['basic', 'データベースとは', 'lessons/database.html'],
-      ['basic', '平均値・中央値・最頻値', 'lessons/statistics.html']
+    sourceTitle: '高等学校情報科「情報Ⅰ」教員研修用教材 第4章　情報通信ネットワークとデータの活用',
+    sourceNote: '学習18〜24の順序を参照し、ネットワークとデータ活用の基礎を配置しています。',
+    lead: 'ネットワークの仕組み、情報システム、データの形式、量的・質的データの分析、可視化を学びます。',
+    sections: [
+      {
+        id: 'network-basics',
+        title: '情報通信ネットワーク',
+        lessons: [
+          { id: 'packet', title: 'パケット通信', href: 'lessons/packet.html', status: 'draft' },
+          { id: 'ip-address', title: 'IPアドレス', href: 'lessons/ip-address.html', status: 'draft' },
+          { id: 'network-build', title: '情報通信ネットワークの構築', href: '#', status: 'planned' }
+        ]
+      },
+      {
+        id: 'system-data',
+        title: '情報システムとデータ活用',
+        lessons: [
+          { id: 'database', title: 'データベースとは', href: 'lessons/database.html', status: 'draft' },
+          { id: 'data-format', title: 'さまざまな形式のデータとその表現形式', href: '#', status: 'planned' },
+          { id: 'statistics', title: '平均値・中央値・最頻値', href: 'lessons/statistics.html', status: 'draft' },
+          { id: 'qualitative-data', title: '質的データの分析', href: '#', status: 'planned' },
+          { id: 'visualization', title: 'データの形式と可視化', href: '#', status: 'planned' }
+        ]
+      }
     ]
   }
 ];
+
+const CHAPTERS = OFFICIAL_CHAPTERS;
 
 function L(id, title, figure, oneLine, example, explanation, misconception, question, answer, code = '') {
   return {
@@ -101,6 +229,7 @@ function L(id, title, figure, oneLine, example, explanation, misconception, ques
     question,
     answer,
     code,
+    status: 'enhanced',
     terms: []
   };
 }
@@ -335,7 +464,24 @@ const GLOSSARY = [
   ['シミュレーション', '現実の現象をモデルでまねて試すこと。', 'lessons/simulation.html']
 ];
 
-const QUESTIONS = LESSON_ORDER.slice(0, 14).map((id, index) => {
+const QUESTION_IDS = [
+  'algorithm',
+  'input-process-output',
+  'variable',
+  'assignment',
+  'branch',
+  'loop',
+  'array',
+  'counter-sum',
+  'max-min',
+  'linear-search',
+  'binary-search',
+  'sort-intro',
+  'selection-sort',
+  'bubble-sort'
+];
+
+const QUESTIONS = QUESTION_IDS.map((id) => {
   const l = LESSONS[id];
   return [l.title, l.question, l.answer, `lessons/${id}.html`];
 });

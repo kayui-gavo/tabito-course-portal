@@ -1,65 +1,122 @@
+function assetPath(prefix, path) {
+  return `${prefix}../../${path}`;
+}
+
 function headerHtml(prefix = '') {
   return `<header class="site-header"><div class="site-header-inner">
-    <a class="site-title" href="${prefix}index.html">${SITE.title}</a>
-    <p class="site-subtitle">${SITE.subtitle}</p>
+    <div class="brand-row">
+      <a class="brand-mark" href="${prefix}index.html" aria-label="トップへ">
+        <img src="${assetPath(prefix, 'assets/tabito-logo.svg')}" alt="旅人教育" />
+      </a>
+      <div>
+        <a class="site-title" href="${prefix}index.html">${SITE.title}</a>
+        <p class="site-subtitle">${SITE.subtitle}</p>
+      </div>
+    </div>
     <nav class="global-nav">
-      <a href="${prefix}index.html">トップ</a>
-      <a href="${prefix}programming.html">アルゴリズム章</a>
+      <a href="${prefix}index.html">目次</a>
+      <a href="${prefix}programming.html">アルゴリズム</a>
       <a href="${prefix}glossary.html">用語一覧</a>
       <a href="${prefix}questions.html">確認問題</a>
-      <a href="${prefix}../../index.html">Portal</a>
+      <a href="${prefix}../../index.html">コースポータル</a>
     </nav>
   </div></header>`;
 }
 
-function footerHtml() {
-  return `<footer class="site-footer"><div class="site-header-inner">
-    <p>文部科学省の情報Ⅰ範囲を参考にしつつ、本文と図解は学習用に独自作成しています。外部教材やサイトの文章・画像はコピーしません。</p>
+function footerHtml(prefix = '') {
+  return `<footer class="site-footer"><div class="site-header-inner footer-inner">
+    <div class="footer-brand">
+      <img src="${assetPath(prefix, 'assets/tabito-logo.svg')}" alt="旅人教育" />
+      <span>情報Ⅰ 学習教材</span>
+    </div>
+    <p>本文と図解は、学習しやすいように独自に整理した教材です。授業の予習・復習や、基礎事項の確認に使えます。</p>
   </div></footer>`;
 }
 
 function renderChrome(prefix = '') {
   document.body.insertAdjacentHTML('afterbegin', headerHtml(prefix));
-  document.body.insertAdjacentHTML('beforeend', footerHtml());
+  document.body.insertAdjacentHTML('beforeend', footerHtml(prefix));
 }
 
-function tagHtml(type) {
-  const label = { basic: '基本', extra: '補足', practice: '演習' }[type] || '項目';
-  return `<span class="tag tag-${type}">${label}</span>`;
+function statusBadge(status) {
+  const label = STATUS_LABELS[status] || STATUS_LABELS.planned;
+  return `<span class="status-badge status-${status || 'planned'}">${label}</span>`;
 }
 
-function renderTopicList(topics) {
-  return `<ul class="link-list">${topics.map(([type, title, href]) => {
-    const body = href === '#' ? `<span class="muted-link">${title}</span>` : `<a href="${href}">${title}</a>`;
-    return `<li>${tagHtml(type)} ${body}</li>`;
-  }).join('')}</ul>`;
+function lessonById(id) {
+  return LESSONS[id];
+}
+
+function findChapterForLesson(id) {
+  return CHAPTERS.find(chapter =>
+    chapter.sections.some(section => section.lessons.some(lesson => lesson.id === id))
+  );
+}
+
+function renderLessonLink(lesson, basePrefix = '') {
+  const href = lesson.href === '#' ? '#' : `${basePrefix}${lesson.href}`;
+  const linked = lesson.href === '#'
+    ? `<span class="muted-link">${lesson.title}</span>`
+    : `<a href="${href}">${lesson.title}</a>`;
+  return `<li class="lesson-link">
+    <div>${linked}</div>
+    ${statusBadge(lesson.status)}
+  </li>`;
+}
+
+function renderChapterDirectory(chapter, basePrefix = '') {
+  return `<article class="chapter-block" id="${chapter.id}">
+    <div class="chapter-kicker">第${chapter.order}章</div>
+    <h2>${chapter.title.replace(/^第\d章　/, '')}</h2>
+    <p>${chapter.lead}</p>
+    <div class="section-list">
+      ${chapter.sections.map(section => `<section class="section-card">
+        <h3>${section.title}</h3>
+        <ul class="link-list">${section.lessons.map(lesson => renderLessonLink(lesson, basePrefix)).join('')}</ul>
+      </section>`).join('')}
+    </div>
+  </article>`;
+}
+
+function renderFeaturedLinks(basePrefix = '') {
+  return `<ul class="featured-list">
+    ${FEATURED_LESSONS.map(id => {
+      const lesson = lessonById(id);
+      return `<li><a href="${basePrefix}lessons/${id}.html">${lesson.title}</a>${statusBadge(lesson.status || 'enhanced')}</li>`;
+    }).join('')}
+  </ul>`;
 }
 
 function renderTop() {
   renderChrome('');
-  const programming = CHAPTERS.find(ch => ch.id === 'programming');
-  const others = CHAPTERS.filter(ch => ch.id !== 'programming');
   document.querySelector('#app').innerHTML = `<main class="page">
-    <section class="intro">
-      <h1>情報Ⅰ 全体目次</h1>
-      <p>このサイトは、情報Ⅰを暗記ではなく理解で進めるための学習ノートです。いまは「コンピュータとプログラミング」を重点的に整備しています。</p>
-    </section>
-    <section class="chapter-block focus" id="${programming.id}">
-      <div class="chapter-head">
-        <div>
-          <h2>${programming.title}</h2>
-          <p>${programming.lead}</p>
-        </div>
-        <a class="chapter-button" href="programming.html">章だけを見る</a>
+    <section class="intro brand-intro">
+      <div>
+        <p class="eyebrow">旅人教育 情報Ⅰノート</p>
+        <h1>${SITE.title}</h1>
+        <p>${SITE.description}</p>
       </div>
-      ${renderTopicList(programming.topics)}
     </section>
-    <section class="directory compact">
-      ${others.map(ch => `<article class="chapter-block" id="${ch.id}">
-        <h2>${ch.title}</h2>
-        <p>${ch.lead}</p>
-        ${renderTopicList(ch.topics)}
-      </article>`).join('')}
+
+    <section class="guide-box">
+      <h2>学習の進め方</h2>
+      <p>まずは公式教材の章立てに沿って、第1章から順に全体像を確認できます。現在は「コンピュータとプログラミング」の内容を重点的に整備しています。</p>
+    </section>
+
+    <section class="focus-panel">
+      <div>
+        <p class="eyebrow">現在重点整備中</p>
+        <h2>アルゴリズム・プログラミング</h2>
+        <p>変数、条件分岐、繰り返し、配列、探索、整列を、図と短い手順で確認できます。</p>
+      </div>
+      ${renderFeaturedLinks('')}
+    </section>
+
+    <section>
+      <h2>公式教材に沿った目次</h2>
+      <div class="directory">
+        ${CHAPTERS.map(chapter => renderChapterDirectory(chapter)).join('')}
+      </div>
     </section>
   </main>`;
 }
@@ -68,10 +125,16 @@ function renderProgramming() {
   renderChrome('');
   const programming = CHAPTERS.find(ch => ch.id === 'programming');
   document.querySelector('#app').innerHTML = `<main class="page">
-    <p class="breadcrumb"><a href="index.html">トップ</a> / ${programming.title}</p>
-    <h1>${programming.title}</h1>
-    <p class="lead">${programming.lead}</p>
-    <section class="chapter-block focus">${renderTopicList(programming.topics)}</section>
+    <p class="breadcrumb"><a href="index.html">目次</a> / ${programming.title}</p>
+    <section class="intro">
+      <p class="eyebrow">現在重点整備中</p>
+      <h1>${programming.title}</h1>
+      <p>${programming.lead}</p>
+    </section>
+    <section class="focus-panel slim">
+      ${renderFeaturedLinks('')}
+    </section>
+    ${renderChapterDirectory(programming)}
   </main>`;
 }
 
@@ -83,7 +146,7 @@ function navForLesson(id) {
   const next = LESSONS[nextId];
   return `<nav class="lesson-nav" aria-label="ページ移動">
     <span>${prev ? `<a href="${prevId}.html">← 前：${prev.title}</a>` : '← 前：なし'}</span>
-    <span><a href="../index.html">□ トップ</a></span>
+    <span><a href="../index.html">目次へ</a></span>
     <span>${next ? `<a href="${nextId}.html">次：${next.title} →</a>` : '次：なし →'}</span>
   </nav>`;
 }
@@ -93,53 +156,61 @@ function renderLesson(id) {
   const lesson = LESSONS[id];
   const root = document.querySelector('#app');
   if (!lesson) {
-    root.innerHTML = '<main class="page"><h1>ページが見つかりません</h1><p><a href="../index.html">トップへ戻る</a></p></main>';
+    root.innerHTML = '<main class="page"><h1>ページが見つかりません</h1><p><a href="../index.html">目次へ戻る</a></p></main>';
     return;
   }
+  const chapter = findChapterForLesson(id);
+  const chapterTitle = chapter ? chapter.title : lesson.chapter;
   root.innerHTML = `<main class="page lesson-page">
-    <p class="breadcrumb"><a href="../index.html">トップ</a> / <a href="../programming.html">コンピュータとプログラミング</a> / ${lesson.title}</p>
+    <p class="breadcrumb"><a href="../index.html">目次</a> / ${chapterTitle} / ${lesson.title}</p>
     ${navForLesson(id)}
-    <h1>${lesson.title}</h1>
-    <p class="lesson-one-line">${lesson.oneLine}</p>
+    <article class="lesson-article">
+      <div class="lesson-head">
+        <p class="eyebrow">旅人教育 情報Ⅰノート</p>
+        <h1>${lesson.title}</h1>
+        ${statusBadge(lesson.status || 'draft')}
+      </div>
+      <p class="lesson-one-line">${lesson.oneLine}</p>
 
-    <section>
-      <h2>まず一言でいうと</h2>
-      <p>${lesson.oneLine}</p>
-    </section>
+      <section>
+        <h2>まず一言でいうと</h2>
+        <p>${lesson.oneLine}</p>
+      </section>
 
-    <section>
-      <h2>たとえば</h2>
-      <div class="example">${lesson.example}</div>
-    </section>
+      <section>
+        <h2>たとえば</h2>
+        <div class="example">${lesson.example}</div>
+      </section>
 
-    <section>
-      <h2>図で見る</h2>
-      ${FIGURES[lesson.figure] ? FIGURES[lesson.figure]() : ''}
-    </section>
+      <section>
+        <h2>図で見る</h2>
+        ${FIGURES[lesson.figure] ? FIGURES[lesson.figure]() : ''}
+      </section>
 
-    <section>
-      <h2>情報Ⅰではこう考える</h2>
-      ${lesson.explanation.split('。').filter(Boolean).map(s => `<p>${s}。</p>`).join('')}
-      ${lesson.code ? `<h3>疑似コード</h3><pre>${lesson.code}</pre>` : ''}
-    </section>
+      <section>
+        <h2>情報Ⅰではこう考える</h2>
+        ${lesson.explanation.split('。').filter(Boolean).map(s => `<p>${s}。</p>`).join('')}
+        ${lesson.code ? `<h3>疑似コード</h3><pre class="code-block">${lesson.code}</pre>` : ''}
+      </section>
 
-    <section>
-      <h2>よくある誤解</h2>
-      <div class="mistake">${lesson.misconception}</div>
-    </section>
+      <section>
+        <h2>よくある誤解</h2>
+        <div class="mistake">${lesson.misconception}</div>
+      </section>
 
-    ${renderDemo(lesson.id)}
+      ${renderDemo(lesson.id)}
 
-    <section class="question-box">
-      <h2>確認問題</h2>
-      <p>${lesson.question}</p>
-      <details><summary>解答を見る</summary><p>${lesson.answer}</p></details>
-    </section>
+      <section class="question-box">
+        <h2>確認問題</h2>
+        <p>${lesson.question}</p>
+        <details><summary>解答を見る</summary><p>${lesson.answer}</p></details>
+      </section>
 
-    <section class="term-area">
-      <h2>関連用語</h2>
-      <p><a href="../glossary.html">用語一覧で、このページに関係する言葉を確認する</a></p>
-    </section>
+      <section class="term-area">
+        <h2>関連用語</h2>
+        <p><a href="../glossary.html">用語一覧で、このページに関係する言葉を確認する</a></p>
+      </section>
+    </article>
     <div class="footer-nav">${navForLesson(id)}<p><a href="#top">↑ ページ上部へ</a></p></div>
   </main>`;
   initDemo(lesson.id);
@@ -147,13 +218,13 @@ function renderLesson(id) {
 
 function renderDemo(id) {
   if (id === 'branch') {
-    return `<section class="demo-box"><h2>小さな demo</h2><div class="demo-row"><label>点数 <input id="scoreInput" type="range" min="0" max="100" value="75"></label><strong id="scoreOut"></strong></div></section>`;
+    return `<section class="demo-box"><h2>ためしてみる</h2><div class="demo-row"><label>点数 <input id="scoreInput" type="range" min="0" max="100" value="75"></label><strong id="scoreOut"></strong></div></section>`;
   }
   if (id === 'loop' || id === 'counter-sum') {
-    return `<section class="demo-box"><h2>小さな demo</h2><div class="demo-row"><label>n <input id="loopInput" type="range" min="1" max="20" value="10"></label><strong id="loopOut"></strong></div><div class="table-scroll"><table><thead><tr><th>i</th><th>合計</th></tr></thead><tbody id="loopTable"></tbody></table></div></section>`;
+    return `<section class="demo-box"><h2>ためしてみる</h2><div class="demo-row"><label>n <input id="loopInput" type="range" min="1" max="20" value="10"></label><strong id="loopOut"></strong></div><div class="table-scroll"><table><thead><tr><th>i</th><th>合計</th></tr></thead><tbody id="loopTable"></tbody></table></div></section>`;
   }
   if (id === 'linear-search') {
-    return `<section class="demo-box"><h2>小さな demo</h2><p>データ：[4, 7, 2, 9, 5]、目標：9</p><button id="searchBtn">一つずつ調べる</button><div id="searchOut"></div></section>`;
+    return `<section class="demo-box"><h2>ためしてみる</h2><p>データ：[4, 7, 2, 9, 5]、目標：9</p><button id="searchBtn">一つずつ調べる</button><div id="searchOut"></div></section>`;
   }
   return '';
 }
@@ -197,9 +268,9 @@ function initDemo(id) {
 function renderGlossary() {
   renderChrome('');
   document.querySelector('#app').innerHTML = `<main class="page"><h1>情報Ⅰ 用語一覧</h1>
-    <p class="lead">このページは丸暗記用ではなく、学習した内容を整理するためのページです。</p>
+    <p class="lead">現在はアルゴリズムとプログラミングの用語を中心に整理しています。章全体の学習に合わせて、用語を順次追加します。</p>
     <div class="table-scroll"><table class="glossary-table"><thead><tr><th>用語</th><th>説明</th><th>関連</th></tr></thead><tbody>
-    ${GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0], 'ja')).map(([term, desc, href]) => `<tr><td>${term}</td><td>${desc}</td><td><a href="${href}">読む</a></td></tr>`).join('')}
+    ${GLOSSARY.slice().sort((a,b)=>a[0].localeCompare(b[0], 'ja')).map(([term, desc, href]) => `<tr><td>${term}</td><td>${desc}</td><td><a href="${href}">読む</a></td></tr>`).join('')}
     </tbody></table></div></main>`;
 }
 
