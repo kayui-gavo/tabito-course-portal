@@ -146,6 +146,34 @@ function navForLesson(id) {
   </nav>`;
 }
 
+function renderDetailBlock(block) {
+  const paragraphs = (block.paragraphs || []).map(text => `<p>${text}</p>`).join('');
+  const bullets = block.bullets && block.bullets.length
+    ? `<ul class="point-list">${block.bullets.map(item => `<li>${item}</li>`).join('')}</ul>`
+    : '';
+  const table = block.table
+    ? `<div class="table-scroll"><table class="mini-table"><thead><tr>${block.table.headers.map(header => `<th>${header}</th>`).join('')}</tr></thead><tbody>${block.table.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+    : '';
+  const steps = block.steps && block.steps.length
+    ? `<ol class="step-list">${block.steps.map(step => `<li>${step}</li>`).join('')}</ol>`
+    : '';
+  return `<section class="detail-card">
+    <h3>${block.title}</h3>
+    ${paragraphs}
+    ${bullets}
+    ${steps}
+    ${table}
+  </section>`;
+}
+
+function renderLessonDetails(lesson) {
+  if (!lesson.details || !lesson.details.length) return '';
+  return `<section class="deep-dive">
+    <h2>ゆっくり理解する</h2>
+    <div class="detail-grid">${lesson.details.map(renderDetailBlock).join('')}</div>
+  </section>`;
+}
+
 function renderLesson(id) {
   renderChrome('../');
   const lesson = LESSONS[id];
@@ -188,6 +216,8 @@ function renderLesson(id) {
         ${lesson.code ? `<h3>疑似コード</h3><pre class="code-block">${lesson.code}</pre>` : ''}
         ${lesson.python ? `<h3>Pythonで書くと</h3><pre class="code-block python-code">${lesson.python}</pre>` : ''}
       </section>
+
+      ${renderLessonDetails(lesson)}
 
       ${typeof renderCodeExercise === 'function' ? renderCodeExercise(lesson.id) : ''}
 

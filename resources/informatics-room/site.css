@@ -355,6 +355,41 @@ th, td {
 }
 th { background: #eef5fa; color: var(--brand-deep); }
 .table-scroll { overflow-x: auto; }
+.deep-dive {
+  margin: 22px 0;
+}
+.detail-grid {
+  display: grid;
+  gap: 12px;
+}
+.detail-card {
+  border: 1px solid #d7e4ec;
+  border-radius: 8px;
+  background: #fcfeff;
+  padding: 14px;
+}
+.detail-card h3 {
+  margin-top: 0;
+  color: var(--brand-deep);
+}
+.point-list,
+.step-list {
+  margin: 10px 0;
+  padding-left: 1.35em;
+}
+.point-list li,
+.step-list li {
+  margin: 5px 0;
+}
+.mini-table {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.mini-table td:first-child {
+  font-weight: 700;
+  color: var(--brand-deep);
+  white-space: nowrap;
+}
 .glossary-table td:first-child { width: 170px; font-weight: 700; }
 .bits { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .bit {
