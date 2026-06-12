@@ -36,14 +36,14 @@ DEPLOYMENT.md        GitHub Pages 部署说明
 
 ### AI質問
 
-情報Ⅰ页面已经内置右下角 `AI質問` 面板。前端不会保存 OpenAI key，只会把学生问题、当前页面标题和有限教材片段发送到后端代理。
+情報Ⅰ页面已经内置右下角 `AI質問` 面板。前端不会保存 AI API key，只会把学生问题、当前页面标题和有限教材片段发送到后端代理。后端优先使用 Gemini 免费 API；没有 `GEMINI_API_KEY` 时，才会尝试 OpenAI 备用配置。
 
 可选部署方式：
 
-- Vercel：部署本仓库后，`api/informatics-chat.js` 会提供同域接口 `/api/informatics-chat`。在 Vercel 环境变量中设置 `OPENAI_API_KEY`，可选设置 `OPENAI_MODEL`、`ALLOWED_ORIGIN`。
-- GitHub Pages + Cloudflare Worker：继续用 GitHub Pages 发布静态页，把 `workers/informatics-chat-worker.mjs` 部署为 Worker。`wrangler.informatics-ai.example.toml` 是示例配置。Worker 中设置 secret `OPENAI_API_KEY`，然后用 `?aiEndpoint=https://你的Worker地址/chat` 打开一次情报页面，浏览器会记住这个接続先。
+- Vercel：部署本仓库后，`api/informatics-chat.js` 会提供同域接口 `/api/informatics-chat`。在 Vercel 环境变量中设置 `GEMINI_API_KEY`，可选设置 `GEMINI_MODEL`、`ALLOWED_ORIGIN`。如果要备用 OpenAI，再设置 `OPENAI_API_KEY` 和 `OPENAI_MODEL`。
+- GitHub Pages + Cloudflare Worker：继续用 GitHub Pages 发布静态页，把 `workers/informatics-chat-worker.mjs` 部署为 Worker。`wrangler.informatics-ai.example.toml` 是示例配置。Worker 中设置 secret `GEMINI_API_KEY`，然后用 `?aiEndpoint=https://你的Worker地址/chat` 打开一次情报页面，浏览器会记住这个接続先。
 
-不要把 `OPENAI_API_KEY` 写入任何前端文件或提交到 GitHub。
+不要把 `GEMINI_API_KEY`、`OPENAI_API_KEY` 写入任何前端文件或提交到 GitHub。
 
 ### 开发检查
 
