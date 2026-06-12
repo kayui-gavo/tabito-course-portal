@@ -2423,6 +2423,252 @@ LESSONS['function'].examSets = [EVENT_MODEL_EXAM_SET];
 LESSONS.random.examSets = [...(LESSONS.random.examSets || []), EVENT_MODEL_EXAM_SET];
 LESSONS.simulation.examSets = [...(LESSONS.simulation.examSets || []), EVENT_MODEL_EXAM_SET];
 
+Object.assign(LESSONS, {
+  security: L(
+    'security',
+    '情報セキュリティ',
+    'securityCia',
+    '情報セキュリティとは、情報を安全に保ち、必要な人が必要なときに正しく使えるようにすることです。',
+    '学校の学習アカウントを考えます。パスワードが他人に知られないこと、成績データが勝手に書き換えられないこと、必要なときにログインできることが大切です。',
+    '情報セキュリティでは、機密性、完全性、可用性の三つをよく使います。機密性は、見てよい人だけが見られることです。完全性は、情報が勝手に変えられたり壊されたりしないことです。可用性は、必要なときに使えることです。不正アクセス、マルウェア、フィッシング、ソーシャルエンジニアリングのような攻撃に対して、パスワードを長く複雑にする、二要素認証を使う、怪しいリンクを開かない、バックアップを取るなどの対策を組み合わせます。',
+    'パスワードを長くすれば、それだけで完全に安全になるわけではありません。ウイルス対策ソフトを入れていても、偽のログインページに入力してしまえば被害を受けることがあります。',
+    '情報セキュリティの三つの視点を答えなさい。',
+    '機密性、完全性、可用性です。',
+    `機密性：見てよい人だけが見られる\n完全性：勝手に変えられない\n可用性：必要なときに使える`
+  ),
+  privacy: L(
+    'privacy',
+    '個人情報とプライバシー',
+    'privacyClues',
+    '個人情報やプライバシーは、名前だけでなく、組み合わせると個人が分かる情報にも注意が必要です。',
+    'SNSに「駅前で撮った制服姿の写真」を投稿すると、名前を書いていなくても学校や生活圏が分かることがあります。写真の背景、位置情報、投稿日も手がかりになります。',
+    '個人情報とは、特定の個人を識別できる情報です。名前そのものだけでなく、顔写真、学校名、出席番号、位置情報、複数の情報の組み合わせによって個人が分かる場合もあります。プライバシーは、人に知られたくない生活や行動に関する情報をむやみに公開されない権利や利益に関係します。写真には肖像権も関係します。スマートフォンアプリの位置情報や写真へのアクセス許可、SNSの公開範囲、制服や駅名が写った写真には注意します。',
+    '名前を書かなければ個人情報ではない、とは限りません。友達だけに送ったつもりでも、保存や転送で広がる可能性があります。',
+    '名前を書いていない投稿でも個人が分かることがある理由を説明しなさい。',
+    '顔写真、制服、駅名、位置情報などを組み合わせると、個人や生活範囲が分かることがあるためです。',
+    `投稿前に確認する\n1. 顔や制服が写っていないか\n2. 位置情報が含まれていないか\n3. 公開範囲は適切か`
+  ),
+  'media-literacy': L(
+    'media-literacy',
+    'メディアリテラシー',
+    'mediaLiteracyGraph',
+    'メディアリテラシーとは、情報を読み取り、確かめ、相手に合わせて発信する力です。',
+    '同じアンケート結果でも、グラフの縦軸を途中から始めると差がとても大きく見えることがあります。写真も、切り取り方によって印象が変わります。',
+    'メディアを読むときは、誰が、何のために、どのような方法で情報を伝えているのかを考えます。タイトルの言い方、画像の切り取り、グラフの軸、割合と人数の違いによって、受け取る印象は変わります。情報源が信頼できるか、他の情報と比べて矛盾がないか、根拠が示されているかも確認します。発信するときも、受け手が誤解しない表現を選ぶことが大切です。',
+    'グラフになっていれば必ず客観的、というわけではありません。有名な人が言っているから必ず正しい、という判断も危険です。',
+    'グラフを見るときに確認すべきことを二つ答えなさい。',
+    '縦軸の始まり、単位、データ数、割合か人数か、情報源などを確認します。',
+    `確認すること\n誰が発信したか\n何を根拠にしているか\n軸や単位は適切か\n別の見方はないか`
+  ),
+  'information-design': L(
+    'information-design',
+    '情報デザイン',
+    'informationDesignLayout',
+    '情報デザインとは、相手に必要な情報が正しく伝わるように、内容や見せ方を設計することです。',
+    '学校行事のお知らせで、日時、場所、持ち物、注意事項が長い文章で混ざっていると読み落としが起きます。見出しを分け、重要な情報を上に置き、関連する情報を近くにまとめると読みやすくなります。',
+    '情報デザインでは、目的、相手、利用場面を考えて情報を整理します。大切なのは、ただ目立たせることではなく、伝えるべき情報が迷わず見つかることです。レイアウト、余白、見出し、文字の大きさ、色のコントラスト、情報のグループ化、読む順序を整えます。色だけに頼らず、形や文字でも区別するなど、アクセシビリティにも注意します。',
+    '目立てばよい、色を増やせば分かりやすい、というわけではありません。色が多すぎると、かえって重要な情報が見つけにくくなります。',
+    '情報デザインで、まず考えるべきことを二つ答えなさい。',
+    '誰に何を伝えるのか、どの場面で使うのかなどです。',
+    `目的を決める\n相手を考える\n情報を分類する\n見出しと順序を決める\n読みやすさを確認する`
+  ),
+  'scatter-correlation': L(
+    'scatter-correlation',
+    '散布図と相関',
+    'scatterCorrelation',
+    '散布図は二つの数値の関係を見るグラフで、相関は二つの量が一緒に変化する傾向のことです。',
+    '気温が高い日ほど飲み物の売上が多いかを調べたいとき、横軸に気温、縦軸に売上を置いて点を打つと、関係が見えやすくなります。',
+    '散布図では、一つのデータを一つの点として表します。点が右上がりに並ぶなら正の相関、右下がりに並ぶなら負の相関と読みます。点がばらばらなら、強い相関は読み取りにくいです。ただし、相関があることと原因・結果の関係があることは同じではありません。たとえば、気温と売上に相関があっても、広告や曜日など別の要因が関係しているかもしれません。',
+    '相関があるなら必ず原因と結果の関係がある、とは言えません。散布図は関係を考える手がかりですが、原因を決めるには追加の情報が必要です。',
+    '相関と因果関係の違いを説明しなさい。',
+    '相関は二つの量が一緒に変化する傾向で、因果関係は一方がもう一方の原因になっている関係です。相関だけでは因果関係は決められません。',
+    `横軸：気温\n縦軸：来場者数\n点の並びを見る\n右上がりなら正の相関`
+  ),
+  'outlier-representative': L(
+    'outlier-representative',
+    '外れ値と代表値',
+    'outlierValues',
+    '外れ値とは他のデータから大きく離れた値で、平均値などの代表値に大きな影響を与えることがあります。',
+    '5日間の待ち時間が 10, 12, 12, 13, 50 分だったとします。50分の日だけ大きく離れているため、平均値は高くなりますが、多くの日の感覚とはずれるかもしれません。',
+    '代表値には、平均値、中央値、最頻値があります。平均値はすべての値を使うため、極端に大きい値や小さい値に引っ張られます。中央値は並べた中央の値なので、外れ値の影響を受けにくいことがあります。最頻値は最も多く出る値です。データを説明するときは、平均値だけでなく、中央値、最頻値、分布、外れ値を合わせて見ることが大切です。',
+    '平均値だけ見れば全体が分かる、とは限りません。外れ値があるときは、中央値や分布も確認します。',
+    '外れ値があるデータで中央値も見るとよい理由を説明しなさい。',
+    '中央値は並べた中央を見るため、極端な値に平均値ほど引っ張られにくいからです。',
+    `データ：10, 12, 12, 13, 50\n平均値：19.4\n中央値：12\n最頻値：12`
+  )
+});
+
+Object.assign(LESSONS.security, {
+  tags: ['情報社会', '共通テスト重要'],
+  details: [
+    { title: 'CIAで整理する', paragraphs: ['情報セキュリティは、機密性、完全性、可用性の三つで整理すると分かりやすくなります。どの対策がどの視点を守るのかを、具体的な場面で判断できるようにします。'], table: { headers: ['視点', '意味', '例'], rows: [['機密性', '見てよい人だけが見られる', '成績表を本人と先生だけが見られる'], ['完全性', '勝手に変わらない', '提出ファイルが改ざんされない'], ['可用性', '必要なとき使える', '授業中に学習システムへアクセスできる']] } },
+    { title: '攻撃と対策を組み合わせて考える', paragraphs: ['フィッシングは、本物に似せたページでIDやパスワードを入力させる攻撃です。マルウェアは端末に悪い動きをさせるソフトウェアです。不正アクセスを防ぐには、強いパスワードだけでなく、二要素認証、更新、バックアップ、怪しいリンクを開かない判断も必要です。'] }
+  ],
+  traceTables: [{ title: '場面を三つの視点で見る', headers: ['場面', '関係する視点', '理由'], rows: [['偽のログインページにIDを入力した', '機密性', '秘密にすべき情報が相手に渡る'], ['ファイルが勝手に書き換わった', '完全性', '内容が正しい状態でなくなる'], ['学校システムが止まった', '可用性', '必要なとき使えない']] }],
+  workedExamples: [
+    { title: '例題：偽ログインページ', problem: '学校のログインページに似たURLがメールで届いた。IDとパスワードを入れる前に何を確認しますか。', thinking: ['送信者やURLを確認します。', '不安な場合はメールのリンクから入らず、いつもの入口から開きます。'], answer: 'URLや送信者を確認し、怪しい場合は入力しません。必要なら先生や管理者に確認します。' }
+  ],
+  practiceProblems: [
+    { question: '二要素認証の利点を説明しなさい。', hint: 'パスワードだけでログインしません。', answer: 'パスワードが知られても、別の確認が必要になるため不正ログインを防ぎやすくなります。' },
+    { question: 'バックアップは三つの視点のうちどれに関係しますか。', hint: '必要なときに復元できます。', answer: '主に可用性や完全性に関係します。' }
+  ],
+  examQuestions: [
+    { title: 'CIAの判断', passage: '学校の成績データが誤って書き換えられた。', question: '特に損なわれた性質として最も適切なものを選びなさい。', choices: ['機密性', '完全性', '可用性', '圧縮率'], answer: '2', explanation: '情報が正しい状態で保たれていないため、完全性が損なわれています。' }
+  ],
+  examFocus: '共通テスト風の問題では、攻撃名を選ぶだけでなく、具体的な場面が機密性・完全性・可用性のどれに関係するか、どの対策が適切かを判断する形で問われます。',
+  summary: '情報セキュリティは、機密性・完全性・可用性を守るために、技術的な対策と日常の判断を組み合わせる学習です。'
+});
+
+Object.assign(LESSONS.privacy, {
+  tags: ['情報社会', '共通テスト重要'],
+  details: [
+    { title: '個人を特定する手がかり', paragraphs: ['個人情報は名前だけではありません。顔写真、学校名、制服、駅名、位置情報、アカウント名、投稿日時などが組み合わさると個人が分かる場合があります。'], table: { headers: ['情報', '注意点'], rows: [['顔写真', '本人や周囲の人が分かる'], ['制服・校章', '学校が推測される'], ['駅名・店名', '生活圏が推測される'], ['位置情報', '撮影場所や行動が分かる'], ['友人の写真', '自分以外の権利にも関係する']] } },
+    { title: '公開範囲とアプリの許可', paragraphs: ['SNSの公開範囲が友達だけでも、スクリーンショットや転送で広がることがあります。アプリに写真や位置情報の許可を与えるときは、その機能に本当に必要かを考えます。'] }
+  ],
+  traceTables: [{ title: 'SNS投稿前の確認', headers: ['確認するもの', 'リスク', '対応'], rows: [['顔写真', '本人が分かる', '許可を取る・写さない'], ['駅名', '生活圏が分かる', '隠す'], ['位置情報', '場所が分かる', '削除する'], ['公開範囲', '広く拡散する', '必要な範囲にする']] }],
+  workedExamples: [
+    { title: '例題：投稿文を見直す', problem: '「明日16時、桜駅前で制服のまま集合」とSNSに投稿する。どの情報に注意が必要ですか。', thinking: ['駅名から場所が分かります。', '制服から学校が分かる可能性があります。', '集合時刻も行動予定です。'], answer: '駅名、制服、集合時刻に注意が必要です。公開範囲を考え、必要なら表現をぼかします。' }
+  ],
+  practiceProblems: [
+    { question: '写真に位置情報が残っていると、どのような問題が起こることがありますか。', hint: '撮影場所が分かります。', answer: '自宅や学校、行動範囲が知られる可能性があります。' },
+    { question: '友達の写真を投稿するときに必要なことを答えなさい。', hint: '自分だけの情報ではありません。', answer: '本人の許可を取り、公開範囲や写り込みに注意します。' }
+  ],
+  examQuestions: [
+    { title: '個人情報の判断', passage: '投稿には名前はないが、顔写真、制服、駅名、投稿日が含まれている。', question: 'この投稿について最も適切な説明を選びなさい。', choices: ['名前がないので問題はない', '組み合わせで個人や生活圏が分かる可能性がある', '写真なら必ず安全である', '公開範囲を広げるほど安全である'], answer: '2', explanation: '複数の情報を組み合わせると、名前がなくても個人が推測されることがあります。' }
+  ],
+  examFocus: '共通テスト風の問題では、投稿文や写真の説明から、どの情報が個人の特定やプライバシーの問題につながるかを判断する形で問われます。',
+  summary: '個人情報とプライバシーでは、名前以外の手がかりや公開範囲にも注意し、投稿前に安全性を確認します。'
+});
+
+Object.assign(LESSONS['media-literacy'], {
+  tags: ['情報デザイン', '図表読解', '共通テスト重要'],
+  details: [
+    { title: '情報を読むときの視点', paragraphs: ['情報を見るときは、内容そのものだけでなく、発信者、目的、根拠、見せ方を確認します。グラフや画像は分かりやすい一方で、印象を強く変えることがあります。'], table: { headers: ['見るところ', '確認すること'], rows: [['発信者', '誰が出した情報か'], ['根拠', 'データや出典があるか'], ['グラフ', '軸や単位が適切か'], ['画像', '切り取りや加工で印象が変わっていないか']] } },
+    { title: '誤解を招くグラフ', paragraphs: ['例えば、A案が120票、B案が140票のとき、縦軸を100から始めると差がとても大きく見えます。差はありますが、全体の規模と合わせて読む必要があります。'] }
+  ],
+  traceTables: [{ title: 'グラフを見る順番', headers: ['手順', '確認すること', '理由'], rows: [['1', 'タイトル', '何を示すかを見る'], ['2', '軸と単位', '数字の意味を確認する'], ['3', '縦軸の始まり', '差が誇張されていないか見る'], ['4', '情報源', '信頼できるか考える']] }],
+  workedExamples: [
+    { title: '例題：グラフの印象', problem: 'A案120票、B案140票の棒グラフで、縦軸が100から始まっている。注意すべきことを答えなさい。', thinking: ['20票の差はあります。', '縦軸の始まり方で差が大きく見えることがあります。'], answer: '縦軸が途中から始まることで差が誇張されて見える可能性に注意します。' }
+  ],
+  practiceProblems: [
+    { question: '有名な人がSNSで言っている情報は、必ず正しいと言えますか。', hint: '根拠を確認します。', answer: '言えません。発信者だけでなく、根拠や他の情報も確認する必要があります。' },
+    { question: '画像の切り取りで印象が変わる理由を説明しなさい。', hint: '写っていない部分があります。', answer: '周囲の状況や文脈が見えなくなり、一部だけが強調されることがあるためです。' }
+  ],
+  examQuestions: [
+    { title: 'グラフの読み方', passage: 'A案120票、B案140票の棒グラフがあり、縦軸は100から始まっている。', question: '読み方として最も適切なものを選びなさい。', choices: ['B案はA案の何倍も多いと断定する', '差はあるが、縦軸の取り方で印象が強くなっていないか確認する', 'グラフなので必ず公平である', '票数は読み取れない'], answer: '2', explanation: '数値の差と、見せ方による印象を分けて考えます。' }
+  ],
+  examFocus: '共通テスト風の問題では、グラフ、広告文、SNS投稿、会話文を読み、情報の根拠や表現の偏りを判断する形で問われます。',
+  summary: 'メディアリテラシーは、情報をそのまま受け取らず、根拠・発信者・見せ方を確かめて判断する力です。'
+});
+
+Object.assign(LESSONS['information-design'], {
+  tags: ['情報デザイン', '共通テスト重要'],
+  details: [
+    { title: '伝わるデザインの原則', paragraphs: ['情報デザインは、見た目を飾ることだけではありません。目的に合わせて情報を選び、相手が迷わず読めるように配置します。'], table: { headers: ['原則', '意味', '例'], rows: [['近接', '関係する情報を近くに置く', '日時と場所を同じ枠に入れる'], ['整列', '位置をそろえる', '見出しと本文の左端をそろえる'], ['対比', '重要度の違いを見せる', '重要な見出しを大きくする'], ['反復', '同じ役割は同じ形にする', '注意事項を同じ記号で示す']] } },
+    { title: '学校のお知らせを直す', paragraphs: ['「文化祭は土曜日です。体育館に集まってください。持ち物は上履きです。9時開始です。」という文章は、情報が混ざっています。「日時」「場所」「持ち物」に分けると、必要な情報を探しやすくなります。'] }
+  ],
+  traceTables: [{ title: 'お知らせを整理する', headers: ['情報', '分類', '配置の工夫'], rows: [['9時開始', '日時', '上に置く'], ['体育館', '場所', '日時の近くに置く'], ['上履き', '持ち物', '箇条書きにする'], ['雨天時の連絡', '注意', '強調する']] }],
+  workedExamples: [
+    { title: '例題：案内文を整理する', problem: '「明日9時体育館集合。上履き持参。入口は東側。」を読みやすくするため、どのように分けますか。', thinking: ['日時、場所、持ち物、入口に分けます。', '見出しをつけると探しやすくなります。'], answer: '日時：明日9時、場所：体育館、持ち物：上履き、入口：東側、のように分けます。' }
+  ],
+  practiceProblems: [
+    { question: '重要な情報を赤、青、緑、紫、黄色で全部強調すると、なぜ読みにくくなることがありますか。', hint: '重要度の違いが分かりにくくなります。', answer: '色が多すぎると、どれが本当に重要か分かりにくくなるからです。' },
+    { question: 'アクセシビリティを考えるとき、色だけに頼らない方がよい理由を答えなさい。', hint: '色の見え方は人によって違います。', answer: '色の区別が難しい人にも伝わるよう、文字や形でも区別する必要があるためです。' }
+  ],
+  examQuestions: [
+    { title: 'デザイン方針', passage: '行事案内で、日時、場所、持ち物、注意事項が一つの長い文に混ざっている。', question: '改善として最も適切なものを選びなさい。', choices: ['情報を分類し、見出しをつけて整理する', 'すべて同じ色で小さく書く', '色をできるだけ増やす', '日時を消す'], answer: '1', explanation: '情報を分類し、見出しと配置で読みやすくすることが有効です。' }
+  ],
+  examFocus: '共通テスト風の問題では、対象者、目的、情報の順序、色や配置の工夫を読み取り、どの改善が伝わりやすいかを選ぶ形で問われます。',
+  summary: '情報デザインは、相手と目的に合わせて情報を整理し、迷わず読める形にする考え方です。'
+});
+
+Object.assign(LESSONS['scatter-correlation'], {
+  tags: ['データ分析', '図表読解', '共通テスト重要'],
+  details: [
+    { title: '散布図で二つの数値を見る', paragraphs: ['散布図は、二つの数値の関係を見るときに使います。横軸と縦軸に何を置いたかを確認し、点の集まり方を見ます。'], table: { headers: ['点の傾向', '読み方'], rows: [['右上がり', '正の相関'], ['右下がり', '負の相関'], ['ばらばら', '強い相関は読み取りにくい']] } },
+    { title: '相関と因果を分ける', paragraphs: ['相関があると、二つの量に関係がありそうだと考えられます。しかし、一方がもう一方の原因だとはすぐに言えません。第三の要因や偶然の可能性も考えます。'] }
+  ],
+  traceTables: [{ title: '来場データを見る', headers: ['日', '気温', '来場者', '読み取り'], rows: [['A', '20', '80', '低め'], ['B', '24', '95', '増えている'], ['C', '28', '120', '多い'], ['D', '30', '130', '多い']] }],
+  workedExamples: [
+    { title: '例題：正の相関を読む', problem: '気温が高い日ほど来場者数も多い点の並びになっている。これはどのような相関ですか。', thinking: ['横軸の値が増えると、縦軸の値も増えています。'], answer: '正の相関です。' }
+  ],
+  practiceProblems: [
+    { question: '勉強時間と点数に正の相関が見られたとき、必ず勉強時間だけが点数の原因だと言えますか。', hint: '相関と因果を分けます。', answer: '言えません。理解度や学習方法など別の要因も考えられるためです。' },
+    { question: '散布図で点がばらばらのとき、相関は強いと言えますか。', hint: '一定の傾向が見えにくい状態です。', answer: '強い相関があるとは言いにくいです。' }
+  ],
+  examQuestions: [
+    { title: '相関の読み取り', passage: '気温が 20, 24, 28, 30 度の日の来場者数は 80, 95, 120, 130 人だった。', question: 'このデータの関係として最も適切なものを選びなさい。', choices: ['正の相関が見られる', '負の相関が見られる', '必ず気温だけが原因である', 'データは1つもない'], answer: '1', explanation: '気温が高いほど来場者数も多くなっているため、正の相関が見られます。ただし因果関係は別に考えます。' }
+  ],
+  examFocus: '共通テスト風の問題では、散布図や表から正の相関・負の相関・相関が弱い状態を読み取り、相関だけで原因を断定しない判断が問われます。',
+  summary: '散布図と相関では、二つの数値の関係を点の並びで読み、因果関係とは分けて考えます。'
+});
+
+Object.assign(LESSONS['outlier-representative'], {
+  tags: ['データ分析', '計算あり', '共通テスト重要'],
+  details: [
+    { title: '平均値・中央値・最頻値を比べる', paragraphs: ['代表値はデータ全体の特徴を短く表す値です。平均値、中央値、最頻値はそれぞれ見ているものが違います。'], table: { headers: ['代表値', '求め方', '特徴'], rows: [['平均値', '合計を個数で割る', '外れ値に影響されやすい'], ['中央値', '並べた中央の値', '外れ値の影響を受けにくいことがある'], ['最頻値', '最も多く出る値', 'よく現れる値を見る']] } },
+    { title: '外れ値があるときの読み方', paragraphs: ['10, 12, 12, 13, 50 の平均値は19.4ですが、多くの値は10から13のあたりにあります。このようなとき、平均値だけを見ると実感から離れることがあります。中央値や分布も合わせて見ます。'] }
+  ],
+  traceTables: [{ title: '代表値を比べる', headers: ['データ', '平均値', '中央値', '最頻値'], rows: [['10,12,12,13,50', '19.4', '12', '12']] }],
+  workedExamples: [
+    { title: '例題：外れ値の影響', problem: 'データ 10, 12, 12, 13, 50 について、平均値と中央値を求めなさい。', thinking: ['合計は97、個数は5です。平均値は97÷5です。', '小さい順に並んでいるので中央は3番目です。'], answer: '平均値は19.4、中央値は12です。50があるため平均値は高めになります。' }
+  ],
+  practiceProblems: [
+    { question: 'データ 3, 4, 4, 5, 100 で、平均値は外れ値の影響を受けますか。', hint: '100だけ大きく離れています。', answer: '受けます。100によって平均値が大きくなります。' },
+    { question: '外れ値があるとき、平均値以外に見るとよいものを一つ答えなさい。', hint: '中央の値です。', answer: '中央値です。' }
+  ],
+  examQuestions: [
+    { title: '代表値の選択', passage: '待ち時間のデータが 10, 12, 12, 13, 50 分であった。50分の日だけ大きく離れている。', question: '典型的な待ち時間を説明するとき、平均値だけでなく見るとよい代表値として最も適切なものを選びなさい。', choices: ['中央値', 'ファイル名', 'IPアドレス', '画素数'], answer: '1', explanation: '中央値は外れ値の影響を平均値ほど受けにくいため、典型的な値を見る助けになります。' }
+  ],
+  examFocus: '共通テスト風の問題では、外れ値がある表やグラフを読み、平均値と中央値の違いや、どの代表値を使うと説明しやすいかを判断する形で問われます。',
+  summary: '外れ値と代表値では、平均値だけで判断せず、中央値・最頻値・分布を合わせてデータを説明します。'
+});
+
+const SNS_EXAM_SET = {
+  title: 'SNS投稿と情報の読み取り',
+  difficulty: '情報社会・情報デザイン',
+  lead: '学校行事を知らせるSNS投稿を作る場面で、安全性と伝わりやすさを確認します。',
+  materials: [
+    { type: 'text', text: '投稿案：明日16時に桜駅前で集合。制服の写真つきで「去年より参加者が急増！」と投稿する。写真には校章と駅名の看板が写っている。' },
+    { type: 'table', headers: ['アプリ設定', '現在の状態'], rows: [['公開範囲', '全体公開'], ['位置情報', '写真に残っている'], ['ログイン', 'パスワードのみ'], ['画像', '顔と制服が写っている']] },
+    { type: 'table', headers: ['年', '参加者'], rows: [['昨年', '120人'], ['今年', '140人']] },
+    { type: 'text', text: 'ポスター案は、日時、場所、持ち物、注意事項が一文に続けて書かれている。' }
+  ],
+  questions: [
+    { title: '個人情報のリスク', question: '投稿案で特に注意すべき情報の組み合わせとして最も適切なものを選びなさい。', choices: ['顔写真、制服、駅名、位置情報', '句読点の数', '文字の太さだけ', '去年と今年の順番だけ'], answer: '1', explanation: '顔写真、制服、駅名、位置情報が組み合わさると、個人や生活圏が推測される可能性があります。' },
+    { title: '誤解を招く表現', question: '参加者120人から140人への変化を「急増」とだけ書くときの注意として最も適切なものを選びなさい。', choices: ['具体的な人数や増加幅も示す', '数値を消す', '縦軸を途中から始めれば必ず公平', '写真を大きくすればよい'], answer: '1', explanation: '増えていることは事実ですが、印象だけでなく具体的な数値も示すと判断しやすくなります。' },
+    { title: '情報デザイン', question: 'ポスター案の改善として最も適切なものを選びなさい。', choices: ['日時、場所、持ち物、注意事項に分けて見出しをつける', 'すべて同じ小さい文字にする', '色をできるだけ増やす', '場所を消す'], answer: '1', explanation: '情報を分類し、見出しで整理すると読み取りやすくなります。' },
+    { title: '安全な設定', question: '投稿前の対応として最も適切なものを選びなさい。', choices: ['位置情報を確認し、公開範囲と写真の写り込みを見直す', '全体公開のまま急いで投稿する', '友達が写っていても許可は不要', 'パスワードを共有する'], answer: '1', explanation: '位置情報、公開範囲、写り込み、ログイン保護を確認することが大切です。' }
+  ]
+};
+
+const EVENT_DATA_EXAM_SET = {
+  title: '地域イベントの来場データを分析する',
+  difficulty: 'データ分析',
+  lead: '地域イベントの来場者数と売上を、表・代表値・散布図の考え方で読み取ります。',
+  materials: [
+    { type: 'table', headers: ['日', '天気', '気温', '来場者', '売上'], rows: [['1日目', '晴れ', '22', '80', '40'], ['2日目', '晴れ', '26', '110', '55'], ['3日目', '雨', '20', '60', '30'], ['4日目', '晴れ', '29', '130', '65'], ['5日目', 'イベント追加', '27', '210', '110']] },
+    { type: 'table', headers: ['値', '来場者数'], rows: [['平均値', '118'], ['中央値', '110']] },
+    { type: 'text', text: '5日目は特別な出演があり、他の日より来場者数がかなり多い。気温と来場者数の散布図では、おおむね右上がりだが、5日目は通常とは条件が異なる。' }
+  ],
+  questions: [
+    { title: '表の読み取り', question: '雨だった日の来場者数はいくつか。', choices: ['60', '80', '110', '210'], answer: '1', explanation: '雨は3日目で、来場者数は60です。' },
+    { title: 'グラフの選択', question: '気温と来場者数の関係を見るのに適したグラフはどれか。', choices: ['散布図', '円グラフ', '文字コード表', 'フローチャート'], answer: '1', explanation: '二つの数値の関係を見るには散布図が適しています。' },
+    { title: '外れ値と代表値', question: '5日目の影響を受けやすい代表値として最も適切なものを選びなさい。', choices: ['平均値', '中央値', '最頻値だけ', '項目名'], answer: '1', explanation: '平均値はすべての値を使うため、極端に大きい5日目の影響を受けやすいです。' },
+    { title: '相関と因果', question: '気温と来場者数に正の相関が見られたとき、判断として最も適切なものを選びなさい。', choices: ['気温だけが来場者数の原因だと断定できる', '相関はあるが、天気や特別な出演など他の要因も考える', '散布図は使えない', '中央値は必ず0になる'], answer: '2', explanation: '相関があっても、ただちに因果関係を断定せず、他の要因も考えます。' }
+  ]
+};
+
+LESSONS.security.examSets = [SNS_EXAM_SET];
+LESSONS.privacy.examSets = [SNS_EXAM_SET];
+LESSONS['media-literacy'].examSets = [SNS_EXAM_SET];
+LESSONS['information-design'].examSets = [SNS_EXAM_SET];
+LESSONS['scatter-correlation'].examSets = [EVENT_DATA_EXAM_SET];
+LESSONS['outlier-representative'].examSets = [EVENT_DATA_EXAM_SET];
+LESSONS.statistics.examSets = [...(LESSONS.statistics.examSets || []), EVENT_DATA_EXAM_SET];
+LESSONS.visualization.examSets = [...(LESSONS.visualization.examSets || []), EVENT_DATA_EXAM_SET];
+LESSONS['data-format'].examSets = [...(LESSONS['data-format'].examSets || []), EVENT_DATA_EXAM_SET];
+
 function updateChapterLesson(id, href, status = 'enhanced') {
   CHAPTERS.forEach(chapter => chapter.sections.forEach(section => section.lessons.forEach(lesson => {
     if (lesson.id === id) {
@@ -2438,6 +2684,7 @@ updateChapterLesson('qualitative-data', 'lessons/qualitative-data.html', 'enhanc
 updateChapterLesson('network-build', 'lessons/network-build.html', 'enhanced');
 updateChapterLesson('computer-structure', 'lessons/computer-structure.html', 'enhanced');
 updateChapterLesson('deterministic-random-model', 'lessons/deterministic-random-model.html', 'enhanced');
+updateChapterLesson('security', 'lessons/security.html', 'enhanced');
 
 const basicProgramSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'basic-program');
 if (basicProgramSection && !basicProgramSection.lessons.some(lesson => lesson.id === 'function')) {
@@ -2450,6 +2697,31 @@ if (externalDeviceSection && !externalDeviceSection.lessons.some(lesson => lesso
   externalDeviceSection.lessons.push({ id: 'api', title: 'API', href: 'lessons/api.html', status: 'enhanced' });
 }
 
+const socialRulesSection = CHAPTERS.find(chapter => chapter.id === 'social').sections.find(section => section.id === 'social-rules');
+if (socialRulesSection && !socialRulesSection.lessons.some(lesson => lesson.id === 'privacy')) {
+  const securityIndex = socialRulesSection.lessons.findIndex(lesson => lesson.id === 'security');
+  socialRulesSection.lessons.splice(securityIndex + 1, 0, { id: 'privacy', title: '個人情報とプライバシー', href: 'lessons/privacy.html', status: 'enhanced' });
+}
+
+const designSection = CHAPTERS.find(chapter => chapter.id === 'design').sections.find(section => section.id === 'communication-design');
+if (designSection && !designSection.lessons.some(lesson => lesson.id === 'media-literacy')) {
+  designSection.lessons.splice(1, 0, { id: 'media-literacy', title: 'メディアリテラシー', href: 'lessons/media-literacy.html', status: 'enhanced' });
+}
+if (designSection && !designSection.lessons.some(lesson => lesson.id === 'information-design')) {
+  const designMeaningIndex = designSection.lessons.findIndex(lesson => lesson.id === 'design-meaning');
+  designSection.lessons.splice(designMeaningIndex, 0, { id: 'information-design', title: '情報デザイン', href: 'lessons/information-design.html', status: 'enhanced' });
+}
+
+const dataSection = CHAPTERS.find(chapter => chapter.id === 'network').sections.find(section => section.id === 'system-data');
+if (dataSection && !dataSection.lessons.some(lesson => lesson.id === 'scatter-correlation')) {
+  const statisticsIndex = dataSection.lessons.findIndex(lesson => lesson.id === 'statistics');
+  dataSection.lessons.splice(statisticsIndex + 1, 0, { id: 'scatter-correlation', title: '散布図と相関', href: 'lessons/scatter-correlation.html', status: 'enhanced' });
+}
+if (dataSection && !dataSection.lessons.some(lesson => lesson.id === 'outlier-representative')) {
+  const scatterIndex = dataSection.lessons.findIndex(lesson => lesson.id === 'scatter-correlation');
+  dataSection.lessons.splice(scatterIndex + 1, 0, { id: 'outlier-representative', title: '外れ値と代表値', href: 'lessons/outlier-representative.html', status: 'enhanced' });
+}
+
 const modelSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'model-simulation');
 if (modelSection && !modelSection.lessons.some(lesson => lesson.id === 'random')) {
   modelSection.lessons.splice(1, 0, { id: 'random', title: '乱数', href: 'lessons/random.html', status: 'enhanced' });
@@ -2459,6 +2731,12 @@ if (!LESSON_ORDER.includes('computer-structure')) LESSON_ORDER.splice(LESSON_ORD
 if (!LESSON_ORDER.includes('api')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('algorithm'), 0, 'api');
 if (!LESSON_ORDER.includes('function')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('variable'), 0, 'function');
 if (!LESSON_ORDER.includes('deterministic-random-model')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('simulation') + 1, 0, 'deterministic-random-model');
+if (!LESSON_ORDER.includes('security')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('information') + 1, 0, 'security');
+if (!LESSON_ORDER.includes('privacy')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('security') + 1, 0, 'privacy');
+if (!LESSON_ORDER.includes('media-literacy')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('sound-digital') + 1, 0, 'media-literacy');
+if (!LESSON_ORDER.includes('information-design')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('media-literacy') + 1, 0, 'information-design');
+if (!LESSON_ORDER.includes('scatter-correlation')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('statistics') + 1, 0, 'scatter-correlation');
+if (!LESSON_ORDER.includes('outlier-representative')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('scatter-correlation') + 1, 0, 'outlier-representative');
 ['network-build', 'data-format', 'qualitative-data', 'visualization'].forEach(id => {
   if (!LESSON_ORDER.includes(id)) LESSON_ORDER.push(id);
 });

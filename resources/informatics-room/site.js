@@ -14,11 +14,12 @@ function headerHtml(prefix = '') {
       </div>
     </div>
     <nav class="global-nav">
-      <a href="${prefix}index.html">目次</a>
-      <a href="${prefix}programming.html">アルゴリズム</a>
-      <a href="${prefix}glossary.html">用語一覧</a>
-      <a href="${prefix}questions.html">確認問題</a>
-      <a href="${prefix}../../index.html">コースポータル</a>
+      <a href="${prefix}index.html">学習目次</a>
+      <a href="${prefix}exam.html">共通テスト対策</a>
+      <a href="${prefix}programming.html">プログラミング</a>
+      <a href="${prefix}index.html#network">データ活用</a>
+      <a href="${prefix}index.html#study-routes">学習の進め方</a>
+      <a class="portal-link" href="${prefix}../../index.html">コースポータル</a>
     </nav>
   </div></header>`;
 }
@@ -110,6 +111,16 @@ function renderTop() {
       <p>情報Ⅰの全体像を見ながら、第3章では変数、条件分岐、繰り返し、配列、探索、整列を詳しく確認できます。はじめて学ぶ人も、例と表を追いながら一つずつ進められます。</p>
     </section>
 
+    ${renderStudyRoutes('')}
+
+    <section class="quick-links">
+      <h2>学習を助けるページ</h2>
+      <div class="route-grid resource-grid">
+        <a class="route-card" href="exam.html"><strong>共通テスト対策</strong><span>総合問題、プログラム読解、データ分析の練習へ進む</span></a>
+        <a class="route-card" href="glossary.html"><strong>用語を確認する</strong><span>短い説明と関連ページをまとめて確認する</span></a>
+      </div>
+    </section>
+
     <section>
       <h2>目次</h2>
       <div class="directory">
@@ -117,6 +128,30 @@ function renderTop() {
       </div>
     </section>
   </main>`;
+}
+
+function lessonLink(id, basePrefix = '') {
+  const lesson = lessonById(id);
+  return lesson ? `<a href="${basePrefix}lessons/${id}.html">${lesson.title}</a>` : '';
+}
+
+function routeList(ids, basePrefix = '') {
+  return `<ol>${ids.map(id => `<li>${lessonLink(id, basePrefix)}</li>`).join('')}</ol>`;
+}
+
+function renderStudyRoutes(basePrefix = '') {
+  const routes = [
+    ['はじめて学ぶ人', ['information', 'bit-byte', 'binary', 'computer-structure', 'algorithm']],
+    ['プログラミングを重点的に学ぶ', ['input-process-output', 'variable', 'branch', 'loop', 'array', 'function', 'linear-search', 'binary-search']],
+    ['データ活用を重点的に学ぶ', ['statistics', 'visualization', 'data-format', 'qualitative-data', 'database']],
+    ['共通テスト前に確認する', ['simulation', 'deterministic-random-model', 'network-build', 'statistics', 'scatter-correlation', 'outlier-representative']]
+  ];
+  return `<section class="study-routes" id="study-routes">
+    <h2>学習の進め方</h2>
+    <div class="route-grid">
+      ${routes.map(([title, ids]) => `<article class="route-card"><h3>${title}</h3>${routeList(ids, basePrefix)}</article>`).join('')}
+    </div>
+  </section>`;
 }
 
 function renderProgramming() {
@@ -134,6 +169,76 @@ function renderProgramming() {
       ${renderFeaturedLinks('')}
     </section>
     ${renderChapterDirectory(programming)}
+  </main>`;
+}
+
+function examLessonLinks(ids, basePrefix = '') {
+  return `<ul class="featured-list">
+    ${ids.map(id => {
+      const lesson = lessonById(id);
+      return lesson ? `<li><a href="${basePrefix}lessons/${id}.html">${lesson.title}</a>${statusBadge(lesson.status || 'enhanced')}</li>` : '';
+    }).join('')}
+  </ul>`;
+}
+
+function renderExamHub() {
+  renderChrome('');
+  const integrated = [
+    ['模擬店の待ち時間シミュレーション', 'lessons/simulation.html#exam-set'],
+    ['イベント準備を助けるプログラムとモデル化', 'lessons/deterministic-random-model.html#exam-set'],
+    ['SNS投稿と情報の読み取り', 'lessons/privacy.html#exam-set'],
+    ['地域イベントの来場データを分析する', 'lessons/scatter-correlation.html#exam-set'],
+    ['アンケート結果の分析', 'lessons/statistics.html#exam-set']
+  ];
+  document.querySelector('#app').innerHTML = `<main class="page">
+    <p class="breadcrumb"><a href="index.html">学習目次</a> / 共通テスト対策</p>
+    <section class="intro brand-intro compact-intro">
+      <p class="eyebrow">学習用類題</p>
+      <h1>共通テスト対策</h1>
+      <p>用語を覚えるだけでなく、表・グラフ・会話文・疑似コードを読み、条件を整理して判断する練習をします。</p>
+    </section>
+
+    <section class="guide-box">
+      <h2>共通テストで大切な力</h2>
+      <ul class="point-list">
+        <li>用語を、具体的な場面と結び付けて理解する。</li>
+        <li>表やグラフから、必要な値と関係を読み取る。</li>
+        <li>疑似コードを一行ずつ追い、変数の変化を表で確認する。</li>
+        <li>文章から条件を拾い、最も適切な判断を選ぶ。</li>
+        <li>データや情報の扱いについて、安全性と妥当性を考える。</li>
+      </ul>
+    </section>
+
+    <section class="quick-links">
+      <h2>総合問題で練習する</h2>
+      <p class="small-note">入試本番の過去問ではなく、このページの内容を確認するための学習用類題です。</p>
+      <div class="route-grid">
+        ${integrated.map(([title, href]) => `<a class="route-card" href="${href}"><strong>${title}</strong><span>資料を読み、複数の単元をつなげて考える</span></a>`).join('')}
+      </div>
+    </section>
+
+    <section class="quick-links">
+      <h2>プログラム読解の練習</h2>
+      ${examLessonLinks(['function', 'branch', 'loop', 'array', 'counter-sum', 'linear-search', 'binary-search', 'selection-sort', 'bubble-sort'])}
+    </section>
+
+    <section class="quick-links">
+      <h2>データ分析の練習</h2>
+      ${examLessonLinks(['statistics', 'outlier-representative', 'visualization', 'scatter-correlation', 'data-format', 'database'])}
+    </section>
+
+    <section class="quick-links">
+      <h2>ネットワーク・情報社会の確認</h2>
+      ${examLessonLinks(['security', 'privacy', 'media-literacy', 'information-design', 'network-build', 'packet', 'api'])}
+    </section>
+
+    <section class="quick-links">
+      <h2>直前に見直したい用語</h2>
+      <div class="route-grid">
+        <a class="route-card" href="glossary.html"><strong>用語一覧</strong><span>短い説明から関連ページへ戻る</span></a>
+        <a class="route-card" href="questions.html"><strong>基礎確認問題</strong><span>各ページの短い確認問題をまとめて見る</span></a>
+      </div>
+    </section>
   </main>`;
 }
 
@@ -347,7 +452,7 @@ function renderLesson(id) {
       </section>
 
       <section>
-        <h2>たとえば</h2>
+        <h2>まず身近な場面で考える</h2>
         <div class="example">${lesson.example}</div>
       </section>
 
@@ -388,6 +493,11 @@ function renderLesson(id) {
         <h2>確認問題</h2>
         <p>${lesson.question}</p>
         <details><summary>解答を見る</summary><p>${lesson.answer}</p></details>
+      </section>
+
+      <section>
+        <h2>まとめ</h2>
+        <p>${lesson.summary || lesson.oneLine}</p>
       </section>
 
       <section class="term-area">
