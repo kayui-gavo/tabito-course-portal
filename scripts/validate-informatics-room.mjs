@@ -26,8 +26,18 @@ const bannedPatterns = [
   /\bprompt\b/i,
   /TODO/,
   /実装メモ/,
+  /内部メモ/,
   /開発(?!者ツール)/,
-  /用户|客户|需求|要件|本 prompt|开发|中文说明/
+  /要件/,
+  /公式教材/,
+  /教員研修/,
+  /文部科学省/,
+  /本文は独自に再構成/,
+  /構成を参照/,
+  /順序を参照/,
+  /重点的に整備/,
+  /sourceTitle|sourceNote|sourceChapter|OFFICIAL_CHAPTERS|official/i,
+  /用户|客户|需求|本 prompt|开发|中文说明/
 ];
 
 const leaked = [];
