@@ -26,9 +26,14 @@ function footerHtml(prefix = '') {
   return `<footer class="site-footer"><div class="site-header-inner footer-inner">
     <div class="footer-brand">
       <img src="${assetPath(prefix, 'assets/images/tabito-logo.jpg')}" alt="旅人教育" />
-      <span>情報Ⅰ 学習教材</span>
+      <span>中国旅人教育集団株式会社・講座資料ライブラリ</span>
     </div>
     <p>本文と図解は、学習しやすいように独自に整理した教材です。授業の予習・復習や、基礎事項の確認に使えます。</p>
+    <address class="footer-contact">
+      <span>所在地：〒164-0001 東京都中野区中野1丁目55-3 フェリスビル4F</span>
+      <span>電話：080-6431-9082</span>
+      <span>Web制作：営業部 劉可惟</span>
+    </address>
   </div></footer>`;
 }
 

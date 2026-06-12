@@ -804,6 +804,13 @@ th { background: #eef5fa; color: var(--brand-deep); }
   height: auto;
   object-fit: contain;
 }
+.footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-style: normal;
+  line-height: 1.7;
+}
 
 @media (max-width: 760px) {
   .site-header-inner, .page { width: min(100% - 22px, 920px); }
