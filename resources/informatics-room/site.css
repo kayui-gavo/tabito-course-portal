@@ -808,6 +808,105 @@ th { background: #eef5fa; color: var(--brand-deep); }
   line-height: 1.7;
 }
 
+#aiAssistantLauncher {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 35;
+  border-color: var(--brand-deep);
+  box-shadow: 0 10px 24px rgba(22, 50, 79, .18);
+  font-weight: 800;
+}
+.ai-assistant {
+  position: fixed;
+  right: 18px;
+  bottom: 70px;
+  z-index: 34;
+  display: none;
+  width: min(390px, calc(100vw - 28px));
+  max-height: min(650px, calc(100vh - 96px));
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  box-shadow: 0 18px 46px rgba(22, 50, 79, .18);
+}
+.ai-assistant.is-open {
+  display: grid;
+  grid-template-rows: auto minmax(160px, 1fr) auto;
+}
+.ai-assistant-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--border-soft);
+  background: #f8fcff;
+}
+.ai-assistant-head h2 {
+  margin: 0;
+  padding-left: 0;
+  border-left: 0;
+  font-size: 18px;
+}
+.ai-close {
+  min-width: 34px;
+  padding: 4px 9px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+.ai-messages {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  overflow: auto;
+  padding: 14px;
+  background: #fbfaf7;
+}
+.ai-message {
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 8px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.ai-message-bot {
+  background: #eef6ff;
+  color: var(--brand-deep);
+}
+.ai-message-user {
+  margin-left: 36px;
+  background: var(--brand-primary);
+  color: #fff;
+}
+.ai-form {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--border-soft);
+}
+.ai-form label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--brand-deep);
+}
+.ai-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 78px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font: inherit;
+  line-height: 1.6;
+}
+.ai-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 760px) {
   .site-header-inner, .page { width: min(100% - 22px, 920px); }
   .brand-row { align-items: flex-start; }
@@ -826,4 +925,10 @@ th { background: #eef5fa; color: var(--brand-deep); }
   .code-editor { min-height: 210px; font-size: 13px; }
   .in-page-nav div { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 3px; }
   .in-page-nav a { flex: 0 0 auto; }
+  #aiAssistantLauncher { right: 12px; bottom: 12px; }
+  .ai-assistant {
+    right: 10px;
+    bottom: 62px;
+    width: calc(100vw - 20px);
+  }
 }

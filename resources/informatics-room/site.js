@@ -39,6 +39,7 @@ function footerHtml(prefix = '') {
 function renderChrome(prefix = '') {
   document.body.insertAdjacentHTML('afterbegin', headerHtml(prefix));
   document.body.insertAdjacentHTML('beforeend', footerHtml(prefix));
+  initAIAssistant(prefix);
 }
 
 function statusBadge(status) {
@@ -54,6 +55,152 @@ function findChapterForLesson(id) {
   return CHAPTERS.find(chapter =>
     chapter.sections.some(section => section.lessons.some(lesson => lesson.id === id))
   );
+}
+
+function currentLessonIdFromPath() {
+  const match = window.location.pathname.match(/\/lessons\/([^/]+)\.html$/);
+  return match ? match[1] : '';
+}
+
+function compactLessonText(lesson) {
+  if (!lesson) return '';
+  const details = (lesson.details || []).slice(0, 2).map(detail => [
+    detail.title,
+    ...(detail.paragraphs || []),
+    ...(detail.bullets || []),
+    ...(detail.steps || [])
+  ].filter(Boolean).join(' / ')).join('\n');
+  return [
+    `見出し: ${lesson.title}`,
+    `要点: ${lesson.oneLine || ''}`,
+    `説明: ${lesson.explanation || ''}`,
+    details ? `補足: ${details}` : ''
+  ].filter(Boolean).join('\n');
+}
+
+function collectAIContext(question = '') {
+  const currentId = currentLessonIdFromPath();
+  const snippets = [];
+  if (currentId && LESSONS[currentId]) snippets.push(compactLessonText(LESSONS[currentId]));
+  const normalized = question.toLowerCase();
+  const scored = Object.values(LESSONS).map(lesson => {
+    const words = [lesson.title, ...(lesson.terms || []), ...(lesson.tags || [])].join(' ').toLowerCase();
+    const score = words.split(/\s+/).filter(word => word && normalized.includes(word.toLowerCase())).length;
+    return [score, lesson];
+  }).filter(([score, lesson]) => score > 0 && lesson.id !== currentId)
+    .sort((a, b) => b[0] - a[0])
+    .slice(0, 4)
+    .map(([, lesson]) => compactLessonText(lesson));
+  snippets.push(...scored);
+  if (!snippets.length) {
+    snippets.push(...['information', 'problem-solving-flow', 'binary', 'branch', 'loop', 'protocol'].map(id => compactLessonText(LESSONS[id])).filter(Boolean));
+  }
+  return snippets.join('\n\n---\n\n').slice(0, 12000);
+}
+
+function resolveAIEndpoint() {
+  const params = new URLSearchParams(window.location.search);
+  const fromQuery = params.get('aiEndpoint');
+  if (fromQuery) {
+    localStorage.setItem('tabito-informatics-ai-endpoint', fromQuery);
+    return fromQuery;
+  }
+  return window.TABITO_AI_ENDPOINT
+    || localStorage.getItem('tabito-informatics-ai-endpoint')
+    || '/api/informatics-chat';
+}
+
+function initAIAssistant(prefix = '') {
+  if (document.querySelector('#aiAssistant')) return;
+  const endpoint = resolveAIEndpoint();
+  const launcher = document.createElement('button');
+  launcher.id = 'aiAssistantLauncher';
+  launcher.type = 'button';
+  launcher.textContent = 'AI質問';
+  launcher.setAttribute('aria-controls', 'aiAssistant');
+  launcher.setAttribute('aria-expanded', 'false');
+  const panel = document.createElement('section');
+  panel.id = 'aiAssistant';
+  panel.className = 'ai-assistant';
+  panel.setAttribute('aria-label', 'AI質問');
+  panel.innerHTML = `
+    <div class="ai-assistant-head">
+      <div>
+        <p class="eyebrow">情報Ⅰ AIサポート</p>
+        <h2>質問してみる</h2>
+      </div>
+      <button type="button" class="secondary-button ai-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="ai-messages" aria-live="polite">
+      <p class="ai-message ai-message-bot">情報Ⅰの内容について、日本語で短く説明します。今開いているページの内容も参考にします。</p>
+    </div>
+    <form class="ai-form">
+      <label for="aiQuestion">質問</label>
+      <textarea id="aiQuestion" rows="3" maxlength="500" placeholder="例：2進数の1011はなぜ11になるの？"></textarea>
+      <div class="ai-actions">
+        <button type="submit">送信</button>
+        <button type="button" class="secondary-button ai-sample">例を入れる</button>
+      </div>
+      <p class="small-note">個人情報は入力しないでください。回答は授業内容の確認用です。</p>
+    </form>`;
+  document.body.append(launcher, panel);
+
+  const messages = panel.querySelector('.ai-messages');
+  const form = panel.querySelector('.ai-form');
+  const textarea = panel.querySelector('#aiQuestion');
+  const close = panel.querySelector('.ai-close');
+  const sample = panel.querySelector('.ai-sample');
+  const addMessage = (text, role) => {
+    const p = document.createElement('p');
+    p.className = `ai-message ai-message-${role}`;
+    p.textContent = text;
+    messages.appendChild(p);
+    messages.scrollTop = messages.scrollHeight;
+    return p;
+  };
+  const setOpen = (open) => {
+    panel.classList.toggle('is-open', open);
+    launcher.setAttribute('aria-expanded', String(open));
+    if (open) textarea.focus();
+  };
+  launcher.addEventListener('click', () => setOpen(!panel.classList.contains('is-open')));
+  close.addEventListener('click', () => setOpen(false));
+  sample.addEventListener('click', () => {
+    textarea.value = currentLessonIdFromPath() ? 'このページのポイントを中学生にも分かるように説明して。' : '情報Ⅰは何から勉強すればいいですか。';
+    textarea.focus();
+  });
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const question = textarea.value.trim();
+    if (!question) return;
+    textarea.value = '';
+    addMessage(question, 'user');
+    const pending = addMessage('考えています...', 'bot');
+    const submit = form.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          pageTitle: document.title,
+          pagePath: window.location.pathname,
+          context: collectAIContext(question)
+        })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'AIに接続できませんでした。');
+      pending.textContent = data.answer || 'すみません。回答を作れませんでした。';
+    } catch (error) {
+      const onGithubPages = window.location.hostname.endsWith('github.io');
+      pending.textContent = onGithubPages
+        ? 'AI接続先の設定がまだ必要です。先生に確認してください。'
+        : `接続を確認してください。${error.message || ''}`;
+    } finally {
+      submit.disabled = false;
+    }
+  });
 }
 
 function renderLessonLink(lesson, basePrefix = '') {

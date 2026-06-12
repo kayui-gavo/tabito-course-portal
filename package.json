@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "node scripts/validate-informatics-room.mjs",
-    "lint": "node scripts/validate-informatics-room.mjs"
+    "build": "node scripts/validate-informatics-room.mjs && node --check api/informatics-chat.js && node --check workers/informatics-chat-worker.mjs",
+    "lint": "node scripts/validate-informatics-room.mjs && node --check api/informatics-chat.js && node --check workers/informatics-chat-worker.mjs"
   },
   "devDependencies": {}
 }

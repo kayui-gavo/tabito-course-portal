@@ -1,0 +1,7 @@
+name = "tabito-informatics-ai"
+main = "workers/informatics-chat-worker.mjs"
+compatibility_date = "2026-06-13"
+
+[vars]
+ALLOWED_ORIGIN = "https://kayui-gavo.github.io"
+OPENAI_MODEL = "gpt-5.2"

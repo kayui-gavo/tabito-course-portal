@@ -22,7 +22,7 @@ DEPLOYMENT.md        GitHub Pages 部署说明
 
 ## 情報Ⅰ 教材站原型
 
-`resources/informatics-room/` 是「わかりやすい高校情報Ⅰの部屋」风格的静态教材站原型。它不是考试攻略站，而是帮助学生理解情報Ⅰ基础概念的教材站。
+`resources/informatics-room/` 是旅人教育的情報Ⅰ讲座资料库。它不是考试攻略站，而是帮助学生理解情報Ⅰ基础概念的教材站。
 
 - 目的：把「情報Ⅰ」拆成小知识点，用日语、图解、生活例、常见误解和确认问题帮助学生理解。
 - 官方顺序：目录按文部科学省「高等学校情報科『情報Ⅰ』教員研修用教材」本编顺序排列：第1章 情報社会の問題解決、第2章 コミュニケーションと情報デザイン、第3章 コンピュータとプログラミング、第4章 情報通信ネットワークとデータの活用。
@@ -33,6 +33,17 @@ DEPLOYMENT.md        GitHub Pages 部署说明
 - 增加图解：在 `figures.js` 里新增 SVG 函数，并在 lesson 的 `figure` 字段中引用对应名称。图解必须自制，带 `figcaption`，不要外链图片。
 - 参考资料：官方 PDF 和抽取文本保存在 `reference/mext-informatics/`，该目录被 `.gitignore` 排除，不发布到网站。官方资料只用于确认范围、顺序和知识点结构，页面正文需用自己的语言重写。
 - 著作权注意：不要直接复制外部网站或文部科学省教材的长段原文、图片、HTML、CSS。
+
+### AI質問
+
+情報Ⅰ页面已经内置右下角 `AI質問` 面板。前端不会保存 OpenAI key，只会把学生问题、当前页面标题和有限教材片段发送到后端代理。
+
+可选部署方式：
+
+- Vercel：部署本仓库后，`api/informatics-chat.js` 会提供同域接口 `/api/informatics-chat`。在 Vercel 环境变量中设置 `OPENAI_API_KEY`，可选设置 `OPENAI_MODEL`、`ALLOWED_ORIGIN`。
+- GitHub Pages + Cloudflare Worker：继续用 GitHub Pages 发布静态页，把 `workers/informatics-chat-worker.mjs` 部署为 Worker。`wrangler.informatics-ai.example.toml` 是示例配置。Worker 中设置 secret `OPENAI_API_KEY`，然后用 `?aiEndpoint=https://你的Worker地址/chat` 打开一次情报页面，浏览器会记住这个接続先。
+
+不要把 `OPENAI_API_KEY` 写入任何前端文件或提交到 GitHub。
 
 ### 开发检查
 
