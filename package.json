@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "node scripts/validate-informatics-room.mjs",
+    "lint": "node scripts/validate-informatics-room.mjs"
+  },
+  "devDependencies": {}
+}

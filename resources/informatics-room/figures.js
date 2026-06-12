@@ -1,65 +1,35 @@
 function svgWrap(label, inner, viewBox = '0 0 720 260') {
   return `<figure class="figure-box" aria-label="${label}"><svg viewBox="${viewBox}" role="img" aria-label="${label}">${inner}</svg><figcaption>${label}</figcaption></figure>`;
 }
-
-const box = (x, y, w, h, text, fill = '#f7fff2') => `
-  <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="#4f6848"/>
-  <text x="${x + w / 2}" y="${y + h / 2 + 5}" text-anchor="middle" font-size="18">${text}</text>`;
-const arrow = (x1, y1, x2, y2) => `
-  <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#333" stroke-width="2"/>
-  <polygon points="${x2},${y2} ${x2 - 9},${y2 - 5} ${x2 - 9},${y2 + 5}" fill="#333"/>`;
-
+const b = (x,y,w,h,t,f='#f8fcff') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${f}" stroke="#345"/><text x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle" font-size="17">${t}</text>`;
+const a = (x1,y1,x2,y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#333" stroke-width="2"/><polygon points="${x2},${y2} ${x2-8},${y2-5} ${x2-8},${y2+5}" fill="#333"/>`;
+const cells = (arr, x=70, y=95) => arr.map((v,i)=>`<rect x="${x+i*68}" y="${y}" width="58" height="52" fill="#fff" stroke="#345"/><text x="${x+i*68+29}" y="${y+31}" text-anchor="middle" font-size="18">${v}</text><text x="${x+i*68+29}" y="${y-10}" text-anchor="middle" font-size="12">${i}</text>`).join('');
 const FIGURES = {
-  dataInfoDecision: () => svgWrap('データから判断までの流れ',
-    `${box(30,90,130,58,'データ','#eef7ff')}${arrow(170,119,230,119)}${box(240,90,160,58,'文脈をつける','#fff8df')}${arrow(410,119,470,119)}${box(480,90,130,58,'情報','#eef7ea')}${arrow(615,119,675,119)}<text x="355" y="190" text-anchor="middle" font-size="17">例：25 → 気温25℃ → 半袖でよさそう</text>`, '0 0 720 230'),
-  thermometerContext: () => svgWrap('同じ数字でも文脈で意味が変わる',
-    `${box(40,30,130,55,'25','#fff')}${box(220,30,150,55,'25℃','#eef7ea')}${box(420,30,180,55,'25点','#fff3e8')}<text x="105" y="130" text-anchor="middle" font-size="16">数字だけ</text><text x="295" y="130" text-anchor="middle" font-size="16">気温なら情報</text><text x="510" y="130" text-anchor="middle" font-size="16">点数なら別の意味</text>`, '0 0 650 170'),
-  bitSwitch: () => svgWrap('1 bit は 0 または 1',
-    `<circle cx="150" cy="100" r="42" fill="#fff" stroke="#333"/><text x="150" y="107" text-anchor="middle" font-size="28">0</text><circle cx="340" cy="100" r="42" fill="#fff8df" stroke="#333"/><text x="340" y="107" text-anchor="middle" font-size="28">1</text>${arrow(195,100,295,100)}<text x="245" y="150" text-anchor="middle" font-size="16">2つの状態</text>`, '0 0 500 190'),
-  bitPatterns: () => svgWrap('bit数が増えると組み合わせは2倍',
-    `${box(35,35,120,42,'1 bit: 2通り')}${box(210,25,160,42,'2 bit: 4通り')}${box(425,15,190,42,'3 bit: 8通り')}<text x="95" y="115" text-anchor="middle" font-size="15">0, 1</text><text x="290" y="115" text-anchor="middle" font-size="15">00, 01, 10, 11</text><text x="520" y="115" text-anchor="middle" font-size="15">000 から 111 まで</text>`, '0 0 660 160'),
-  binaryPlace: () => svgWrap('2進数の位取り',
-    `<g font-size="17" text-anchor="middle"><rect x="80" y="50" width="560" height="80" fill="#fff" stroke="#333"/><line x1="220" y1="50" x2="220" y2="130" stroke="#333"/><line x1="360" y1="50" x2="360" y2="130" stroke="#333"/><line x1="500" y1="50" x2="500" y2="130" stroke="#333"/><text x="150" y="82">8の位</text><text x="290" y="82">4の位</text><text x="430" y="82">2の位</text><text x="570" y="82">1の位</text><text x="150" y="114">1</text><text x="290" y="114">0</text><text x="430" y="114">1</text><text x="570" y="114">1</text></g><text x="360" y="190" text-anchor="middle" font-size="20">1011₂ = 8 + 0 + 2 + 1 = 11₁₀</text>`),
-  decimalToBinary: () => svgWrap('10進数から2進数へ',
-    `${box(60,70,120,50,'11')}${arrow(190,95,260,95)}${box(270,50,130,42,'8を使う')}${box(270,105,130,42,'残り3')}${arrow(410,95,480,95)}${box(490,50,140,42,'2を使う')}${box(490,105,140,42,'1を使う')}<text x="360" y="190" text-anchor="middle" font-size="17">8,4,2,1 の順に、使うなら1、使わないなら0</text>`),
-  pixelGrid: () => svgWrap('画像は画素の集まり',
-    `<g transform="translate(130 35)">${Array.from({length: 6}).map((_, r) => Array.from({length: 8}).map((_, c) => `<rect x="${c*45}" y="${r*32}" width="43" height="30" fill="${(r+c)%3===0?'#333':(r+c)%3===1?'#ddd':'#88b'}" stroke="#fff"/>`).join('')).join('')}</g><text x="360" y="245" text-anchor="middle" font-size="17">一つ一つの小さな点を「画素」といいます。</text>`),
-  rgbPixel: () => svgWrap('RGBで色を表す',
-    `<rect x="85" y="80" width="90" height="90" fill="rgb(230,30,30)" stroke="#333"/><rect x="225" y="80" width="90" height="90" fill="rgb(30,180,70)" stroke="#333"/><rect x="365" y="80" width="90" height="90" fill="rgb(50,80,230)" stroke="#333"/><rect x="525" y="80" width="90" height="90" fill="rgb(230,180,60)" stroke="#333"/><text x="130" y="200" text-anchor="middle" font-size="16">R</text><text x="270" y="200" text-anchor="middle" font-size="16">G</text><text x="410" y="200" text-anchor="middle" font-size="16">B</text><text x="570" y="200" text-anchor="middle" font-size="16">組合せ</text>`),
-  imageSize: () => svgWrap('画素数とデータ量',
-    `${box(70,55,150,55,'横 × 縦')}${arrow(230,82,310,82)}${box(320,55,160,55,'画素数')}${arrow(490,82,570,82)}${box(580,55,100,55,'データ量')}<text x="360" y="155" text-anchor="middle" font-size="17">画素が増えるほど、保存する値も増えます。</text>`),
-  soundSampling: () => svgWrap('標本化：波を点で測る',
-    `<path d="M50 130 C110 40,170 220,230 130 S350 40,410 130 S530 220,590 130 S680 40,710 130" fill="none" stroke="#235f9f" stroke-width="3"/><g fill="#a35e12">${[80,130,180,230,280,330,380,430,480,530,580,630].map((x,i)=>`<circle cx="${x}" cy="${130 + Math.sin(i)*45}" r="5"/>`).join('')}</g><text x="360" y="230" text-anchor="middle" font-size="17">一定間隔で値を測ります。</text>`),
-  quantization: () => svgWrap('量子化：値を段階に丸める',
-    `<polyline points="70,160 130,160 130,120 190,120 190,80 250,80 250,120 310,120 310,160 370,160 370,120 430,120 430,80 490,80 490,120 550,120 550,160 610,160" fill="none" stroke="#1f7a45" stroke-width="4"/><g stroke="#ddd">${[80,120,160,200].map(y=>`<line x1="60" y1="${y}" x2="630" y2="${y}"/>`).join('')}</g><text x="360" y="230" text-anchor="middle" font-size="17">細かすぎる値を、決められた段階に丸めます。</text>`),
-  soundBits: () => svgWrap('符号化：数値をビット列へ',
-    `${box(70,80,120,48,'数値')}${arrow(205,104,290,104)}${box(305,80,140,48,'2進数')}${arrow(460,104,545,104)}${box(560,80,120,48,'010101')}<text x="360" y="180" text-anchor="middle" font-size="17">コンピュータが保存できる形にします。</text>`),
-  inputProcessOutput: () => svgWrap('入力・処理・出力',
-    `${box(60,85,140,58,'入力')}${arrow(210,114,290,114)}${box(305,85,140,58,'処理')}${arrow(455,114,535,114)}${box(550,85,140,58,'出力')}`),
-  cardSort: () => svgWrap('カードを並べ替える手順',
-    `<g>${[5,2,8,1].map((n,i)=>`<rect x="${80+i*70}" y="55" width="48" height="68" fill="#fff" stroke="#333"/><text x="${104+i*70}" y="97" text-anchor="middle" font-size="24">${n}</text>`).join('')}</g>${arrow(370,90,450,90)}<g>${[1,2,5,8].map((n,i)=>`<rect x="${480+i*50}" y="55" width="42" height="68" fill="#eef7ea" stroke="#333"/><text x="${501+i*50}" y="97" text-anchor="middle" font-size="22">${n}</text>`).join('')}</g><text x="360" y="180" text-anchor="middle" font-size="17">同じ目的でも、手順の良し悪しがあります。</text>`),
-  branchFlow: () => svgWrap('条件分岐のフローチャート',
-    `<polygon points="360,40 470,100 360,160 250,100" fill="#fff8df" stroke="#333"/><text x="360" y="106" text-anchor="middle" font-size="16">雨？</text>${arrow(250,100,150,100)}${box(25,75,110,50,'傘を持つ','#eef7ea')}${arrow(470,100,570,100)}${box(585,75,110,50,'持たない','#eef7ff')}<text x="195" y="88" font-size="15">はい</text><text x="510" y="88" font-size="15">いいえ</text>`),
-  comparisonTable: () => svgWrap('比較演算子',
-    `<g font-size="16"><text x="100" y="60">a == b</text><text x="270" y="60">等しい</text><text x="100" y="105">a &gt; b</text><text x="270" y="105">a が大きい</text><text x="100" y="150">a &lt;= b</text><text x="270" y="150">a が b 以下</text></g><rect x="65" y="30" width="520" height="150" fill="none" stroke="#8aa"/>`),
-  loopFlow: () => svgWrap('繰り返しの流れ',
-    `${box(70,80,110,50,'初期値')}${arrow(190,105,270,105)}${box(285,80,110,50,'処理')}${arrow(405,105,485,105)}<polygon points="560,55 650,105 560,155 470,105" fill="#fff8df" stroke="#333"/><text x="560" y="111" text-anchor="middle" font-size="15">続ける?</text><path d="M560 155 L560 210 L285 210 L285 135" fill="none" stroke="#333" stroke-width="2"/><polygon points="285,135 280,145 290,145" fill="#333"/>`),
-  sumTrace: () => svgWrap('1から10まで足す',
-    `${box(55,55,100,42,'合計=0')}${arrow(165,76,235,76)}${box(245,55,130,42,'1を足す')}${arrow(385,76,455,76)}${box(465,55,130,42,'2を足す')}<text x="360" y="150" text-anchor="middle" font-size="17">同じ形の処理を、数を変えながら繰り返します。</text>`),
-  packetFlow: () => svgWrap('メッセージをパケットに分ける',
-    `${box(40,75,150,55,'大きなデータ')}${arrow(200,102,265,102)}${box(280,45,95,42,'packet 1')}${box(390,75,95,42,'packet 2')}${box(500,105,95,42,'packet 3')}${arrow(610,102,675,102)}<text x="360" y="200" text-anchor="middle" font-size="17">小さく分けると、ネットワークで扱いやすくなります。</text>`),
-  packetReassemble: () => svgWrap('受信側で並べ直す',
-    `${box(70,55,100,42,'3番')}${box(210,100,100,42,'1番')}${box(350,70,100,42,'2番')}${arrow(470,96,545,96)}${box(560,55,120,42,'1,2,3')}`),
-  ipHomeNetwork: () => svgWrap('家庭内ネットワークとIPアドレス',
-    `${box(45,60,120,50,'スマホ')}${box(45,145,120,50,'PC')}${box(275,100,130,55,'ルータ')}${box(545,100,130,55,'インターネット')}${arrow(170,85,265,118)}${arrow(170,170,265,130)}${arrow(410,128,535,128)}<text x="105" y="225" text-anchor="middle" font-size="15">192.168.1.x</text><text x="610" y="225" text-anchor="middle" font-size="15">外のネットワーク</text>`),
-  ipPrivateGlobal: () => svgWrap('プライベートIPとグローバルIP',
-    `${box(80,55,190,52,'家の中の住所')}${box(450,55,190,52,'外から見える住所')}${arrow(280,81,440,81)}<text x="175" y="145" text-anchor="middle" font-size="16">プライベートIP</text><text x="545" y="145" text-anchor="middle" font-size="16">グローバルIP</text>`),
-  databaseTable: () => svgWrap('表・行・列・主キー',
-    `<rect x="80" y="35" width="560" height="150" fill="#fff" stroke="#333"/>${[1,2,3].map(i=>`<line x1="80" y1="${35+i*37}" x2="640" y2="${35+i*37}" stroke="#333"/>`).join('')}${[1,2,3].map(i=>`<line x1="${80+i*140}" y1="35" x2="${80+i*140}" y2="185" stroke="#333"/>`).join('')}<text x="150" y="60" text-anchor="middle">生徒ID</text><text x="290" y="60" text-anchor="middle">名前</text><text x="430" y="60" text-anchor="middle">組</text><text x="570" y="60" text-anchor="middle">点数</text><text x="150" y="98" text-anchor="middle">001</text><text x="290" y="98" text-anchor="middle">田中</text><text x="430" y="98" text-anchor="middle">A</text><text x="570" y="98" text-anchor="middle">82</text>`),
-  databaseSearch: () => svgWrap('条件で取り出す',
-    `${box(60,80,160,50,'点数 >= 80')}${arrow(235,105,320,105)}${box(335,80,150,50,'検索')}${arrow(500,105,585,105)}${box(600,80,90,50,'結果')}`),
-  statsNumberLine: () => svgWrap('数直線上のデータ',
-    `<line x1="70" y1="130" x2="650" y2="130" stroke="#333" stroke-width="2"/>${[20,30,40,50,60,90].map(v=>`<circle cx="${70+(v-20)*7.25}" cy="130" r="7" fill="#235f9f"/>`).join('')}<text x="360" y="190" text-anchor="middle" font-size="17">右端の外れ値が平均値を引っ張ることがあります。</text>`),
-  statsCompare: () => svgWrap('平均値・中央値・最頻値',
-    `${box(60,55,150,52,'平均値')}${box(285,55,150,52,'中央値')}${box(510,55,150,52,'最頻値')}<text x="135" y="145" text-anchor="middle" font-size="15">合計÷個数</text><text x="360" y="145" text-anchor="middle" font-size="15">真ん中</text><text x="585" y="145" text-anchor="middle" font-size="15">最も多い値</text>`)
+  algorithmPath: () => svgWrap('目的 → 手順 → 結果', `${b(55,90,140,56,'目的','#eef8f1')}${a(210,118,285,118)}${b(300,90,140,56,'手順','#fff8df')}${a(455,118,530,118)}${b(545,90,140,56,'結果','#eef6ff')}<text x="360" y="190" text-anchor="middle" font-size="16">コンピュータには、手順をあいまいにせず伝えます。</text>`),
+  inputProcessOutput: () => svgWrap('入力・処理・出力', `${b(65,90,140,58,'入力','#eef6ff')}${a(220,119,295,119)}${b(310,90,140,58,'処理','#fff8df')}${a(465,119,540,119)}${b(555,90,140,58,'出力','#eef8f1')}`),
+  variableBox: () => svgWrap('変数は名前つきの箱', `<rect x="235" y="70" width="250" height="120" fill="#fff" stroke="#345" stroke-width="2"/><text x="360" y="105" text-anchor="middle" font-size="18">変数名：score</text><rect x="300" y="125" width="120" height="42" fill="#eef8f1" stroke="#345"/><text x="360" y="153" text-anchor="middle" font-size="22">10</text>`),
+  assignmentChange: () => svgWrap('代入で箱の中身が変わる', `${b(110,85,150,70,'x = 3')}${a(280,120,420,120)}${b(450,85,150,70,'x = 4','#eef8f1')}<text x="360" y="190" text-anchor="middle" font-size="16">x ← x + 1 を実行すると、中身が更新されます。</text>`),
+  branchFlow: () => svgWrap('条件分岐の流れ', `${b(45,95,95,44,'開始')}${a(145,117,245,117)}<polygon points="360,55 470,117 360,180 250,117" fill="#fff8df" stroke="#345"/><text x="360" y="123" text-anchor="middle" font-size="16">雨？</text>${a(470,117,570,90)}${b(585,65,110,44,'傘を持つ','#eef8f1')}${a(470,117,570,155)}${b(585,132,110,44,'そのまま')}`),
+  loopFlow: () => svgWrap('繰り返しの流れ', `${b(75,85,110,50,'初期値')}${a(195,110,275,110)}${b(290,85,110,50,'処理')}${a(410,110,490,110)}<polygon points="570,60 660,110 570,160 480,110" fill="#fff8df" stroke="#345"/><text x="570" y="116" text-anchor="middle" font-size="15">続ける?</text><path d="M570 160 L570 215 L290 215 L290 142" fill="none" stroke="#333" stroke-width="2"/><polygon points="290,142 285,152 295,152" fill="#333"/>`),
+  arrayIndex: () => svgWrap('配列とインデックス', `${cells([60,75,90,68,82],120,105)}<text x="360" y="205" text-anchor="middle" font-size="16">上の小さな番号がインデックス、箱の中が値です。</text>`),
+  counterSum: () => svgWrap('カウンタと合計を表で追う', `<rect x="120" y="45" width="480" height="150" fill="#fff" stroke="#345"/>${[1,2,3].map(i=>`<line x1="120" y1="${45+i*38}" x2="600" y2="${45+i*38}" stroke="#9aa"/>`).join('')}${[1,2,3].map(i=>`<line x1="${120+i*120}" y1="45" x2="${120+i*120}" y2="195" stroke="#9aa"/>`).join('')}<text x="180" y="70" text-anchor="middle">i</text><text x="300" y="70" text-anchor="middle">点数</text><text x="420" y="70" text-anchor="middle">count</text><text x="540" y="70" text-anchor="middle">sum</text>`),
+  maxMinCards: () => svgWrap('暫定最大値を更新する', `${cells([42,78,24,91,56],120,100)}<rect x="318" y="92" width="74" height="68" fill="none" stroke="#d66" stroke-width="3"/><text x="360" y="205" text-anchor="middle" font-size="16">より大きい値を見つけたら、最大候補を更新します。</text>`),
+  linearSearch: () => svgWrap('線形探索', `${cells([4,7,2,9,5],120,105)}<path d="M135 185 L135 165 M203 185 L203 165 M271 185 L271 165 M339 185 L339 165" stroke="#d66" stroke-width="3"/><text x="360" y="225" text-anchor="middle" font-size="16">左から一つずつ、目標と比べます。</text>`),
+  binarySearch: () => svgWrap('二分探索', `${cells([1,3,5,7,9,11,13],75,105)}<rect x="273" y="97" width="74" height="68" fill="none" stroke="#d66" stroke-width="3"/><text x="310" y="82" text-anchor="middle" font-size="15">mid</text><text x="360" y="220" text-anchor="middle" font-size="16">整列済みデータで、中央を見て範囲を半分にします。</text>`),
+  sortIntro: () => svgWrap('乱れた数字を順に並べる', `${b(75,85,180,55,'5, 2, 8, 1')}${a(270,113,430,113)}${b(455,85,180,55,'1, 2, 5, 8','#eef8f1')}`),
+  selectionSort: () => svgWrap('選択ソート', `${cells([5,2,8,1],145,95)}<text x="240" y="70" text-anchor="middle" font-size="15">最小値を探す</text><rect x="213" y="87" width="74" height="68" fill="none" stroke="#d66" stroke-width="3"/><text x="360" y="210" text-anchor="middle" font-size="16">未整列部分から最小値を選び、先頭と交換します。</text>`),
+  bubbleSort: () => svgWrap('バブルソート', `${cells([5,2,8,1],145,95)}<path d="M170 75 C190 50,220 50,240 75" fill="none" stroke="#d66" stroke-width="3"/><polygon points="240,75 230,70 232,82" fill="#d66"/><text x="360" y="210" text-anchor="middle" font-size="16">隣同士を比べて、必要なら交換します。</text>`),
+  flowchartSymbols: () => svgWrap('フローチャートの記号', `${b(70,55,130,44,'開始/終了')}${b(250,55,130,44,'処理','#fff8df')}<polygon points="500,40 590,77 500,115 410,77" fill="#eef6ff" stroke="#345"/><text x="500" y="83" text-anchor="middle" font-size="16">判断</text>`),
+  pseudoCode: () => svgWrap('自然言語とコードの中間', `${b(60,80,150,50,'日本語')}${a(225,105,305,105)}${b(320,80,150,50,'疑似コード','#fff8df')}${a(485,105,565,105)}${b(580,80,100,50,'コード')}`),
+  debugFlow: () => svgWrap('デバッグの流れ', `${b(55,90,120,50,'予想')}${a(185,115,260,115)}${b(275,90,120,50,'実行')}${a(405,115,480,115)}${b(495,90,120,50,'確認')}${a(555,145,555,195)}${b(485,200,140,42,'修正','#fff8df')}`),
+  simulationModel: () => svgWrap('モデルとシミュレーション', `${b(55,90,140,50,'現実')}${a(205,115,285,115)}${b(300,90,140,50,'モデル','#fff8df')}${a(450,115,530,115)}${b(545,90,140,50,'結果','#eef8f1')}<text x="360" y="190" text-anchor="middle" font-size="16">条件を変えて、結果の変化を調べます。</text>`),
+  dataInfoDecision: () => svgWrap('データから情報へ', `${b(70,80,120,50,'25')}${a(205,105,285,105)}${b(300,80,140,50,'気温25℃','#fff8df')}${a(455,105,535,105)}${b(550,80,130,50,'半袖?','#eef8f1')}`),
+  bitPatterns: () => svgWrap('bit数と組み合わせ', `${b(60,70,130,50,'1bit=2通り')}${b(250,70,150,50,'2bit=4通り')}${b(470,70,150,50,'3bit=8通り')}`),
+  binaryPlace: () => svgWrap('2進数の位取り', `<rect x="90" y="70" width="540" height="90" fill="#fff" stroke="#345"/>${[1,2,3].map(i=>`<line x1="${90+i*135}" y1="70" x2="${90+i*135}" y2="160" stroke="#9aa"/>`).join('')}<text x="157" y="105" text-anchor="middle">8</text><text x="292" y="105" text-anchor="middle">4</text><text x="427" y="105" text-anchor="middle">2</text><text x="562" y="105" text-anchor="middle">1</text><text x="157" y="140" text-anchor="middle">1</text><text x="292" y="140" text-anchor="middle">0</text><text x="427" y="140" text-anchor="middle">1</text><text x="562" y="140" text-anchor="middle">1</text>`),
+  pixelGrid: () => svgWrap('画素の集まり', `<g transform="translate(170 45)">${Array.from({length:5}).map((_,r)=>Array.from({length:7}).map((_,c)=>`<rect x="${c*44}" y="${r*34}" width="42" height="32" fill="${(r+c)%3===0?'#345':(r+c)%3===1?'#dfe8ef':'#91b6d6'}" stroke="#fff"/>`).join('')).join('')}</g>`),
+  soundSampling: () => svgWrap('音の標本化', `<path d="M55 130 C125 45,190 215,260 130 S395 45,465 130 S600 215,670 130" fill="none" stroke="#245f8f" stroke-width="3"/>${[90,150,210,270,330,390,450,510,570,630].map((x,i)=>`<circle cx="${x}" cy="${130+Math.sin(i)*42}" r="5" fill="#a65f18"/>`).join('')}`),
+  packetFlow: () => svgWrap('パケット通信', `${b(60,85,150,55,'大きなデータ')}${a(225,113,300,113)}${b(315,45,100,42,'1/3')}${b(430,85,100,42,'2/3')}${b(545,125,100,42,'3/3')}`),
+  ipHomeNetwork: () => svgWrap('IPアドレス', `${b(60,55,120,48,'スマホ')}${b(60,145,120,48,'PC')}${b(300,100,130,55,'ルータ')}${b(545,100,130,55,'Internet')}${a(190,80,290,115)}${a(190,170,290,130)}${a(440,128,535,128)}`),
+  databaseTable: () => svgWrap('データベースの表', `<rect x="80" y="45" width="560" height="150" fill="#fff" stroke="#345"/>${[1,2,3].map(i=>`<line x1="80" y1="${45+i*38}" x2="640" y2="${45+i*38}" stroke="#9aa"/>`).join('')}${[1,2,3].map(i=>`<line x1="${80+i*140}" y1="45" x2="${80+i*140}" y2="195" stroke="#9aa"/>`).join('')}<text x="150" y="70" text-anchor="middle">ID</text><text x="290" y="70" text-anchor="middle">名前</text><text x="430" y="70" text-anchor="middle">組</text><text x="570" y="70" text-anchor="middle">点数</text>`),
+  statsCompare: () => svgWrap('平均値・中央値・最頻値', `${b(70,80,150,50,'平均値')}${b(285,80,150,50,'中央値')}${b(500,80,150,50,'最頻値')}`)
 };
