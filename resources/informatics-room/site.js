@@ -102,7 +102,7 @@ function renderTop() {
   document.querySelector('#app').innerHTML = `<main class="page">
     <section class="intro brand-intro compact-intro">
       <div>
-        <p class="eyebrow">旅人教育 情報Ⅰノート</p>
+        <p class="eyebrow">共通テスト対応 情報Ⅰ教材</p>
         <h1>${SITE.title}</h1>
         <p>${SITE.description}</p>
       </div>
@@ -423,7 +423,7 @@ function renderLesson(id) {
     ${navForLesson(id)}
     <article class="lesson-article">
       <div class="lesson-head">
-        <p class="eyebrow">旅人教育 情報Ⅰノート</p>
+        <p class="eyebrow">共通テスト対応 情報Ⅰ教材</p>
         <h1>${lesson.title}</h1>
         ${statusBadge(lesson.status || 'draft')}
       </div>

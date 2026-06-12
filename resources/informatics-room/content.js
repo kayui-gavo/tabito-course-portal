@@ -1,7 +1,7 @@
 const SITE = {
-  title: 'わかりやすい高校情報Ⅰの部屋',
-  subtitle: '旅人教育 情報Ⅰノート',
-  description: '情報Ⅰで必要になる考え方を、図解・例題・練習問題・共通テスト風の確認問題でゆっくり学ぶページです。'
+  title: '旅人教育 情報Ⅰ講座ライブラリ',
+  subtitle: '共通テスト対応 情報Ⅰ教材',
+  description: '情報Ⅰで必要になる考え方を、章別の目次・図解・例題・練習問題・共通テスト風の確認問題で学ぶ講座資料です。'
 };
 
 const STATUS_LABELS = {
@@ -69,7 +69,12 @@ const COURSE_CHAPTERS = [
         title: '問題の発見と情報の扱い',
         lessons: [
           { id: 'information', title: '情報やメディアの特性と問題の発見・解決', href: 'lessons/information.html', status: 'draft' },
+          { id: 'media-characteristics', title: 'メディアの特性', href: '#', status: 'planned' },
+          { id: 'information-visualization-basic', title: '情報の可視化', href: '#', status: 'planned' },
           { id: 'problem-solving-flow', title: '問題解決の流れ', href: '#', status: 'planned' },
+          { id: 'thinking-tools', title: '思考の広がりと深まり', href: '#', status: 'planned' },
+          { id: 'evidence-based-decision', title: '科学的な根拠と判断', href: '#', status: 'planned' },
+          { id: 'problem-solving-reflection', title: '成果の発信・共有・改善', href: '#', status: 'planned' },
           { id: 'information-reliability', title: '情報の信頼性と発信', href: '#', status: 'planned' },
           { id: 'information-society-light-shadow', title: '情報社会の光と影', href: '#', status: 'planned' }
         ]
@@ -80,8 +85,14 @@ const COURSE_CHAPTERS = [
         lessons: [
           { id: 'security', title: '情報セキュリティ', href: '#', status: 'planned' },
           { id: 'law-moral', title: '情報に関する法規、情報モラル', href: '#', status: 'planned' },
+          { id: 'personal-information-law', title: '個人情報保護法', href: '#', status: 'planned' },
+          { id: 'unauthorized-access-law', title: '不正アクセス禁止法', href: '#', status: 'planned' },
+          { id: 'social-engineering', title: 'ソーシャルエンジニアリング', href: '#', status: 'planned' },
           { id: 'communication-merit', title: '情報社会におけるコミュニケーションのメリット・デメリット', href: '#', status: 'planned' },
           { id: 'information-ethics-case', title: '情報モラルの事例判断', href: '#', status: 'planned' },
+          { id: 'ai-and-society', title: '人工知能と社会', href: '#', status: 'planned' },
+          { id: 'digital-divide-health', title: '情報格差と健康への影響', href: '#', status: 'planned' },
+          { id: 'desirable-information-society', title: '望ましい情報社会の構築', href: '#', status: 'planned' },
           { id: 'technology-development', title: '情報技術の発展', href: '#', status: 'planned' }
         ]
       }
@@ -97,12 +108,14 @@ const COURSE_CHAPTERS = [
         id: 'digital',
         title: 'デジタルにするということ',
         lessons: [
+          { id: 'analog-digital', title: 'アナログとデジタル', href: '#', status: 'planned' },
           { id: 'bit-byte', title: 'ビットとバイト', href: 'lessons/bit-byte.html', status: 'draft' },
           { id: 'binary', title: '2進数', href: 'lessons/binary.html', status: 'draft' },
+          { id: 'numeric-digital', title: '数値のディジタル化', href: '#', status: 'planned' },
           { id: 'image-digital', title: '画像のディジタル化', href: 'lessons/image-digital.html', status: 'draft' },
           { id: 'sound-digital', title: '音のディジタル化', href: 'lessons/sound-digital.html', status: 'draft' },
           { id: 'video-digital', title: '動画のディジタル化', href: '#', status: 'planned' },
-          { id: 'compression', title: 'データの圧縮', href: '#', status: 'planned' }
+          { id: 'compression', title: 'ファイルの圧縮・展開', href: '#', status: 'planned' }
         ]
       },
       {
@@ -111,8 +124,16 @@ const COURSE_CHAPTERS = [
         lessons: [
           { id: 'communication-model', title: 'コミュニケーションを成立させるもの', href: '#', status: 'planned' },
           { id: 'media-tools', title: 'メディアとコミュニケーション、そのツール', href: '#', status: 'planned' },
+          { id: 'communication-tool-history', title: 'コミュニケーション手段の変遷', href: '#', status: 'planned' },
           { id: 'design-meaning', title: '情報をデザインすることの意味', href: '#', status: 'planned' },
+          { id: 'abstraction-visualization-structure', title: '抽象化・可視化・構造化', href: '#', status: 'planned' },
+          { id: 'pictogram-infographic', title: 'ピクトグラムとインフォグラフィックス', href: '#', status: 'planned' },
+          { id: 'user-interface', title: 'ユーザインタフェース', href: '#', status: 'planned' },
+          { id: 'human-centered-design', title: '人間中心設計', href: '#', status: 'planned' },
+          { id: 'signifier', title: 'シグニファイア', href: '#', status: 'planned' },
           { id: 'design-process', title: 'デザインするための一連の進め方', href: '#', status: 'planned' },
+          { id: 'persona-scenario-prototype', title: 'ペルソナ・シナリオ・プロトタイプ', href: '#', status: 'planned' },
+          { id: 'content-evaluation-improvement', title: 'コンテンツの評価と改善', href: '#', status: 'planned' },
           { id: 'accessibility', title: 'アクセシビリティとユーザビリティ', href: '#', status: 'planned' },
           { id: 'universal-design', title: 'ユニバーサルデザイン', href: '#', status: 'planned' }
         ]
@@ -130,6 +151,10 @@ const COURSE_CHAPTERS = [
         title: 'コンピュータの仕組み',
         lessons: [
           { id: 'computer-structure', title: 'コンピュータの仕組み', href: '#', status: 'planned' },
+          { id: 'five-components', title: 'コンピュータの五大装置', href: '#', status: 'planned' },
+          { id: 'hardware-software-os', title: 'ハードウェア・ソフトウェア・OS', href: '#', status: 'planned' },
+          { id: 'truth-table', title: 'AND・OR・NOTと真理値表', href: '#', status: 'planned' },
+          { id: 'calculation-error', title: '計算誤差', href: '#', status: 'planned' },
           { id: 'input-process-output', title: '入力・処理・出力', href: 'lessons/input-process-output.html', status: 'complete' }
         ]
       },
@@ -137,7 +162,11 @@ const COURSE_CHAPTERS = [
         id: 'external-device',
         title: '外部装置との接続',
         lessons: [
-          { id: 'external-devices', title: '外部装置との接続', href: '#', status: 'planned' }
+          { id: 'external-devices', title: '外部装置との接続', href: '#', status: 'planned' },
+          { id: 'measurement-control', title: '計測・制御', href: '#', status: 'planned' },
+          { id: 'sensor-actuator', title: 'センサとアクチュエータ', href: '#', status: 'planned' },
+          { id: 'ad-da-converter', title: 'AD変換・DA変換', href: '#', status: 'planned' },
+          { id: 'control-program', title: '計測・制御プログラム', href: '#', status: 'planned' }
         ]
       },
       {
@@ -146,7 +175,9 @@ const COURSE_CHAPTERS = [
         lessons: [
           { id: 'algorithm', title: 'アルゴリズムとは', href: 'lessons/algorithm.html', status: 'enhanced' },
           { id: 'flowchart', title: 'フローチャート', href: 'lessons/flowchart.html', status: 'complete' },
+          { id: 'activity-diagram', title: 'アクティビティ図', href: '#', status: 'planned' },
           { id: 'pseudocode', title: '疑似コード', href: 'lessons/pseudocode.html', status: 'complete' },
+          { id: 'sequence', title: '順次処理', href: '#', status: 'planned' },
           { id: 'variable', title: '変数', href: 'lessons/variable.html', status: 'enhanced' },
           { id: 'assignment', title: '代入', href: 'lessons/assignment.html', status: 'complete' },
           { id: 'logical-operation', title: '論理演算', href: '#', status: 'planned' },
@@ -161,6 +192,8 @@ const COURSE_CHAPTERS = [
         lessons: [
           { id: 'array', title: '配列', href: 'lessons/array.html', status: 'enhanced' },
           { id: 'nested-array', title: '二次元配列', href: '#', status: 'planned' },
+          { id: 'random-programming', title: '乱数を使ったプログラム', href: '#', status: 'planned' },
+          { id: 'library', title: 'ライブラリの利用', href: '#', status: 'planned' },
           { id: 'counter-sum', title: 'カウンタと合計', href: 'lessons/counter-sum.html', status: 'enhanced' },
           { id: 'max-min', title: '最大値・最小値を求める', href: 'lessons/max-min.html', status: 'complete' }
         ]
@@ -181,9 +214,13 @@ const COURSE_CHAPTERS = [
         title: 'モデル化とシミュレーション',
         lessons: [
           { id: 'modeling-basic', title: 'モデル化の考え方', href: '#', status: 'planned' },
+          { id: 'model-classification', title: 'モデルの分類', href: '#', status: 'planned' },
           { id: 'simulation', title: 'シミュレーションとは', href: 'lessons/simulation.html', status: 'complete' },
           { id: 'deterministic-random-model', title: '確定モデルと確率モデル', href: '#', status: 'planned' },
+          { id: 'monte-carlo', title: 'モンテカルロ法', href: '#', status: 'planned' },
           { id: 'natural-modeling', title: '自然現象のモデル化とシミュレーション', href: '#', status: 'planned' },
+          { id: 'social-modeling', title: '社会現象のモデル化とシミュレーション', href: '#', status: 'planned' },
+          { id: 'model-validity', title: 'モデルの妥当性の検討', href: '#', status: 'planned' },
           { id: 'simulation-evaluation', title: 'シミュレーション結果の評価', href: '#', status: 'planned' }
         ]
       }
@@ -199,27 +236,45 @@ const COURSE_CHAPTERS = [
         id: 'network-basics',
         title: '情報通信ネットワーク',
         lessons: [
+          { id: 'server-client-router', title: 'サーバ・クライアント・ルータ', href: '#', status: 'planned' },
+          { id: 'lan-wireless-lan', title: 'LANと無線LAN', href: '#', status: 'planned' },
           { id: 'packet', title: 'パケット通信', href: 'lessons/packet.html', status: 'draft' },
           { id: 'ip-address', title: 'IPアドレス', href: 'lessons/ip-address.html', status: 'draft' },
           { id: 'network-build', title: '情報通信ネットワークの構築', href: '#', status: 'planned' },
           { id: 'dns', title: 'DNS', href: '#', status: 'planned' },
           { id: 'routing', title: '経路制御', href: '#', status: 'planned' },
-          { id: 'client-server', title: 'クライアントとサーバ', href: '#', status: 'planned' }
+          { id: 'transmission-control', title: '伝送制御', href: '#', status: 'planned' },
+          { id: 'wireless-security', title: '無線LANのセキュリティ', href: '#', status: 'planned' },
+          { id: 'authentication', title: '個人認証', href: '#', status: 'planned' },
+          { id: 'digital-certificate', title: 'デジタル証明書', href: '#', status: 'planned' }
         ]
       },
       {
         id: 'system-data',
         title: '情報システムとデータ活用',
         lessons: [
+          { id: 'data-accumulation', title: 'データの蓄積と管理', href: '#', status: 'planned' },
           { id: 'database', title: 'データベースとは', href: 'lessons/database.html', status: 'draft' },
+          { id: 'relational-database', title: '関係データベース', href: '#', status: 'planned' },
+          { id: 'sql-basic', title: 'SQLの基礎', href: '#', status: 'planned' },
           { id: 'dbms', title: 'データベース管理システム', href: '#', status: 'planned' },
+          { id: 'information-system-service', title: '情報システムとサービス', href: '#', status: 'planned' },
+          { id: 'pos-atm-traceability', title: 'POS・ATM・トレーサビリティ', href: '#', status: 'planned' },
+          { id: 'open-data', title: 'オープンデータ', href: '#', status: 'planned' },
+          { id: 'scale-level', title: '尺度水準', href: '#', status: 'planned' },
+          { id: 'quantitative-data', title: '量的データの分析', href: '#', status: 'planned' },
+          { id: 'qualitative-data', title: '質的データの分析', href: '#', status: 'planned' },
           { id: 'data-format', title: 'さまざまな形式のデータとその表現形式', href: '#', status: 'planned' },
+          { id: 'big-data', title: 'ビッグデータ', href: '#', status: 'planned' },
+          { id: 'web-scraping', title: 'Webスクレイピング', href: '#', status: 'planned' },
           { id: 'data-cleaning', title: 'データの収集と整形', href: '#', status: 'planned' },
           { id: 'statistics', title: '平均値・中央値・最頻値', href: 'lessons/statistics.html', status: 'draft' },
-          { id: 'qualitative-data', title: '質的データの分析', href: '#', status: 'planned' },
+          { id: 'five-number-summary', title: '5数要約と箱ひげ図', href: '#', status: 'planned' },
           { id: 'visualization', title: 'データの形式と可視化', href: '#', status: 'planned' },
           { id: 'cross-tabulation', title: 'クロス集計', href: '#', status: 'planned' },
-          { id: 'regression', title: '回帰分析の基礎', href: '#', status: 'planned' }
+          { id: 'text-mining', title: 'テキストマイニング', href: '#', status: 'planned' },
+          { id: 'regression', title: '単回帰分析の基礎', href: '#', status: 'planned' },
+          { id: 'evaluation-metrics', title: '評価指標', href: '#', status: 'planned' }
         ]
       }
     ]
