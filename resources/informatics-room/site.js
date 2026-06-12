@@ -189,6 +189,8 @@ function renderLesson(id) {
         ${lesson.python ? `<h3>Pythonで書くと</h3><pre class="code-block python-code">${lesson.python}</pre>` : ''}
       </section>
 
+      ${typeof renderCodeExercise === 'function' ? renderCodeExercise(lesson.id) : ''}
+
       <section>
         <h2>よくある誤解</h2>
         <div class="mistake">${lesson.misconception}</div>
@@ -210,6 +212,7 @@ function renderLesson(id) {
     <div class="footer-nav">${navForLesson(id)}<p><a href="#top">↑ ページ上部へ</a></p></div>
   </main>`;
   initDemo(lesson.id);
+  if (typeof initCodeExercise === 'function') initCodeExercise(lesson.id);
 }
 
 function renderDemo(id) {

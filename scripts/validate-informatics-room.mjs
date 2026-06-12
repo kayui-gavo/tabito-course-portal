@@ -12,7 +12,7 @@ function walk(dir) {
   });
 }
 
-for (const file of ['content.js', 'figures.js', 'site.js']) {
+for (const file of ['content.js', 'figures.js', 'code-exercises.js', 'code-runner.js', 'python-worker.js', 'site.js']) {
   new vm.Script(readFileSync(join(room, file), 'utf8'), { filename: file });
 }
 
