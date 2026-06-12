@@ -16,8 +16,6 @@ function headerHtml(prefix = '') {
     <nav class="global-nav">
       <a href="${prefix}index.html">学習目次</a>
       <a href="${prefix}exam.html">共通テスト対策</a>
-      <a href="${prefix}programming.html">プログラミング</a>
-      <a href="${prefix}index.html#network">データ活用</a>
       <a href="${prefix}index.html#study-routes">学習の進め方</a>
       <a class="portal-link" href="${prefix}../../index.html">コースポータル</a>
     </nav>
