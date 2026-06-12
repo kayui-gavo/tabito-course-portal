@@ -208,6 +208,32 @@ function renderLessonExamples(lesson) {
   return `${worked}${practice}`;
 }
 
+function renderExamQuestion(item, index) {
+  const passage = item.passage ? `<div class="exam-passage">${item.passage.split('\n').map(line => `<p>${line}</p>`).join('')}</div>` : '';
+  const code = item.code ? `<pre class="code-block">${item.code}</pre>` : '';
+  const choices = item.choices && item.choices.length
+    ? `<ol class="choice-list">${item.choices.map(choice => `<li>${choice}</li>`).join('')}</ol>`
+    : '';
+  return `<section class="exam-card">
+    <p class="exam-number">類題${index + 1}</p>
+    <h3>${item.title}</h3>
+    ${passage}
+    ${code}
+    <p class="problem-text">${item.question}</p>
+    ${choices}
+    <details><summary>解答と解説を見る</summary><p><strong>答え：</strong>${item.answer}</p><p>${item.explanation}</p></details>
+  </section>`;
+}
+
+function renderExamArea(lesson) {
+  if (!lesson.examQuestions || !lesson.examQuestions.length) return '';
+  return `<section class="exam-area">
+    <h2>共通テスト風の確認</h2>
+    <p class="small-note">入試本番の過去問ではなく、このページの内容を確認するための学習用類題です。</p>
+    <div class="exam-grid">${lesson.examQuestions.map(renderExamQuestion).join('')}</div>
+  </section>`;
+}
+
 function renderLesson(id) {
   renderChrome('../');
   const lesson = LESSONS[id];
@@ -254,6 +280,8 @@ function renderLesson(id) {
       ${renderLessonDetails(lesson)}
 
       ${renderLessonExamples(lesson)}
+
+      ${renderExamArea(lesson)}
 
       ${typeof renderCodeExercise === 'function' ? renderCodeExercise(lesson.id) : ''}
 

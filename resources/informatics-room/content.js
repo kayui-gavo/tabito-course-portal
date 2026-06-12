@@ -1708,3 +1708,383 @@ Object.entries(GENERAL_EXAMPLE_SETS).forEach(([id, value]) => {
   LESSONS[id].workedExamples = value.workedExamples || [];
   LESSONS[id].practiceProblems = value.practiceProblems || [];
 });
+
+const EXAM_STYLE_QUESTIONS = {
+  information: [
+    {
+      title: 'データと情報の区別',
+      passage: 'ある店では、毎日「来店者数」「売上」「天気」を記録している。店長は、雨の日は来店者数が少ない傾向があることに気づき、雨の日だけ入口付近に傘袋を多めに用意することにした。',
+      question: 'この文章で、店長の判断に直接使われている「情報」として最も適切なものを選びなさい。',
+      choices: ['来店者数という数値そのもの', '雨の日は来店者数が少ない傾向があるという意味づけ', '記録用紙の大きさ', '店の入口の位置'],
+      answer: '2',
+      explanation: '単なる数値ではなく、天気と来店者数を結び付けて判断に使える形にしたものが情報です。'
+    }
+  ],
+  'bit-byte': [
+    {
+      title: 'bit数と表現できる数',
+      passage: 'ある機器では、状態を 3bit で記録する。各bitは0または1のどちらかである。',
+      question: 'この機器で区別できる状態の数として正しいものを選びなさい。',
+      choices: ['3通り', '6通り', '8通り', '16通り'],
+      answer: '3',
+      explanation: '1bitで2通り、3bitでは 2^3 = 8 通りを表せます。'
+    }
+  ],
+  binary: [
+    {
+      title: '2進数の位取り',
+      passage: '2進数 11010₂ を10進数に直す。右から順に位の重みは 1, 2, 4, 8, 16 である。',
+      question: '11010₂ の10進数表記として正しいものを選びなさい。',
+      choices: ['18', '22', '26', '30'],
+      answer: '3',
+      explanation: '16の位、8の位、2の位が1なので、16 + 8 + 2 = 26 です。'
+    }
+  ],
+  'image-digital': [
+    {
+      title: '画素数とデータ量',
+      passage: '同じ色数で画像を保存するとき、画像Aは 400×300 画素、画像Bは 800×600 画素である。',
+      question: '画像Bの画素数は画像Aの何倍か。',
+      choices: ['2倍', '3倍', '4倍', '8倍'],
+      answer: '3',
+      explanation: 'Aは120000画素、Bは480000画素なので、BはAの4倍です。'
+    }
+  ],
+  'sound-digital': [
+    {
+      title: '音のディジタル化',
+      passage: '音の波を一定時間ごとに測り、その値を決められた段階の数値に丸め、0と1の列で表す。',
+      question: '「一定時間ごとに測る」処理の名前として正しいものを選びなさい。',
+      choices: ['標本化', '量子化', '暗号化', '圧縮'],
+      answer: '1',
+      explanation: '時間方向に区切って値を測る処理が標本化です。値を段階に丸める処理は量子化です。'
+    }
+  ],
+  algorithm: [
+    {
+      title: '手順の比較',
+      passage: 'Aさんは、名簿から目的の名前を探す方法を2つ考えた。方法1：先頭から1人ずつ見る。方法2：名簿が五十音順に並んでいるとき、中央を見て前半か後半かを判断しながら探す。',
+      question: '方法2を使うために必要な前提として最も適切なものを選びなさい。',
+      choices: ['名簿が五十音順などに整列されていること', '名簿に同じ名前がないこと', '名簿の人数が必ず偶数であること', '目的の名前が必ず名簿にあること'],
+      answer: '1',
+      explanation: '中央を見て前半・後半を捨てるには、データが順序よく並んでいる必要があります。'
+    },
+    {
+      title: '制御構造の読み取り',
+      code: `合計 ← 0\n番号 i を 1 から 5 まで 1 ずつ増やしながら繰り返す:\n  もし i が偶数ならば:\n    合計 ← 合計 + i`,
+      question: 'この手順で最後の合計はいくつになるか。',
+      choices: ['5', '6', '9', '15'],
+      answer: '2',
+      explanation: '1から5のうち偶数は2と4です。合計は 2 + 4 = 6 になります。'
+    }
+  ],
+  'input-process-output': [
+    {
+      title: '入力・処理・出力の対応',
+      passage: 'あるプログラムは、気温を受け取り、30℃以上なら「暑い」、そうでなければ「通常」と表示する。',
+      question: 'このプログラムの「処理」として最も適切なものを選びなさい。',
+      choices: ['気温の値を受け取ること', '30℃以上かどうかを判定すること', '「暑い」または「通常」と表示すること', '画面の文字を大きくすること'],
+      answer: '2',
+      explanation: '入力は気温、処理は条件判定、出力は表示される結果です。'
+    }
+  ],
+  variable: [
+    {
+      title: '変数の追跡',
+      code: `x = 4\nx = x + 3\ny = x * 2\nx = y - 5`,
+      question: '最後の x の値として正しいものを選びなさい。',
+      choices: ['7', '9', '14', '19'],
+      answer: '2',
+      explanation: 'xは4から7になり、yは14になります。最後に x = 14 - 5 なので、xは9です。'
+    }
+  ],
+  assignment: [
+    {
+      title: '代入の意味',
+      code: `count = 0\ncount = count + 1\ncount = count + 1\ncount = count + 1`,
+      question: '最後の count の値として正しいものを選びなさい。',
+      choices: ['0', '1', '2', '3'],
+      answer: '4',
+      explanation: 'count = count + 1 は1増やす処理です。3回実行されるので count は3になります。'
+    }
+  ],
+  branch: [
+    {
+      title: '境界値を読む',
+      code: `score = 80\nif score > 80:\n    print("A")\nelse:\n    print("B")`,
+      question: 'このプログラムの出力として正しいものを選びなさい。',
+      choices: ['A', 'B', 'A と B の両方', '何も表示されない'],
+      answer: '2',
+      explanation: 'score > 80 は、80を含みません。score が80のとき条件は偽なので、else 側の B が表示されます。'
+    }
+  ],
+  loop: [
+    {
+      title: 'range の範囲',
+      code: `total = 0\nfor i in range(2, 7, 2):\n    total = total + i\nprint(total)`,
+      question: '表示される値として正しいものを選びなさい。',
+      choices: ['6', '8', '12', '14'],
+      answer: '3',
+      explanation: 'range(2, 7, 2) で i は 2, 4, 6 になります。合計は12です。'
+    }
+  ],
+  array: [
+    {
+      title: '添字の読み取り',
+      code: `scores = [72, 85, 90, 66]\nprint(scores[2])`,
+      question: '表示される値として正しいものを選びなさい。',
+      choices: ['72', '85', '90', '66'],
+      answer: '3',
+      explanation: 'Python のリストは0番目から数えるので、scores[2] は3番目の90です。'
+    }
+  ],
+  'counter-sum': [
+    {
+      title: '条件つきカウント',
+      code: `scores = [72, 45, 88, 60]\ncount = 0\nfor score in scores:\n    if score >= 60:\n        count = count + 1\nprint(count)`,
+      question: '表示される値として正しいものを選びなさい。',
+      choices: ['2', '3', '4', '265'],
+      answer: '2',
+      explanation: '60点以上は72、88、60の3つです。45は条件を満たしません。'
+    }
+  ],
+  'max-min': [
+    {
+      title: '最大値の候補',
+      code: `data = [-5, -2, -9]\nmax_value = data[0]\nfor value in data:\n    if value > max_value:\n        max_value = value\nprint(max_value)`,
+      question: '表示される値として正しいものを選びなさい。',
+      choices: ['0', '-9', '-5', '-2'],
+      answer: '4',
+      explanation: '負の数だけでも、最初のデータから候補を始めるので正しく最大値 -2 を求められます。'
+    }
+  ],
+  'linear-search': [
+    {
+      title: '探索回数',
+      passage: 'リスト [4, 7, 2, 9, 5] から 9 を線形探索で探す。先頭から順に、目的の値と一致するか比較する。',
+      question: '9 が見つかるまでに比較する回数として正しいものを選びなさい。',
+      choices: ['1回', '2回', '3回', '4回'],
+      answer: '4',
+      explanation: '4, 7, 2, 9 の順に比較し、4回目で見つかります。'
+    }
+  ],
+  'binary-search': [
+    {
+      title: '探索範囲の更新',
+      passage: '整列済みのリスト [3, 8, 12, 18, 25, 31, 40] から 25 を二分探索で探す。最初に中央の18を調べた。',
+      question: '次に探すべき範囲として最も適切なものを選びなさい。',
+      choices: ['18より左側', '18より右側', '全体をもう一度', '探索を終了する'],
+      answer: '2',
+      explanation: '25は18より大きいので、整列済みリストでは18より右側にある可能性だけを調べます。'
+    }
+  ],
+  'sort-intro': [
+    {
+      title: '整列後にできること',
+      passage: '点数 [55, 92, 71, 80, 64] を小さい順に整列すると [55, 64, 71, 80, 92] になる。',
+      question: '整列後に中央値として最も適切なものを選びなさい。',
+      choices: ['55', '64', '71', '92'],
+      answer: '3',
+      explanation: '5個のデータでは、整列後の中央である3番目の値 71 が中央値です。'
+    }
+  ],
+  'selection-sort': [
+    {
+      title: '選択ソートの1回目',
+      passage: 'リスト [5, 3, 8, 1] を選択ソートで小さい順に並べ替える。1回目は未整列部分全体から最小値を選び、先頭と交換する。',
+      question: '1回目の交換後のリストとして正しいものを選びなさい。',
+      choices: ['[1, 3, 8, 5]', '[3, 5, 8, 1]', '[5, 1, 8, 3]', '[5, 3, 1, 8]'],
+      answer: '1',
+      explanation: '最小値1を先頭の5と交換するので、[1, 3, 8, 5] になります。'
+    }
+  ],
+  'bubble-sort': [
+    {
+      title: 'バブルソートの通過',
+      passage: 'リスト [4, 2, 5, 1] をバブルソートで小さい順に並べ替える。左から隣同士を比べ、左の値が大きければ交換する。',
+      question: '1回目の通過後のリストとして正しいものを選びなさい。',
+      choices: ['[2, 4, 1, 5]', '[2, 4, 5, 1]', '[1, 2, 4, 5]', '[4, 2, 1, 5]'],
+      answer: '1',
+      explanation: '4と2を交換して [2,4,5,1]、5と1を交換して [2,4,1,5] になります。'
+    }
+  ],
+  flowchart: [
+    {
+      title: '流れ図の記号',
+      passage: 'ある流れ図では、「点数が80以上か」を調べ、その結果によって表示する文字を変える。',
+      question: '「点数が80以上か」を書く記号として最も適切なものを選びなさい。',
+      choices: ['開始・終了の記号', '処理の記号', '判断の記号', 'データベースの記号'],
+      answer: '3',
+      explanation: 'はい/いいえに分かれる条件は、判断の記号に書きます。'
+    }
+  ],
+  pseudocode: [
+    {
+      title: '疑似コードの追跡',
+      code: `x ← 1\ni を 1 から 4 まで 1 ずつ増やしながら繰り返す:\n  x ← x * 2`,
+      question: '最後の x の値として正しいものを選びなさい。',
+      choices: ['4', '8', '16', '32'],
+      answer: '3',
+      explanation: 'xは 1 → 2 → 4 → 8 → 16 と4回更新されます。'
+    }
+  ],
+  debug: [
+    {
+      title: '論理エラーの発見',
+      code: `total = 0\nfor i in range(1, 4):\n    total = i\nprint(total)`,
+      question: '1+2+3 の合計を表示したいが、このプログラムでは3が表示される。原因として最も適切なものを選びなさい。',
+      choices: ['range(1, 4) が1,2,3を取り出すため', 'total に i を足さず、毎回 i で上書きしているため', 'print がループの外にあるため', 'total の初期値が0であるため'],
+      answer: '2',
+      explanation: '合計するには total = total + i と更新する必要があります。total = i では毎回入れ直しているだけです。'
+    }
+  ],
+  simulation: [
+    {
+      title: '確率モデルの読み取り',
+      passage: 'サイコロを100回振るシミュレーションを行ったところ、1の目が13回、2の目が20回、3の目が16回、4の目が18回、5の目が14回、6の目が19回出た。',
+      question: 'この結果の読み方として最も適切なものを選びなさい。',
+      choices: ['サイコロは必ず不公平である', '100回ではばらつきがあり、さらに試行回数を増やして考える必要がある', '各目は必ず同じ回数出る', '乱数を使うと結果は毎回同じになる'],
+      answer: '2',
+      explanation: '確率モデルでは少ない試行回数ではばらつきがあります。試行回数を増やしたり、複数回の結果を比べたりして考えます。'
+    }
+  ],
+  packet: [
+    {
+      title: 'パケットの順序',
+      passage: '大きなデータを4つのパケットに分けて送った。受信側には 3, 1, 4, 2 の順で届いた。',
+      question: '受信側で必要な処理として最も適切なものを選びなさい。',
+      choices: ['届いた順にそのまま結合する', '番号をもとに 1, 2, 3, 4 の順に並べ直す', '3番だけを使う', 'すべて破棄する'],
+      answer: '2',
+      explanation: 'パケットは届く順番が入れ替わることがあるため、番号などをもとに元の順序に戻します。'
+    }
+  ],
+  'ip-address': [
+    {
+      title: 'IPアドレスの役割',
+      passage: '家庭内のネットワークで、スマートフォンとプリンタが通信する。各機器にはネットワーク上で識別するための番号が割り当てられている。',
+      question: 'この番号に最も近いものを選びなさい。',
+      choices: ['IPアドレス', '拡張子', '画素', '量子化'],
+      answer: '1',
+      explanation: 'ネットワーク上で機器を識別する番号がIPアドレスです。'
+    }
+  ],
+  database: [
+    {
+      title: '条件抽出',
+      passage: '次の生徒表がある。A: 72点、B: 85点、C: 90点、D: 66点。この表から80点以上の生徒だけを取り出す。',
+      question: '取り出される生徒の組として正しいものを選びなさい。',
+      choices: ['AとD', 'BとC', 'AとBとC', '全員'],
+      answer: '2',
+      explanation: '80点以上は85点のBと90点のCです。'
+    }
+  ],
+  statistics: [
+    {
+      title: '代表値の選択',
+      passage: 'データ [10, 12, 12, 13, 50] がある。50は他の値から大きく離れている。',
+      question: 'このデータで、外れ値の影響を平均値より受けにくい代表値として最も適切なものを選びなさい。',
+      choices: ['中央値', '合計値', '最大値', 'データ数'],
+      answer: '1',
+      explanation: '中央値は順に並べた中央の値を見るため、極端な値の影響を平均値より受けにくいです。'
+    }
+  ]
+};
+
+Object.entries(EXAM_STYLE_QUESTIONS).forEach(([id, questions]) => {
+  if (LESSONS[id]) LESSONS[id].examQuestions = questions;
+});
+
+const EXTRA_CORE_EXAM_QUESTIONS = {
+  branch: {
+    title: '複数条件の順序',
+    code: `score = 85\nif score >= 90:\n    result = "A"\nelif score >= 80:\n    result = "B"\nelse:\n    result = "C"\nprint(result)`,
+    question: '表示される文字として正しいものを選びなさい。',
+    choices: ['A', 'B', 'C', 'A と B'],
+    answer: '2',
+    explanation: '85は90以上ではありませんが、80以上です。elif 側が実行され、B が表示されます。'
+  },
+  loop: {
+    title: '反復回数と更新',
+    code: `x = 1\nfor i in range(4):\n    x = x + i\nprint(x)`,
+    question: '表示される値として正しいものを選びなさい。',
+    choices: ['4', '6', '7', '10'],
+    answer: '3',
+    explanation: 'range(4) で i は 0,1,2,3 です。x は 1+0+1+2+3 = 7 になります。'
+  },
+  array: {
+    title: '配列と合計',
+    code: `data = [2, 4, 6, 8]\ntotal = 0\nfor i in range(0, len(data), 2):\n    total = total + data[i]\nprint(total)`,
+    question: '表示される値として正しいものを選びなさい。',
+    choices: ['6', '8', '10', '20'],
+    answer: '2',
+    explanation: 'i は0,2になります。data[0] は2、data[2] は6なので、合計は8です。'
+  },
+  'counter-sum': {
+    title: '合計と個数から平均を求める',
+    passage: 'あるプログラムで、点数の合計 total が 320、人数 count が 4 と求められた。',
+    question: '平均点を求める式として正しいものを選びなさい。',
+    choices: ['count / total', 'total / count', 'total + count', 'total - count'],
+    answer: '2',
+    explanation: '平均は合計を個数で割るので、total / count です。'
+  },
+  'max-min': {
+    title: '最小値の更新',
+    code: `data = [6, 3, 8, 2]\nmin_value = data[0]\nfor value in data:\n    if value < min_value:\n        min_value = value\nprint(min_value)`,
+    question: '表示される値として正しいものを選びなさい。',
+    choices: ['2', '3', '6', '8'],
+    answer: '1',
+    explanation: '6から始め、3で更新、8では更新せず、2で更新します。最小値は2です。'
+  },
+  'linear-search': {
+    title: '存在しない値の探索',
+    passage: 'リスト [6, 1, 8, 3] から 5 を線形探索で探す。',
+    question: '5 が存在しないと判断するまでに比較する回数として正しいものを選びなさい。',
+    choices: ['1回', '2回', '3回', '4回'],
+    answer: '4',
+    explanation: '見つからない場合は最後まで調べる必要があるため、4個すべてと比較します。'
+  },
+  'binary-search': {
+    title: '見つからない場合の範囲',
+    passage: '整列済みリスト [2, 5, 9, 14, 20] から 7 を二分探索で探す。最初に中央の9を調べた。',
+    question: '次に探す範囲として正しいものを選びなさい。',
+    choices: ['9より左側', '9より右側', '全体', '探索終了'],
+    answer: '1',
+    explanation: '7は9より小さいので、整列済みリストでは9より左側だけを探します。'
+  },
+  'selection-sort': {
+    title: '確定する位置',
+    passage: '選択ソートで小さい順に並べ替えるとき、1回目の操作では未整列部分全体から最小値を選んで先頭に置く。',
+    question: '1回目の操作後に確定する位置として最も適切なものを選びなさい。',
+    choices: ['先頭', '中央', '最後', 'すべての位置'],
+    answer: '1',
+    explanation: '全体の最小値が先頭に置かれるため、先頭の位置が確定します。'
+  },
+  'bubble-sort': {
+    title: '交換条件',
+    passage: 'バブルソートで小さい順に並べ替える。隣同士を比べ、左の値が右の値より大きければ交換する。',
+    question: '隣同士が 3 と 7 のとき、交換するか。',
+    choices: ['交換する', '交換しない', '必ず終了する', 'リストを逆順にする'],
+    answer: '2',
+    explanation: '3は7より小さいので、小さい順では交換する必要がありません。'
+  },
+  debug: {
+    title: 'テストデータの選び方',
+    passage: '点数が80点以上なら合格と表示するプログラムを確認する。',
+    question: '境界の確認として特に試したい値の組として最も適切なものを選びなさい。',
+    choices: ['0 と 100', '79 と 80', '10 と 20', '50 と 60'],
+    answer: '2',
+    explanation: '80以上かどうかを判定するので、境界の直前79と境界値80を試すと条件ミスに気づきやすくなります。'
+  },
+  simulation: {
+    title: 'パラメータ変更の意味',
+    passage: '感染の広がりを簡単なモデルで調べる。1日あたりの増加率を 1.1、1.2、1.5 と変えて結果を比べた。',
+    question: 'この操作の目的として最も適切なものを選びなさい。',
+    choices: ['モデルの仮定を変えたとき結果がどう変わるか調べる', '必ず現実と同じ結果を出す', '乱数を使わないようにする', 'データ量を0にする'],
+    answer: '1',
+    explanation: 'パラメータを変えると、モデルの条件による結果の違いを調べられます。'
+  }
+};
+
+Object.entries(EXTRA_CORE_EXAM_QUESTIONS).forEach(([id, question]) => {
+  if (LESSONS[id]) LESSONS[id].examQuestions = [...(LESSONS[id].examQuestions || []), question];
+});
