@@ -390,6 +390,64 @@ th { background: #eef5fa; color: var(--brand-deep); }
   color: var(--brand-deep);
   white-space: nowrap;
 }
+.worked-area,
+.practice-area {
+  margin: 22px 0;
+}
+.worked-grid {
+  display: grid;
+  gap: 12px;
+}
+.worked-card,
+.practice-card {
+  border: 1px solid #ead4ba;
+  border-radius: 8px;
+  background: #fffdfa;
+  padding: 14px;
+}
+.worked-card h3 {
+  margin-top: 0;
+  color: var(--brand-deep);
+}
+.problem-text {
+  border-left: 4px solid var(--brand-secondary);
+  background: #fff7ed;
+  padding: 9px 11px;
+  font-weight: 700;
+}
+.answer-details,
+.practice-card details {
+  margin-top: 10px;
+}
+.answer-details summary,
+.practice-card summary {
+  color: var(--brand-primary);
+  cursor: pointer;
+  font-weight: 800;
+}
+.practice-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+.practice-number {
+  display: inline-flex;
+  min-width: 42px;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-deep);
+  font-weight: 800;
+  margin: 0 0 6px;
+  padding: 2px 9px;
+}
+.hint-text {
+  color: #7a4b12;
+  background: var(--warning-soft);
+  border-radius: 7px;
+  padding: 7px 9px;
+}
 .glossary-table td:first-child { width: 170px; font-weight: 700; }
 .bits { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .bit {

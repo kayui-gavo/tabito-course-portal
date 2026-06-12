@@ -174,6 +174,40 @@ function renderLessonDetails(lesson) {
   </section>`;
 }
 
+function renderWorkedExample(item) {
+  const thinking = item.thinking && item.thinking.length
+    ? `<ol class="step-list">${item.thinking.map(step => `<li>${step}</li>`).join('')}</ol>`
+    : '';
+  const answer = item.answer ? `<details class="answer-details" open><summary>考え方と答え</summary>${thinking}<p>${item.answer}</p></details>` : '';
+  const code = item.code ? `<pre class="code-block">${item.code}</pre>` : '';
+  return `<section class="worked-card">
+    <h3>${item.title}</h3>
+    <p class="problem-text">${item.problem}</p>
+    ${answer}
+    ${code}
+  </section>`;
+}
+
+function renderPracticeProblem(item, index) {
+  const hint = item.hint ? `<p class="hint-text">ヒント：${item.hint}</p>` : '';
+  return `<li class="practice-card">
+    <p class="practice-number">問${index + 1}</p>
+    <p>${item.question}</p>
+    ${hint}
+    <details><summary>解答を見る</summary><p>${item.answer}</p></details>
+  </li>`;
+}
+
+function renderLessonExamples(lesson) {
+  const worked = lesson.workedExamples && lesson.workedExamples.length
+    ? `<section class="worked-area"><h2>例題で確認する</h2><div class="worked-grid">${lesson.workedExamples.map(renderWorkedExample).join('')}</div></section>`
+    : '';
+  const practice = lesson.practiceProblems && lesson.practiceProblems.length
+    ? `<section class="practice-area"><h2>練習問題</h2><ol class="practice-list">${lesson.practiceProblems.map(renderPracticeProblem).join('')}</ol></section>`
+    : '';
+  return `${worked}${practice}`;
+}
+
 function renderLesson(id) {
   renderChrome('../');
   const lesson = LESSONS[id];
@@ -218,6 +252,8 @@ function renderLesson(id) {
       </section>
 
       ${renderLessonDetails(lesson)}
+
+      ${renderLessonExamples(lesson)}
 
       ${typeof renderCodeExercise === 'function' ? renderCodeExercise(lesson.id) : ''}
 
