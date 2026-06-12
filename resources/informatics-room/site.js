@@ -16,7 +16,6 @@ function headerHtml(prefix = '') {
     <nav class="global-nav">
       <a href="${prefix}index.html">学習目次</a>
       <a href="${prefix}exam.html">共通テスト対策</a>
-      <a href="${prefix}index.html#study-routes">学習の進め方</a>
       <a class="portal-link" href="${prefix}../../index.html">コースポータル</a>
     </nav>
   </div></header>`;
@@ -109,13 +108,6 @@ function renderTop() {
       </div>
     </section>
 
-    <section class="guide-box">
-      <h2>学習の進め方</h2>
-      <p>情報Ⅰの全体像を見ながら、第3章では変数、条件分岐、繰り返し、配列、探索、整列を詳しく確認できます。はじめて学ぶ人も、例と表を追いながら一つずつ進められます。</p>
-    </section>
-
-    ${renderStudyRoutes('')}
-
     <section class="quick-links">
       <h2>学習を助けるページ</h2>
       <div class="route-grid resource-grid">
@@ -131,30 +123,6 @@ function renderTop() {
       </div>
     </section>
   </main>`;
-}
-
-function lessonLink(id, basePrefix = '') {
-  const lesson = lessonById(id);
-  return lesson ? `<a href="${basePrefix}lessons/${id}.html">${lesson.title}</a>` : '';
-}
-
-function routeList(ids, basePrefix = '') {
-  return `<ol>${ids.map(id => `<li>${lessonLink(id, basePrefix)}</li>`).join('')}</ol>`;
-}
-
-function renderStudyRoutes(basePrefix = '') {
-  const routes = [
-    ['はじめて学ぶ人', ['information', 'problem-solving-flow', 'bit-byte', 'binary', 'text-digital', 'computer-structure', 'algorithm']],
-    ['プログラミングを重点的に学ぶ', ['input-process-output', 'variable', 'branch', 'loop', 'array', 'function', 'linear-search', 'binary-search']],
-    ['データ活用を重点的に学ぶ', ['statistics', 'visualization', 'data-format', 'qualitative-data', 'database']],
-    ['共通テスト前に確認する', ['intellectual-property', 'security', 'protocol', 'encryption-signature', 'simulation', 'scatter-correlation', 'outlier-representative']]
-  ];
-  return `<section class="study-routes" id="study-routes">
-    <h2>学習の進め方</h2>
-    <div class="route-grid">
-      ${routes.map(([title, ids]) => `<article class="route-card"><h3>${title}</h3>${routeList(ids, basePrefix)}</article>`).join('')}
-    </div>
-  </section>`;
 }
 
 function renderProgramming() {

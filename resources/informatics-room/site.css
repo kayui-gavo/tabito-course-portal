@@ -89,12 +89,12 @@ a { color: var(--brand-primary); text-decoration-thickness: 1px; text-underline-
 }
 
 .page { padding: 18px 0 48px; }
-.intro, .guide-box, .quick-links, .study-routes, .chapter-block, .question-box, .term-area, .lesson-article {
+.intro, .guide-box, .quick-links, .chapter-block, .question-box, .term-area, .lesson-article {
   background: var(--bg-card);
   border: 1px solid var(--border-soft);
   border-radius: 8px;
 }
-.intro, .guide-box, .quick-links, .study-routes, .chapter-block, .question-box, .term-area {
+.intro, .guide-box, .quick-links, .chapter-block, .question-box, .term-area {
   padding: 14px;
   margin: 12px 0;
 }
@@ -159,10 +159,6 @@ p { margin: 9px 0; }
   background: #fffdfa;
   border-color: #ecd5b8;
 }
-.study-routes {
-  background: #fff;
-}
-.study-routes h2,
 .quick-links h2 {
   margin-top: 0;
 }
