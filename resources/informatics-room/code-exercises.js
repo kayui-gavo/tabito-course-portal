@@ -321,6 +321,40 @@ for i in range(1, 6):
 print(total)
 `,
     explanation: '代入は、右辺を計算してから左辺の変数に入れる操作です。途中の total を表で追うと、誤りに気づきやすくなります。'
+  },
+  random: {
+    id: 'random-dice-count',
+    mode: 'function',
+    title: 'サイコロで6が出た回数を数える',
+    description: 'rolls に入っているサイコロの結果から、6 が出た回数を返す関数 count_six を作りましょう。乱数で作った結果を分析するときも、まずは条件に合う回数を数えることが大切です。',
+    initialCode: `def count_six(rolls):
+    count = 0
+
+    for roll in rolls:
+        # 6 が出たら count を増やしましょう
+        pass
+
+    return count
+`,
+    tests: [
+      { name: '6が2回', functionName: 'count_six', args: [[1, 6, 3, 6, 2]], expectedReturn: 2, visible: true },
+      { name: '6が出ない', functionName: 'count_six', args: [[1, 2, 3, 4, 5]], expectedReturn: 0, visible: true },
+      { name: 'すべて6', functionName: 'count_six', args: [[6, 6, 6]], expectedReturn: 3, visible: true }
+    ],
+    hints: [
+      'roll == 6 という条件を使います。',
+      '条件を満たしたときだけ count = count + 1 とします。'
+    ],
+    solutionCode: `def count_six(rolls):
+    count = 0
+
+    for roll in rolls:
+        if roll == 6:
+            count = count + 1
+
+    return count
+`,
+    explanation: '乱数そのものを覚えるのではなく、条件に合う回数や割合を集計して傾向を見ます。'
   }
 };
 

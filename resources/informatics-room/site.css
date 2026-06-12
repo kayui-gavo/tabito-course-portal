@@ -224,6 +224,21 @@ p { margin: 9px 0; }
 }
 .lesson-link:first-child { border-top: 0; padding-top: 0; }
 .muted-link { color: #8a95a3; }
+.lesson-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+.lesson-tags span {
+  border-radius: 999px;
+  background: #eef5fa;
+  color: #315f82;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 4px 6px;
+}
 
 .status-badge {
   display: inline-flex;
@@ -268,6 +283,32 @@ p { margin: 9px 0; }
   border-radius: 7px;
   padding: 12px 14px;
   font-weight: 650;
+}
+.in-page-nav {
+  border: 1px solid #d7e4ec;
+  border-radius: 8px;
+  background: #fbfdff;
+  padding: 12px;
+  margin: 14px 0 20px;
+}
+.in-page-nav h2 {
+  margin-top: 0;
+  font-size: 17px;
+}
+.in-page-nav div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.in-page-nav a {
+  border: 1px solid #c8ddeb;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-deep);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 9px;
+  text-decoration: none;
 }
 .example, .mistake, .note, .demo-box {
   border: 1px solid var(--border-soft);
@@ -506,6 +547,52 @@ th { background: #eef5fa; color: var(--brand-deep); }
   cursor: pointer;
   font-weight: 800;
 }
+.trace-area,
+.exam-set-area {
+  margin: 24px 0;
+}
+.trace-card,
+.exam-set-card {
+  border: 1px solid #d7e4ec;
+  border-radius: 8px;
+  background: #fcfeff;
+  padding: 14px;
+  margin: 12px 0;
+}
+.trace-card h3,
+.exam-set-card h3 {
+  margin-top: 4px;
+  color: var(--brand-deep);
+}
+.exam-set-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.exam-materials {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+.exam-set-question {
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.exam-set-question h4 {
+  margin: 0 0 8px;
+  color: var(--brand-deep);
+  font-size: 16px;
+}
+.exam-set-question details {
+  margin-top: 10px;
+}
+.exam-set-question summary {
+  color: var(--brand-primary);
+  cursor: pointer;
+  font-weight: 800;
+}
 .glossary-table td:first-child { width: 170px; font-weight: 700; }
 .bits { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .bit {
@@ -685,4 +772,6 @@ th { background: #eef5fa; color: var(--brand-deep); }
   .code-exercise { padding: 13px; }
   .result-grid { grid-template-columns: 1fr; }
   .code-editor { min-height: 210px; font-size: 13px; }
+  .in-page-nav div { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 3px; }
+  .in-page-nav a { flex: 0 0 auto; }
 }

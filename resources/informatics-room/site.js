@@ -58,8 +58,12 @@ function renderLessonLink(lesson, basePrefix = '') {
   const linked = lesson.href === '#'
     ? `<span class="muted-link">${lesson.title}</span>`
     : `<a href="${href}">${lesson.title}</a>`;
+  const fullLesson = lessonById(lesson.id) || {};
+  const tags = fullLesson.tags && fullLesson.tags.length
+    ? `<div class="lesson-tags">${fullLesson.tags.map(tag => `<span>${tag}</span>`).join('')}</div>`
+    : '';
   return `<li class="lesson-link">
-    <div>${linked}</div>
+    <div>${linked}${tags}</div>
     ${statusBadge(lesson.status)}
   </li>`;
 }
@@ -200,12 +204,25 @@ function renderPracticeProblem(item, index) {
 
 function renderLessonExamples(lesson) {
   const worked = lesson.workedExamples && lesson.workedExamples.length
-    ? `<section class="worked-area"><h2>例題で確認する</h2><div class="worked-grid">${lesson.workedExamples.map(renderWorkedExample).join('')}</div></section>`
+    ? `<section class="worked-area" id="examples"><h2>例題で確認する</h2><div class="worked-grid">${lesson.workedExamples.map(renderWorkedExample).join('')}</div></section>`
     : '';
   const practice = lesson.practiceProblems && lesson.practiceProblems.length
-    ? `<section class="practice-area"><h2>練習問題</h2><ol class="practice-list">${lesson.practiceProblems.map(renderPracticeProblem).join('')}</ol></section>`
+    ? `<section class="practice-area" id="practice"><h2>練習問題</h2><ol class="practice-list">${lesson.practiceProblems.map(renderPracticeProblem).join('')}</ol></section>`
     : '';
   return `${worked}${practice}`;
+}
+
+function renderTraceTables(lesson) {
+  if (!lesson.traceTables || !lesson.traceTables.length) return '';
+  return `<section class="trace-area" id="trace">
+    <h2>手で追ってみよう</h2>
+    <p>プログラムは、変数の値が一行ずつ変わりながら進みます。表にして追うと、どこで値が変わるのかが見えやすくなります。</p>
+    ${lesson.traceTables.map(table => `<section class="trace-card">
+      <h3>${table.title}</h3>
+      ${table.note ? `<p>${table.note}</p>` : ''}
+      <div class="table-scroll"><table class="mini-table"><thead><tr>${table.headers.map(header => `<th>${header}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    </section>`).join('')}
+  </section>`;
 }
 
 function renderExamQuestion(item, index) {
@@ -227,11 +244,71 @@ function renderExamQuestion(item, index) {
 
 function renderExamArea(lesson) {
   if (!lesson.examQuestions || !lesson.examQuestions.length) return '';
-  return `<section class="exam-area">
+  return `<section class="exam-area" id="exam">
     <h2>共通テスト風の確認</h2>
     <p class="small-note">入試本番の過去問ではなく、このページの内容を確認するための学習用類題です。</p>
     <div class="exam-grid">${lesson.examQuestions.map(renderExamQuestion).join('')}</div>
   </section>`;
+}
+
+function renderExamMaterial(material) {
+  if (material.type === 'conversation') {
+    return `<div class="exam-passage">${material.lines.map(line => `<p><strong>${line.speaker}：</strong>${line.text}</p>`).join('')}</div>`;
+  }
+  if (material.type === 'table') {
+    return `<div class="table-scroll"><table class="mini-table"><thead><tr>${material.headers.map(header => `<th>${header}</th>`).join('')}</tr></thead><tbody>${material.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }
+  if (material.type === 'code') {
+    return `<pre class="code-block">${material.code}</pre>`;
+  }
+  return `<div class="exam-passage">${material.text.split('\n').map(line => `<p>${line}</p>`).join('')}</div>`;
+}
+
+function renderExamSetQuestion(question, index) {
+  const choices = question.choices && question.choices.length
+    ? `<ol class="choice-list">${question.choices.map(choice => `<li>${choice}</li>`).join('')}</ol>`
+    : '';
+  return `<section class="exam-set-question">
+    <h4>問${index + 1}　${question.title}</h4>
+    <p>${question.question}</p>
+    ${choices}
+    <details><summary>解答と解説を見る</summary><p><strong>答え：</strong>${question.answer}</p><p>${question.explanation}</p>${question.mistake ? `<p class="hint-text">つまずきポイント：${question.mistake}</p>` : ''}</details>
+  </section>`;
+}
+
+function renderExamSets(lesson) {
+  if (!lesson.examSets || !lesson.examSets.length) return '';
+  return `<section class="exam-set-area" id="exam-set">
+    <h2>共通テスト風 総合問題</h2>
+    <p class="small-note">入試本番の過去問ではなく、このページの内容を確認するための学習用類題です。</p>
+    ${lesson.examSets.map(set => `<article class="exam-set-card">
+      <div class="exam-set-head">
+        <p class="exam-number">${set.difficulty || '共通テスト重要'}</p>
+        <h3>${set.title}</h3>
+      </div>
+      <p>${set.lead}</p>
+      <div class="exam-materials">${(set.materials || []).map(renderExamMaterial).join('')}</div>
+      <div class="exam-set-questions">${set.questions.map(renderExamSetQuestion).join('')}</div>
+    </article>`).join('')}
+  </section>`;
+}
+
+function renderInPageNav(lesson) {
+  const items = [
+    ['#image', 'まずイメージ'],
+    ['#basic', '基本の考え方'],
+    ['#figure', '図で理解'],
+    ...(lesson.traceTables && lesson.traceTables.length ? [['#trace', '手で追う']] : []),
+    ...(lesson.workedExamples && lesson.workedExamples.length ? [['#examples', '例題']] : []),
+    ...(lesson.practiceProblems && lesson.practiceProblems.length ? [['#practice', '練習問題']] : []),
+    ...(lesson.examQuestions && lesson.examQuestions.length ? [['#exam', '共通テスト風']] : []),
+    ...(lesson.examSets && lesson.examSets.length ? [['#exam-set', '総合問題']] : []),
+    ['#check', '確認問題']
+  ];
+  return `<nav class="in-page-nav" aria-label="このページで学ぶこと">
+    <h2>このページで学ぶこと</h2>
+    <div>${items.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}</div>
+  </nav>`;
 }
 
 function renderLesson(id) {
@@ -254,8 +331,9 @@ function renderLesson(id) {
         ${statusBadge(lesson.status || 'draft')}
       </div>
       <p class="lesson-one-line">${lesson.oneLine}</p>
+      ${renderInPageNav(lesson)}
 
-      <section>
+      <section id="image">
         <h2>まず一言でいうと</h2>
         <p>${lesson.oneLine}</p>
       </section>
@@ -265,12 +343,12 @@ function renderLesson(id) {
         <div class="example">${lesson.example}</div>
       </section>
 
-      <section>
+      <section id="figure">
         <h2>図で見る</h2>
         ${FIGURES[lesson.figure] ? FIGURES[lesson.figure]() : ''}
       </section>
 
-      <section>
+      <section id="basic">
         <h2>情報Ⅰではこう考える</h2>
         ${lesson.explanation.split('。').filter(Boolean).map(s => `<p>${s}。</p>`).join('')}
         ${lesson.code ? `<h3>疑似コード</h3><pre class="code-block">${lesson.code}</pre>` : ''}
@@ -279,9 +357,13 @@ function renderLesson(id) {
 
       ${renderLessonDetails(lesson)}
 
+      ${renderTraceTables(lesson)}
+
       ${renderLessonExamples(lesson)}
 
       ${renderExamArea(lesson)}
+
+      ${renderExamSets(lesson)}
 
       ${typeof renderCodeExercise === 'function' ? renderCodeExercise(lesson.id) : ''}
 
@@ -292,7 +374,7 @@ function renderLesson(id) {
 
       ${renderDemo(lesson.id)}
 
-      <section class="question-box">
+      <section class="question-box" id="check">
         <h2>確認問題</h2>
         <p>${lesson.question}</p>
         <details><summary>解答を見る</summary><p>${lesson.answer}</p></details>
