@@ -431,6 +431,189 @@ const LESSONS = {
   }
 };
 
+Object.assign(LESSONS, {
+  'problem-solving-flow': {
+    id: 'problem-solving-flow',
+    title: '問題解決の流れ',
+    chapter: '第1章　情報社会の問題解決',
+    topicLabel: '情報Ⅰ (1) 情報社会の問題解決',
+    figure: 'problemSolvingCycle',
+    oneLine: '問題解決は、問題を見つけ、目標を決め、情報を集め、実行し、結果を評価する流れで進めます。',
+    example: '学校の入口が朝だけ混雑するなら、まず「どの時間帯に、どこで、なぜ混むのか」を調べ、複数の解決策を比べます。',
+    explanation: '情報Ⅰでいう問題解決は、思いつきで答えを出すことではありません。まず困っていることを具体的にし、望ましい状態を決めます。次に、必要な情報を集め、表やグラフに整理し、複数の解決策を比べます。実行したあとは、結果が目標に近づいたかを評価し、必要なら改善します。この流れは、プログラム、データ分析、情報デザイン、セキュリティ対策のどれにも共通します。',
+    misconception: '最初に思いついた案をすぐ正解にしないことが大切です。原因、制約、評価方法を決めないと、よい案かどうか判断できません。',
+    question: '問題解決で、解決策を実行したあとに評価を行う理由を説明しなさい。',
+    answer: '目標に近づいたか、別の問題が起きていないかを確かめ、次の改善につなげるためです。',
+    status: 'enhanced',
+    terms: ['問題発見', '目標', '評価', '改善'],
+    details: [
+      { title: '問題を「見える形」にする', paragraphs: ['問題は、ただ「困っている」と言うだけでは扱いにくいものです。いつ、どこで、誰が、どのくらい困っているのかを言葉や数値にします。', 'たとえば「昼休みの売店が混む」なら、混む時間、待ち時間、購入者数、列の場所などを調べます。すると、店員を増やすべきか、注文方法を変えるべきか、別の場所に案内すべきかを比べられます。'] },
+      { title: '解決策を比べる視点', table: { headers: ['視点', '見ること', '例'], rows: [['効果', '目標に近づくか', '待ち時間が短くなる'], ['実現性', '時間や費用で実行できるか', '今週中に掲示を変えられる'], ['影響', '別の人に不利益がないか', '列の場所が通行の邪魔にならない'], ['評価', '結果を測れるか', '平均待ち時間を記録する']] } }
+    ],
+    workedExamples: [
+      { title: '例題：図書室の混雑を改善する', problem: '昼休みの図書室で貸出の列が長い。問題解決の最初に行うこととして適切なものを説明しなさい。', thinking: ['いきなり係の人数を増やすと決めない。', '混む時間帯、列の長さ、貸出にかかる時間を調べる。', '原因を確かめてから解決策を考える。'], answer: 'まず混雑の状況を具体的に記録し、原因を確認します。たとえば待ち時間、利用者数、手続きにかかる時間を調べます。' }
+    ],
+    practiceProblems: [
+      { question: '「文化祭の案内が分かりにくい」という問題を、測りやすい形に言い換えなさい。', hint: '誰が、どこで、何に迷うのかを入れます。', answer: '来場者が校舎入口で目的の教室を見つけるまでに時間がかかる、のように言い換えられます。' },
+      { question: '解決策を一つだけでなく複数考える理由を説明しなさい。', hint: '効果、費用、影響を比べます。', answer: '複数案を比べることで、効果が大きく実行しやすい案を選びやすくなるからです。' }
+    ],
+    examQuestions: [
+      { title: '問題解決の順序', passage: '生徒会は、学校サイトの連絡が見つけにくいという意見を受け、改善を考えることにした。まず利用者がどの情報を探しにくいのかをアンケートで集め、よく使うページへのリンクを整理した。', question: 'この例で、アンケートを集める目的として最も適切なものを選びなさい。', choices: ['解決策を実行したことにするため', '問題の内容を具体的にし、判断の材料を集めるため', 'サイトの色を必ず派手にするため', 'すべての意見をそのまま採用するため'], answer: '2', explanation: '問題解決では、問題を具体化し、解決策を考えるための情報を集めます。' }
+    ],
+    examFocus: '共通テスト風の問題では、会話文や表から「いま何をしている段階か」「どの情報が判断材料か」を読む形で問われます。順序を丸暗記するより、目的と評価方法に注目しましょう。'
+  },
+  'intellectual-property': {
+    id: 'intellectual-property',
+    title: '知的財産権',
+    chapter: '第1章　情報社会の問題解決',
+    topicLabel: '情報Ⅰ (1) 情報社会の問題解決',
+    figure: 'intellectualPropertyMap',
+    oneLine: '知的財産権は、文章、音楽、画像、発明、ロゴなど、人の創作や工夫を守るための権利です。',
+    example: '発表スライドにネット上のイラストを入れるときは、自由に使えるものか、条件は何か、出典表示が必要かを確認します。',
+    explanation: '知的財産権は大きく、著作権と産業財産権に分けて考えると整理しやすいです。著作権は文章、写真、音楽、動画、プログラムなどの著作物に関わります。産業財産権には、発明を守る特許権、商品名やロゴを守る商標権、デザインを守る意匠権などがあります。情報社会では、作品をコピーしやすいからこそ、他者の権利を尊重しながら活用する姿勢が必要です。',
+    misconception: 'ネットにあるものは無料で自由、というわけではありません。無料で見られることと、自由にコピーして公開できることは別です。',
+    question: 'ネット上の画像を学校サイトに載せる前に確認すべきことを一つ答えなさい。',
+    answer: '利用条件、権利者、出典表示の必要性、公開してよい範囲などを確認します。',
+    status: 'enhanced',
+    terms: ['著作権', '産業財産権', '商標権', '引用'],
+    details: [
+      { title: '著作権と産業財産権', table: { headers: ['分類', '守るもの', '身近な例'], rows: [['著作権', '文章・写真・音楽・動画・プログラムなど', '授業スライド、写真、作曲した曲'], ['特許権', '新しい技術的な発明', '新しい装置や仕組み'], ['商標権', '商品やサービスを区別する名前・ロゴ', '店名、ブランドロゴ'], ['意匠権', '物品などの形やデザイン', '特徴的な製品デザイン']] } },
+      { title: '引用と転載の違い', paragraphs: ['引用は、自分の文章が主で、必要な範囲だけ他者の文章や図を示す使い方です。どこから来た情報か分かるようにし、自分の説明と区別します。', '一方、他者の画像や文章をそのまま中心に置いて公開する場合は、引用ではなく転載に近くなります。授業内だけで見る場合と、学校サイトで公開する場合でも条件が変わります。'] }
+    ],
+    workedExamples: [
+      { title: '例題：ポスターに使う画像', problem: '文化祭ポスターに、検索で見つけた写真を使いたい。最初に確認するべきことを答えなさい。', thinking: ['検索で表示されたことは、利用許可を意味しない。', '公開範囲と利用条件を確認する。', '必要なら自分で撮影するか、条件が明確な素材を使う。'], answer: '写真の利用条件、権利者、出典表示の必要性、学校サイトなどで公開してよいかを確認します。' }
+    ],
+    practiceProblems: [
+      { question: '商品ロゴを守る権利として関係が深いものは何ですか。', hint: '商品やサービスを区別する印です。', answer: '商標権です。' },
+      { question: '自分で撮った写真なら、何も気にせず公開してよいですか。', hint: '写っている人や場所にも注意します。', answer: '必ずしもよいとは限りません。写っている人のプライバシーや肖像、場所のルールも確認します。' }
+    ],
+    examQuestions: [
+      { title: '学校サイトでの利用', passage: '生徒Aは、部活動紹介ページに、ネットで見つけたキャラクター画像と店のロゴを使いたいと考えた。ページは一般公開される。', question: '公開前の対応として最も適切なものを選びなさい。', choices: ['検索結果に出た画像なのでそのまま使う', '画像やロゴの利用条件を確認し、許可や条件が不明なものは使わない', '小さく表示すれば必ず自由に使える', '出典を書かなければ見つからないので問題ない'], answer: '2', explanation: '一般公開するページでは、著作権や商標などの権利、利用条件、出典表示を確認します。' }
+    ],
+    examFocus: '権利の問題では、用語名だけでなく、公開、複製、引用、ロゴ利用、写真の扱いなどの場面判断が問われやすいです。'
+  },
+  'text-digital': {
+    id: 'text-digital',
+    title: '文字のディジタル化',
+    chapter: '第2章　コミュニケーションと情報デザイン',
+    topicLabel: '情報Ⅰ (2) 情報のディジタル化',
+    figure: 'textDigitalCode',
+    oneLine: 'コンピュータは、文字を文字コードという番号に対応させ、0と1の列として扱います。',
+    example: 'A という文字は、ある文字コードでは 65 という番号に対応し、2進数では 01000001 のように表せます。',
+    explanation: '文字を保存したり通信したりするには、文字と番号の対応表が必要です。この対応の決まりを文字コードといいます。英数字だけでなく、日本語、記号、絵文字などを扱うには、多くの文字に番号を割り当てる必要があります。送る側と読む側で文字コードの解釈が合わないと、文字化けが起こることがあります。',
+    misconception: '1文字がいつも1バイトとは限りません。英数字、日本語、絵文字では、使う文字コードや表し方によって必要なバイト数が変わります。',
+    question: '文字化けが起こる原因を、文字コードという語を使って説明しなさい。',
+    answer: '送る側と読む側で文字コードの解釈が合わず、同じビット列を別の文字として読んでしまうためです。',
+    status: 'enhanced',
+    terms: ['文字コード', 'Unicode', 'ASCII', '文字化け'],
+    details: [
+      { title: '文字は番号として保存される', paragraphs: ['コンピュータの内部では、文字そのものが小さく入っているわけではありません。文字ごとに番号を決め、その番号を2進数のビット列として保存します。', 'たとえば Python では ord("A") で A に対応する番号を調べられます。反対に chr(65) とすると、番号65に対応する文字を得られます。'] },
+      { title: 'Pythonで確認する', table: { headers: ['式', '意味', '結果の例'], rows: [['ord("A")', '文字から番号へ', '65'], ['bin(65)', '10進数から2進数へ', '0b1000001'], ['hex(65)', '10進数から16進数へ', '0x41'], ['chr(65)', '番号から文字へ', 'A']] } }
+    ],
+    workedExamples: [
+      { title: '例題：文字コードを追う', problem: 'A の番号を65とする。65を2進数で表すと1000001である。8bitで表すとどうなるか。', thinking: ['8bitにするには、左側に0を足して8けたにする。', '1000001は7けたなので、先頭に0を1つ付ける。'], answer: '01000001です。', code: `print(ord("A"))      # 65\nprint(format(65, "08b"))  # 01000001` }
+    ],
+    practiceProblems: [
+      { question: '文字コードが必要な理由を説明しなさい。', hint: '文字をビット列にするための対応表です。', answer: '文字を番号に対応させ、その番号を0と1の列として保存・通信するためです。' },
+      { question: '「文字化け」はどんなときに起こりやすいですか。', hint: '送る側と読む側の決まりが違う場合です。', answer: '同じビット列を、読む側が別の文字コードとして解釈したときに起こりやすいです。' }
+    ],
+    examQuestions: [
+      { title: '文字コードの考え方', passage: 'ある文字コードでは、文字「A」に65、「B」に66という番号が割り当てられている。コンピュータはこの番号をビット列で保存する。', question: '文字コードの説明として最も適切なものを選びなさい。', choices: ['文字と番号の対応を決めるもの', '画像の明るさだけを決めるもの', '通信速度を必ず速くするもの', '文字を必ず1バイトにするもの'], answer: '1', explanation: '文字コードは、文字と番号の対応を決めるものです。' }
+    ],
+    examFocus: '文字のディジタル化では、文字コード、ビット列、文字化け、バイト数の違いが問われやすいです。'
+  },
+  hexadecimal: {
+    id: 'hexadecimal',
+    title: '16進数',
+    chapter: '第2章　コミュニケーションと情報デザイン',
+    topicLabel: '情報Ⅰ (2) 二進法による表現',
+    figure: 'hexadecimalBits',
+    oneLine: '16進数は、0から9とAからFを使って、4bit分を1けたで表す記数法です。',
+    example: '2進数 1010 は10進数で10なので、16進数では A と書きます。1111 は F です。',
+    explanation: '2進数はコンピュータの内部表現に近いですが、長くなりやすいです。そこで4bitを1けたにまとめて16進数で表すと、人間が読みやすくなります。色のコード、文字コード、メモリの番地などで16進数が使われます。A, B, C, D, E, F は、それぞれ10, 11, 12, 13, 14, 15を表します。',
+    misconception: '16進数の A は文字ではなく、数の10を表す記号です。10進数の「10」と16進数の「10」は同じ値ではありません。',
+    question: '2進数 1111 を16進数に直しなさい。',
+    answer: 'Fです。1111₂ は10進数で15、16進数ではFです。',
+    status: 'enhanced',
+    terms: ['16進数', 'A-F', '4bit', '色コード'],
+    details: [
+      { title: '0から15までの対応', table: { headers: ['10進数', '2進数', '16進数'], rows: [['0', '0000', '0'], ['1', '0001', '1'], ['9', '1001', '9'], ['10', '1010', 'A'], ['11', '1011', 'B'], ['12', '1100', 'C'], ['13', '1101', 'D'], ['14', '1110', 'E'], ['15', '1111', 'F']] } },
+      { title: '2進数から16進数へ', paragraphs: ['右から4bitずつ区切り、それぞれを16進数1けたに直します。たとえば 11010110₂ は 1101 と 0110 に分け、D6₁₆ と書けます。', '色コード #FF8800 のような表現では、FF、88、00 のように2けたずつまとめて、赤・緑・青の強さを表します。'] }
+    ],
+    workedExamples: [
+      { title: '例題：10101100₂を16進数へ', problem: '2進数 10101100₂ を16進数に直しなさい。', thinking: ['右から4けたずつ 1010 と 1100 に分ける。', '1010 は A、1100 は C。', '順番に並べる。'], answer: 'AC₁₆です。', code: `n = int("10101100", 2)\nprint(hex(n))  # 0xac` }
+    ],
+    practiceProblems: [
+      { question: '16進数の B は10進数でいくつですか。', hint: 'Aが10です。', answer: '11です。' },
+      { question: '2進数 11110000₂ を16進数に直しなさい。', hint: '1111 と 0000 に分けます。', answer: 'F0₁₆です。' }
+    ],
+    examQuestions: [
+      { title: '4bitと16進数', passage: '2進数を右から4bitずつ区切ると、16進数に直しやすい。10110111₂ を 1011 と 0111 に区切る。', question: '10110111₂ の16進数表記として正しいものを選びなさい。', choices: ['B7', 'A7', '7B', '117'], answer: '1', explanation: '1011₂ は11なのでB、0111₂ は7なので、B7です。' }
+    ],
+    examFocus: '16進数では、4bitと1けたの対応を使う変換、色コードや文字コードとの関係が問われやすいです。'
+  },
+  protocol: {
+    id: 'protocol',
+    title: 'プロトコル',
+    chapter: '第4章　情報通信ネットワークとデータの活用',
+    topicLabel: '情報Ⅰ (4) 情報通信ネットワーク',
+    figure: 'protocolLayers',
+    oneLine: 'プロトコルは、機器同士が通信するために決めた共通の約束です。',
+    example: 'Webページを見るときはHTTPやHTTPS、メールを送るときはSMTP、受け取るときはPOPやIMAPなどの約束が使われます。',
+    explanation: '通信では、送る順序、宛先の書き方、データの分け方、エラーが起きたときの扱いなどを決めておく必要があります。この共通ルールがプロトコルです。1つの通信でも、役割の違う複数のプロトコルが組み合わさります。たとえばWebページを見るとき、IPは宛先の識別、TCPはデータを順序よく届けること、HTTPやHTTPSはWebのやりとりの形式に関わります。',
+    misconception: 'プロトコルは一つだけではありません。Web、メール、ファイル転送など、目的に応じて複数の約束が使われます。',
+    question: 'Webページを見るときに使われる代表的なプロトコルを一つ答えなさい。',
+    answer: 'HTTPまたはHTTPSです。',
+    status: 'enhanced',
+    terms: ['HTTP', 'HTTPS', 'TCP/IP', 'SMTP', 'POP', 'IMAP'],
+    details: [
+      { title: '代表的なプロトコル', table: { headers: ['プロトコル', '主な役割', '場面'], rows: [['IP', '宛先を識別して届ける', 'インターネット全般'], ['TCP', '順序や到着を確認しながら送る', 'Web、メールなど'], ['HTTP', 'Webページの要求と応答', 'ブラウザでページを見る'], ['HTTPS', '暗号化されたWeb通信', 'ログイン、決済、個人情報入力'], ['SMTP', 'メールを送る', '送信サーバへ送る'], ['POP/IMAP', 'メールを受け取る', '受信箱を見る']] } },
+      { title: '通信を階層で考える', paragraphs: ['通信は、役割ごとに分けると理解しやすくなります。住所にあたる情報、分割したデータを順序よく届ける仕組み、Webやメールとしての意味を決める仕組みが重なっています。', '共通の約束があるから、会社の違うスマートフォン、学校のPC、家庭のルータなどが互いに通信できます。'] }
+    ],
+    workedExamples: [
+      { title: '例題：Webとメールを分ける', problem: 'Webページを見る通信とメールを送る通信で、使うプロトコルの例を答えなさい。', thinking: ['WebページはHTTPまたはHTTPS。', 'メール送信はSMTP。', 'メール受信はPOPやIMAP。'], answer: 'Webページを見るときはHTTP/HTTPS、メールを送るときはSMTP、受け取るときはPOPまたはIMAPが使われます。' }
+    ],
+    practiceProblems: [
+      { question: 'プロトコルが必要な理由を説明しなさい。', hint: '通信する機器同士の約束です。', answer: '送信側と受信側が同じ形式や手順でデータを扱えるようにするためです。' },
+      { question: 'HTTPSのSは、HTTPと比べてどのような特徴を表しますか。', hint: '安全な通信です。', answer: '通信内容を暗号化し、安全性を高めたWeb通信であることを表します。' }
+    ],
+    examQuestions: [
+      { title: '通信の役割', passage: '生徒はブラウザで学校サイトを見ている。ページのURLは https:// で始まっている。', question: 'この通信について最も適切な説明を選びなさい。', choices: ['WebページのやりとりにHTTPSが使われている', 'メール送信にPOPが使われている', '通信にはプロトコルが不要である', 'IPアドレスは画像の色を表す'], answer: '1', explanation: 'https:// で始まるWebページでは、暗号化されたWeb通信であるHTTPSが使われます。' }
+    ],
+    examFocus: 'ネットワークでは、プロトコル名を単独で覚えるより、Web、メール、暗号化、パケット通信の場面と結び付ける問題が出やすいです。'
+  },
+  'encryption-signature': {
+    id: 'encryption-signature',
+    title: '暗号化とデジタル署名',
+    chapter: '第4章　情報通信ネットワークとデータの活用',
+    topicLabel: '情報Ⅰ (4) 情報セキュリティ',
+    figure: 'encryptionSignature',
+    oneLine: '暗号化は内容を読みにくくする仕組み、デジタル署名は相手や内容の正しさを確認する仕組みです。',
+    example: 'ログイン画面でHTTPSが使われると、入力したパスワードが通信途中でそのまま読まれにくくなります。',
+    explanation: '暗号化では、元のデータを鍵を使って暗号文に変えます。読む側は、対応する鍵で元に戻します。共通鍵暗号方式は同じ鍵で暗号化と復号を行い、公開鍵暗号方式は公開鍵と秘密鍵を組み合わせます。デジタル署名は、送信者が本人であることや、途中で内容が変えられていないことを確認するために使われます。安全な通信では、暗号化、認証、証明書などが組み合わさります。',
+    misconception: '暗号化していれば何をしても安全、というわけではありません。弱いパスワード、偽サイト、端末の盗難など、別のリスクも残ります。',
+    question: '暗号化とデジタル署名の役割の違いを簡単に説明しなさい。',
+    answer: '暗号化は内容を第三者に読まれにくくし、デジタル署名は送信者や内容が正しいかを確認するために使います。',
+    status: 'enhanced',
+    terms: ['暗号化', '復号', '共通鍵', '公開鍵', 'デジタル署名', '証明書'],
+    details: [
+      { title: '暗号化と署名の違い', table: { headers: ['仕組み', '主な目的', '確認できること'], rows: [['暗号化', '内容を読まれにくくする', '秘密を守る'], ['デジタル署名', '送信者と内容の正しさを確認する', '本人性、改ざんの有無'], ['デジタル証明書', '公開鍵が誰のものかを示す', 'なりすまし対策']] } },
+      { title: 'HTTPSで起きていること', paragraphs: ['HTTPSでは、Webサイトとの通信を暗号化し、証明書を使って接続先の確認も行います。これにより、通信途中で内容を読まれたり、別のサイトになりすまされたりする危険を減らします。', 'ただし、HTTPSの表示があっても、入力先のURLやサービス自体が信頼できるかを確認することは必要です。'] }
+    ],
+    workedExamples: [
+      { title: '例題：何を守る仕組みか', problem: '成績データを先生に送るとき、通信途中で内容を読まれにくくしたい。関係が深い仕組みは何ですか。', thinking: ['内容を第三者に読まれにくくしたい。', 'これは内容の秘匿に関わる。', 'したがって暗号化が中心になる。'], answer: '暗号化です。通信内容を暗号文に変えて、第三者がそのまま読みにくくします。' }
+    ],
+    practiceProblems: [
+      { question: 'デジタル署名で確認したいことを一つ答えなさい。', hint: '誰が送ったか、途中で変わっていないかです。', answer: '送信者が本人であることや、内容が改ざんされていないことです。' },
+      { question: 'HTTPSのページなら、URL確認は不要ですか。', hint: '偽サイトの可能性も考えます。', answer: '不要ではありません。HTTPSでも、接続先のURLやサイト名を確認する必要があります。' }
+    ],
+    examQuestions: [
+      { title: '暗号化と署名', passage: '学校の連絡システムでは、ログイン時の通信を暗号化し、配布ファイルには送信者を確認できる仕組みを付けることにした。', question: '配布ファイルの送信者や内容の正しさを確認する仕組みとして最も適切なものを選びなさい。', choices: ['デジタル署名', '標本化', '平均値', '量子化'], answer: '1', explanation: 'デジタル署名は、送信者や内容の正しさの確認に使われます。' }
+    ],
+    examFocus: '暗号化、認証、デジタル署名、証明書は、HTTPSやログイン、ファイル配布の場面で役割を区別して問われます。'
+  }
+});
+
 for (const lesson of Object.values(LESSONS)) {
   if (!lesson.terms) lesson.terms = [];
 }
@@ -2084,6 +2267,86 @@ Object.entries(EXTRA_CORE_EXAM_QUESTIONS).forEach(([id, question]) => {
   if (LESSONS[id]) LESSONS[id].examQuestions = [...(LESSONS[id].examQuestions || []), question];
 });
 
+function appendDetail(id, detail) {
+  if (!LESSONS[id]) return;
+  LESSONS[id].details = [...(LESSONS[id].details || []), detail];
+}
+
+function appendWorked(id, example) {
+  if (!LESSONS[id]) return;
+  LESSONS[id].workedExamples = [...(LESSONS[id].workedExamples || []), example];
+}
+
+appendDetail('variable', {
+  title: 'Pythonで変数を確かめる',
+  paragraphs: ['Pythonでは、変数名 = 値 の形で値を入れます。print を使うと、その時点の変数の中身を確認できます。プログラム読解で迷ったら、行ごとに値を書き出すのが近道です。'],
+  table: { headers: ['コード', 'その後の値'], rows: [['score = 0', 'score は0'], ['score = score + 10', 'score は10'], ['score = score + 5', 'score は15']] }
+});
+appendWorked('variable', {
+  title: '例題：途中表示で確かめる',
+  problem: '次のプログラムの最後に表示される値を求めなさい。',
+  thinking: ['a は3から始まります。', 'a = a + 2 で5になります。', 'b = a * 4 なので20です。'],
+  answer: '表示される値は20です。',
+  code: `a = 3\na = a + 2\nb = a * 4\nprint(b)`
+});
+
+appendDetail('branch', {
+  title: '複数条件では上から順に読む',
+  paragraphs: ['if、elif、else が並ぶとき、条件は上から順に調べられます。どこかで真になれば、その部分だけが実行され、残りの条件は調べません。'],
+  table: { headers: ['score', '最初に真になる条件', '結果'], rows: [['95', 'score >= 90', 'A'], ['85', 'score >= 80', 'B'], ['72', 'どちらでもない', 'C']] }
+});
+
+appendDetail('loop', {
+  title: '反復は「初期値・条件・更新」をセットで見る',
+  paragraphs: ['繰り返しの誤りは、初期値を忘れる、終わりの値を1つ間違える、更新を書き忘れる、の三つがよくあります。表にして、何回目にどの値になるかを追いましょう。'],
+  table: { headers: ['見る点', '確認すること', '例'], rows: [['初期値', '始まる前の値', 'total = 0'], ['範囲', '何回繰り返すか', 'range(1, 6)'], ['更新', '毎回何が変わるか', 'total = total + i']] }
+});
+
+appendDetail('array', {
+  title: '添字と値を分ける',
+  paragraphs: ['data[i] では、i は位置を表し、data[i] はその位置に入っている値を表します。探索や整列で混乱したら、位置と値を別々の列にして書くと読みやすくなります。'],
+  table: { headers: ['i', 'data[i]', '意味'], rows: [['0', '72', '0番目の値'], ['1', '85', '1番目の値'], ['2', '90', '2番目の値']] }
+});
+
+appendDetail('function', {
+  title: '関数では、引数・処理・戻り値を見る',
+  paragraphs: ['関数を読むときは、名前より先に「何を受け取り、何を返すか」を見ます。return で返した値は、呼び出し側で変数に入れたり、別の計算に使ったりできます。print は画面に表示するだけで、戻り値とは役割が違います。'],
+  table: { headers: ['部分', '意味', '例'], rows: [['引数', '関数に渡す値', 'price'], ['処理', '関数の中で行う計算', 'price * 1.1'], ['戻り値', '呼び出し元へ返す値', '税込価格']] }
+});
+appendWorked('function', {
+  title: '例題：税込価格を返す関数',
+  problem: 'price を受け取り、10%の税込価格を返す関数を考える。price が1000なら戻り値はいくつか。',
+  thinking: ['関数は price に1.1をかけます。', '1000 * 1.1 = 1100 です。', 'return された値を使えます。'],
+  answer: '戻り値は1100です。',
+  code: `def tax_included(price):\n    return price * 1.1\n\nprint(tax_included(1000))`
+});
+
+appendDetail('debug', {
+  title: '誤りの種類を分ける',
+  table: { headers: ['種類', '状態', '例'], rows: [['文法エラー', '実行前または実行中に止まる', '括弧を閉じ忘れる'], ['実行時エラー', '途中で止まる', '0で割る'], ['論理エラー', '動くが答えが違う', '合計したいのに上書きしている']] }
+});
+LESSONS.debug.traceTables = [...(LESSONS.debug.traceTables || []), {
+  title: '合計の誤りを見つける',
+  headers: ['回', 'i', '誤った total = i', '正しい total = total + i'],
+  rows: [['開始', '-', '0', '0'], ['1', '1', '1', '1'], ['2', '2', '2', '3'], ['3', '3', '3', '6']]
+}];
+
+appendDetail('api', {
+  title: 'APIを使うときの読み方',
+  paragraphs: ['APIは、相手の機能を決められた形で呼び出すための入口です。試験では、実際に外部通信をするよりも、リクエスト、パラメータ、レスポンスの意味を読む力が大切です。'],
+  table: { headers: ['部分', '意味', '郵便番号検索の例'], rows: [['リクエスト', '相手に送る要求', '郵便番号を送る'], ['パラメータ', '要求に付ける値', 'zipcode = 1000013'], ['レスポンス', '返ってくる結果', '住所のデータ']] }
+});
+
+appendDetail('pseudocode', {
+  title: '疑似コードを読む順番',
+  steps: ['代入の記号を確認する。', '繰り返しの範囲を確認する。', '条件分岐でどちらへ進むかを確認する。', '配列の添字が0始まりか1始まりかを確認する。']
+});
+
+appendDetail('flowchart', {
+  title: '図から処理を復元する',
+  paragraphs: ['フローチャートは、記号を覚えるだけでは不十分です。矢印に沿って進み、判断記号で「はい」「いいえ」のどちらに進むかを決めます。繰り返しでは、矢印が前の処理へ戻る場所を探します。']
+});
+
 Object.assign(LESSONS, {
   visualization: L(
     'visualization',
@@ -2642,6 +2905,27 @@ const SNS_EXAM_SET = {
   ]
 };
 
+const SCHOOL_SITE_EXAM_SET = {
+  title: '学校サイト公開前のチェック',
+  difficulty: '総合問題',
+  lead: '生徒会が学校紹介サイトを公開する前に、内容、デザイン、権利、個人情報、通信の安全性を確認しています。',
+  materials: [
+    { type: 'conversation', lines: [
+      { speaker: '生徒A', text: '部活動紹介の写真には、顔がはっきり写っている人がいるね。公開前に確認が必要かな。' },
+      { speaker: '生徒B', text: 'ポスターにはネットで見つけたイラストも入っている。利用条件を調べよう。' },
+      { speaker: '生徒C', text: '問い合わせフォームはHTTPSにして、入力内容がそのまま読まれにくいようにしたい。' }
+    ] },
+    { type: 'table', headers: ['確認項目', '見ること', '関係する内容'], rows: [['写真', '個人が特定されないか、許可はあるか', '個人情報・プライバシー'], ['イラスト', '利用条件、出典表示、公開範囲', '知的財産権'], ['フォーム', 'HTTPS、入力項目、保存期間', '暗号化・セキュリティ'], ['案内ページ', '目的の情報へ迷わず進めるか', '情報デザイン']] },
+    { type: 'text', text: 'サイトは一般公開される。校内だけで見る資料よりも、写真、文章、ロゴ、入力フォームの扱いを慎重に確認する必要がある。' }
+  ],
+  questions: [
+    { title: '権利の確認', question: 'ネットで見つけたイラストを使う前に確認すべきこととして最も適切なものを選びなさい。', choices: ['検索結果に出たかどうか', '利用条件や権利者、出典表示の必要性', '画像の色が目立つかどうか', 'ファイル名が短いかどうか'], answer: '2', explanation: '公開するページでは、利用条件や権利者、出典表示の必要性を確認します。' },
+    { title: '個人情報の扱い', question: '顔写真を公開するときに注意する理由を説明しなさい。', answer: '顔写真は個人を特定する手がかりになり、ほかの情報と組み合わさると本人や生活範囲が分かる場合があるためです。', explanation: '氏名がなくても、写真、場所、日時などの組み合わせで個人が分かることがあります。', mistake: '名前を書かなければ必ず安全、とは言えません。' },
+    { title: '通信の安全性', question: '問い合わせフォームでHTTPSを使う目的として最も適切なものを選びなさい。', choices: ['文章を自動で短くするため', '通信内容を暗号化し、途中で読まれにくくするため', '画像の解像度を上げるため', 'メールを必ず削除するため'], answer: '2', explanation: 'HTTPSはWeb通信を暗号化し、入力内容を守るために使われます。' },
+    { title: '情報デザイン', question: '案内ページを改善するとき、最初に考えるべきことを説明しなさい。', answer: '誰が何を知りたいのか、どの順番で情報を見れば迷わないかを整理することです。', explanation: '色や装飾より先に、目的、相手、情報の優先順位を決めます。', mistake: '目立たせるだけでは、必要な情報にたどり着きやすくなるとは限りません。' }
+  ]
+};
+
 const EVENT_DATA_EXAM_SET = {
   title: '地域イベントの来場データを分析する',
   difficulty: 'データ分析',
@@ -2659,10 +2943,13 @@ const EVENT_DATA_EXAM_SET = {
   ]
 };
 
-LESSONS.security.examSets = [SNS_EXAM_SET];
-LESSONS.privacy.examSets = [SNS_EXAM_SET];
+LESSONS.security.examSets = [SNS_EXAM_SET, SCHOOL_SITE_EXAM_SET];
+LESSONS.privacy.examSets = [SNS_EXAM_SET, SCHOOL_SITE_EXAM_SET];
 LESSONS['media-literacy'].examSets = [SNS_EXAM_SET];
-LESSONS['information-design'].examSets = [SNS_EXAM_SET];
+LESSONS['information-design'].examSets = [SNS_EXAM_SET, SCHOOL_SITE_EXAM_SET];
+LESSONS['intellectual-property'].examSets = [SCHOOL_SITE_EXAM_SET];
+LESSONS.protocol.examSets = [SCHOOL_SITE_EXAM_SET];
+LESSONS['encryption-signature'].examSets = [SCHOOL_SITE_EXAM_SET];
 LESSONS['scatter-correlation'].examSets = [EVENT_DATA_EXAM_SET];
 LESSONS['outlier-representative'].examSets = [EVENT_DATA_EXAM_SET];
 LESSONS.statistics.examSets = [...(LESSONS.statistics.examSets || []), EVENT_DATA_EXAM_SET];
@@ -2685,6 +2972,7 @@ updateChapterLesson('network-build', 'lessons/network-build.html', 'enhanced');
 updateChapterLesson('computer-structure', 'lessons/computer-structure.html', 'enhanced');
 updateChapterLesson('deterministic-random-model', 'lessons/deterministic-random-model.html', 'enhanced');
 updateChapterLesson('security', 'lessons/security.html', 'enhanced');
+updateChapterLesson('problem-solving-flow', 'lessons/problem-solving-flow.html', 'enhanced');
 
 const basicProgramSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'basic-program');
 if (basicProgramSection && !basicProgramSection.lessons.some(lesson => lesson.id === 'function')) {
@@ -2701,6 +2989,19 @@ const socialRulesSection = CHAPTERS.find(chapter => chapter.id === 'social').sec
 if (socialRulesSection && !socialRulesSection.lessons.some(lesson => lesson.id === 'privacy')) {
   const securityIndex = socialRulesSection.lessons.findIndex(lesson => lesson.id === 'security');
   socialRulesSection.lessons.splice(securityIndex + 1, 0, { id: 'privacy', title: '個人情報とプライバシー', href: 'lessons/privacy.html', status: 'enhanced' });
+}
+if (socialRulesSection && !socialRulesSection.lessons.some(lesson => lesson.id === 'intellectual-property')) {
+  socialRulesSection.lessons.splice(0, 0, { id: 'intellectual-property', title: '知的財産権', href: 'lessons/intellectual-property.html', status: 'enhanced' });
+}
+
+const digitalSection = CHAPTERS.find(chapter => chapter.id === 'design').sections.find(section => section.id === 'digital');
+if (digitalSection && !digitalSection.lessons.some(lesson => lesson.id === 'text-digital')) {
+  const binaryIndex = digitalSection.lessons.findIndex(lesson => lesson.id === 'binary');
+  digitalSection.lessons.splice(binaryIndex + 1, 0, { id: 'text-digital', title: '文字のディジタル化', href: 'lessons/text-digital.html', status: 'enhanced' });
+}
+if (digitalSection && !digitalSection.lessons.some(lesson => lesson.id === 'hexadecimal')) {
+  const textIndex = digitalSection.lessons.findIndex(lesson => lesson.id === 'text-digital');
+  digitalSection.lessons.splice(textIndex + 1, 0, { id: 'hexadecimal', title: '16進数', href: 'lessons/hexadecimal.html', status: 'enhanced' });
 }
 
 const designSection = CHAPTERS.find(chapter => chapter.id === 'design').sections.find(section => section.id === 'communication-design');
@@ -2722,6 +3023,15 @@ if (dataSection && !dataSection.lessons.some(lesson => lesson.id === 'outlier-re
   dataSection.lessons.splice(scatterIndex + 1, 0, { id: 'outlier-representative', title: '外れ値と代表値', href: 'lessons/outlier-representative.html', status: 'enhanced' });
 }
 
+const networkSection = CHAPTERS.find(chapter => chapter.id === 'network').sections.find(section => section.id === 'network-basics');
+if (networkSection && !networkSection.lessons.some(lesson => lesson.id === 'protocol')) {
+  const packetIndex = networkSection.lessons.findIndex(lesson => lesson.id === 'packet');
+  networkSection.lessons.splice(packetIndex, 0, { id: 'protocol', title: 'プロトコル', href: 'lessons/protocol.html', status: 'enhanced' });
+}
+if (networkSection && !networkSection.lessons.some(lesson => lesson.id === 'encryption-signature')) {
+  networkSection.lessons.push({ id: 'encryption-signature', title: '暗号化とデジタル署名', href: 'lessons/encryption-signature.html', status: 'enhanced' });
+}
+
 const modelSection = CHAPTERS.find(chapter => chapter.id === 'programming').sections.find(section => section.id === 'model-simulation');
 if (modelSection && !modelSection.lessons.some(lesson => lesson.id === 'random')) {
   modelSection.lessons.splice(1, 0, { id: 'random', title: '乱数', href: 'lessons/random.html', status: 'enhanced' });
@@ -2731,10 +3041,16 @@ if (!LESSON_ORDER.includes('computer-structure')) LESSON_ORDER.splice(LESSON_ORD
 if (!LESSON_ORDER.includes('api')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('algorithm'), 0, 'api');
 if (!LESSON_ORDER.includes('function')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('variable'), 0, 'function');
 if (!LESSON_ORDER.includes('deterministic-random-model')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('simulation') + 1, 0, 'deterministic-random-model');
+if (!LESSON_ORDER.includes('problem-solving-flow')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('information') + 1, 0, 'problem-solving-flow');
 if (!LESSON_ORDER.includes('security')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('information') + 1, 0, 'security');
 if (!LESSON_ORDER.includes('privacy')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('security') + 1, 0, 'privacy');
+if (!LESSON_ORDER.includes('intellectual-property')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('privacy') + 1, 0, 'intellectual-property');
+if (!LESSON_ORDER.includes('text-digital')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('binary') + 1, 0, 'text-digital');
+if (!LESSON_ORDER.includes('hexadecimal')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('text-digital') + 1, 0, 'hexadecimal');
 if (!LESSON_ORDER.includes('media-literacy')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('sound-digital') + 1, 0, 'media-literacy');
 if (!LESSON_ORDER.includes('information-design')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('media-literacy') + 1, 0, 'information-design');
+if (!LESSON_ORDER.includes('protocol')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('packet'), 0, 'protocol');
+if (!LESSON_ORDER.includes('encryption-signature')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('ip-address') + 1, 0, 'encryption-signature');
 if (!LESSON_ORDER.includes('scatter-correlation')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('statistics') + 1, 0, 'scatter-correlation');
 if (!LESSON_ORDER.includes('outlier-representative')) LESSON_ORDER.splice(LESSON_ORDER.indexOf('scatter-correlation') + 1, 0, 'outlier-representative');
 ['network-build', 'data-format', 'qualitative-data', 'visualization'].forEach(id => {
@@ -2743,8 +3059,12 @@ if (!LESSON_ORDER.includes('outlier-representative')) LESSON_ORDER.splice(LESSON
 
 const DEFAULT_TAGS = {
   information: ['基礎'],
+  'problem-solving-flow': ['基礎', '共通テスト重要'],
+  'intellectual-property': ['情報社会', '共通テスト重要'],
   'bit-byte': ['基礎', '計算あり'],
   binary: ['基礎', '計算あり'],
+  'text-digital': ['基礎', '図表読解'],
+  hexadecimal: ['基礎', '計算あり'],
   'image-digital': ['図表読解', '計算あり'],
   'sound-digital': ['図表読解'],
   algorithm: ['基礎', '共通テスト重要'],
@@ -2766,7 +3086,9 @@ const DEFAULT_TAGS = {
   debug: ['苦手になりやすい', 'プログラムあり'],
   simulation: ['シミュレーション', '共通テスト重要'],
   packet: ['ネットワーク'],
+  protocol: ['ネットワーク', '共通テスト重要'],
   'ip-address': ['ネットワーク'],
+  'encryption-signature': ['ネットワーク', '共通テスト重要'],
   database: ['データ分析'],
   statistics: ['データ分析', '計算あり']
 };

@@ -141,10 +141,10 @@ function routeList(ids, basePrefix = '') {
 
 function renderStudyRoutes(basePrefix = '') {
   const routes = [
-    ['はじめて学ぶ人', ['information', 'bit-byte', 'binary', 'computer-structure', 'algorithm']],
+    ['はじめて学ぶ人', ['information', 'problem-solving-flow', 'bit-byte', 'binary', 'text-digital', 'computer-structure', 'algorithm']],
     ['プログラミングを重点的に学ぶ', ['input-process-output', 'variable', 'branch', 'loop', 'array', 'function', 'linear-search', 'binary-search']],
     ['データ活用を重点的に学ぶ', ['statistics', 'visualization', 'data-format', 'qualitative-data', 'database']],
-    ['共通テスト前に確認する', ['simulation', 'deterministic-random-model', 'network-build', 'statistics', 'scatter-correlation', 'outlier-representative']]
+    ['共通テスト前に確認する', ['intellectual-property', 'security', 'protocol', 'encryption-signature', 'simulation', 'scatter-correlation', 'outlier-representative']]
   ];
   return `<section class="study-routes" id="study-routes">
     <h2>学習の進め方</h2>
@@ -186,6 +186,7 @@ function renderExamHub() {
   const integrated = [
     ['模擬店の待ち時間シミュレーション', 'lessons/simulation.html#exam-set'],
     ['イベント準備を助けるプログラムとモデル化', 'lessons/deterministic-random-model.html#exam-set'],
+    ['学校サイト公開前のチェック', 'lessons/intellectual-property.html#exam-set'],
     ['SNS投稿と情報の読み取り', 'lessons/privacy.html#exam-set'],
     ['地域イベントの来場データを分析する', 'lessons/scatter-correlation.html#exam-set'],
     ['アンケート結果の分析', 'lessons/statistics.html#exam-set']
@@ -218,22 +219,34 @@ function renderExamHub() {
     </section>
 
     <section class="quick-links">
+      <h2>分野別に練習する</h2>
+      <p class="small-note">苦手な分野から直接復習できます。</p>
+      <div class="route-grid">
+        <a class="route-card" href="#program-reading"><strong>プログラム読解</strong><span>変数、分岐、反復、配列、探索、整列</span></a>
+        <a class="route-card" href="#data-reading"><strong>データ活用</strong><span>代表値、外れ値、可視化、相関、形式</span></a>
+        <a class="route-card" href="#network-society"><strong>情報社会・ネットワーク</strong><span>権利、個人情報、セキュリティ、通信</span></a>
+        <a class="route-card" href="#last-review"><strong>直前確認</strong><span>短いページを続けて見直す</span></a>
+      </div>
+    </section>
+
+    <section class="quick-links" id="program-reading">
       <h2>プログラム読解の練習</h2>
       ${examLessonLinks(['function', 'branch', 'loop', 'array', 'counter-sum', 'linear-search', 'binary-search', 'selection-sort', 'bubble-sort'])}
     </section>
 
-    <section class="quick-links">
+    <section class="quick-links" id="data-reading">
       <h2>データ分析の練習</h2>
       ${examLessonLinks(['statistics', 'outlier-representative', 'visualization', 'scatter-correlation', 'data-format', 'database'])}
     </section>
 
-    <section class="quick-links">
+    <section class="quick-links" id="network-society">
       <h2>ネットワーク・情報社会の確認</h2>
-      ${examLessonLinks(['security', 'privacy', 'media-literacy', 'information-design', 'network-build', 'packet', 'api'])}
+      ${examLessonLinks(['problem-solving-flow', 'intellectual-property', 'security', 'privacy', 'protocol', 'encryption-signature', 'media-literacy', 'information-design', 'network-build', 'packet', 'api'])}
     </section>
 
-    <section class="quick-links">
-      <h2>直前に見直したい用語</h2>
+    <section class="quick-links" id="last-review">
+      <h2>直前に見直したい単元</h2>
+      ${examLessonLinks(['binary', 'hexadecimal', 'text-digital', 'function', 'binary-search', 'statistics', 'scatter-correlation', 'security', 'encryption-signature', 'protocol'])}
       <div class="route-grid">
         <a class="route-card" href="glossary.html"><strong>用語一覧</strong><span>短い説明から関連ページへ戻る</span></a>
         <a class="route-card" href="questions.html"><strong>基礎確認問題</strong><span>各ページの短い確認問題をまとめて見る</span></a>
