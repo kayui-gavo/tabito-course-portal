@@ -6,7 +6,7 @@ function headerHtml(prefix = '') {
   return `<header class="site-header"><div class="site-header-inner">
     <div class="brand-row">
       <a class="brand-mark" href="${prefix}index.html" aria-label="トップへ">
-        <img src="${assetPath(prefix, 'assets/tabito-logo.svg')}" alt="旅人教育" />
+        <img src="${assetPath(prefix, 'assets/images/tabito-logo.jpg')}" alt="旅人教育" />
       </a>
       <div>
         <a class="site-title" href="${prefix}index.html">${SITE.title}</a>
@@ -26,7 +26,7 @@ function headerHtml(prefix = '') {
 function footerHtml(prefix = '') {
   return `<footer class="site-footer"><div class="site-header-inner footer-inner">
     <div class="footer-brand">
-      <img src="${assetPath(prefix, 'assets/tabito-logo.svg')}" alt="旅人教育" />
+      <img src="${assetPath(prefix, 'assets/images/tabito-logo.jpg')}" alt="旅人教育" />
       <span>情報Ⅰ 学習教材</span>
     </div>
     <p>本文と図解は、学習しやすいように独自に整理した教材です。授業の予習・復習や、基礎事項の確認に使えます。</p>
