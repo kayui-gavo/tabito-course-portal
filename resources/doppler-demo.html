@@ -35,6 +35,7 @@
       </aside>
     </section>
   </main>
+  <script src="../assets/demo-page-i18n.js"></script>
   <script>
     const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),vs=document.getElementById('vs'),freq=document.getElementById('freq'),vsText=document.getElementById('vsText'),fText=document.getElementById('fText'),front=document.getElementById('front'),back=document.getElementById('back');let t=0,last=performance.now();
     function draw(now){const dt=(now-last)/1000;last=now;t+=dt*.55;const beta=Number(vs.value),f=Number(freq.value),W=canvas.width,H=canvas.height,cx=W*.52,cy=H*.52,scale=68;vsText.textContent=beta.toFixed(2);fText.textContent=f;front.textContent=Math.round(f/(1-beta))+' Hz';back.textContent=Math.round(f/(1+beta))+' Hz';ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,W,H);ctx.fillStyle='#eef4fb';ctx.fillRect(0,0,W,H*.5);ctx.strokeStyle='#d9e1ec';for(let x=70;x<W;x+=80){ctx.beginPath();ctx.moveTo(x,40);ctx.lineTo(x,H-40);ctx.stroke()}ctx.fillStyle='#667085';ctx.font='700 14px sans-serif';ctx.fillText('音源の進む向き',W-190,54);ctx.strokeStyle='#172033';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(W-205,72);ctx.lineTo(W-80,72);ctx.stroke();ctx.beginPath();ctx.moveTo(W-80,72);ctx.lineTo(W-98,62);ctx.lineTo(W-98,82);ctx.closePath();ctx.fill();

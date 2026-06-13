@@ -31,6 +31,7 @@
       </aside>
     </section>
   </main>
+  <script src="../assets/demo-page-i18n.js"></script>
   <script>
     const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),mode=document.getElementById('mode'),focal=document.getElementById('focal'),object=document.getElementById('object'),fText=document.getElementById('fText'),aText=document.getElementById('aText'),result=document.getElementById('result'),hint=document.getElementById('hint');
     function arrowObject(x,y,h,color,label){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-h);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y-h);ctx.lineTo(x-10,y-h+18);ctx.lineTo(x+10,y-h+18);ctx.closePath();ctx.fill();ctx.font='800 15px sans-serif';ctx.fillText(label,x-18,y-h-12)}

@@ -31,6 +31,7 @@
       </aside>
     </section>
   </main>
+  <script src="../assets/demo-page-i18n.js"></script>
   <script>
     const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),r=document.getElementById('r'),c=document.getElementById('c'),rValue=document.getElementById('rValue'),cValue=document.getElementById('cValue'),tauEl=document.getElementById('tau'),charge=document.getElementById('charge'),discharge=document.getElementById('discharge'),lamp=document.getElementById('lamp'),lampText=document.getElementById('lampText');let mode='charge';
     charge.onclick=()=>{mode='charge';charge.classList.add('active');discharge.classList.remove('active');draw()};discharge.onclick=()=>{mode='discharge';discharge.classList.add('active');charge.classList.remove('active');draw()};

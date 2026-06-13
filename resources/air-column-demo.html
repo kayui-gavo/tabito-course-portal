@@ -37,6 +37,7 @@
       </aside>
     </section>
   </main>
+  <script src="../assets/demo-page-i18n.js"></script>
   <script>
     const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),openBtn=document.getElementById('open'),closedBtn=document.getElementById('closed'),len=document.getElementById('len'),mode=document.getElementById('mode'),lenText=document.getElementById('lenText'),modeText=document.getElementById('modeText'),freqText=document.getElementById('freqText'),formula=document.getElementById('formula');let pipe='open',time=0,last=performance.now();
     openBtn.onclick=()=>{pipe='open';openBtn.classList.add('active');closedBtn.classList.remove('active');mode.max=5};closedBtn.onclick=()=>{pipe='closed';closedBtn.classList.add('active');openBtn.classList.remove('active');mode.max=5};

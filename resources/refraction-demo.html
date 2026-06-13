@@ -30,6 +30,7 @@
       </aside>
     </section>
   </main>
+  <script src="../assets/demo-page-i18n.js"></script>
   <script>
     const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d'),angle=document.getElementById('angle'),n1=document.getElementById('n1'),n2=document.getElementById('n2'),angleValue=document.getElementById('angleValue'),n1Value=document.getElementById('n1Value'),n2Value=document.getElementById('n2Value'),result=document.getElementById('result'),hint=document.getElementById('hint');
     function drawArrow(x1,y1,x2,y2,color){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-18*Math.cos(a-.45),y2-18*Math.sin(a-.45));ctx.lineTo(x2-18*Math.cos(a+.45),y2-18*Math.sin(a+.45));ctx.closePath();ctx.fill()}
