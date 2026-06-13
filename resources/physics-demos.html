@@ -5,513 +5,286 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>物理デモ集 · 旅人教育共通テスト物理</title>
   <style>
-    :root {
-      --ink: #172033;
-      --muted: #667085;
-      --soft: #8b95a7;
-      --line: #d9e1ec;
-      --line-soft: #edf1f6;
-      --paper: #ffffff;
-      --canvas: #f5f7fb;
-      --surface: #eef4fb;
-      --blue: #235f9f;
-      --blue-dark: #164a7f;
-      --green: #16846b;
-      --amber: #a96513;
-      --red: #b2443b;
-      --shadow: 0 14px 34px rgba(31, 45, 69, 0.08);
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--canvas);
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
-      line-height: 1.7;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(217, 225, 236, 0.94);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(14px);
-    }
-
-    .topbar-inner,
-    .page {
-      width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .topbar-inner {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand,
-    .btn {
-      color: var(--ink);
-      text-decoration: none;
-      font-weight: 850;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #c7d6e8;
-      border-radius: var(--radius);
-      background: #f8fbff;
-      color: var(--blue);
-    }
-
-    .btn {
-      min-height: 38px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: var(--paper);
-      padding: 8px 12px;
-      color: var(--blue-dark);
-      font-size: 13px;
-    }
-
-    .btn:hover,
-    .nav-chip:hover,
-    .demo-card:hover {
-      background: var(--surface);
-    }
-
-    .page {
-      padding: 34px 0 70px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
-      gap: 18px;
-      align-items: stretch;
-      margin-bottom: 16px;
-    }
-
-    .hero-main,
-    .status-panel,
-    .domain,
-    .demo-card,
-    .empty-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      box-shadow: 0 1px 0 rgba(31, 45, 69, 0.02);
-    }
-
-    .hero-main,
-    .status-panel {
-      padding: 26px;
-    }
-
-    .label {
-      color: var(--blue-dark);
-      font-size: 13px;
-      font-weight: 850;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 1.12;
-      margin-bottom: 12px;
-    }
-
-    .lead {
-      max-width: 780px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .status-panel {
-      display: grid;
-      gap: 12px;
-      align-content: center;
-    }
-
-    .stat {
-      display: grid;
-      grid-template-columns: 58px 1fr;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .stat strong {
-      color: var(--green);
-      font-size: 34px;
-      line-height: 1;
-    }
-
-    .stat span,
-    .status-panel p {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .nav-chip {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--paper);
-      color: var(--blue-dark);
-      padding: 7px 11px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 850;
-    }
-
-    .domains {
-      display: grid;
-      gap: 16px;
-    }
-
-    .domain {
-      padding: 20px;
-    }
-
-    .domain-head {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: start;
-      margin-bottom: 14px;
-    }
-
-    .domain h2 {
-      font-size: 24px;
-      line-height: 1.25;
-      margin-bottom: 4px;
-    }
-
-    .domain p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .count {
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--blue-dark);
-      padding: 5px 10px;
-      font-size: 12px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .demo-card,
-    .empty-card {
-      min-height: 172px;
-      display: grid;
-      align-content: start;
-      gap: 10px;
-      padding: 18px;
-      text-decoration: none;
-      color: var(--ink);
-    }
-
-    .demo-card:hover {
-      border-color: #bfd2e8;
-      box-shadow: var(--shadow);
-      transform: translateY(-1px);
-    }
-
-    .empty-card {
-      border-style: dashed;
-      background: #fbfcfe;
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      display: inline-flex;
-      width: max-content;
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--blue-dark);
-      padding: 4px 9px;
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .chip.checked {
-      background: #e8f5ef;
-      color: #126651;
-    }
-
-    .chip.fix {
-      background: #fff4df;
-      color: #7b4a0e;
-    }
-
-    .chip.todo {
-      background: #f7f9fc;
-      color: var(--soft);
-    }
-
-    .demo-card h3,
-    .empty-card h3 {
-      font-size: 19px;
-      line-height: 1.3;
-    }
-
-    .demo-card p,
-    .empty-card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    @media (max-width: 980px) {
-      .hero,
-      .demo-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .topbar-inner,
-      .page {
-        width: min(100% - 24px, 1180px);
-      }
-
-      .topbar-inner {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 10px 0;
-      }
-
-      .hero-main,
-      .status-panel,
-      .domain {
-        padding: 18px;
-      }
-
-      .domain-head {
-        grid-template-columns: 1fr;
-      }
-    }
+    :root{--ink:#172033;--muted:#667085;--soft:#8b95a7;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--surface:#eef4fb;--blue:#235f9f;--blue-dark:#164a7f;--green:#16846b;--shadow:0 14px 34px rgba(31,45,69,.08);--radius:8px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100vh;background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans SC","Noto Sans TC","Hiragino Sans","Microsoft YaHei",sans-serif;line-height:1.7}
+    .topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(217,225,236,.94);background:rgba(255,255,255,.94);backdrop-filter:blur(14px)}
+    .topbar-inner,.page{width:min(1180px,calc(100% - 40px));margin:0 auto}
+    .topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand,.btn{color:var(--ink);text-decoration:none;font-weight:850}
+    .brand{display:flex;align-items:center;gap:10px}
+    .mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:var(--radius);background:#f8fbff;color:var(--blue)}
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .language-select{min-height:38px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--blue-dark);font:inherit;font-size:13px;font-weight:850;padding:7px 10px}
+    .btn{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:7px;background:var(--paper);padding:8px 12px;color:var(--blue-dark);font-size:13px}
+    .btn:hover,.nav-chip:hover,.demo-card:hover{background:var(--surface)}
+    .page{padding:34px 0 70px}
+    .hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:stretch;margin-bottom:16px}
+    .hero-main,.status-panel,.domain,.demo-card,.empty-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);box-shadow:0 1px 0 rgba(31,45,69,.02)}
+    .hero-main,.status-panel{padding:26px}
+    .label{color:var(--blue-dark);font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:10px}
+    h1{font-size:clamp(32px,5vw,54px);line-height:1.12;margin-bottom:12px}.lead{max-width:780px;color:var(--muted);font-size:16px}
+    .status-panel{display:grid;gap:12px;align-content:center}.stat{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center}.stat strong{color:var(--green);font-size:34px;line-height:1}.stat span,.status-panel p{color:var(--muted);font-size:13px}
+    .nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.nav-chip{border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--blue-dark);padding:7px 11px;text-decoration:none;font-size:13px;font-weight:850}
+    .domains{display:grid;gap:16px}.domain{padding:20px}.domain-head{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;margin-bottom:14px}.domain h2{font-size:24px;line-height:1.25;margin-bottom:4px}.domain p{color:var(--muted);font-size:14px}
+    .count{border-radius:999px;background:var(--surface);color:var(--blue-dark);padding:5px 10px;font-size:12px;font-weight:850;white-space:nowrap}
+    .demo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.demo-card,.empty-card{min-height:172px;display:grid;align-content:start;gap:10px;padding:18px;text-decoration:none;color:var(--ink)}.demo-card:hover{border-color:#bfd2e8;box-shadow:var(--shadow);transform:translateY(-1px)}.empty-card{border-style:dashed;background:#fbfcfe}
+    .chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;width:max-content;border-radius:999px;background:var(--surface);color:var(--blue-dark);padding:4px 9px;font-size:12px;font-weight:850}.chip.checked{background:#e8f5ef;color:#126651}.chip.todo{background:#f7f9fc;color:var(--soft)}
+    .demo-card h3,.empty-card h3{font-size:19px;line-height:1.3}.demo-card p,.empty-card p{color:var(--muted);font-size:14px}
+    @media(max-width:980px){.hero,.demo-grid{grid-template-columns:1fr}}
+    @media(max-width:680px){.topbar-inner,.page{width:min(100% - 24px,1180px)}.topbar-inner{align-items:flex-start;flex-direction:column;padding:10px 0}.actions{justify-content:flex-start}.hero-main,.status-panel,.domain{padding:18px}.domain-head{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/physics-demos.html'}</script>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="../physics.html"><span class="mark">実</span><span>旅人教育｜共通テスト物理</span></a>
-      <a class="btn" href="../physics.html">物理ページへ戻る</a>
+      <a class="brand" href="../physics.html"><span class="mark">実</span><span id="brandText">旅人教育｜共通テスト物理</span></a>
+      <div class="actions">
+        <select class="language-select" id="languageSelect" aria-label="Language">
+          <option value="ja">日本語</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+        </select>
+        <a class="btn" id="backLink" href="../physics.html">物理ページへ戻る</a>
+      </div>
     </div>
   </header>
 
   <main class="page">
     <section class="hero">
       <div class="hero-main">
-        <div class="label">授業用インタラクティブ教材</div>
-        <h1>物理デモ集</h1>
-        <p class="lead">共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。</p>
+        <div class="label" id="heroLabel">授業用インタラクティブ教材</div>
+        <h1 id="heroTitle">物理デモ集</h1>
+        <p class="lead" id="heroLead">共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。</p>
       </div>
-      <aside class="status-panel" aria-label="デモの概要">
-        <div class="stat"><strong>8</strong><span>公開中のデモ</span></div>
-        <div class="stat"><strong>5</strong><span>力学・波動・熱・電磁気・原子</span></div>
-        <p>各分野の基本現象を、図・式・操作を対応させながら確認できます。</p>
-      </aside>
+      <aside class="status-panel" id="statusPanel" aria-label="デモの概要"></aside>
     </section>
-
-    <nav class="nav" aria-label="分野ナビゲーション">
-      <a class="nav-chip" href="#mechanics">力学</a>
-      <a class="nav-chip" href="#waves">波動</a>
-      <a class="nav-chip" href="#thermal">熱力学</a>
-      <a class="nav-chip" href="#electromagnetism">電磁気</a>
-      <a class="nav-chip" href="#atomic">原子</a>
-    </nav>
-
-    <section class="domains">
-      <section class="domain" id="mechanics">
-        <div class="domain-head">
-          <div>
-            <h2>力学</h2>
-            <p>運動、力、エネルギー、運動量、円運動、天体運動、単振動を扱います。</p>
-          </div>
-          <span class="count">準備中</span>
-        </div>
-        <div class="demo-grid">
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>運動グラフと相対運動</h3>
-            <p>x-t グラフ、v-t グラフ、追いつき、相対速度を扱う予定です。</p>
-          </article>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>エネルギーと衝突</h3>
-            <p>仕事、力学的エネルギー、運動量保存、反発係数を扱う予定です。</p>
-          </article>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>円運動と天体運動</h3>
-            <p>向心力、万有引力、軌道速度、ケプラーの法則を扱う予定です。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="domain" id="waves">
-        <div class="domain-head">
-          <div>
-            <h2>波動</h2>
-            <p>波形、音波、定常波、気柱共鳴、光の屈折・干渉・結像を扱います。</p>
-          </div>
-          <span class="count">7 個のデモ</span>
-        </div>
-        <div class="demo-grid">
-          <a class="demo-card" href="standing-wave-demo.html">
-            <div class="chip-row"><span class="chip">波形</span><span class="chip checked">公開中</span></div>
-            <h3>定常波と節・腹</h3>
-            <p>反対向きに進む 2 つの波の重ね合わせから、節と腹の位置を確認します。</p>
-          </a>
-          <a class="demo-card" href="air-column-demo.html">
-            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
-            <h3>気柱共鳴</h3>
-            <p>開管と閉管で、節・腹の位置と共鳴振動数がどう変わるかを見ます。</p>
-          </a>
-          <a class="demo-card" href="beats-demo.html">
-            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
-            <h3>うなり</h3>
-            <p>振動数が近い 2 つの音を重ね、音の強弱が周期的に変わる様子を確認します。</p>
-          </a>
-          <a class="demo-card" href="doppler-demo.html">
-            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
-            <h3>ドップラー効果</h3>
-            <p>動く音源の前後で波長と聞こえる振動数が変わる理由を確認します。</p>
-          </a>
-          <a class="demo-card" href="refraction-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
-            <h3>屈折と全反射</h3>
-            <p>スネルの法則、法線との角度、臨界角、全反射の条件を確認します。</p>
-          </a>
-          <a class="demo-card" href="lens-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
-            <h3>レンズ・球面鏡の像</h3>
-            <p>凸レンズ、凹レンズ、凹面鏡、凸面鏡の実像・虚像を同じ式で比べます。</p>
-          </a>
-          <a class="demo-card" href="double-slit-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
-            <h3>ヤングの二重スリット</h3>
-            <p>波長、スリット間隔、スクリーン距離と明線間隔の関係を確認します。</p>
-          </a>
-        </div>
-      </section>
-
-      <section class="domain" id="thermal">
-        <div class="domain-head">
-          <div>
-            <h2>熱力学</h2>
-            <p>熱量、内部エネルギー、気体の状態変化、p-V 図、熱力学第一法則を扱います。</p>
-          </div>
-          <span class="count">準備中</span>
-        </div>
-        <div class="demo-grid">
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>p-V 図と仕事</h3>
-            <p>等温変化、等圧変化、等積変化、断熱変化と、面積で表す仕事を扱う予定です。</p>
-          </article>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>熱力学第一法則</h3>
-            <p>吸熱、仕事、内部エネルギー変化の関係を扱う予定です。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="domain" id="electromagnetism">
-        <div class="domain-head">
-          <div>
-            <h2>電磁気</h2>
-            <p>電場、電位、コンデンサー、直流回路、磁場、ローレンツ力、電磁誘導を扱います。</p>
-          </div>
-          <span class="count">1 個のデモ</span>
-        </div>
-        <div class="demo-grid">
-          <a class="demo-card" href="rc-circuit-demo.html">
-            <div class="chip-row"><span class="chip">コンデンサー</span><span class="chip checked">公開中</span></div>
-            <h3>RC 回路の充電・放電</h3>
-            <p>コンデンサーの電圧と電流が、時定数 τ = RC に従って変化する様子を確認します。</p>
-          </a>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>電場と電位</h3>
-            <p>電気力線、等電位線、電位エネルギー、荷電粒子の運動を扱う予定です。</p>
-          </article>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>電磁誘導</h3>
-            <p>磁束の変化、レンツの法則、交流発電機、変圧器を扱う予定です。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="domain" id="atomic">
-        <div class="domain-head">
-          <div>
-            <h2>原子</h2>
-            <p>光電効果、X 線、物質波、エネルギー準位、原子核、半減期を扱います。</p>
-          </div>
-          <span class="count">準備中</span>
-        </div>
-        <div class="demo-grid">
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>光電効果</h3>
-            <p>限界振動数、仕事関数、阻止電圧、光の強さと電子数の関係を扱う予定です。</p>
-          </article>
-          <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">準備中</span></div>
-            <h3>半減期</h3>
-            <p>放射性崩壊の確率的な性質と、指数関数的な減少を扱う予定です。</p>
-          </article>
-        </div>
-      </section>
-    </section>
+    <nav class="nav" id="domainNav" aria-label="分野ナビゲーション"></nav>
+    <section class="domains" id="domains"></section>
   </main>
+
+  <script>
+    const demos = {
+      mechanics: [
+        { status: 'todo', topic: 'motion', title: 'motionGraphs', desc: 'motionGraphsDesc' },
+        { status: 'todo', topic: 'energy', title: 'energyCollision', desc: 'energyCollisionDesc' },
+        { status: 'todo', topic: 'orbit', title: 'circularMotion', desc: 'circularMotionDesc' }
+      ],
+      waves: [
+        { href: 'standing-wave-demo.html', status: 'live', topic: 'waveform', title: 'standingWave', desc: 'standingWaveDesc' },
+        { href: 'air-column-demo.html', status: 'live', topic: 'sound', title: 'airColumn', desc: 'airColumnDesc' },
+        { href: 'beats-demo.html', status: 'live', topic: 'sound', title: 'beats', desc: 'beatsDesc' },
+        { href: 'doppler-demo.html', status: 'live', topic: 'sound', title: 'doppler', desc: 'dopplerDesc' },
+        { href: 'refraction-demo.html', status: 'live', topic: 'optics', title: 'refraction', desc: 'refractionDesc' },
+        { href: 'lens-demo.html', status: 'live', topic: 'optics', title: 'lensMirror', desc: 'lensMirrorDesc' },
+        { href: 'double-slit-demo.html', status: 'live', topic: 'optics', title: 'doubleSlit', desc: 'doubleSlitDesc' }
+      ],
+      thermal: [
+        { status: 'todo', topic: 'thermal', title: 'pvWork', desc: 'pvWorkDesc' },
+        { status: 'todo', topic: 'thermal', title: 'firstLaw', desc: 'firstLawDesc' }
+      ],
+      electromagnetism: [
+        { href: 'rc-circuit-demo.html', status: 'live', topic: 'capacitor', title: 'rcCircuit', desc: 'rcCircuitDesc' },
+        { status: 'todo', topic: 'electric', title: 'fieldPotential', desc: 'fieldPotentialDesc' },
+        { status: 'todo', topic: 'magnetic', title: 'induction', desc: 'inductionDesc' }
+      ],
+      atomic: [
+        { status: 'todo', topic: 'atomic', title: 'photoelectric', desc: 'photoelectricDesc' },
+        { status: 'todo', topic: 'atomic', title: 'halfLife', desc: 'halfLifeDesc' }
+      ]
+    };
+
+    const order = ['mechanics', 'waves', 'thermal', 'electromagnetism', 'atomic'];
+
+    const translations = {
+      ja: {
+        htmlLang: 'ja', title: '物理デモ集 · 旅人教育共通テスト物理', brand: '旅人教育｜共通テスト物理', back: '物理ページへ戻る',
+        heroLabel: '授業用インタラクティブ教材', heroTitle: '物理デモ集', heroLead: '共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。',
+        statusAria: 'デモの概要', navAria: '分野ナビゲーション', liveCount: '公開中のデモ', domainCount: '力学・波動・熱・電磁気・原子', statusText: '各分野の基本現象を、図・式・操作を対応させながら確認できます。',
+        live: '公開中', todo: '準備中', countLive: (n) => `${n} 個のデモ`, countTodo: '準備中',
+        mechanics: '力学', mechanicsDesc: '運動、力、エネルギー、運動量、円運動、天体運動、単振動を扱います。',
+        waves: '波動', wavesDesc: '波形、音波、定常波、気柱共鳴、光の屈折・干渉・結像を扱います。',
+        thermal: '熱力学', thermalDesc: '熱量、内部エネルギー、気体の状態変化、p-V 図、熱力学第一法則を扱います。',
+        electromagnetism: '電磁気', electromagnetismDesc: '電場、電位、コンデンサー、直流回路、磁場、ローレンツ力、電磁誘導を扱います。',
+        atomic: '原子', atomicDesc: '光電効果、X 線、物質波、エネルギー準位、原子核、半減期を扱います。',
+        waveform: '波形', sound: '音波', optics: '光学', thermalTopic: '熱', capacitor: 'コンデンサー', electric: '電場', magnetic: '磁場', atomicTopic: '原子', motion: '運動', energy: 'エネルギー', orbit: '円運動',
+        motionGraphs: '運動グラフと相対運動', motionGraphsDesc: 'x-t グラフ、v-t グラフ、追いつき、相対速度を扱う予定です。',
+        energyCollision: 'エネルギーと衝突', energyCollisionDesc: '仕事、力学的エネルギー、運動量保存、反発係数を扱う予定です。',
+        circularMotion: '円運動と天体運動', circularMotionDesc: '向心力、万有引力、軌道速度、ケプラーの法則を扱う予定です。',
+        standingWave: '定常波と節・腹', standingWaveDesc: '反対向きに進む 2 つの波の重ね合わせから、節と腹の位置を確認します。',
+        airColumn: '気柱共鳴', airColumnDesc: '開管と閉管で、節・腹の位置と共鳴振動数がどう変わるかを見ます。',
+        beats: 'うなり', beatsDesc: '振動数が近い 2 つの音を重ね、音の強弱が周期的に変わる様子を確認します。',
+        doppler: 'ドップラー効果', dopplerDesc: '動く音源の前後で波長と聞こえる振動数が変わる理由を確認します。',
+        refraction: '屈折と全反射', refractionDesc: 'スネルの法則、法線との角度、臨界角、全反射の条件を確認します。',
+        lensMirror: 'レンズ・球面鏡の像', lensMirrorDesc: '凸レンズ、凹レンズ、凹面鏡、凸面鏡の実像・虚像を同じ式で比べます。',
+        doubleSlit: 'ヤングの二重スリット', doubleSlitDesc: '波長、スリット間隔、スクリーン距離と明線間隔の関係を確認します。',
+        pvWork: 'p-V 図と仕事', pvWorkDesc: '等温変化、等圧変化、等積変化、断熱変化と、面積で表す仕事を扱う予定です。',
+        firstLaw: '熱力学第一法則', firstLawDesc: '吸熱、仕事、内部エネルギー変化の関係を扱う予定です。',
+        rcCircuit: 'RC 回路の充電・放電', rcCircuitDesc: 'コンデンサーの電圧と電流が、時定数 τ = RC に従って変化する様子を確認します。',
+        fieldPotential: '電場と電位', fieldPotentialDesc: '電気力線、等電位線、電位エネルギー、荷電粒子の運動を扱う予定です。',
+        induction: '電磁誘導', inductionDesc: '磁束の変化、レンツの法則、交流発電機、変圧器を扱う予定です。',
+        photoelectric: '光電効果', photoelectricDesc: '限界振動数、仕事関数、阻止電圧、光の強さと電子数の関係を扱う予定です。',
+        halfLife: '半減期', halfLifeDesc: '放射性崩壊の確率的な性質と、指数関数的な減少を扱う予定です。'
+      },
+      'zh-CN': {
+        htmlLang: 'zh-CN', title: '物理演示集 · 旅人教育共通考试物理', brand: '旅人教育｜共通考试物理', back: '返回物理主页',
+        heroLabel: '课堂用交互教材', heroTitle: '物理演示集', heroLead: '本页以共通考试物理的主要分野整理常见物理现象。可用于课堂导入、公式确认，以及图像和图表读取练习。',
+        statusAria: '演示概览', navAria: '分野导航', liveCount: '已公开演示', domainCount: '力学・波动・热・电磁学・原子', statusText: '通过图、公式和操作，把各分野的基本现象对应起来确认。',
+        live: '公开中', todo: '准备中', countLive: (n) => `${n} 个演示`, countTodo: '准备中',
+        mechanics: '力学', mechanicsDesc: '涵盖运动、力、能量、动量、圆周运动、天体运动和简谐振动。',
+        waves: '波动', wavesDesc: '涵盖波形、声波、驻波、气柱共鸣、光的折射、干涉和成像。',
+        thermal: '热力学', thermalDesc: '涵盖热量、内能、气体状态变化、p-V 图和热力学第一定律。',
+        electromagnetism: '电磁学', electromagnetismDesc: '涵盖电场、电势、电容器、直流电路、磁场、洛伦兹力和电磁感应。',
+        atomic: '原子', atomicDesc: '涵盖光电效应、X 射线、物质波、能级、原子核和半衰期。',
+        waveform: '波形', sound: '声波', optics: '光学', thermalTopic: '热', capacitor: '电容器', electric: '电场', magnetic: '磁场', atomicTopic: '原子', motion: '运动', energy: '能量', orbit: '圆周运动',
+        motionGraphs: '运动图像与相对运动', motionGraphsDesc: '计划涵盖 x-t 图、v-t 图、追及问题和相对速度。',
+        energyCollision: '能量与碰撞', energyCollisionDesc: '计划涵盖功、机械能、动量守恒和反发系数。',
+        circularMotion: '圆周运动与天体运动', circularMotionDesc: '计划涵盖向心力、万有引力、轨道速度和开普勒定律。',
+        standingWave: '定常波与节・腹', standingWaveDesc: '通过两列反向传播的波叠加，确认节和腹的位置。',
+        airColumn: '气柱共鸣', airColumnDesc: '比较开管与闭管中节、腹的位置，以及共鸣频率的变化。',
+        beats: '拍频', beatsDesc: '叠加两个频率接近的声音，观察音量强弱周期性变化。',
+        doppler: '多普勒效应', dopplerDesc: '确认运动声源前后波长和听到的频率为什么会改变。',
+        refraction: '折射与全反射', refractionDesc: '确认斯涅尔定律、与法线的角度、临界角和全反射条件。',
+        lensMirror: '透镜与球面镜成像', lensMirrorDesc: '用同一公式比较凸透镜、凹透镜、凹面镜和凸面镜的实像与虚像。',
+        doubleSlit: '杨氏双缝', doubleSlitDesc: '确认波长、缝间距、屏幕距离和明线间隔之间的关系。',
+        pvWork: 'p-V 图与做功', pvWorkDesc: '计划涵盖等温、等压、等容、绝热变化，以及用面积表示气体做功。',
+        firstLaw: '热力学第一定律', firstLawDesc: '计划涵盖吸热、做功和内能变化的关系。',
+        rcCircuit: 'RC 回路充电・放电', rcCircuitDesc: '确认电容器电压和电流如何随时定数 τ = RC 变化。',
+        fieldPotential: '电场与电势', fieldPotentialDesc: '计划涵盖电场线、等势线、电势能和带电粒子的运动。',
+        induction: '电磁感应', inductionDesc: '计划涵盖磁通量变化、楞次定律、交流发电机和变压器。',
+        photoelectric: '光电效应', photoelectricDesc: '计划涵盖截止频率、逸出功、遏止电压、光强和电子数的关系。',
+        halfLife: '半衰期', halfLifeDesc: '计划涵盖放射性衰变的概率性质和指数衰减。'
+      },
+      'zh-TW': {
+        htmlLang: 'zh-Hant-TW', title: '物理演示集 · 旅人教育共通測驗物理', brand: '旅人教育｜共通測驗物理', back: '返回物理首頁',
+        heroLabel: '課堂用互動教材', heroTitle: '物理演示集', heroLead: '本頁依照共通測驗物理的主要領域整理常見物理現象。可用於課堂導入、公式確認，以及圖像和圖表判讀練習。',
+        statusAria: '演示概覽', navAria: '領域導覽', liveCount: '已公開演示', domainCount: '力學・波動・熱・電磁學・原子', statusText: '透過圖、公式與操作，對照確認各領域的基本現象。',
+        live: '公開中', todo: '準備中', countLive: (n) => `${n} 個演示`, countTodo: '準備中',
+        mechanics: '力學', mechanicsDesc: '涵蓋運動、力、能量、動量、圓周運動、天體運動與簡諧運動。',
+        waves: '波動', wavesDesc: '涵蓋波形、聲波、駐波、氣柱共鳴、光的折射、干涉與成像。',
+        thermal: '熱力學', thermalDesc: '涵蓋熱量、內能、氣體狀態變化、p-V 圖與熱力學第一定律。',
+        electromagnetism: '電磁學', electromagnetismDesc: '涵蓋電場、電位、電容器、直流電路、磁場、洛倫茲力與電磁感應。',
+        atomic: '原子', atomicDesc: '涵蓋光電效應、X 射線、物質波、能階、原子核與半衰期。',
+        waveform: '波形', sound: '聲波', optics: '光學', thermalTopic: '熱', capacitor: '電容器', electric: '電場', magnetic: '磁場', atomicTopic: '原子', motion: '運動', energy: '能量', orbit: '圓周運動',
+        motionGraphs: '運動圖像與相對運動', motionGraphsDesc: '預計涵蓋 x-t 圖、v-t 圖、追及問題與相對速度。',
+        energyCollision: '能量與碰撞', energyCollisionDesc: '預計涵蓋功、力學能、動量守恆與恢復係數。',
+        circularMotion: '圓周運動與天體運動', circularMotionDesc: '預計涵蓋向心力、萬有引力、軌道速度與克卜勒定律。',
+        standingWave: '駐波與節・腹', standingWaveDesc: '透過兩列反向傳播的波疊加，確認節與腹的位置。',
+        airColumn: '氣柱共鳴', airColumnDesc: '比較開管與閉管中節、腹的位置，以及共鳴頻率的變化。',
+        beats: '拍頻', beatsDesc: '疊加兩個頻率接近的聲音，觀察音量強弱的週期性變化。',
+        doppler: '都卜勒效應', dopplerDesc: '確認運動聲源前後波長與聽到的頻率為什麼會改變。',
+        refraction: '折射與全反射', refractionDesc: '確認司乃耳定律、與法線的角度、臨界角與全反射條件。',
+        lensMirror: '透鏡與球面鏡成像', lensMirrorDesc: '用同一公式比較凸透鏡、凹透鏡、凹面鏡與凸面鏡的實像和虛像。',
+        doubleSlit: '楊氏雙狹縫', doubleSlitDesc: '確認波長、狹縫間距、螢幕距離與亮紋間距之間的關係。',
+        pvWork: 'p-V 圖與作功', pvWorkDesc: '預計涵蓋等溫、等壓、等容、絕熱變化，以及用面積表示氣體作功。',
+        firstLaw: '熱力學第一定律', firstLawDesc: '預計涵蓋吸熱、作功與內能變化的關係。',
+        rcCircuit: 'RC 電路充電・放電', rcCircuitDesc: '確認電容器電壓與電流如何隨時間常數 τ = RC 變化。',
+        fieldPotential: '電場與電位', fieldPotentialDesc: '預計涵蓋電場線、等電位線、電位能與帶電粒子的運動。',
+        induction: '電磁感應', inductionDesc: '預計涵蓋磁通量變化、楞次定律、交流發電機與變壓器。',
+        photoelectric: '光電效應', photoelectricDesc: '預計涵蓋截止頻率、功函數、截止電壓、光強與電子數的關係。',
+        halfLife: '半衰期', halfLifeDesc: '預計涵蓋放射性衰變的機率性質與指數衰減。'
+      },
+      en: {
+        htmlLang: 'en', title: 'Physics Demo Library · Tabito Education Common Test Physics', brand: 'Tabito Education | Common Test Physics', back: 'Back to Physics',
+        heroLabel: 'Interactive Classroom Resources', heroTitle: 'Physics Demo Library', heroLead: 'A collection of interactive demos organized by the main areas of Common Test physics. Use them to introduce ideas, check formulas, and practice reading diagrams and graphs.',
+        statusAria: 'Demo overview', navAria: 'Area navigation', liveCount: 'Published demos', domainCount: 'Mechanics・Waves・Thermal・Electromagnetism・Atomic', statusText: 'Each demo connects the core phenomenon with diagrams, formulas, and simple controls.',
+        live: 'Published', todo: 'Coming soon', countLive: (n) => `${n} demos`, countTodo: 'Coming soon',
+        mechanics: 'Mechanics', mechanicsDesc: 'Motion, forces, energy, momentum, circular motion, celestial motion, and simple harmonic motion.',
+        waves: 'Waves', wavesDesc: 'Waveforms, sound, standing waves, air columns, refraction, interference, and image formation.',
+        thermal: 'Thermodynamics', thermalDesc: 'Heat, internal energy, gas processes, p-V diagrams, and the first law of thermodynamics.',
+        electromagnetism: 'Electromagnetism', electromagnetismDesc: 'Electric fields, potential, capacitors, DC circuits, magnetic fields, Lorentz force, and induction.',
+        atomic: 'Atomic Physics', atomicDesc: 'Photoelectric effect, X-rays, matter waves, energy levels, nuclei, and half-life.',
+        waveform: 'Waveform', sound: 'Sound', optics: 'Optics', thermalTopic: 'Thermal', capacitor: 'Capacitor', electric: 'Electric field', magnetic: 'Magnetic field', atomicTopic: 'Atomic', motion: 'Motion', energy: 'Energy', orbit: 'Circular motion',
+        motionGraphs: 'Motion Graphs and Relative Motion', motionGraphsDesc: 'Covers x-t graphs, v-t graphs, pursuit problems, and relative velocity.',
+        energyCollision: 'Energy and Collisions', energyCollisionDesc: 'Covers work, mechanical energy, momentum conservation, and coefficient of restitution.',
+        circularMotion: 'Circular and Celestial Motion', circularMotionDesc: 'Covers centripetal force, gravitation, orbital speed, and Kepler’s laws.',
+        standingWave: 'Standing Waves: Nodes and Antinodes', standingWaveDesc: 'See how two opposite traveling waves combine to form nodes and antinodes.',
+        airColumn: 'Air Column Resonance', airColumnDesc: 'Compare node and antinode positions, and resonant frequencies, in open and closed pipes.',
+        beats: 'Beats', beatsDesc: 'Combine two nearby frequencies and observe the periodic change in loudness.',
+        doppler: 'Doppler Effect', dopplerDesc: 'See why wavelength and observed frequency change in front of and behind a moving source.',
+        refraction: 'Refraction and Total Internal Reflection', refractionDesc: 'Check Snell’s law, angles from the normal, critical angle, and total reflection.',
+        lensMirror: 'Lenses and Spherical Mirrors', lensMirrorDesc: 'Compare real and virtual images for convex lenses, concave lenses, concave mirrors, and convex mirrors.',
+        doubleSlit: 'Young’s Double Slit', doubleSlitDesc: 'Explore how wavelength, slit spacing, and screen distance determine fringe spacing.',
+        pvWork: 'p-V Diagrams and Work', pvWorkDesc: 'Covers isothermal, isobaric, isochoric, and adiabatic processes, plus work as area.',
+        firstLaw: 'First Law of Thermodynamics', firstLawDesc: 'Covers the relationship between heat, work, and internal energy change.',
+        rcCircuit: 'RC Circuit Charging and Discharging', rcCircuitDesc: 'See how capacitor voltage and current change with the time constant τ = RC.',
+        fieldPotential: 'Electric Field and Potential', fieldPotentialDesc: 'Covers field lines, equipotential lines, potential energy, and charged-particle motion.',
+        induction: 'Electromagnetic Induction', inductionDesc: 'Covers magnetic flux change, Lenz’s law, AC generators, and transformers.',
+        photoelectric: 'Photoelectric Effect', photoelectricDesc: 'Covers threshold frequency, work function, stopping voltage, light intensity, and electron number.',
+        halfLife: 'Half-Life', halfLifeDesc: 'Covers the probabilistic nature of radioactive decay and exponential decrease.'
+      }
+    };
+
+    const topicKey = {
+      waveform: 'waveform', sound: 'sound', optics: 'optics', thermal: 'thermalTopic', capacitor: 'capacitor',
+      electric: 'electric', magnetic: 'magnetic', atomic: 'atomicTopic', motion: 'motion', energy: 'energy', orbit: 'orbit'
+    };
+
+    const select = document.getElementById('languageSelect');
+    const savedLang = localStorage.getItem('physicsDemoLang') || 'ja';
+    select.value = translations[savedLang] ? savedLang : 'ja';
+
+    function t(key){return translations[select.value][key] || translations.ja[key] || key}
+    function liveCount(domain){return demos[domain].filter((item)=>item.status==='live').length}
+    function createCard(item){
+      const tag = item.status === 'live' ? 'a' : 'article';
+      const el = document.createElement(tag);
+      el.className = item.status === 'live' ? 'demo-card' : 'empty-card';
+      if(item.href) el.href = item.href;
+      el.innerHTML = `
+        <div class="chip-row">
+          <span class="chip">${t(topicKey[item.topic])}</span>
+          <span class="chip ${item.status === 'live' ? 'checked' : 'todo'}">${t(item.status === 'live' ? 'live' : 'todo')}</span>
+        </div>
+        <h3>${t(item.title)}</h3>
+        <p>${t(item.desc)}</p>
+      `;
+      return el;
+    }
+    function render(){
+      document.documentElement.lang = t('htmlLang');
+      document.title = t('title');
+      document.getElementById('brandText').textContent = t('brand');
+      document.getElementById('backLink').textContent = t('back');
+      document.getElementById('heroLabel').textContent = t('heroLabel');
+      document.getElementById('heroTitle').textContent = t('heroTitle');
+      document.getElementById('heroLead').textContent = t('heroLead');
+      document.getElementById('statusPanel').setAttribute('aria-label', t('statusAria'));
+      document.getElementById('statusPanel').innerHTML = `
+        <div class="stat"><strong>8</strong><span>${t('liveCount')}</span></div>
+        <div class="stat"><strong>5</strong><span>${t('domainCount')}</span></div>
+        <p>${t('statusText')}</p>
+      `;
+      const nav = document.getElementById('domainNav');
+      nav.setAttribute('aria-label', t('navAria'));
+      nav.innerHTML = order.map((domain)=>`<a class="nav-chip" href="#${domain}">${t(domain)}</a>`).join('');
+      const domains = document.getElementById('domains');
+      domains.innerHTML = '';
+      order.forEach((domain)=>{
+        const section = document.createElement('section');
+        section.className = 'domain';
+        section.id = domain;
+        const count = liveCount(domain);
+        section.innerHTML = `
+          <div class="domain-head">
+            <div>
+              <h2>${t(domain)}</h2>
+              <p>${t(domain + 'Desc')}</p>
+            </div>
+            <span class="count">${count ? t('countLive')(count) : t('countTodo')}</span>
+          </div>
+          <div class="demo-grid"></div>
+        `;
+        const grid = section.querySelector('.demo-grid');
+        demos[domain].forEach((item)=>grid.appendChild(createCard(item)));
+        domains.appendChild(section);
+      });
+      localStorage.setItem('physicsDemoLang', select.value);
+    }
+    select.addEventListener('change', render);
+    render();
+  </script>
 </body>
 </html>
