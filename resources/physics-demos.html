@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>物理 Demo 集 · 旅人教育共通考试物理</title>
+  <title>物理デモ集 · 旅人教育共通テスト物理</title>
   <style>
     :root {
       --ink: #172033;
@@ -33,7 +33,7 @@
       min-height: 100vh;
       background: var(--canvas);
       color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", "Noto Sans JP", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
       line-height: 1.7;
     }
 
@@ -304,26 +304,6 @@
       font-size: 14px;
     }
 
-    .audit {
-      margin-top: 16px;
-      border: 1px solid #d5eadf;
-      border-left: 5px solid var(--green);
-      border-radius: var(--radius);
-      background: #f2fbf6;
-      padding: 16px 18px;
-    }
-
-    .audit h2 {
-      color: #125d4a;
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .audit p {
-      color: #315a4d;
-      font-size: 14px;
-    }
-
     @media (max-width: 980px) {
       .hero,
       .demo-grid {
@@ -359,30 +339,30 @@
   <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/physics-demos.html'}</script>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="../physics.html"><span class="mark">実</span><span>旅人教育｜共通考试物理</span></a>
-      <a class="btn" href="../physics.html">返回物理主页</a>
+      <a class="brand" href="../physics.html"><span class="mark">実</span><span>旅人教育｜共通テスト物理</span></a>
+      <a class="btn" href="../physics.html">物理ページへ戻る</a>
     </div>
   </header>
 
   <main class="page">
     <section class="hero">
       <div class="hero-main">
-        <div class="label">授课用交互 Demo</div>
-        <h1>物理 Demo 集</h1>
-        <p class="lead">这里按共通考试物理的五大板块整理交互演示。每个 demo 只讲一个核心现象，避免把太多主题塞进同一页；已经上线的页面会继续检查公式、边界条件和图中标注。</p>
+        <div class="label">授業用インタラクティブ教材</div>
+        <h1>物理デモ集</h1>
+        <p class="lead">共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。</p>
       </div>
-      <aside class="status-panel" aria-label="Demo 状态">
-        <div class="stat"><strong>8</strong><span>个已上线的独立 demo</span></div>
-        <div class="stat"><strong>5</strong><span>个课程板块分区</span></div>
-        <p>已从入口移除“高校光学综合 demo”。光学内容改由折射、透镜、双缝等独立页面进入。</p>
+      <aside class="status-panel" aria-label="デモの概要">
+        <div class="stat"><strong>8</strong><span>公開中のデモ</span></div>
+        <div class="stat"><strong>5</strong><span>力学・波動・熱・電磁気・原子</span></div>
+        <p>各分野の基本現象を、図・式・操作を対応させながら確認できます。</p>
       </aside>
     </section>
 
-    <nav class="nav" aria-label="板块导航">
+    <nav class="nav" aria-label="分野ナビゲーション">
       <a class="nav-chip" href="#mechanics">力学</a>
-      <a class="nav-chip" href="#waves">波动</a>
-      <a class="nav-chip" href="#thermal">热力学</a>
-      <a class="nav-chip" href="#electromagnetism">电磁学</a>
+      <a class="nav-chip" href="#waves">波動</a>
+      <a class="nav-chip" href="#thermal">熱力学</a>
+      <a class="nav-chip" href="#electromagnetism">電磁気</a>
       <a class="nav-chip" href="#atomic">原子</a>
     </nav>
 
@@ -391,25 +371,25 @@
         <div class="domain-head">
           <div>
             <h2>力学</h2>
-            <p>运动、力、能量、动量、圆周运动、天体运动、简谐振动等内容会放在这里。</p>
+            <p>運動、力、エネルギー、運動量、円運動、天体運動、単振動を扱います。</p>
           </div>
-          <span class="count">待制作</span>
+          <span class="count">準備中</span>
         </div>
         <div class="demo-grid">
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>运动图像与相对运动</h3>
-            <p>建议后续制作 x-t、v-t、a-t 图像联动，以及追及和相对速度演示。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>運動グラフと相対運動</h3>
+            <p>x-t グラフ、v-t グラフ、追いつき、相対速度を扱う予定です。</p>
           </article>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>能量与碰撞</h3>
-            <p>建议后续制作弹簧、斜面、碰撞和反发系数的可视化。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>エネルギーと衝突</h3>
+            <p>仕事、力学的エネルギー、運動量保存、反発係数を扱う予定です。</p>
           </article>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>圆周运动与天体</h3>
-            <p>建议后续制作向心力、轨道速度、万有引力和开普勒定律演示。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>円運動と天体運動</h3>
+            <p>向心力、万有引力、軌道速度、ケプラーの法則を扱う予定です。</p>
           </article>
         </div>
       </section>
@@ -417,46 +397,46 @@
       <section class="domain" id="waves">
         <div class="domain-head">
           <div>
-            <h2>波动</h2>
-            <p>波形、声波、驻波、气柱、光的折射与干涉。这里优先保留单主题、可直接用于课堂讲解的页面。</p>
+            <h2>波動</h2>
+            <p>波形、音波、定常波、気柱共鳴、光の屈折・干渉・結像を扱います。</p>
           </div>
-          <span class="count">7 个 demo</span>
+          <span class="count">7 個のデモ</span>
         </div>
         <div class="demo-grid">
           <a class="demo-card" href="standing-wave-demo.html">
-            <div class="chip-row"><span class="chip">波形</span><span class="chip checked">已检查</span></div>
-            <h3>定常波与节・腹</h3>
-            <p>反向传播的两列波叠加，固定端为节，腹的数量决定波长。</p>
+            <div class="chip-row"><span class="chip">波形</span><span class="chip checked">公開中</span></div>
+            <h3>定常波と節・腹</h3>
+            <p>反対向きに進む 2 つの波の重ね合わせから、節と腹の位置を確認します。</p>
           </a>
           <a class="demo-card" href="air-column-demo.html">
-            <div class="chip-row"><span class="chip">声波</span><span class="chip fix">已修正标注</span></div>
-            <h3>气柱共鸣</h3>
-            <p>开管两端为腹；闭管闭端为节、开端为腹。频率公式随边界条件改变。</p>
+            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
+            <h3>気柱共鳴</h3>
+            <p>開管と閉管で、節・腹の位置と共鳴振動数がどう変わるかを見ます。</p>
           </a>
           <a class="demo-card" href="beats-demo.html">
-            <div class="chip-row"><span class="chip">声波</span><span class="chip checked">已检查</span></div>
-            <h3>拍频：うなり</h3>
-            <p>两个相近频率叠加，音量强弱变化的频率为两者频率差。</p>
+            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
+            <h3>うなり</h3>
+            <p>振動数が近い 2 つの音を重ね、音の強弱が周期的に変わる様子を確認します。</p>
           </a>
           <a class="demo-card" href="doppler-demo.html">
-            <div class="chip-row"><span class="chip">声波</span><span class="chip fix">补充条件</span></div>
-            <h3>多普勒效应</h3>
-            <p>静止观察者、运动声源模型。前方波长变短，后方波长变长。</p>
+            <div class="chip-row"><span class="chip">音波</span><span class="chip checked">公開中</span></div>
+            <h3>ドップラー効果</h3>
+            <p>動く音源の前後で波長と聞こえる振動数が変わる理由を確認します。</p>
           </a>
           <a class="demo-card" href="refraction-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">已检查</span></div>
-            <h3>折射与全反射</h3>
-            <p>用斯涅尔定律比较法线方向、临界角和全反射条件。</p>
+            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
+            <h3>屈折と全反射</h3>
+            <p>スネルの法則、法線との角度、臨界角、全反射の条件を確認します。</p>
           </a>
           <a class="demo-card" href="lens-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip fix">补充焦点特例</span></div>
-            <h3>凸透镜成像</h3>
-            <p>实像、虚像和焦点处无穷远像，对应薄透镜公式。</p>
+            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
+            <h3>レンズ・球面鏡の像</h3>
+            <p>凸レンズ、凹レンズ、凹面鏡、凸面鏡の実像・虚像を同じ式で比べます。</p>
           </a>
           <a class="demo-card" href="double-slit-demo.html">
-            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">已检查</span></div>
-            <h3>杨氏双缝</h3>
-            <p>明线间隔随波长、屏幕距离和缝间距变化。</p>
+            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">公開中</span></div>
+            <h3>ヤングの二重スリット</h3>
+            <p>波長、スリット間隔、スクリーン距離と明線間隔の関係を確認します。</p>
           </a>
         </div>
       </section>
@@ -464,21 +444,21 @@
       <section class="domain" id="thermal">
         <div class="domain-head">
           <div>
-            <h2>热力学</h2>
-            <p>热量、内能、气体状态变化、p-V 图和热力学第一定律会放在这里。</p>
+            <h2>熱力学</h2>
+            <p>熱量、内部エネルギー、気体の状態変化、p-V 図、熱力学第一法則を扱います。</p>
           </div>
-          <span class="count">待制作</span>
+          <span class="count">準備中</span>
         </div>
         <div class="demo-grid">
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>p-V 图与做功</h3>
-            <p>建议后续制作等温、等压、等容、绝热变化，以及面积表示气体做功。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>p-V 図と仕事</h3>
+            <p>等温変化、等圧変化、等積変化、断熱変化と、面積で表す仕事を扱う予定です。</p>
           </article>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>热力学第一定律</h3>
-            <p>建议后续把吸热、做功、内能变化做成可拖动能量流图。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>熱力学第一法則</h3>
+            <p>吸熱、仕事、内部エネルギー変化の関係を扱う予定です。</p>
           </article>
         </div>
       </section>
@@ -486,26 +466,26 @@
       <section class="domain" id="electromagnetism">
         <div class="domain-head">
           <div>
-            <h2>电磁学</h2>
-            <p>电场、电势、电容、直流电路、磁场、洛伦兹力、电磁感应和交流电路。</p>
+            <h2>電磁気</h2>
+            <p>電場、電位、コンデンサー、直流回路、磁場、ローレンツ力、電磁誘導を扱います。</p>
           </div>
-          <span class="count">1 个 demo</span>
+          <span class="count">1 個のデモ</span>
         </div>
         <div class="demo-grid">
           <a class="demo-card" href="rc-circuit-demo.html">
-            <div class="chip-row"><span class="chip">电容</span><span class="chip checked">已检查</span></div>
-            <h3>RC 回路充电・放电</h3>
-            <p>电容电压按指数函数变化，时定数 tau = RC 决定变化快慢。</p>
+            <div class="chip-row"><span class="chip">コンデンサー</span><span class="chip checked">公開中</span></div>
+            <h3>RC 回路の充電・放電</h3>
+            <p>コンデンサーの電圧と電流が、時定数 τ = RC に従って変化する様子を確認します。</p>
           </a>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>电场与电势</h3>
-            <p>建议后续制作电场线、等势线、电势能和带电粒子运动演示。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>電場と電位</h3>
+            <p>電気力線、等電位線、電位エネルギー、荷電粒子の運動を扱う予定です。</p>
           </article>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>电磁感应</h3>
-            <p>建议后续制作磁通量变化、楞次定律、交流发电机和变压器演示。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>電磁誘導</h3>
+            <p>磁束の変化、レンツの法則、交流発電機、変圧器を扱う予定です。</p>
           </article>
         </div>
       </section>
@@ -514,28 +494,23 @@
         <div class="domain-head">
           <div>
             <h2>原子</h2>
-            <p>光电效应、X 射线、物质波、能级、原子核和半衰期会放在这里。</p>
+            <p>光電効果、X 線、物質波、エネルギー準位、原子核、半減期を扱います。</p>
           </div>
-          <span class="count">待制作</span>
+          <span class="count">準備中</span>
         </div>
         <div class="demo-grid">
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>光电效应</h3>
-            <p>建议后续制作截止频率、遏止电压、光强与电子数的关系。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>光電効果</h3>
+            <p>限界振動数、仕事関数、阻止電圧、光の強さと電子数の関係を扱う予定です。</p>
           </article>
           <article class="empty-card">
-            <div class="chip-row"><span class="chip todo">计划中</span></div>
-            <h3>半衰期</h3>
-            <p>建议后续制作随机衰变模拟和指数衰减曲线。</p>
+            <div class="chip-row"><span class="chip todo">準備中</span></div>
+            <h3>半減期</h3>
+            <p>放射性崩壊の確率的な性質と、指数関数的な減少を扱う予定です。</p>
           </article>
         </div>
       </section>
-    </section>
-
-    <section class="audit">
-      <h2>本次检查记录</h2>
-      <p>已修正气柱共鸣开管节/腹标注；已补充凸透镜焦点处像在无穷远的处理；已明确多普勒公式适用于静止观察者、运动声源。后续新增 demo 时也按单主题页面进入对应板块。</p>
     </section>
   </main>
 </body>
