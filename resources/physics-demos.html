@@ -1,50 +1,541 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>物理デモ集 · 旅人教育共通テスト物理</title>
+  <title>物理 Demo 集 · 旅人教育共通考试物理</title>
   <style>
-    :root{--ink:#172033;--muted:#667085;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--surface:#eef4fb;--blue:#235f9f;--blue-dark:#164a7f;--green:#16846b;--amber:#a96513;--shadow:0 14px 34px rgba(31,45,69,.08);--radius:8px}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{min-height:100vh;background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
-    .topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(217,225,236,.94);background:rgba(255,255,255,.94);backdrop-filter:blur(14px)}
-    .topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}
-    .topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand,.btn{color:var(--ink);text-decoration:none;font-weight:850}.brand{display:flex;align-items:center;gap:10px}.mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:8px;background:#f8fbff;color:var(--blue)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;border:1px solid var(--line);border-radius:7px;background:var(--paper);padding:8px 12px;color:var(--blue-dark);font-size:13px}.btn:hover{background:var(--surface)}
-    .page{padding:38px 0 70px}.label{color:var(--blue-dark);font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:10px}
-    .hero{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:30px;box-shadow:0 1px 0 rgba(31,45,69,.02);margin-bottom:16px}
-    h1{font-size:clamp(32px,5vw,54px);line-height:1.12;margin-bottom:14px}.lead{max-width:780px;color:var(--muted);font-size:16px}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{display:grid;align-content:start;gap:14px;min-height:178px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:22px;text-decoration:none;color:var(--ink);box-shadow:0 1px 0 rgba(31,45,69,.02)}.card:hover{border-color:#bfd2e8;box-shadow:var(--shadow);transform:translateY(-1px)}
-    .chip{display:inline-flex;width:max-content;border-radius:999px;background:var(--surface);color:var(--blue-dark);padding:4px 9px;font-size:12px;font-weight:850}.card h2{font-size:22px;line-height:1.25}.card p{color:var(--muted);font-size:14px}.card strong{color:var(--green)}
-    .ideas{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:22px}.ideas h2{font-size:20px;margin-bottom:8px}.ideas p{color:var(--muted);font-size:14px}
-    @media(max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){.grid{grid-template-columns:1fr}.topbar-inner,.page{width:min(100% - 24px,1120px)}.hero{padding:22px}}
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --soft: #8b95a7;
+      --line: #d9e1ec;
+      --line-soft: #edf1f6;
+      --paper: #ffffff;
+      --canvas: #f5f7fb;
+      --surface: #eef4fb;
+      --blue: #235f9f;
+      --blue-dark: #164a7f;
+      --green: #16846b;
+      --amber: #a96513;
+      --red: #b2443b;
+      --shadow: 0 14px 34px rgba(31, 45, 69, 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", "Noto Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(217, 225, 236, 0.94);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner,
+    .page {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand,
+    .btn {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 850;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #c7d6e8;
+      border-radius: var(--radius);
+      background: #f8fbff;
+      color: var(--blue);
+    }
+
+    .btn {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--paper);
+      padding: 8px 12px;
+      color: var(--blue-dark);
+      font-size: 13px;
+    }
+
+    .btn:hover,
+    .nav-chip:hover,
+    .demo-card:hover {
+      background: var(--surface);
+    }
+
+    .page {
+      padding: 34px 0 70px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 16px;
+    }
+
+    .hero-main,
+    .status-panel,
+    .domain,
+    .demo-card,
+    .empty-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 1px 0 rgba(31, 45, 69, 0.02);
+    }
+
+    .hero-main,
+    .status-panel {
+      padding: 26px;
+    }
+
+    .label {
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.12;
+      margin-bottom: 12px;
+    }
+
+    .lead {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .status-panel {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .stat strong {
+      color: var(--green);
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .stat span,
+    .status-panel p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .nav-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--blue-dark);
+      padding: 7px 11px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .domains {
+      display: grid;
+      gap: 16px;
+    }
+
+    .domain {
+      padding: 20px;
+    }
+
+    .domain-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .domain h2 {
+      font-size: 24px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .domain p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .count {
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--blue-dark);
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .demo-card,
+    .empty-card {
+      min-height: 172px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      padding: 18px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .demo-card:hover {
+      border-color: #bfd2e8;
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    .empty-card {
+      border-style: dashed;
+      background: #fbfcfe;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      width: max-content;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--blue-dark);
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .chip.checked {
+      background: #e8f5ef;
+      color: #126651;
+    }
+
+    .chip.fix {
+      background: #fff4df;
+      color: #7b4a0e;
+    }
+
+    .chip.todo {
+      background: #f7f9fc;
+      color: var(--soft);
+    }
+
+    .demo-card h3,
+    .empty-card h3 {
+      font-size: 19px;
+      line-height: 1.3;
+    }
+
+    .demo-card p,
+    .empty-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .audit {
+      margin-top: 16px;
+      border: 1px solid #d5eadf;
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius);
+      background: #f2fbf6;
+      padding: 16px 18px;
+    }
+
+    .audit h2 {
+      color: #125d4a;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .audit p {
+      color: #315a4d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner,
+      .page {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 10px 0;
+      }
+
+      .hero-main,
+      .status-panel,
+      .domain {
+        padding: 18px;
+      }
+
+      .domain-head {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/physics-demos.html'}</script>
-  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../physics.html"><span class="mark">実</span><span>旅人教育｜共通テスト物理</span></a><a class="btn" href="../physics.html">物理ページへ戻る</a></div></header>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../physics.html"><span class="mark">実</span><span>旅人教育｜共通考试物理</span></a>
+      <a class="btn" href="../physics.html">返回物理主页</a>
+    </div>
+  </header>
+
   <main class="page">
     <section class="hero">
-      <div class="label">授業用ミニ実験</div>
-      <h1>物理デモ集</h1>
-      <p class="lead">日本の高校物理で扱う「波動」のデモを集めました。音波、光の干渉・屈折、レンズ、薄膜、偏光もすべて波動分野としてまとめ、式・重要結論と現象を同時に確認できるようにしています。</p>
+      <div class="hero-main">
+        <div class="label">授课用交互 Demo</div>
+        <h1>物理 Demo 集</h1>
+        <p class="lead">这里按共通考试物理的五大板块整理交互演示。每个 demo 只讲一个核心现象，避免把太多主题塞进同一页；已经上线的页面会继续检查公式、边界条件和图中标注。</p>
+      </div>
+      <aside class="status-panel" aria-label="Demo 状态">
+        <div class="stat"><strong>8</strong><span>个已上线的独立 demo</span></div>
+        <div class="stat"><strong>5</strong><span>个课程板块分区</span></div>
+        <p>已从入口移除“高校光学综合 demo”。光学内容改由折射、透镜、双缝等独立页面进入。</p>
+      </aside>
     </section>
-    <section class="grid">
-      <a class="card" href="beats-demo.html"><span class="chip">波動</span><h2>うなりを「見る」・「聞く」</h2><p>440 Hz と 444 Hz を重ね、音量が周期的に変わる様子を波形と音声で確認します。<strong>fうなり = |f1 - f2|</strong></p></a>
-      <a class="card" href="doppler-demo.html"><span class="chip">波動</span><h2>ドップラー効果</h2><p>動く音源が出す波面を表示し、前方では高く、後方では低く聞こえる理由を確認します。</p></a>
-      <a class="card" href="air-column-demo.html"><span class="chip">波動</span><h2>気柱共鳴</h2><p>開管・閉管で節と腹の位置がどう変わるかを見て、共鳴振動数の違いを整理します。</p></a>
-      <a class="card" href="standing-wave-demo.html"><span class="chip">波動</span><h2>定常波と節・腹</h2><p>右向きの波と左向きの波を重ねると、動かない点「節」と大きく動く点「腹」が現れます。</p></a>
-      <a class="card" href="optics-suite-demo.html"><span class="chip">光学</span><h2>高校光学 総合デモ</h2><p>反射・屈折、レンズ・球面鏡、ヤング・回折格子、薄膜干渉、偏光を 1 ページで確認します。</p></a>
-      <a class="card" href="double-slit-demo.html"><span class="chip">波動</span><h2>ヤングの二重スリット</h2><p>波長、スリット間隔、スクリーン距離を変えて、明線間隔 Δx = Lλ/d を確認します。</p></a>
-      <a class="card" href="refraction-demo.html"><span class="chip">波動</span><h2>屈折と全反射</h2><p>入射角と屈折率を変えながら、スネルの法則と臨界角を視覚的に確認します。</p></a>
-      <a class="card" href="lens-demo.html"><span class="chip">波動</span><h2>凸レンズの実像・虚像</h2><p>焦点距離と物体距離を変え、実像・虚像、倒立・正立を光線図で確認します。</p></a>
-      <a class="card" href="rc-circuit-demo.html"><span class="chip">参考</span><h2>コンデンサーの充電・放電</h2><p>波動ではありませんが、グラフ理解用の参考デモとして残しています。</p></a>
+
+    <nav class="nav" aria-label="板块导航">
+      <a class="nav-chip" href="#mechanics">力学</a>
+      <a class="nav-chip" href="#waves">波动</a>
+      <a class="nav-chip" href="#thermal">热力学</a>
+      <a class="nav-chip" href="#electromagnetism">电磁学</a>
+      <a class="nav-chip" href="#atomic">原子</a>
+    </nav>
+
+    <section class="domains">
+      <section class="domain" id="mechanics">
+        <div class="domain-head">
+          <div>
+            <h2>力学</h2>
+            <p>运动、力、能量、动量、圆周运动、天体运动、简谐振动等内容会放在这里。</p>
+          </div>
+          <span class="count">待制作</span>
+        </div>
+        <div class="demo-grid">
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>运动图像与相对运动</h3>
+            <p>建议后续制作 x-t、v-t、a-t 图像联动，以及追及和相对速度演示。</p>
+          </article>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>能量与碰撞</h3>
+            <p>建议后续制作弹簧、斜面、碰撞和反发系数的可视化。</p>
+          </article>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>圆周运动与天体</h3>
+            <p>建议后续制作向心力、轨道速度、万有引力和开普勒定律演示。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="domain" id="waves">
+        <div class="domain-head">
+          <div>
+            <h2>波动</h2>
+            <p>波形、声波、驻波、气柱、光的折射与干涉。这里优先保留单主题、可直接用于课堂讲解的页面。</p>
+          </div>
+          <span class="count">7 个 demo</span>
+        </div>
+        <div class="demo-grid">
+          <a class="demo-card" href="standing-wave-demo.html">
+            <div class="chip-row"><span class="chip">波形</span><span class="chip checked">已检查</span></div>
+            <h3>定常波与节・腹</h3>
+            <p>反向传播的两列波叠加，固定端为节，腹的数量决定波长。</p>
+          </a>
+          <a class="demo-card" href="air-column-demo.html">
+            <div class="chip-row"><span class="chip">声波</span><span class="chip fix">已修正标注</span></div>
+            <h3>气柱共鸣</h3>
+            <p>开管两端为腹；闭管闭端为节、开端为腹。频率公式随边界条件改变。</p>
+          </a>
+          <a class="demo-card" href="beats-demo.html">
+            <div class="chip-row"><span class="chip">声波</span><span class="chip checked">已检查</span></div>
+            <h3>拍频：うなり</h3>
+            <p>两个相近频率叠加，音量强弱变化的频率为两者频率差。</p>
+          </a>
+          <a class="demo-card" href="doppler-demo.html">
+            <div class="chip-row"><span class="chip">声波</span><span class="chip fix">补充条件</span></div>
+            <h3>多普勒效应</h3>
+            <p>静止观察者、运动声源模型。前方波长变短，后方波长变长。</p>
+          </a>
+          <a class="demo-card" href="refraction-demo.html">
+            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">已检查</span></div>
+            <h3>折射与全反射</h3>
+            <p>用斯涅尔定律比较法线方向、临界角和全反射条件。</p>
+          </a>
+          <a class="demo-card" href="lens-demo.html">
+            <div class="chip-row"><span class="chip">光学</span><span class="chip fix">补充焦点特例</span></div>
+            <h3>凸透镜成像</h3>
+            <p>实像、虚像和焦点处无穷远像，对应薄透镜公式。</p>
+          </a>
+          <a class="demo-card" href="double-slit-demo.html">
+            <div class="chip-row"><span class="chip">光学</span><span class="chip checked">已检查</span></div>
+            <h3>杨氏双缝</h3>
+            <p>明线间隔随波长、屏幕距离和缝间距变化。</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="domain" id="thermal">
+        <div class="domain-head">
+          <div>
+            <h2>热力学</h2>
+            <p>热量、内能、气体状态变化、p-V 图和热力学第一定律会放在这里。</p>
+          </div>
+          <span class="count">待制作</span>
+        </div>
+        <div class="demo-grid">
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>p-V 图与做功</h3>
+            <p>建议后续制作等温、等压、等容、绝热变化，以及面积表示气体做功。</p>
+          </article>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>热力学第一定律</h3>
+            <p>建议后续把吸热、做功、内能变化做成可拖动能量流图。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="domain" id="electromagnetism">
+        <div class="domain-head">
+          <div>
+            <h2>电磁学</h2>
+            <p>电场、电势、电容、直流电路、磁场、洛伦兹力、电磁感应和交流电路。</p>
+          </div>
+          <span class="count">1 个 demo</span>
+        </div>
+        <div class="demo-grid">
+          <a class="demo-card" href="rc-circuit-demo.html">
+            <div class="chip-row"><span class="chip">电容</span><span class="chip checked">已检查</span></div>
+            <h3>RC 回路充电・放电</h3>
+            <p>电容电压按指数函数变化，时定数 tau = RC 决定变化快慢。</p>
+          </a>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>电场与电势</h3>
+            <p>建议后续制作电场线、等势线、电势能和带电粒子运动演示。</p>
+          </article>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>电磁感应</h3>
+            <p>建议后续制作磁通量变化、楞次定律、交流发电机和变压器演示。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="domain" id="atomic">
+        <div class="domain-head">
+          <div>
+            <h2>原子</h2>
+            <p>光电效应、X 射线、物质波、能级、原子核和半衰期会放在这里。</p>
+          </div>
+          <span class="count">待制作</span>
+        </div>
+        <div class="demo-grid">
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>光电效应</h3>
+            <p>建议后续制作截止频率、遏止电压、光强与电子数的关系。</p>
+          </article>
+          <article class="empty-card">
+            <div class="chip-row"><span class="chip todo">计划中</span></div>
+            <h3>半衰期</h3>
+            <p>建议后续制作随机衰变模拟和指数衰减曲线。</p>
+          </article>
+        </div>
+      </section>
     </section>
-    <section class="ideas">
-      <h2>授業での使い方</h2>
-      <p>まず総合デモで全体像を見せ、必要に応じて二重スリット・屈折・レンズの個別ページで同じ式をゆっくり確認できます。特に共通テストでは、グラフ・図・文章を結びつける練習に使えます。</p>
+
+    <section class="audit">
+      <h2>本次检查记录</h2>
+      <p>已修正气柱共鸣开管节/腹标注；已补充凸透镜焦点处像在无穷远的处理；已明确多普勒公式适用于静止观察者、运动声源。后续新增 demo 时也按单主题页面进入对应板块。</p>
     </section>
   </main>
 </body>

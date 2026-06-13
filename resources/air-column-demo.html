@@ -30,10 +30,10 @@
       <aside class="controls">
         <div class="control"><div class="seg"><button id="open" class="active">開管</button><button id="closed">閉管</button></div></div>
         <div class="control"><label>管の長さ L：<span class="value" id="lenText">0.80</span> m</label><input id="len" type="range" min="0.3" max="1.5" step="0.01" value="0.8"></div>
-        <div class="control"><label>次数：<span class="value" id="modeText">1</span></label><input id="mode" type="range" min="1" max="5" step="1" value="1"></div>
+        <div class="control"><label>次数 n：<span class="value" id="modeText">1</span></label><input id="mode" type="range" min="1" max="5" step="1" value="1"></div>
         <div class="control"><div class="freq" id="freqText">213 Hz</div><p id="formula">開管：f = n v / 2L</p></div>
         <div class="control formula-sheet"><strong>公式・重要結論</strong><ul class="formula-list"><li>開管：両端が腹。<code>f = n v/2L</code></li><li>閉管：閉端が節、開端が腹。<code>f = (2n - 1)v/4L</code></li><li>閉管では基本振動の波長が <code>4L</code> になる。</li></ul></div>
-        <div class="control"><p><strong>見方：</strong>赤い点は節、緑の点は腹です。閉管では片端が必ず節になるので、基本振動の波長は 4L になります。</p></div>
+        <div class="control"><p><strong>見方：</strong>赤い点は節、緑の点は腹です。開管では両端が腹、閉管では閉端が節・開端が腹です。</p></div>
       </aside>
     </section>
   </main>
@@ -42,8 +42,14 @@
     openBtn.onclick=()=>{pipe='open';openBtn.classList.add('active');closedBtn.classList.remove('active');mode.max=5};closedBtn.onclick=()=>{pipe='closed';closedBtn.classList.add('active');openBtn.classList.remove('active');mode.max=5};
     function draw(now){const dt=(now-last)/1000;last=now;time+=dt;const L=Number(len.value),n=Number(mode.value),v=340,W=canvas.width,H=canvas.height,left=95,right=W-85,cy=H/2,A=95,phase=Math.cos(2*Math.PI*time);lenText.textContent=L.toFixed(2);modeText.textContent=n;let f;if(pipe==='open'){f=n*v/(2*L);formula.textContent='開管：f = n v / 2L'}else{f=(2*n-1)*v/(4*L);formula.textContent='閉管：f = (2n - 1) v / 4L'}freqText.textContent=Math.round(f)+' Hz';ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,W,H);ctx.fillStyle='#eef4fb';ctx.fillRect(left,cy-70,right-left,140);ctx.strokeStyle='#172033';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(left,cy-70);ctx.lineTo(right,cy-70);ctx.stroke();ctx.beginPath();ctx.moveTo(left,cy+70);ctx.lineTo(right,cy+70);ctx.stroke();if(pipe==='closed'){ctx.beginPath();ctx.moveTo(left,cy-70);ctx.lineTo(left,cy+70);ctx.stroke()}ctx.fillStyle='#172033';ctx.font='800 16px sans-serif';ctx.fillText(pipe==='open'?'開管：両端が腹':'閉管：閉端が節・開端が腹',left,72);
       ctx.strokeStyle='#235f9f';ctx.lineWidth=4;ctx.beginPath();for(let px=0;px<=right-left;px++){const x=px/(right-left);const shape=pipe==='open'?Math.cos(n*Math.PI*x):Math.sin((2*n-1)*Math.PI*x/2);const y=cy-shape*A*phase;if(px===0)ctx.moveTo(left+px,y);else ctx.lineTo(left+px,y)}ctx.stroke();
-      function dot(x,label,color){ctx.fillStyle=color;ctx.beginPath();ctx.arc(left+(right-left)*x,cy,7,0,Math.PI*2);ctx.fill();ctx.fillText(label,left+(right-left)*x-8,cy+110)}
-      if(pipe==='open'){for(let i=0;i<=n;i++){dot(i/n,i%2?'節':'腹',i%2?'#b2443b':'#16846b')}}else{dot(0,'節','#b2443b');dot(1,'腹','#16846b');for(let i=1;i<2*n-1;i++){dot(i/(2*n-1),i%2?'腹':'節',i%2?'#16846b':'#b2443b')}}
+      function dot(x,label,color,row=0){ctx.fillStyle=color;ctx.beginPath();ctx.arc(left+(right-left)*x,cy,7,0,Math.PI*2);ctx.fill();ctx.fillText(label,left+(right-left)*x-8,cy+110+row*24)}
+      if(pipe==='open'){
+        for(let i=0;i<=n;i++){dot(i/n,'腹','#16846b',0)}
+        for(let i=0;i<n;i++){dot((i+.5)/n,'節','#b2443b',1)}
+      }else{
+        for(let i=0;i<n;i++){dot((2*i)/(2*n-1),'節','#b2443b',0)}
+        for(let i=0;i<n;i++){dot((2*i+1)/(2*n-1),'腹','#16846b',1)}
+      }
       requestAnimationFrame(draw)}requestAnimationFrame(draw);
   </script>
 </body>
