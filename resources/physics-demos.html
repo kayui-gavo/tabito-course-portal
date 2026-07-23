@@ -88,7 +88,7 @@
       electromagnetism: [
         { href: 'rc-circuit-demo.html', status: 'live', topic: 'capacitor', title: 'rcCircuit', desc: 'rcCircuitDesc' },
         { status: 'todo', topic: 'electric', title: 'fieldPotential', desc: 'fieldPotentialDesc' },
-        { status: 'todo', topic: 'magnetic', title: 'induction', desc: 'inductionDesc' }
+        { href: 'electromagnetic-induction-demo.html', status: 'live', topic: 'magnetic', title: 'induction', desc: 'inductionDesc' }
       ],
       atomic: [
         { status: 'todo', topic: 'atomic', title: 'photoelectric', desc: 'photoelectricDesc' },
@@ -253,7 +253,7 @@
       document.getElementById('heroLead').textContent = t('heroLead');
       document.getElementById('statusPanel').setAttribute('aria-label', t('statusAria'));
       document.getElementById('statusPanel').innerHTML = `
-        <div class="stat"><strong>8</strong><span>${t('liveCount')}</span></div>
+        <div class="stat"><strong>${order.reduce((total, domain) => total + liveCount(domain), 0)}</strong><span>${t('liveCount')}</span></div>
         <div class="stat"><strong>5</strong><span>${t('domainCount')}</span></div>
         <p>${t('statusText')}</p>
       `;
