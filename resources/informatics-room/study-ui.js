@@ -34,6 +34,15 @@ function lessonTrackProgress(current) {
   const done = lessonCompletedSet();
   return [list.filter(x=>done.has(x.id)).length, list.length];
 }
+
+function termsHTML(lesson) {
+  if (!lesson.terms || !lesson.terms.length) return '';
+  return `<details class="lesson-terms">
+    <summary>このPARTの用語 <span>${lesson.terms.length}語</span></summary>
+    <div class="lesson-term-list">${lesson.terms.map(term=>`<span>${escapeHTML(term)}</span>`).join('')}</div>
+  </details>`;
+}
+
 function conceptHTML(point, index) {
   return `<div class="concept-block">
     <h3>${index+1}. ${escapeHTML(point.title)}</h3>
@@ -107,7 +116,7 @@ function bindComplete(root, lesson) {
   const apply=()=>{
     const isDone=done.has(lesson.id);
     btn.classList.toggle('is-done',isDone);
-    btn.textContent=isDone?'✓ 学習済み':'このPARTを完了にする';
+    btn.textContent=isDone?'✓ 学習済み':(lesson.track==='main'?'このPARTを完了にする':'この講を完了にする');
   };
   apply();
   btn.addEventListener('click',()=>{
@@ -162,6 +171,7 @@ window.renderStudyLesson = function renderStudyLesson() {
           <strong>このページでできるようになること</strong>
           <ul>${lesson.goals.map(g=>`<li>${escapeHTML(g)}</li>`).join('')}</ul>
         </div>
+        ${termsHTML(lesson)}
 
         <section class="lesson-section">
           <p class="lesson-section-label">KEY POINTS</p>
@@ -176,7 +186,7 @@ window.renderStudyLesson = function renderStudyLesson() {
         <p class="lesson-source">学習範囲：${escapeHTML(lesson.source)}をもとに、Web自学用に説明と例題を再構成しています。</p>
         <div class="lesson-complete">
           <div>${progressHTML(done,total)}</div>
-          <button id="completeLesson" class="complete-button" type="button">このPARTを完了にする</button>
+          <button id="completeLesson" class="complete-button" type="button">${mainRoute?'このPARTを完了にする':'この講を完了にする'}</button>
         </div>
         ${nextPrevHTML(lesson)}
       </article>
