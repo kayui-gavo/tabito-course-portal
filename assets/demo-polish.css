@@ -1,111 +1,21 @@
-.demo-steps,
-.audio-pack,
-.quick-board {
-  border: 1px solid #d9e1ec;
-  border-radius: 8px;
-  background: #ffffff;
-  margin: 14px 0;
-  padding: 18px;
-}
-
-.formula-sheet {
-  border-color: #c7d6e8;
-  background: #f8fbff;
-}
-
-.demo-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.step-card {
-  border: 1px solid #d9e1ec;
-  border-radius: 7px;
-  background: #fbfcfe;
-  padding: 14px;
-}
-
-.step-card strong,
-.audio-item strong,
-.quick-board strong {
-  display: block;
-  color: #172033;
-  font-size: 15px;
-  margin-bottom: 5px;
-}
-
-.step-card span,
-.audio-item span,
-.quick-board p {
-  color: #667085;
-  font-size: 13px;
-}
-
-.audio-pack {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.audio-item {
-  border: 1px solid #d9e1ec;
-  border-radius: 7px;
-  background: #fbfcfe;
-  padding: 12px;
-}
-
-.audio-item audio {
-  width: 100%;
-  margin-top: 8px;
-}
-
-.teacher-note {
-  border-left: 4px solid #16846b;
-  background: #eef8f3;
-  border-radius: 8px;
-  color: #315a4d;
-  font-size: 14px;
-  margin-top: 12px;
-  padding: 12px 14px;
-}
-
-.key-formula {
-  display: inline-block;
-  border: 1px solid #c7d6e8;
-  border-radius: 7px;
-  background: #f8fbff;
-  color: #164a7f;
-  font-weight: 900;
-  margin-top: 10px;
-  padding: 8px 10px;
-}
-
-.formula-list {
-  display: grid;
-  gap: 8px;
-  list-style: none;
-  margin-top: 8px;
-}
-
-.formula-list li {
-  border: 1px solid #d9e1ec;
-  border-radius: 7px;
-  background: #ffffff;
-  color: #172033;
-  font-size: 14px;
-  padding: 9px 10px;
-}
-
-.formula-list code {
-  color: #164a7f;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-weight: 850;
-}
-
-@media (max-width: 900px) {
-  .demo-steps,
-  .audio-pack {
-    grid-template-columns: 1fr;
-  }
-}
+/* Shared finish for the older physics demo pages.  Keep the individual
+   simulations intact, but make navigation and teaching blocks consistent. */
+body{background:#f4f7f9!important;color:#17212b!important;-webkit-font-smoothing:antialiased}
+.topbar{border-bottom-color:#d3dde4!important;background:rgba(255,255,255,.96)!important;box-shadow:0 1px 0 rgba(23,50,74,.03)}
+.topbar-inner{min-height:66px!important}
+.brand{gap:11px!important;color:#17212b!important}
+.mark{width:38px!important;height:38px!important;border:0!important;border-radius:8px!important;background:#5aa4cc url("images/tabito-logo.jpg") center/cover no-repeat!important;color:transparent!important;font-size:0!important;box-shadow:0 2px 7px rgba(23,50,74,.08)}
+.btn{border-color:#c8d3da!important;border-radius:8px!important;background:#fff!important;color:#2e7197!important;font-weight:800!important}
+.btn:hover{background:#edf5f9!important;border-color:#9fbfd1!important}
+.page{padding-top:28px!important}
+.panel,.screen,.control,.hero-main,.hero-side,.card,.formula-panel{border-color:#d8e0e6!important;border-radius:12px!important;box-shadow:0 1px 0 rgba(23,50,74,.02)}
+.panel{padding:23px!important}.label{color:#2e7197!important;letter-spacing:.035em!important;font-size:11px!important}.lead,.control p,.panel p{color:#66727f!important}
+h1{letter-spacing:-.025em!important}.screen{box-shadow:0 10px 26px rgba(24,50,72,.07)!important}
+canvas{border-color:#d8e0e6!important;border-radius:9px!important}.control{background:#fff!important}.value{color:#2e7197!important}
+input[type="range"]{accent-color:#2e7197}.seg button{border-color:#c8d3da!important;border-radius:8px!important}.seg button.active{background:#17324a!important;border-color:#17324a!important;color:#fff!important}
+.demo-steps,.audio-pack,.quick-board{border:1px solid #d8e0e6;border-radius:12px;background:#fff;margin:14px 0;padding:14px}
+.demo-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.step-card{border:1px solid #dfe6ea;border-radius:9px;background:#fbfcfd;padding:12px}.step-card strong,.audio-item strong,.quick-board strong{display:block;color:#17212b;font-size:13px;margin-bottom:4px}.step-card span,.audio-item span,.quick-board p{color:#66727f;font-size:11.5px;line-height:1.55}
+.audio-pack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.audio-item{border:1px solid #dfe6ea;border-radius:9px;background:#fbfcfd;padding:11px}.audio-item audio{width:100%;margin-top:7px}
+.teacher-note{border-left:4px solid #5aa4cc;background:#edf5f9;border-radius:8px;color:#426174;font-size:12px;margin-top:12px;padding:11px 13px}
+.key-formula{display:inline-block;border:1px solid #c9dbe6;border-radius:8px;background:#edf5f9;color:#17324a;font-weight:850;margin-top:10px;padding:8px 10px}.formula-sheet{border-color:#c9dbe6!important;background:#f6fafc!important}.formula-list{display:grid;gap:7px;list-style:none;margin-top:8px}.formula-list li{border:1px solid #dfe6ea;border-radius:8px;background:#fff;color:#17212b;font-size:12px;padding:8px 9px}.formula-list code{color:#2e7197;font-family:"SFMono-Regular",Consolas,monospace;font-weight:800}
+@media(max-width:900px){.demo-steps,.audio-pack{grid-template-columns:1fr}.page{padding-top:20px!important}}
