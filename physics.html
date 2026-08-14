@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>旅人教育｜2026年度物理课程资料库</title>
-  <meta name="description" content="旅人教育2026年度物理课程资料库。当前开放入门课程全20回，并展示进阶课程、冲刺刷题班、东京科学大学私费留学生入试对策及热门私立大学一般入试对策。">
+  <meta name="description" content="旅人教育2026年度物理课程资料库。用于学生查看课程板书、录播、作业与中日答案，并按课程阶段整理后续专题课程。">
   <meta name="theme-color" content="#f3f1ec">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/physics-portal-v2.css?v=20260814a">
+  <link rel="stylesheet" href="assets/physics-portal-v3.css?v=20260815a">
 </head>
 <body>
   <script>
@@ -19,67 +19,55 @@
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="page-shell">
     <div class="update-strip">
-      <div class="update-strip-inner"><span class="update-strip-dot" aria-hidden="true"></span><span id="updateStripText">课程资料将按授课进度持续更新。请以课堂通知和课程卡片的开放状态为准。</span></div>
+      <div class="update-strip-inner">
+        <span class="update-strip-dot" aria-hidden="true"></span>
+        <span id="updateStripText">课程资料将按授课进度持续更新。请以课堂通知和课程卡片的开放状态为准。</span>
+      </div>
     </div>
 
     <header class="site-header">
       <nav class="nav" aria-label="主要导航">
-        <a class="brand" href="index.html"><strong>旅人教育</strong><span>2026 物理课程</span></a>
+        <a class="brand" href="index.html"><strong>旅人教育</strong><span>物理课程资料库</span></a>
         <div class="nav-links">
-          <a href="#course-catalog">课程体系</a>
+          <a href="#intro-course">当前课程</a>
+          <a href="#upcoming">后续课程</a>
           <a href="#resources">专题资料</a>
           <a href="resources/physics-demos.html">物理 Demo</a>
-          <a href="https://kayui-gavo.github.io/education/" target="_blank" rel="noopener noreferrer">讲师介绍 ↗</a>
           <a class="nav-cta" href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出登录</a>
         </div>
       </nav>
       <nav class="mobile-nav" aria-label="手机端导航">
-        <a href="#course-catalog">课程体系</a><a href="#resources">专题资料</a><a href="resources/physics-demos.html">物理 Demo</a><a href="https://kayui-gavo.github.io/education/" target="_blank" rel="noopener noreferrer">讲师介绍</a><a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出</a>
+        <a href="#intro-course">当前课程</a>
+        <a href="#upcoming">后续课程</a>
+        <a href="#resources">专题资料</a>
+        <a href="resources/physics-demos.html">物理 Demo</a>
+        <a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero section-shell" id="top" aria-labelledby="page-title">
-        <div class="hero-copy">
-          <p class="hero-role"><a href="https://www.tabitoedu.com" target="_blank" rel="noopener noreferrer">旅人教育</a><span>2026年度 物理课程</span></p>
-          <h1 id="page-title">物理课程<br>资料库</h1>
-          <p class="hero-thesis">先把基础搭稳，<br>再把解法<em>连成体系</em>。</p>
-          <p class="hero-intro">这里集中整理旅人教育物理课程的板书、录播、作业与答案解析。2026年度课程按学习阶段重新归档：当前开放的是全20回入门课程，后续进阶、考前刷题与目标校专题将在开放后陆续加入。</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#intro-course"><span>进入当前课程</span><i>↓</i></a>
-            <a class="btn btn-ghost" href="#resources"><span>查看专题资料</span><i>↗</i></a>
+      <section class="dashboard-head section-shell" aria-labelledby="page-title">
+        <div class="dashboard-row">
+          <div class="dashboard-copy">
+            <h1 id="page-title">2026年度 物理课程资料库</h1>
+            <p>上课用板书、录播、作业和答案统一放在这里。当前学习内容请直接进入「入门课程」；未开放课程只显示课程说明，不占用主要阅读空间。</p>
+          </div>
+          <div class="dashboard-meta" aria-label="当前课程信息">
+            <span class="meta-chip"><strong>当前</strong>入门课程</span>
+            <span class="meta-chip"><strong>共</strong>20回</span>
+            <span class="meta-chip"><strong>范围</strong>高中物理全领域</span>
           </div>
         </div>
-
-        <aside class="hero-plate" aria-label="课程概览">
-          <div class="plate-head"><small>2026 / PHYSICS</small><b>COURSE ARCHIVE</b></div>
-          <div class="plate-canvas" aria-hidden="true">
-            <svg viewBox="0 0 420 210" role="img">
-              <line x1="24" y1="167" x2="397" y2="167" stroke="#0d0f14" stroke-width="1.4"/>
-              <line x1="54" y1="190" x2="54" y2="28" stroke="#0d0f14" stroke-width="1.4"/>
-              <path d="M55 128 C92 54,128 54,165 128 S238 202,275 128 S348 54,394 110" fill="none" stroke="#2f789f" stroke-width="3"/>
-              <path d="M70 150 Q165 37 268 112 T390 81" fill="none" stroke="#a8a29a" stroke-width="1.4" stroke-dasharray="5 6"/>
-              <circle cx="165" cy="128" r="4.7" fill="#0d0f14"/>
-              <circle cx="275" cy="128" r="4.7" fill="#66a8cf"/>
-              <path d="M302 72 L337 52 L352 78" fill="none" stroke="#0d0f14" stroke-width="1.3"/>
-              <text x="66" y="41" fill="#646870" font-size="11">y</text>
-              <text x="390" y="184" fill="#646870" font-size="11">x</text>
-              <text x="286" y="118" fill="#2f789f" font-size="10">MODEL</text>
-              <text x="302" y="98" fill="#646870" font-size="9">read → model → solve</text>
-            </svg>
-          </div>
-          <div class="plate-stats">
-            <div class="plate-stat"><small>当前开放</small><strong>01</strong></div>
-            <div class="plate-stat"><small>入门课程</small><strong>20回</strong></div>
-            <div class="plate-stat"><small>课程系列</small><strong>05</strong></div>
-          </div>
-          <div class="plate-foot">力学 · 波动 · 热力学 · 电磁学 · 原子<br>板书 / 录播 / 作业 / 中日答案</div>
-        </aside>
+        <div class="quick-links" aria-label="快速入口">
+          <a class="quick-link primary" href="#intro-course">进入20回课程资料 ↓</a>
+          <a class="quick-link" href="#resources">公式・考试范围・Demo</a>
+          <a class="quick-link" href="resources/eju-common-difference.html">EJU / 共通考试区别</a>
+        </div>
       </section>
 
       <section class="notice-section" aria-labelledby="noticeTitle">
         <div class="notice-inner">
-          <div class="notice-label">COURSE UPDATE</div>
+          <div class="notice-label">UPDATE</div>
           <div class="notice-copy">
             <h2 id="noticeTitle">课程资料更新</h2>
             <p id="noticeText">第七回作业答案中弹簧惯性力题已修正，最新版中日答案已上传；此前的课程表变动通知仍可在这里查看。</p>
@@ -92,118 +80,80 @@
         </div>
       </section>
 
-      <section class="catalog-section section-shell" id="course-catalog">
-        <header class="editorial-head">
-          <div>
-            <p class="kicker">2026年度 课程体系</p>
-            <h2>从第一次系统学习，<br>到目标校入试。</h2>
-            <p>课程不再按零散讲次平铺，而是按学习阶段与考试目标归档。当前的20回课程统一收进「2026年度 入门课程」；其余课程会在正式开放后显示具体讲次与资料。</p>
+      <section class="current-course section-shell" id="intro-course" aria-labelledby="intro-title">
+        <div class="course-card-main">
+          <div class="course-card-head">
+            <div>
+              <div class="course-title-line"><span class="status-open">已开放</span><span>2026年度</span></div>
+              <h2 id="intro-title">入门课程</h2>
+              <p>面向第一次系统学习日本高中物理，或基础不完整、需要重新建立知识框架的学生。全20回覆盖力学、波动、热力学、电磁学与原子，重点整理基本概念、公式成立条件、典型模型、图表与实验信息读取，为共通考试以及后续进阶课程打好基础。</p>
+            </div>
+            <div class="course-stats" aria-label="课程概览">
+              <div class="course-stat"><small>讲次</small><strong>20回</strong></div>
+              <div class="course-stat"><small>领域</small><strong>5</strong></div>
+              <div class="course-stat"><small>资料</small><strong>5类</strong></div>
+            </div>
           </div>
-          <p class="editorial-side">入门阶段先建立高中物理的完整框架；之后再分别进入综合能力、共通考试限时训练，以及各大学真题与记述训练。这样学生能一眼看清自己现在处在哪一阶段，也不会把资料库误当成一长串没有层级的文件列表。</p>
-        </header>
 
-        <div class="program-grid">
-          <details class="program-card featured" id="intro-course">
-            <summary class="program-summary">
-              <div class="program-no">01</div>
-              <div class="program-main">
-                <span class="program-status">已开放</span>
-                <h3>2026年度 入门课程</h3>
-                <p>面向第一次系统学习日本高中物理，或希望重新梳理基础的学生。全20回覆盖力学、波动、热力学、电磁学与原子，从基本规律、典型模型和图表读取出发，为后续进阶学习与共通考试刷题建立稳定基础。</p>
-              </div>
-              <div class="program-side">
-                <div class="program-metrics">
-                  <div class="program-metric"><small>课程构成</small><strong>20回</strong></div>
-                  <div class="program-metric"><small>覆盖领域</small><strong>5</strong></div>
-                </div>
-                <div class="program-open"><span>查看20回课程资料</span><span>＋</span></div>
-              </div>
-            </summary>
-            <div class="program-body">
-              <div class="program-body-head">
-                <div>
-                  <h4>入门课程｜20回资料</h4>
-                  <p>板书、录播、作业和答案按讲次整理。没有上传的资料会保留“待上传”状态，不影响其他讲次使用。</p>
-                </div>
-                <div class="course-tools">
-                  <label class="search-box" for="searchInput"><span>搜索</span><input id="searchInput" type="search" placeholder="讲次、领域或知识点"></label>
-                  <select id="unitFilter" aria-label="课程领域">
-                    <option value="all">全部领域</option>
-                    <option value="力学">力学</option>
-                    <option value="波动">波动</option>
-                    <option value="热力学">热力学</option>
-                    <option value="电磁学">电磁学</option>
-                    <option value="原子">原子</option>
-                  </select>
-                </div>
-              </div>
-              <div id="courseGrid" class="lesson-list"></div>
-              <div id="emptyState" class="empty-state">没有找到匹配的课程。可以换一个关键词，或切回“全部领域”。</div>
-            </div>
-          </details>
+          <div class="course-note"><strong>使用方法：</strong>找到对应讲次后，直接打开板书 / 录播 / 作业 / 中文答案 / 日文答案。灰色按钮表示该资料尚未上传。</div>
 
-          <article class="program-card locked" aria-label="2026年度 进阶课程，未开放">
-            <div class="program-summary">
-              <div class="program-no">02</div>
-              <div class="program-main">
-                <span class="program-status">未开放</span>
-                <h3>2026年度 进阶课程</h3>
-                <p>在入门课程基础上，围绕跨章节综合、实验图表、条件变化与陌生模型进行强化，把“会做典型题”进一步提升为“能迁移解法”。</p>
-              </div>
-              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
-            </div>
+          <div class="course-tools">
+            <label class="search-box" for="searchInput"><span>搜索</span><input id="searchInput" type="search" placeholder="输入讲次、领域或知识点，例如：电容器 / 波动 / 第14讲"></label>
+            <select id="unitFilter" aria-label="课程领域">
+              <option value="all">全部领域</option>
+              <option value="力学">力学</option>
+              <option value="波动">波动</option>
+              <option value="热力学">热力学</option>
+              <option value="电磁学">电磁学</option>
+              <option value="原子">原子</option>
+            </select>
+          </div>
+
+          <div id="courseGrid" class="lesson-list"></div>
+          <div id="emptyState" class="empty-state">没有找到匹配的课程。可以换一个关键词，或切回“全部领域”。</div>
+        </div>
+      </section>
+
+      <section class="upcoming-section section-shell" id="upcoming" aria-labelledby="upcoming-title">
+        <div class="section-head">
+          <div>
+            <h2 id="upcoming-title">2026年度 后续课程</h2>
+            <p>以下课程尚未开放。正式开放后会像入门课程一样显示具体讲次与资料入口。</p>
+          </div>
+        </div>
+
+        <div class="upcoming-grid">
+          <article class="upcoming-card">
+            <div class="upcoming-no">02</div>
+            <div><h3>2026年度 进阶课程</h3><p>在基础知识完整的前提下，集中训练跨章节综合、实验图表、条件变化与陌生模型，提高解法迁移能力。</p><span class="status-closed">未开放</span></div>
           </article>
-
-          <article class="program-card locked" aria-label="2026年度 冲刺刷题班，未开放">
-            <div class="program-summary">
-              <div class="program-no">03</div>
-              <div class="program-main">
-                <span class="program-status">未开放</span>
-                <h3>2026年度 冲刺刷题班</h3>
-                <p>面向考前阶段，以历年真题、追试与高质量模拟题为主线，进行限时训练、错因归类与薄弱专题回补，目标是在规定时间内稳定拿到应得分数。</p>
-              </div>
-              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
-            </div>
+          <article class="upcoming-card">
+            <div class="upcoming-no">03</div>
+            <div><h3>2026年度 冲刺刷题班</h3><p>面向考前阶段，以真题、追试与模拟题进行限时训练，并根据错题回补薄弱专题。</p><span class="status-closed">未开放</span></div>
           </article>
-
-          <article class="program-card locked" aria-label="2026年度 东京科学大学理工学系私费留学生入试对策，未开放">
-            <div class="program-summary">
-              <div class="program-no">04</div>
-              <div class="program-main">
-                <span class="program-status">未开放</span>
-                <h3>2026年度 东京科学大学（理工学系）私费留学生入试对策</h3>
-                <p>面向理工学系私费外国人留学生入试的校内考物理。按历年真题组织长文条件提取、近似、推导、记述与必要的数学工具训练。</p>
-              </div>
-              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
-            </div>
+          <article class="upcoming-card">
+            <div class="upcoming-no">04</div>
+            <div><h3>2026年度 东京科学大学（理工学系）私费留学生入试对策</h3><p>针对校内考物理，训练长文条件提取、近似、推导、记述，以及解题所需的数学工具。</p><span class="status-closed">未开放</span></div>
           </article>
-
-          <article class="program-card locked" aria-label="2026年度 热门私立大学一般入试对策，未开放">
-            <div class="program-summary">
-              <div class="program-no">05</div>
-              <div class="program-main">
-                <span class="program-status">未开放</span>
-                <h3>2026年度 热门私立大学一般入试对策</h3>
-                <p>面向主要私立大学理工系一般选拔，按学校与学部整理高频模型、题量节奏和真题训练，强化在有限时间内快速判断与稳定得分的能力。</p>
-              </div>
-              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
-            </div>
+          <article class="upcoming-card">
+            <div class="upcoming-no">05</div>
+            <div><h3>2026年度 热门私立大学一般入试对策</h3><p>按大学与学部整理常见题型、题量节奏和真题训练，重点提高限时作答的稳定性。</p><span class="status-closed">未开放</span></div>
           </article>
         </div>
       </section>
 
-      <section class="resource-section" id="resources" aria-labelledby="resource-title">
-        <div class="resource-inner">
-          <header class="resource-head">
-            <div><p class="kicker">REFERENCE / TOOLS</p><h2 id="resource-title">专题资料与工具</h2></div>
-            <p>把考试范围、制度差异、公式与授课用交互演示放在课程之外单独整理。需要查资料时，不必重新翻20回讲次。</p>
-          </header>
-          <div class="resource-grid">
-            <a class="resource-card" href="resources/eju-common-difference.html"><small>01 / EXAM</small><strong>EJU 与共通考试物理</strong><span>范围、题型、阅读量与备考重点的差异。</span><i>↗</i></a>
-            <a class="resource-card" href="resources/scope-comparison.html"><small>02 / SCOPE</small><strong>考试范围对比</strong><span>EJU、共通考试「物理」与「物理基础」一页比较。</span><i>↗</i></a>
-            <a class="resource-card" href="resources/mechanics-formula.html"><small>03 / FORMULA</small><strong>物理公式表</strong><span>按领域查找常用关系式与基本量。</span><i>↗</i></a>
-            <a class="resource-card" href="resources/physics-demos.html"><small>04 / DEMO</small><strong>物理 Demo 集</strong><span>力学、波动、热力学、电磁学与原子的交互演示。</span><i>↗</i></a>
+      <section class="resource-section section-shell" id="resources" aria-labelledby="resource-title">
+        <div class="section-head">
+          <div>
+            <h2 id="resource-title">专题资料与工具</h2>
+            <p>不属于某一讲次、但复习时经常需要查阅的内容统一放在这里。</p>
           </div>
+        </div>
+        <div class="resource-grid">
+          <a class="resource-card" href="resources/eju-common-difference.html"><small>EXAM</small><strong>EJU 与共通考试物理</strong><span>范围、题型、阅读量与备考重点。</span><i>↗</i></a>
+          <a class="resource-card" href="resources/scope-comparison.html"><small>SCOPE</small><strong>考试范围对比</strong><span>EJU、共通考试「物理」与「物理基础」。</span><i>↗</i></a>
+          <a class="resource-card" href="resources/mechanics-formula.html"><small>FORMULA</small><strong>物理公式表</strong><span>按领域快速查找常用关系式。</span><i>↗</i></a>
+          <a class="resource-card" href="resources/physics-demos.html"><small>DEMO</small><strong>物理 Demo 集</strong><span>授课与复习用交互演示。</span><i>↗</i></a>
         </div>
       </section>
     </main>
@@ -240,6 +190,6 @@
     </div>
   </section>
 
-  <script defer src="assets/physics-portal-v2.js?v=20260814a"></script>
+  <script defer src="assets/physics-portal-v2.js?v=20260815a"></script>
 </body>
 </html>
