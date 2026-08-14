@@ -1,666 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <title>旅人教育 · 共通考试物理课程资料库</title>
-  <style>
-    :root {
-      --ink: #172033;
-      --muted: #667085;
-      --soft: #8b95a7;
-      --line: #d9e1ec;
-      --line-soft: #edf1f6;
-      --paper: #ffffff;
-      --canvas: #f5f7fb;
-      --surface: #eef4fb;
-      --blue: #235f9f;
-      --blue-dark: #164a7f;
-      --green: #16846b;
-      --amber: #a96513;
-      --disabled: #c6ceda;
-      --shadow: 0 14px 34px rgba(31, 45, 69, 0.08);
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      background: var(--canvas);
-      color: var(--ink);
-      line-height: 1.65;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      border-bottom: 1px solid rgba(217, 225, 236, 0.94);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(14px);
-    }
-
-    .build-notice {
-      border-bottom: 1px solid #ead8bd;
-      background: #fff8eb;
-      color: #67410d;
-      font-size: 13px;
-      font-weight: 750;
-    }
-
-    .build-notice-inner {
-      width: min(1200px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 9px 0;
-    }
-
-    .topbar-inner {
-      width: min(1200px, calc(100% - 40px));
-      min-height: 64px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 230px;
-      color: var(--ink);
-      text-decoration: none;
-      font-weight: 850;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #c7d6e8;
-      border-radius: var(--radius);
-      background: #f8fbff;
-      color: var(--blue);
-      font-weight: 850;
-    }
-
-    .brand-logo {
-      width: 92px;
-      height: 30px;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex: 1;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    nav a {
-      white-space: nowrap;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-      padding: 8px 11px;
-      border-radius: 7px;
-    }
-
-    nav a:hover {
-      background: var(--surface);
-      color: var(--blue-dark);
-    }
-
-    .logout {
-      margin-left: auto;
-      border: 1px solid var(--line);
-      background: var(--paper);
-    }
-
-    .hero {
-      border-bottom: 1px solid #cbd8e6;
-      background:
-        linear-gradient(105deg, rgba(22, 48, 76, 0.94), rgba(35, 95, 159, 0.86)),
-        #17304d;
-      color: #ffffff;
-    }
-
-    .hero-inner {
-      width: min(1200px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 48px 0 36px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 34px;
-      align-items: center;
-    }
-
-    .hero-label {
-      color: #d6e6f7;
-      font-size: 13px;
-      font-weight: 850;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      max-width: 780px;
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 1.12;
-      letter-spacing: 0;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      max-width: 820px;
-      color: #e5eef9;
-      font-size: 16px;
-      line-height: 1.85;
-    }
-
-    .hero-visual {
-      display: grid;
-      justify-items: center;
-      gap: 16px;
-    }
-
-    .hero-illustration {
-      width: min(100%, 310px);
-      aspect-ratio: 1;
-      object-fit: contain;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 24px 54px rgba(5, 18, 34, 0.18);
-    }
-
-    main {
-      width: min(1200px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 24px 0 70px;
-    }
-
-    .notice {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-      border: 1px solid #e6d4b9;
-      border-left: 5px solid var(--amber);
-      border-radius: var(--radius);
-      background: #fff9ef;
-      padding: 16px 18px;
-      margin-bottom: 18px;
-    }
-
-    .notice h2 {
-      font-size: 17px;
-      color: #6f410d;
-      margin-bottom: 3px;
-    }
-
-    .notice p {
-      color: #705a3f;
-      font-size: 14px;
-    }
-
-    .notice-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .portal-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .portal-card {
-      display: block;
-      min-height: 112px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      padding: 17px;
-      text-decoration: none;
-      color: var(--ink);
-      box-shadow: 0 1px 0 rgba(31, 45, 69, 0.02);
-    }
-
-    .portal-card:hover {
-      border-color: #bfd2e8;
-      box-shadow: var(--shadow);
-    }
-
-    .portal-card strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 17px;
-    }
-
-    .portal-card span {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .course-tools {
-      display: grid;
-      grid-template-columns: 1fr 180px;
-      gap: 12px;
-      margin: 20px 0 16px;
-    }
-
-    .search-box,
-    select {
-      height: 46px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      color: var(--ink);
-      font: inherit;
-      font-size: 14px;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 14px;
-    }
-
-    .search-box span {
-      color: var(--soft);
-      font-weight: 850;
-      font-size: 13px;
-    }
-
-    input {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--ink);
-      font: inherit;
-      font-size: 14px;
-    }
-
-    select {
-      padding: 0 12px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: end;
-      margin-top: 10px;
-    }
-
-    .section-head h2 {
-      font-size: 24px;
-      letter-spacing: 0;
-    }
-
-    .section-head p {
-      max-width: 620px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .course-card {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      padding: 18px;
-      box-shadow: 0 1px 0 rgba(31, 45, 69, 0.02);
-    }
-
-    .course-card:hover {
-      border-color: #bfd2e8;
-      box-shadow: var(--shadow);
-    }
-
-    .course-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 26px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--blue-dark);
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .date {
-      color: var(--soft);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .course-card h3 {
-      font-size: 20px;
-      line-height: 1.35;
-      margin-bottom: 8px;
-    }
-
-    .course-card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .topics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
-    }
-
-    .topic {
-      border: 1px solid var(--line-soft);
-      border-radius: 999px;
-      padding: 4px 9px;
-      color: var(--muted);
-      background: #fbfcfe;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .resource-buttons {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      align-content: start;
-    }
-
-    .resource-btn {
-      min-height: 36px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #c9d8ea;
-      border-radius: 7px;
-      background: #ffffff;
-      color: var(--blue-dark);
-      text-decoration: none;
-      padding: 8px 9px;
-      font-size: 13px;
-      font-weight: 850;
-      text-align: center;
-    }
-
-    .resource-btn.primary {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: #ffffff;
-    }
-
-    .resource-btn.available:hover {
-      background: var(--surface);
-    }
-
-    .resource-btn.primary.available:hover {
-      background: var(--blue-dark);
-      border-color: var(--blue-dark);
-    }
-
-    .resource-btn.disabled {
-      color: #97a1b0;
-      border-color: var(--line-soft);
-      background: #f7f9fc;
-      cursor: not-allowed;
-    }
-
-    .empty-state {
-      display: none;
-      border: 1px dashed #c9d5e5;
-      border-radius: var(--radius);
-      background: #fbfcfe;
-      color: var(--muted);
-      padding: 32px;
-      text-align: center;
-      margin-top: 18px;
-      font-weight: 700;
-    }
-
-    .dev-panel {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 80;
-      width: min(520px, calc(100% - 36px));
-      max-height: min(760px, calc(100vh - 36px));
-      display: none;
-      flex-direction: column;
-      border: 1px solid #b8cbe3;
-      border-radius: 10px;
-      background: #ffffff;
-      box-shadow: 0 28px 64px rgba(17, 32, 51, 0.22);
-      overflow: hidden;
-    }
-
-    body.dev-mode .dev-panel {
-      display: flex;
-    }
-
-    .dev-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      background: #17304d;
-      color: #ffffff;
-    }
-
-    .dev-head strong {
-      font-size: 14px;
-    }
-
-    .dev-head button,
-    .dev-actions button {
-      border: 0;
-      border-radius: 7px;
-      cursor: pointer;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .dev-head button {
-      background: rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-      padding: 6px 9px;
-    }
-
-    .dev-body {
-      padding: 14px;
-      overflow: auto;
-      display: grid;
-      gap: 12px;
-    }
-
-    .dev-body label {
-      display: grid;
-      gap: 5px;
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .dev-body input,
-    .dev-body textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      padding: 9px 10px;
-      color: var(--ink);
-      background: #fbfcfe;
-      font: inherit;
-      font-size: 13px;
-    }
-
-    .dev-body textarea {
-      min-height: 76px;
-      resize: vertical;
-      line-height: 1.55;
-    }
-
-    .dev-body .dev-json {
-      min-height: 220px;
-      font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: 12px;
-    }
-
-    .dev-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .dev-actions button {
-      background: var(--blue);
-      color: #ffffff;
-      padding: 8px 10px;
-    }
-
-    .dev-actions button.secondary {
-      background: var(--surface);
-      color: var(--blue-dark);
-      border: 1px solid #c9d8ea;
-    }
-
-    .dev-help,
-    .dev-file-list {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 28px 20px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 13px;
-      background: var(--paper);
-    }
-
-    .footer-inner {
-      width: min(1200px, 100%);
-      margin: 0 auto;
-      display: grid;
-      gap: 6px;
-    }
-
-    .footer-title {
-      color: var(--ink);
-      font-weight: 850;
-      font-size: 14px;
-    }
-
-    @media (max-width: 980px) {
-      .portal-grid,
-      .course-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .topbar-inner,
-      .hero-inner,
-      main {
-        width: min(100% - 24px, 1200px);
-      }
-
-      .topbar-inner {
-        padding: 10px 0;
-        flex-wrap: wrap;
-      }
-
-      .brand {
-        flex: 1 0 100%;
-      }
-
-      .logout {
-        margin-left: 0;
-      }
-
-      .notice,
-      .course-tools,
-      .course-card,
-      .hero-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .notice-actions {
-        justify-content: flex-start;
-      }
-
-      .hero-visual {
-        justify-items: start;
-      }
-
-      .hero-illustration {
-        width: 220px;
-      }
-
-
-      .section-head {
-        display: block;
-      }
-
-      .section-head h2 {
-        margin-bottom: 6px;
-      }
-
-      .resource-buttons {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>旅人教育｜2026年度物理课程资料库</title>
+  <meta name="description" content="旅人教育2026年度物理课程资料库。当前开放入门课程全20回，并展示进阶课程、冲刺刷题班、东京科学大学私费留学生入试对策及热门私立大学一般入试对策。">
+  <meta name="theme-color" content="#f3f1ec">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/physics-portal-v2.css?v=20260814a">
 </head>
 <body>
   <script>
@@ -669,142 +16,219 @@
     }
   </script>
 
-  <div class="build-notice">
-    <div class="build-notice-inner" id="buildNoticeText">网站正在建设中，部分信息可能仍在调整；请以课堂说明和实际课程内容为准。</div>
-  </div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="page-shell">
+    <div class="update-strip">
+      <div class="update-strip-inner"><span class="update-strip-dot" aria-hidden="true"></span><span id="updateStripText">课程资料将按授课进度持续更新。请以课堂通知和课程卡片的开放状态为准。</span></div>
+    </div>
 
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/images/tabito-logo.jpg" alt="旅人教育" />
-        <span>旅人教育｜共通考试物理</span>
-      </a>
-      <nav aria-label="主要导航">
-        <a href="index.html">课程入口</a>
-        <a href="#courses">20 回课程</a>
-        <a href="resources/eju-common-difference.html">EJU 与共通考试</a>
-        <a href="resources/scope-comparison.html">范围对比</a>
-        <a href="resources/official-links.html">官方入口</a>
-        <a href="resources/mechanics-formula.html">公式表</a>
-        <a href="resources/physics-demos.html">物理デモ集</a>
-        <a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')" class="logout">退出登录</a>
+    <header class="site-header">
+      <nav class="nav" aria-label="主要导航">
+        <a class="brand" href="index.html"><strong>旅人教育</strong><span>2026 物理课程</span></a>
+        <div class="nav-links">
+          <a href="#course-catalog">课程体系</a>
+          <a href="#resources">专题资料</a>
+          <a href="resources/physics-demos.html">物理 Demo</a>
+          <a href="https://kayui-gavo.github.io/education/" target="_blank" rel="noopener noreferrer">讲师介绍 ↗</a>
+          <a class="nav-cta" href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出登录</a>
+        </div>
       </nav>
-    </div>
-  </header>
+      <nav class="mobile-nav" aria-label="手机端导航">
+        <a href="#course-catalog">课程体系</a><a href="#resources">专题资料</a><a href="resources/physics-demos.html">物理 Demo</a><a href="https://kayui-gavo.github.io/education/" target="_blank" rel="noopener noreferrer">讲师介绍</a><a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出</a>
+      </nav>
+    </header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div>
-        <div class="hero-label" id="heroLabel">旅人教育 · 共通考试物理课程</div>
-        <h1 id="heroTitle">共通考试物理课程资料库</h1>
-        <p id="heroLead">本资料库仅用于旅人教育内部学生查看课程板书、录播、作业题和答案解析，请勿在未经许可的情况下转载至外部。请按照讲次顺序复习，每一讲页面中会提供对应资料入口；尚未发布的资料会显示为“待上传”。</p>
-      </div>
-      <div class="hero-visual" aria-label="旅人教育品牌图">
-        <img class="hero-illustration" src="assets/images/tabito-illustration.jpg" alt="旅人教育课程插画" />
-      </div>
-    </div>
-  </section>
+    <main>
+      <section class="hero section-shell" id="top" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="hero-role"><a href="https://www.tabitoedu.com" target="_blank" rel="noopener noreferrer">旅人教育</a><span>2026年度 物理课程</span></p>
+          <h1 id="page-title">物理课程<br>资料库</h1>
+          <p class="hero-thesis">先把基础搭稳，<br>再把解法<em>连成体系</em>。</p>
+          <p class="hero-intro">这里集中整理旅人教育物理课程的板书、录播、作业与答案解析。2026年度课程按学习阶段重新归档：当前开放的是全20回入门课程，后续进阶、考前刷题与目标校专题将在开放后陆续加入。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#intro-course"><span>进入当前课程</span><i>↓</i></a>
+            <a class="btn btn-ghost" href="#resources"><span>查看专题资料</span><i>↗</i></a>
+          </div>
+        </div>
 
-  <main>
-    <section class="notice">
-      <div>
-        <h2 id="noticeTitle">课程通知</h2>
-        <p id="noticeText">第七回作业答案中弹簧惯性力题有误，最新版中日答案已上传。此前的课程表变动通知仍可在这里查看。</p>
-      </div>
-      <div class="notice-actions">
-        <a class="resource-btn available" href="#courses">查看新版答案</a>
-        <a class="resource-btn available" href="notices/class-schedule-notice-2026-06-04.pdf" target="_blank">课程表通知 6/4</a>
-        <a class="resource-btn available" href="notices/class-schedule-notice.pdf" target="_blank">课程表通知 5/8</a>
-      </div>
-    </section>
+        <aside class="hero-plate" aria-label="课程概览">
+          <div class="plate-head"><small>2026 / PHYSICS</small><b>COURSE ARCHIVE</b></div>
+          <div class="plate-canvas" aria-hidden="true">
+            <svg viewBox="0 0 420 210" role="img">
+              <line x1="24" y1="167" x2="397" y2="167" stroke="#0d0f14" stroke-width="1.4"/>
+              <line x1="54" y1="190" x2="54" y2="28" stroke="#0d0f14" stroke-width="1.4"/>
+              <path d="M55 128 C92 54,128 54,165 128 S238 202,275 128 S348 54,394 110" fill="none" stroke="#2f789f" stroke-width="3"/>
+              <path d="M70 150 Q165 37 268 112 T390 81" fill="none" stroke="#a8a29a" stroke-width="1.4" stroke-dasharray="5 6"/>
+              <circle cx="165" cy="128" r="4.7" fill="#0d0f14"/>
+              <circle cx="275" cy="128" r="4.7" fill="#66a8cf"/>
+              <path d="M302 72 L337 52 L352 78" fill="none" stroke="#0d0f14" stroke-width="1.3"/>
+              <text x="66" y="41" fill="#646870" font-size="11">y</text>
+              <text x="390" y="184" fill="#646870" font-size="11">x</text>
+              <text x="286" y="118" fill="#2f789f" font-size="10">MODEL</text>
+              <text x="302" y="98" fill="#646870" font-size="9">read → model → solve</text>
+            </svg>
+          </div>
+          <div class="plate-stats">
+            <div class="plate-stat"><small>当前开放</small><strong>01</strong></div>
+            <div class="plate-stat"><small>入门课程</small><strong>20回</strong></div>
+            <div class="plate-stat"><small>课程系列</small><strong>05</strong></div>
+          </div>
+          <div class="plate-foot">力学 · 波动 · 热力学 · 电磁学 · 原子<br>板书 / 录播 / 作业 / 中日答案</div>
+        </aside>
+      </section>
 
-    <section class="portal-grid" aria-label="专题入口">
-      <a class="portal-card" href="resources/eju-common-difference.html">
-        <strong>EJU 和共通考试物理有什么区别？</strong>
-        <span>了解两类考试在范围、题型、阅读量和备考方法上的差异。</span>
-      </a>
-      <a class="portal-card" href="resources/scope-comparison.html">
-        <strong>考试范围对比</strong>
-        <span>把 EJU、共通考试“物理”和“物理基础”的范围放在一页看。</span>
-      </a>
-      <a class="portal-card" href="resources/official-links.html">
-        <strong>官方与机构入口</strong>
-        <span>旅人教育官网、JASSO、日本大学入学考试中心与考试说明。</span>
-      </a>
-      <a class="portal-card" href="resources/physics-demos.html">
-        <strong>物理デモ集</strong>
-        <span>按力学、波动、热力学、电磁学、原子分区整理的授课用交互演示。</span>
-      </a>
-    </section>
+      <section class="notice-section" aria-labelledby="noticeTitle">
+        <div class="notice-inner">
+          <div class="notice-label">COURSE UPDATE</div>
+          <div class="notice-copy">
+            <h2 id="noticeTitle">课程资料更新</h2>
+            <p id="noticeText">第七回作业答案中弹簧惯性力题已修正，最新版中日答案已上传；此前的课程表变动通知仍可在这里查看。</p>
+          </div>
+          <div class="notice-actions">
+            <a class="notice-link" href="#intro-course">查看课程资料</a>
+            <a class="notice-link" href="notices/class-schedule-notice-2026-06-04.pdf" target="_blank" rel="noopener noreferrer">课程表通知 6/4</a>
+            <a class="notice-link" href="notices/class-schedule-notice.pdf" target="_blank" rel="noopener noreferrer">课程表通知 5/8</a>
+          </div>
+        </div>
+      </section>
 
-    <section id="courses">
-      <div class="section-head">
-        <div>
-          <h2>20 回课程资料</h2>
-          <p>课程分配：6 回力学、3 回热力学、4 回波动、5 回电磁学、2 回原子。可按领域筛选，也可直接搜索讲次或知识点。</p>
+      <section class="catalog-section section-shell" id="course-catalog">
+        <header class="editorial-head">
+          <div>
+            <p class="kicker">2026年度 课程体系</p>
+            <h2>从第一次系统学习，<br>到目标校入试。</h2>
+            <p>课程不再按零散讲次平铺，而是按学习阶段与考试目标归档。当前的20回课程统一收进「2026年度 入门课程」；其余课程会在正式开放后显示具体讲次与资料。</p>
+          </div>
+          <p class="editorial-side">入门阶段先建立高中物理的完整框架；之后再分别进入综合能力、共通考试限时训练，以及大学별真题与记述训练。这样学生能一眼看清自己现在处在哪一阶段，也不会把资料库误当成一长串没有层级的文件列表。</p>
+        </header>
+
+        <div class="program-grid">
+          <details class="program-card featured" id="intro-course">
+            <summary class="program-summary">
+              <div class="program-no">01</div>
+              <div class="program-main">
+                <span class="program-status">已开放</span>
+                <h3>2026年度 入门课程</h3>
+                <p>面向第一次系统学习日本高中物理，或希望重新梳理基础的学生。全20回覆盖力学、波动、热力学、电磁学与原子，从基本规律、典型模型和图表读取出发，为后续进阶学习与共通考试刷题建立稳定基础。</p>
+              </div>
+              <div class="program-side">
+                <div class="program-metrics">
+                  <div class="program-metric"><small>课程构成</small><strong>20回</strong></div>
+                  <div class="program-metric"><small>覆盖领域</small><strong>5</strong></div>
+                </div>
+                <div class="program-open"><span>查看20回课程资料</span><span>＋</span></div>
+              </div>
+            </summary>
+            <div class="program-body">
+              <div class="program-body-head">
+                <div>
+                  <h4>入门课程｜20回资料</h4>
+                  <p>板书、录播、作业和答案按讲次整理。没有上传的资料会保留“待上传”状态，不影响其他讲次使用。</p>
+                </div>
+                <div class="course-tools">
+                  <label class="search-box" for="searchInput"><span>搜索</span><input id="searchInput" type="search" placeholder="讲次、领域或知识点"></label>
+                  <select id="unitFilter" aria-label="课程领域">
+                    <option value="all">全部领域</option>
+                    <option value="力学">力学</option>
+                    <option value="波动">波动</option>
+                    <option value="热力学">热力学</option>
+                    <option value="电磁学">电磁学</option>
+                    <option value="原子">原子</option>
+                  </select>
+                </div>
+              </div>
+              <div id="courseGrid" class="lesson-list"></div>
+              <div id="emptyState" class="empty-state">没有找到匹配的课程。可以换一个关键词，或切回“全部领域”。</div>
+            </div>
+          </details>
+
+          <article class="program-card locked" aria-label="2026年度 进阶课程，未开放">
+            <div class="program-summary">
+              <div class="program-no">02</div>
+              <div class="program-main">
+                <span class="program-status">未开放</span>
+                <h3>2026年度 进阶课程</h3>
+                <p>在入门课程基础上，围绕跨章节综合、实验图表、条件变化与陌生模型进行强化，把“会做典型题”进一步提升为“能迁移解法”。</p>
+              </div>
+              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
+            </div>
+          </article>
+
+          <article class="program-card locked" aria-label="2026年度 冲刺刷题班，未开放">
+            <div class="program-summary">
+              <div class="program-no">03</div>
+              <div class="program-main">
+                <span class="program-status">未开放</span>
+                <h3>2026年度 冲刺刷题班</h3>
+                <p>面向考前阶段，以历年真题、追试与高质量模拟题为主线，进行限时训练、错因归类与薄弱专题回补，目标是在规定时间内稳定拿到应得分数。</p>
+              </div>
+              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
+            </div>
+          </article>
+
+          <article class="program-card locked" aria-label="2026年度 东京科学大学理工学系私费留学生入试对策，未开放">
+            <div class="program-summary">
+              <div class="program-no">04</div>
+              <div class="program-main">
+                <span class="program-status">未开放</span>
+                <h3>2026年度 东京科学大学（理工学系）私费留学生入试对策</h3>
+                <p>面向理工学系私费外国人留学生入试的校内考物理。按历年真题组织长文条件提取、近似、推导、记述与必要的数学工具训练。</p>
+              </div>
+              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
+            </div>
+          </article>
+
+          <article class="program-card locked" aria-label="2026年度 热门私立大学一般入试对策，未开放">
+            <div class="program-summary">
+              <div class="program-no">05</div>
+              <div class="program-main">
+                <span class="program-status">未开放</span>
+                <h3>2026年度 热门私立大学一般入试对策</h3>
+                <p>面向主要私立大学理工系一般选拔，按学校与学部整理高频模型、题量节奏和真题训练，强化在有限时间内快速判断与稳定得分的能力。</p>
+              </div>
+              <div class="program-side"><span class="lock-label">COMING LATER</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="resource-section" id="resources" aria-labelledby="resource-title">
+        <div class="resource-inner">
+          <header class="resource-head">
+            <div><p class="kicker">REFERENCE / TOOLS</p><h2 id="resource-title">专题资料与工具</h2></div>
+            <p>把考试范围、制度差异、公式与授课用交互演示放在课程之外单独整理。需要查资料时，不必重新翻20回讲次。</p>
+          </header>
+          <div class="resource-grid">
+            <a class="resource-card" href="resources/eju-common-difference.html"><small>01 / EXAM</small><strong>EJU 与共通考试物理</strong><span>范围、题型、阅读量与备考重点的差异。</span><i>↗</i></a>
+            <a class="resource-card" href="resources/scope-comparison.html"><small>02 / SCOPE</small><strong>考试范围对比</strong><span>EJU、共通考试「物理」与「物理基础」一页比较。</span><i>↗</i></a>
+            <a class="resource-card" href="resources/mechanics-formula.html"><small>03 / FORMULA</small><strong>物理公式表</strong><span>按领域查找常用关系式与基本量。</span><i>↗</i></a>
+            <a class="resource-card" href="resources/physics-demos.html"><small>04 / DEMO</small><strong>物理 Demo 集</strong><span>力学、波动、热力学、电磁学与原子的交互演示。</span><i>↗</i></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand"><strong>中国旅人教育集団株式会社</strong><span>2026年度 物理课程资料库</span></div>
+        <div class="footer-meta">
+          <div class="footer-links"><a href="https://www.tabitoedu.com" target="_blank" rel="noopener noreferrer">旅人教育官网 ↗</a><a href="https://kayui-gavo.github.io/education/" target="_blank" rel="noopener noreferrer">讲师介绍 ↗</a></div>
+          <div>〒164-0001 東京都中野区中野1-55-3 フェリスビル 4F</div>
+          <div>网页制作：刘可惟</div>
         </div>
       </div>
-
-      <div class="course-tools">
-        <label class="search-box" for="searchInput">
-          <span>搜索</span>
-          <input id="searchInput" type="search" placeholder="输入讲次、领域或知识点" />
-        </label>
-        <select id="unitFilter" aria-label="课程领域">
-          <option value="all">全部领域</option>
-          <option value="力学">力学</option>
-          <option value="热力学">热力学</option>
-          <option value="波动">波动</option>
-          <option value="电磁学">电磁学</option>
-          <option value="原子">原子</option>
-        </select>
-      </div>
-
-      <div id="courseGrid" class="course-grid"></div>
-      <div id="emptyState" class="empty-state">没有找到匹配的课程。可以换一个关键词，或切回“全部领域”。</div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <p class="footer-title">中国旅人教育集団株式会社 · 共通考试物理课程资料库</p>
-      <p>地址：〒164-0001 東京都中野区中野１丁目５５−３ フェリスビル 4F</p>
-      <p>电话：080-6431-9082</p>
-      <p>网页制作：营业部 刘可惟</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <section class="dev-panel" id="devPanel" aria-label="开发者模式">
-    <div class="dev-head">
-      <strong>开发者模式</strong>
-      <button type="button" id="devCloseBtn">关闭</button>
-    </div>
+    <div class="dev-head"><strong>开发者模式</strong><button type="button" id="devCloseBtn">关闭</button></div>
     <div class="dev-body">
-      <p class="dev-help">此面板只在本机浏览器中显示，不会出现在学生页面导航中。修改会保存在当前浏览器；如需部署，请导出配置后同步到代码文件。</p>
-      <label>建设中提示
-        <input id="devBuildNotice" type="text" />
-      </label>
-      <label>首页小标题
-        <input id="devHeroLabel" type="text" />
-      </label>
-      <label>首页主标题
-        <input id="devHeroTitle" type="text" />
-      </label>
-      <label>首页说明
-        <textarea id="devHeroLead"></textarea>
-      </label>
-      <label>通知标题
-        <input id="devNoticeTitle" type="text" />
-      </label>
-      <label>通知正文
-        <textarea id="devNoticeText"></textarea>
-      </label>
-      <label>课程数据 JSON
-        <textarea id="devCoursesJson" class="dev-json" spellcheck="false"></textarea>
-      </label>
-      <label>选择待上传文件
-        <input id="devFileInput" type="file" multiple />
-      </label>
+      <p class="dev-help">此面板只在本机浏览器中显示。修改保存在当前浏览器；正式部署时请导出配置后同步到代码。</p>
+      <label>顶部提示<input id="devUpdateStrip" type="text"></label>
+      <label>通知标题<input id="devNoticeTitle" type="text"></label>
+      <label>通知正文<textarea id="devNoticeText"></textarea></label>
+      <label>入门课程数据 JSON<textarea id="devCoursesJson" class="dev-json" spellcheck="false"></textarea></label>
+      <label>选择待上传文件<input id="devFileInput" type="file" multiple></label>
       <div class="dev-file-list" id="devFileList">尚未选择文件。</div>
       <div class="dev-actions">
         <button type="button" id="devApplyBtn">保存到本机</button>
@@ -812,463 +236,10 @@
         <button type="button" id="devImportBtn" class="secondary">导入配置</button>
         <button type="button" id="devResetBtn" class="secondary">清除本机修改</button>
       </div>
-      <input id="devImportFile" type="file" accept="application/json" hidden />
+      <input id="devImportFile" type="file" accept="application/json" hidden>
     </div>
   </section>
 
-  <script>
-    const defaultSiteText = {
-      buildNotice: '网站正在建设中，部分信息可能仍在调整；请以课堂说明和实际课程内容为准。',
-      heroLabel: '旅人教育 · 共通考试物理课程',
-      heroTitle: '共通考试物理课程资料库',
-      heroLead: '本资料库仅用于旅人教育内部学生查看课程板书、录播、作业题和答案解析，请勿在未经许可的情况下转载至外部。请按照讲次顺序复习，每一讲页面中会提供对应资料入口；尚未发布的资料会显示为“待上传”。',
-      noticeTitle: '课程通知',
-      noticeText: '第七回作业答案中弹簧惯性力题有误，最新版中日答案已上传。此前的课程表变动通知仍可在这里查看。'
-    };
-
-    const defaultConfigVersion = '2026-07-30-lesson-19-bilingual-answers';
-
-    const defaultCourses = [
-      {
-        no: 1,
-        unit: '力学',
-        title: '物体的运动',
-        date: '2026-04-20',
-        summary: '位移、速度、加速度、相对运动、匀加速度直线运动、落体运动、平抛与斜抛。',
-        topics: ['运动学', '基础概念', '抛体运动'],
-        note: 'course-notes/mechanics-01.pdf',
-        video: 'https://meeting.tencent.com/crm/l5YJQAdp39',
-        homework: 'assignments/mechanics-hw01.pdf',
-        answerCn: 'assignments/mechanics-hw01-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw01-answer-jp.pdf'
-      },
-      {
-        no: 2,
-        unit: '力学',
-        title: '力与刚体平衡',
-        date: '2026-04-27',
-        summary: '重力、弹力、摩擦力、浮力、牛顿运动定律、力矩、刚体平衡和受力分析。',
-        topics: ['受力分析', '牛顿定律', '刚体平衡'],
-        note: 'course-notes/mechanics-02.pdf',
-        video: 'https://meeting.tencent.com/crm/2BYPWx74d8',
-        homework: 'assignments/mechanics-hw02.pdf',
-        answerCn: 'assignments/mechanics-hw02-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw02-answer-jp.pdf'
-      },
-      {
-        no: 3,
-        unit: '力学',
-        title: '刚体（翻转，重心），动能定理，机械能',
-        date: '2026-05-04',
-        summary: '刚体翻转问题、重心的计算、功、功率、动能、势能、机械能守恒、动量、冲量、碰撞与反发系数。',
-        topics: ['刚体', '重心', '能量守恒'],
-        note: 'course-notes/mechanics-03.pdf',
-        video: 'https://meeting.tencent.com/crm/2YjMOAy393',
-        homework: 'assignments/mechanics-hw03.pdf',
-        answerCn: 'assignments/mechanics-hw03-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw03-answer-jp.pdf'
-      },
-      {
-        no: 4,
-        unit: '力学',
-        title: '弹性势能、动量、碰撞',
-        date: '2026-05-14',
-        summary: '弹性势能、动量、冲量、动量守恒、碰撞和反发系数。',
-        topics: ['弹性势能', '动量', '碰撞'],
-        note: 'course-notes/mechanics-04.pdf',
-        video: 'https://meeting.tencent.com/crm/K0qMvRXG71',
-        homework: 'assignments/mechanics-hw04.pdf',
-        answerCn: 'assignments/mechanics-hw04-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw04-answer-jp.pdf'
-      },
-      {
-        no: 5,
-        unit: '力学',
-        title: '圆周运动和天体运动',
-        date: '2026-05-22',
-        summary: '圆周运动、向心力、万有引力、开普勒定律和天体轨道问题。',
-        topics: ['圆周运动', '万有引力', '天体运动'],
-        note: 'course-notes/mechanics-05.pdf',
-        video: 'https://meeting.tencent.com/crm/K0qW5Aqb57',
-        homework: 'assignments/mechanics-hw05.pdf',
-        answerCn: 'assignments/mechanics-hw05-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw05-answer-jp.pdf'
-      },
-      {
-        no: 6,
-        unit: '力学',
-        title: '简谐振动、相对运动、惯性力',
-        date: '2026-05-23',
-        summary: '弹簧振子、单摆、简谐振动、相对运动以及非惯性系中的惯性力。',
-        topics: ['简谐振动', '相对运动', '惯性力'],
-        note: 'course-notes/mechanics-06.pdf',
-        video: 'https://meeting.tencent.com/crm/2pOaWE3Z7f',
-        homework: 'assignments/mechanics-hw06.pdf',
-        answerCn: 'assignments/mechanics-hw06-answer-cn.pdf',
-        answerJp: 'assignments/mechanics-hw06-answer-jp.pdf'
-      },
-      {
-        no: 7,
-        unit: '力学・波动',
-        title: '力学复习，波动入门',
-        date: '2026-05-30',
-        summary: '力学综合复习，以及波的基本性质、波形、振幅、周期、频率、波长和波速。',
-        topics: ['力学复习', '波动', '波的基本性质'],
-        note: 'course-notes/wave-01.pdf',
-        video: 'https://meeting.tencent.com/crm/Nox0MxBbae',
-        homework: 'assignments/wave-hw07.pdf',
-        answerCn: 'assignments/wave-hw07-answer-cn.pdf',
-        answerJp: 'assignments/wave-hw07-answer-jp.pdf'
-      },
-      {
-        no: 8,
-        unit: '波动',
-        title: '波动2：正弦波图像与相位',
-        date: '2026-06-06',
-        summary: '通过正弦波的 y-x 图像和 y-t 图像，练习读取振幅、周期、波长、波速，并判断波形平移、相位差和时间延迟。',
-        topics: ['正弦波图像', 'y-x / y-t 图像', '相位差'],
-        note: 'course-notes/wave-02.pdf',
-        video: 'https://meeting.tencent.com/crm/NL9zGx7B4c',
-        homework: 'assignments/wave-hw08.pdf',
-        answerCn: 'assignments/wave-hw08-answer-cn.pdf',
-        answerJp: 'assignments/wave-hw08-answer-jp.pdf'
-      },
-      {
-        no: 9,
-        unit: '波动',
-        title: '波动3：音',
-        date: '2026-06-11',
-        summary: '声波的传播、音速、反射、拍、弦与气柱的共振、音阶以及多普勒效应。',
-        topics: ['音波', 'うなり', '共振', '多普勒效应'],
-        note: 'course-notes/wave-03.pdf',
-        video: 'https://meeting.tencent.com/crm/NxDMDoPY7a',
-        homework: 'assignments/wave-hw09.pdf',
-        answerCn: 'assignments/wave-hw09-answer-cn.pdf',
-        answerJp: 'assignments/wave-hw09-answer-jp.pdf'
-      },
-      {
-        no: 10,
-        unit: '波动',
-        title: '波动4：光',
-        date: '2026-06-13',
-        summary: '光的反射、折射、全反射、透镜、球面镜、偏振、杨氏实验、薄膜干涉和回折格子。',
-        topics: ['几何光学', '光的干涉', '回折格子'],
-        note: 'course-notes/wave-04.pdf',
-        video: 'https://meeting.tencent.com/crm/2jEek77Be4',
-        homework: 'assignments/wave-hw10.pdf',
-        answerCn: 'assignments/wave-hw10-answer-cn.pdf',
-        answerJp: 'assignments/wave-hw10-answer-jp.pdf'
-      },
-      {
-        no: 11,
-        unit: '波动・热力学',
-        title: '波动5・热力学1',
-        date: '2026-06-18',
-        summary: '波动部分的收束与热力学入门，连接光学复习、热现象、内能和状态变化的基本概念。',
-        topics: ['波动复习', '热力学入门', '内能', '状态变化'],
-        note: 'course-notes/wave-05-thermo-01.pdf',
-        video: 'https://meeting.tencent.com/crm/NL9ZLWdpec',
-        homework: 'assignments/wave-hw11.pdf',
-        answerCn: 'assignments/wave-hw11-answer-cn.pdf',
-        answerJp: 'assignments/wave-hw11-answer-jp.pdf'
-      },
-      {
-        no: 12,
-        unit: '热力学',
-        title: '内能、热力学第一定律',
-        date: '2026-06-20',
-        summary: '内能、热量、气体做功、热力学第一定律及相关能量转化。',
-        topics: ['内能', '热量', '热力学第一定律'],
-        note: 'course-notes/thermo-02.pdf',
-        video: 'https://meeting.tencent.com/crm/ldA8kBWd38',
-        homework: 'assignments/thermo-hw12.pdf',
-        answerCn: 'assignments/thermo-hw12-answer-cn.pdf',
-        answerJp: 'assignments/thermo-hw12-answer-jp.pdf'
-      },
-      {
-        no: 13,
-        unit: '热力学',
-        title: '热力学3：分子运动论、热力学复习',
-        date: '2026-06-25',
-        summary: '分子运动论、气体分子运动、热力学核心公式与综合复习。',
-        topics: ['分子运动论', '热力学复习', '综合整理'],
-        note: 'course-notes/thermo-03.pdf',
-        video: 'https://meeting.tencent.com/crm/2pQ4x53B0b',
-        homework: 'assignments/thermo-hw13.pdf',
-        answerCn: 'assignments/thermo-hw13-answer-cn.pdf',
-        answerJp: 'assignments/thermo-hw13-answer-jp.pdf'
-      },
-      {
-        no: 14,
-        unit: '电磁学',
-        title: '电磁学1：电场与电位',
-        date: '2026-07-04',
-        summary: '库仑定律、电场、电力线、电势、电势能、导体、静电诱导、介电极化。',
-        topics: ['电场', '电位', '静电诱导'],
-        note: 'course-notes/electromagnetism-01.pdf',
-        video: 'https://meeting.tencent.com/crm/KEJbnWDO03',
-        homework: 'assignments/electromagnetism-hw14.pdf',
-        answerCn: 'assignments/electromagnetism-hw14-answer-cn.pdf',
-        answerJp: 'assignments/electromagnetism-hw14-answer-jp.pdf'
-      },
-      {
-        no: 15,
-        unit: '电磁学',
-        title: '电磁学2：电位、电容器',
-        date: '2026-07-09',
-        summary: '电位、电势能、等势面、电容器、电容器连接与静电能。',
-        topics: ['电位', '电容器', '静电能'],
-        note: 'course-notes/electromagnetism-02.pdf',
-        video: 'https://meeting.tencent.com/crm/KnnDOnJn7e',
-        homework: 'assignments/electromagnetism-hw15.pdf',
-        answerJp: 'assignments/electromagnetism-hw15-answer-jp.pdf'
-      },
-      {
-        no: 16,
-        unit: '电磁学',
-        title: '电磁学3：电容器',
-        date: '2026-07-11',
-        summary: '电容器的基本关系、串并联、静电能以及电容器相关综合题。',
-        topics: ['电容器', '串并联', '静电能'],
-        note: 'course-notes/electromagnetism-03.pdf',
-        video: 'https://meeting.tencent.com/crm/2Vbj8Pe4ce',
-        homework: 'assignments/electromagnetism-hw16.pdf',
-        answerJp: 'assignments/electromagnetism-hw16-answer-jp.pdf'
-      },
-      {
-        no: 17,
-        unit: '电磁学',
-        title: '电磁学4：电路、半导体、磁场',
-        date: '2026-07-16',
-        summary: '复杂电路、半导体基础，以及磁场、磁通密度和电流受力的入门。',
-        topics: ['复杂电路', '半导体', '磁场'],
-        note: 'course-notes/electromagnetism-04.pdf',
-        video: 'https://meeting.tencent.com/crm/l5ZaybpV12',
-        homework: 'assignments/electromagnetism-hw17.pdf',
-        answerJp: 'assignments/electromagnetism-hw17-answer-jp.pdf'
-      },
-      {
-        no: 18,
-        unit: '电磁学',
-        title: '电磁学5：电流与磁场、洛伦兹力',
-        date: '2026-07-18',
-        summary: '电流产生的磁场、磁通密度、安培力、洛伦兹力以及带电粒子在电磁场中的运动。',
-        topics: ['电流与磁场', '洛伦兹力', '带电粒子运动'],
-        note: 'course-notes/electromagnetism-05.pdf',
-        video: 'https://meeting.tencent.com/crm/NgnJ8m9648',
-        homework: 'assignments/electromagnetism-hw18.pdf',
-        answerJp: 'assignments/electromagnetism-hw18-answer-jp.pdf'
-      },
-      {
-        no: 19,
-        unit: '电磁学',
-        title: '电磁学6：电磁感应',
-        date: '2026-07-23',
-        summary: '电磁感应、楞次定律、导体棒切割磁感线以及感应电动势的基本关系。',
-        topics: ['电磁感应', '楞次定律', '导体棒'],
-        note: 'course-notes/electromagnetism-06.pdf',
-        video: 'https://meeting.tencent.com/crm/2Zy5MbEG44',
-        homework: 'assignments/electromagnetism-hw19.pdf',
-        answerCn: 'assignments/electromagnetism-hw19-answer-cn.pdf',
-        answerJp: 'assignments/electromagnetism-hw19-answer-jp.pdf'
-      },
-      {
-        no: 20,
-        unit: '原子',
-        title: '原子结构、原子核与核反应',
-        summary: '原子模型、能级、光谱、原子核、放射线、半衰期、核反应、核能和基本粒子。',
-        topics: ['原子模型', '放射线', '核反应']
-      }
-    ];
-
-    let savedConfig = null;
-    try {
-      savedConfig = JSON.parse(localStorage.getItem('physicsSiteConfig') || 'null');
-    } catch (error) {
-      localStorage.removeItem('physicsSiteConfig');
-    }
-    const canUseSavedConfig = savedConfig?.version === defaultConfigVersion;
-    const siteText = canUseSavedConfig ? savedConfig.siteText : { ...defaultSiteText };
-    let courses = canUseSavedConfig ? savedConfig.courses : defaultCourses;
-
-    const resourceLabels = [
-      ['note', '板书', true],
-      ['video', '录播', false],
-      ['homework', '作业', false],
-      ['answerCn', '中文答案', false],
-      ['answerJp', '日文答案', false]
-    ];
-
-    const courseGrid = document.getElementById('courseGrid');
-    const searchInput = document.getElementById('searchInput');
-    const unitFilter = document.getElementById('unitFilter');
-    const emptyState = document.getElementById('emptyState');
-
-    function applySiteText() {
-      document.getElementById('buildNoticeText').textContent = siteText.buildNotice;
-      document.getElementById('heroLabel').textContent = siteText.heroLabel;
-      document.getElementById('heroTitle').textContent = siteText.heroTitle;
-      document.getElementById('heroLead').textContent = siteText.heroLead;
-      document.getElementById('noticeTitle').textContent = siteText.noticeTitle;
-      document.getElementById('noticeText').textContent = siteText.noticeText;
-    }
-
-    function renderCourses() {
-      const keyword = searchInput.value.trim().toLowerCase();
-      const unit = unitFilter.value;
-      const filtered = courses.filter((course) => {
-        const haystack = [
-          course.no,
-          course.unit,
-          course.title,
-          course.summary,
-          ...(course.topics || [])
-        ].join(' ').toLowerCase();
-        return (unit === 'all' || course.unit === unit) && (!keyword || haystack.includes(keyword));
-      });
-
-      courseGrid.innerHTML = filtered.map((course) => {
-        const buttons = resourceLabels.map(([key, label, primary]) => {
-          const href = course[key];
-          const className = `resource-btn ${primary ? 'primary ' : ''}${href ? 'available' : 'disabled'}`;
-          return href
-            ? `<a class="${className}" href="${href}" target="_blank">${label}</a>`
-            : `<span class="${className}" aria-disabled="true">${label}待上传</span>`;
-        }).join('');
-
-        const topics = course.topics.map((topic) => `<span class="topic">${topic}</span>`).join('');
-        const date = course.date ? `<span class="date">更新日期：${course.date}</span>` : '<span class="date">资料待上传</span>';
-        return `
-          <article class="course-card">
-            <div>
-              <div class="course-meta">
-                <span class="badge">${course.unit} ${String(course.no).padStart(2, '0')}</span>
-                ${date}
-              </div>
-              <h3>第${course.no}讲：${course.title}</h3>
-              <p>${course.summary}</p>
-              <div class="topics">${topics}</div>
-            </div>
-            <div class="resource-buttons">${buttons}</div>
-          </article>
-        `;
-      }).join('');
-
-      emptyState.style.display = filtered.length ? 'none' : 'block';
-    }
-
-    searchInput.addEventListener('input', renderCourses);
-    unitFilter.addEventListener('change', renderCourses);
-    applySiteText();
-    renderCourses();
-
-    const devFields = {
-      buildNotice: document.getElementById('devBuildNotice'),
-      heroLabel: document.getElementById('devHeroLabel'),
-      heroTitle: document.getElementById('devHeroTitle'),
-      heroLead: document.getElementById('devHeroLead'),
-      noticeTitle: document.getElementById('devNoticeTitle'),
-      noticeText: document.getElementById('devNoticeText')
-    };
-
-    function fillDevPanel() {
-      Object.entries(devFields).forEach(([key, input]) => {
-        input.value = siteText[key] || '';
-      });
-      document.getElementById('devCoursesJson').value = JSON.stringify(courses, null, 2);
-    }
-
-    function openDevMode() {
-      document.body.classList.add('dev-mode');
-      localStorage.setItem('physicsSiteDev', 'true');
-      fillDevPanel();
-    }
-
-    function closeDevMode() {
-      document.body.classList.remove('dev-mode');
-    }
-
-    function saveDevConfig() {
-      Object.entries(devFields).forEach(([key, input]) => {
-        siteText[key] = input.value;
-      });
-      courses = JSON.parse(document.getElementById('devCoursesJson').value);
-      localStorage.setItem('physicsSiteConfig', JSON.stringify({ version: defaultConfigVersion, siteText, courses }));
-      applySiteText();
-      renderCourses();
-      fillDevPanel();
-    }
-
-    function downloadText(filename, text) {
-      const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function suggestUploadPath(file) {
-      const name = file.name.toLowerCase();
-      if (name.includes('notice')) return `notices/${file.name}`;
-      if (name.includes('answer') || name.includes('hw')) return `assignments/${file.name}`;
-      if (name.includes('mechanics') || name.includes('note')) return `course-notes/${file.name}`;
-      if (file.type.startsWith('image/')) return `assets/images/${file.name}`;
-      return `resources/${file.name}`;
-    }
-
-    document.getElementById('devCloseBtn').addEventListener('click', closeDevMode);
-    document.getElementById('devApplyBtn').addEventListener('click', () => {
-      try {
-        saveDevConfig();
-      } catch (error) {
-        alert(`课程 JSON 格式有误：${error.message}`);
-      }
-    });
-    document.getElementById('devExportBtn').addEventListener('click', () => {
-      const config = { version: defaultConfigVersion, siteText, courses };
-      downloadText('physics-site-config.json', JSON.stringify(config, null, 2));
-    });
-    document.getElementById('devImportBtn').addEventListener('click', () => {
-      document.getElementById('devImportFile').click();
-    });
-    document.getElementById('devImportFile').addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const config = JSON.parse(reader.result);
-          localStorage.setItem('physicsSiteConfig', JSON.stringify(config));
-          location.reload();
-        } catch (error) {
-          alert(`导入失败：${error.message}`);
-        }
-      };
-      reader.readAsText(file);
-    });
-    document.getElementById('devResetBtn').addEventListener('click', () => {
-      localStorage.removeItem('physicsSiteConfig');
-      location.reload();
-    });
-    document.getElementById('devFileInput').addEventListener('change', (event) => {
-      const files = Array.from(event.target.files);
-      document.getElementById('devFileList').innerHTML = files.length
-        ? files.map((file) => `<div>${file.name} → 建议放入 <code>${suggestUploadPath(file)}</code></div>`).join('')
-        : '尚未选择文件。';
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.ctrlKey && event.altKey && event.key.toLowerCase() === 'd') {
-        event.preventDefault();
-        openDevMode();
-      }
-    });
-
-    if (new URLSearchParams(window.location.search).get('dev') === 'tabito' || localStorage.getItem('physicsSiteDev') === 'true') {
-      openDevMode();
-    }
-  </script>
+  <script defer src="assets/physics-portal-v2.js?v=20260814a"></script>
 </body>
 </html>
