@@ -1,290 +1,110 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>物理デモ集 · 旅人教育共通テスト物理</title>
-  <style>
-    :root{--ink:#172033;--muted:#667085;--soft:#8b95a7;--line:#d9e1ec;--paper:#fff;--canvas:#f5f7fb;--surface:#eef4fb;--blue:#235f9f;--blue-dark:#164a7f;--green:#16846b;--shadow:0 14px 34px rgba(31,45,69,.08);--radius:8px}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{min-height:100vh;background:var(--canvas);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans SC","Noto Sans TC","Hiragino Sans","Microsoft YaHei",sans-serif;line-height:1.7}
-    .topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(217,225,236,.94);background:rgba(255,255,255,.94);backdrop-filter:blur(14px)}
-    .topbar-inner,.page{width:min(1180px,calc(100% - 40px));margin:0 auto}
-    .topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand,.btn{color:var(--ink);text-decoration:none;font-weight:850}
-    .brand{display:flex;align-items:center;gap:10px}
-    .mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid #c7d6e8;border-radius:var(--radius);background:#f8fbff;color:var(--blue)}
-    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .language-select{min-height:38px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--blue-dark);font:inherit;font-size:13px;font-weight:850;padding:7px 10px}
-    .btn{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:7px;background:var(--paper);padding:8px 12px;color:var(--blue-dark);font-size:13px}
-    .btn:hover,.nav-chip:hover,.demo-card:hover{background:var(--surface)}
-    .page{padding:34px 0 70px}
-    .hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:stretch;margin-bottom:16px}
-    .hero-main,.status-panel,.domain,.demo-card,.empty-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);box-shadow:0 1px 0 rgba(31,45,69,.02)}
-    .hero-main,.status-panel{padding:26px}
-    .label{color:var(--blue-dark);font-size:13px;font-weight:850;letter-spacing:.08em;margin-bottom:10px}
-    h1{font-size:clamp(32px,5vw,54px);line-height:1.12;margin-bottom:12px}.lead{max-width:780px;color:var(--muted);font-size:16px}
-    .status-panel{display:grid;gap:12px;align-content:center}.stat{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center}.stat strong{color:var(--green);font-size:34px;line-height:1}.stat span,.status-panel p{color:var(--muted);font-size:13px}
-    .nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.nav-chip{border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--blue-dark);padding:7px 11px;text-decoration:none;font-size:13px;font-weight:850}
-    .domains{display:grid;gap:16px}.domain{padding:20px}.domain-head{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;margin-bottom:14px}.domain h2{font-size:24px;line-height:1.25;margin-bottom:4px}.domain p{color:var(--muted);font-size:14px}
-    .count{border-radius:999px;background:var(--surface);color:var(--blue-dark);padding:5px 10px;font-size:12px;font-weight:850;white-space:nowrap}
-    .demo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.demo-card,.empty-card{min-height:172px;display:grid;align-content:start;gap:10px;padding:18px;text-decoration:none;color:var(--ink)}.demo-card:hover{border-color:#bfd2e8;box-shadow:var(--shadow);transform:translateY(-1px)}.empty-card{border-style:dashed;background:#fbfcfe}
-    .chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;width:max-content;border-radius:999px;background:var(--surface);color:var(--blue-dark);padding:4px 9px;font-size:12px;font-weight:850}.chip.checked{background:#e8f5ef;color:#126651}.chip.todo{background:#f7f9fc;color:var(--soft)}
-    .demo-card h3,.empty-card h3{font-size:19px;line-height:1.3}.demo-card p,.empty-card p{color:var(--muted);font-size:14px}
-    @media(max-width:980px){.hero,.demo-grid{grid-template-columns:1fr}}
-    @media(max-width:680px){.topbar-inner,.page{width:min(100% - 24px,1180px)}.topbar-inner{align-items:flex-start;flex-direction:column;padding:10px 0}.actions{justify-content:flex-start}.hero-main,.status-panel,.domain{padding:18px}.domain-head{grid-template-columns:1fr}}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>物理 Demo 集｜旅人教育</title>
+  <meta name="description" content="旅人教育物理课程配套交互演示。按力学、波动、热力学、电磁学和原子分类整理。">
+  <link rel="icon" href="../assets/images/tabito-logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="../assets/physics-demos-v2.css?v=20260815b">
 </head>
 <body>
-  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){window.location.href='../login.html?subject=physics&next=resources/physics-demos.html'}</script>
+  <script>if(localStorage.getItem('physicsSiteAuth')!=='true'){location.href='../login.html?subject=physics&next=resources/physics-demos.html'}</script>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="../physics.html"><span class="mark">実</span><span id="brandText">旅人教育｜共通テスト物理</span></a>
-      <div class="actions">
-        <select class="language-select" id="languageSelect" aria-label="Language">
-          <option value="ja">日本語</option>
-          <option value="zh-CN">简体中文</option>
-          <option value="zh-TW">繁體中文</option>
-          <option value="en">English</option>
-        </select>
-        <a class="btn" id="backLink" href="../physics.html">物理ページへ戻る</a>
-      </div>
+      <a class="brand" href="../physics.html">
+        <img src="../assets/images/tabito-logo.jpg" alt="旅人教育">
+        <span class="brand-copy"><strong>物理 Demo 集</strong><span>旅人教育 · 2026年度物理课程</span></span>
+      </a>
+      <nav class="topnav" aria-label="页面导航">
+        <a href="#mechanics">力学</a><a href="#waves">波动</a><a href="#thermal">热力学</a><a href="#electromagnetism">电磁学</a><a href="#atomic">原子</a>
+        <a class="exit" href="../physics.html">返回课程资料库</a>
+      </nav>
     </div>
   </header>
 
-  <main class="page">
-    <section class="hero">
-      <div class="hero-main">
-        <div class="label" id="heroLabel">授業用インタラクティブ教材</div>
-        <h1 id="heroTitle">物理デモ集</h1>
-        <p class="lead" id="heroLead">共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。</p>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>物理 Demo 集</h1>
+        <p>配合课堂板书使用的交互演示。适合重新观察图像、方向、相位、能量变化和公式中各物理量之间的关系。演示中的图形以帮助理解为目的；定量结论以页面中标出的公式和数值为准。</p>
+        <div class="hero-meta"><span class="open">17 个演示已开放</span><span>力学 3</span><span>波动 7</span><span>热力学 2</span><span>电磁学 3</span><span>原子 2</span></div>
       </div>
-      <aside class="status-panel" id="statusPanel" aria-label="デモの概要"></aside>
+      <div class="hero-art"><img src="../assets/images/tabito-illustration.jpg" alt="旅人教育课程插画"></div>
+    </div>
+  </section>
+
+  <main class="page">
+    <div class="toolbar">
+      <input class="search" id="search" type="search" placeholder="搜索：相对运动、气柱、透镜、电位、半衰期……" aria-label="搜索物理演示">
+      <div class="filters" aria-label="按领域筛选">
+        <button class="filter active" data-filter="all">全部</button>
+        <button class="filter" data-filter="mechanics">力学</button>
+        <button class="filter" data-filter="waves">波动</button>
+        <button class="filter" data-filter="thermal">热力学</button>
+        <button class="filter" data-filter="electromagnetism">电磁学</button>
+        <button class="filter" data-filter="atomic">原子</button>
+      </div>
+    </div>
+
+    <div class="notice"><b>使用建议</b><span>先按老师指定的讲次打开演示，再调整一个变量观察变化。不要同时拖动多个参数，否则容易看不出因果关系。RC 回路标为“发展”，不作为入门课程必须掌握的公式。</span></div>
+    <div class="empty" id="empty">没有找到匹配的演示。</div>
+
+    <section class="domain" id="mechanics" data-domain="mechanics">
+      <div class="domain-head"><div><h2>力学</h2><p>运动图像、碰撞、圆周运动和天体圆轨道。</p></div><span class="count">3 个</span></div>
+      <div class="grid">
+        <a class="demo" href="motion-graphs-demo.html" data-search="力学 运动图像 x-t v-t 加速度 位移 面积 相对运动 motion graph"><div class="demo-top"><span class="status">可用</span><span class="tag">运动图像</span></div><h3>x-t 图像与 v-t 图像<span class="jp">x-t グラフと v-t グラフ</span></h3><p>同步观察位置、速度和时刻；直接比较 x-t 的斜率与 v-t 的符号面积。</p><div class="demo-foot"><span class="lesson">入门课程 第1讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="collision-energy-demo.html" data-search="力学 碰撞 动量 反弹系数 机械能 collision momentum restitution"><div class="demo-top"><span class="status">可用</span><span class="tag">碰撞</span></div><h3>一维碰撞：动量与反弹系数<span class="jp">1次元衝突・運動量・反発係数</span></h3><p>改变质量、初速度与反弹系数，对比碰撞前后的动量和动能。</p><div class="demo-foot"><span class="lesson">入门课程 第4讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="circular-orbit-demo.html" data-search="力学 圆周运动 向心力 人造卫星 万有引力 轨道 circular orbit"><div class="demo-top"><span class="status">可用</span><span class="tag">圆周・天体</span></div><h3>圆周运动与圆轨道<span class="jp">円運動と円軌道</span></h3><p>确认速度的切线方向、向心加速度，以及圆轨道半径与卫星速度、周期的关系。</p><div class="demo-foot"><span class="lesson">入门课程 第5讲</span><span class="open-link">打开演示 →</span></div></a>
+      </div>
     </section>
-    <nav class="nav" id="domainNav" aria-label="分野ナビゲーション"></nav>
-    <section class="domains" id="domains"></section>
+
+    <section class="domain" id="waves" data-domain="waves">
+      <div class="domain-head"><div><h2>波动</h2><p>定常波、声音、气柱、折射、成像与干涉。</p></div><span class="count">7 个</span></div>
+      <div class="grid">
+        <a class="demo" href="standing-wave-demo.html" data-search="波动 定常波 驻波 节 腹 弦 standing wave"><div class="demo-top"><span class="status">可用</span><span class="tag">定常波</span></div><h3>定常波与节、腹<span class="jp">定常波と節・腹</span></h3><p>把两列反向传播的波与合成波放在同一画面中，观察节和腹的位置。</p><div class="demo-foot"><span class="lesson">波动基础</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="air-column-demo.html" data-search="波动 声音 气柱 共鸣 开管 闭管 air column resonance"><div class="demo-top"><span class="status">可用</span><span class="tag">气柱共鸣</span></div><h3>开管与闭管的气柱共鸣<span class="jp">気柱共鳴と開管・閉管</span></h3><p>比较开口端和闭口端的节、腹位置以及允许的共鸣频率，并可直接听参考音。</p><div class="demo-foot"><span class="lesson">入门课程 第9讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="beats-demo.html" data-search="波动 声音 拍 うなり beats 频率差"><div class="demo-top"><span class="status">可用</span><span class="tag">声音</span></div><h3>拍：看波形也听声音<span class="jp">うなりを「見る」・「聞く」</span></h3><p>分别听两个相近频率的纯音，再听合成音，确认拍频等于频率差。</p><div class="demo-foot"><span class="lesson">入门课程 第9讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="doppler-demo.html" data-search="波动 声音 多普勒 声源 观察者 doppler"><div class="demo-top"><span class="status">可用</span><span class="tag">多普勒效应</span></div><h3>多普勒效应<span class="jp">ドップラー効果</span></h3><p>观察移动声源前后的波面间隔，比较靠近与远离时听到的频率。</p><div class="demo-foot"><span class="lesson">入门课程 第9讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="refraction-demo.html" data-search="波动 光学 折射 全反射 斯涅尔 臨界角 refraction total internal reflection"><div class="demo-top"><span class="status">可用</span><span class="tag">折射</span></div><h3>折射与全反射<span class="jp">屈折と全反射</span></h3><p>改变两侧折射率和入射角，确认光线向法线偏折以及全反射的条件。</p><div class="demo-foot"><span class="lesson">入门课程 第10讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="lens-demo.html" data-search="波动 光学 透镜 球面镜 凸透镜 凹透镜 凹面镜 凸面镜 成像 lens mirror"><div class="demo-top"><span class="status">可用</span><span class="tag">成像</span></div><h3>透镜与球面镜成像<span class="jp">薄いレンズと球面鏡の像</span></h3><p>切换四种光学元件并移动物体，观察实像、虚像、正倒与倍率的变化。</p><div class="demo-foot"><span class="lesson">入门课程 第10讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="double-slit-demo.html" data-search="波动 光学 杨氏 双缝 干涉 明纹 暗纹 young double slit interference"><div class="demo-top"><span class="status">可用</span><span class="tag">光的干涉</span></div><h3>杨氏双缝实验<span class="jp">ヤングの二重スリット</span></h3><p>改变波长、缝间距和屏距，直接比较明纹间距 Δx 的变化。</p><div class="demo-foot"><span class="lesson">入门课程 第10讲</span><span class="open-link">打开演示 →</span></div></a>
+      </div>
+    </section>
+
+    <section class="domain" id="thermal" data-domain="thermal">
+      <div class="domain-head"><div><h2>热力学</h2><p>p-V 图像中的功与热力学第一定律。</p></div><span class="count">2 个</span></div>
+      <div class="grid">
+        <a class="demo" href="pv-work-demo.html" data-search="热力学 pv p-v 图 功 气体 等压 膨胀 压缩 work gas"><div class="demo-top"><span class="status">可用</span><span class="tag">p-V 图</span></div><h3>p-V 图像的面积与气体做功<span class="jp">p-V グラフの面積と仕事</span></h3><p>用矩形或梯形面积读取气体做功，并比较膨胀、压缩和不同路径。</p><div class="demo-foot"><span class="lesson">入门课程 第12–13讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="first-law-demo.html" data-search="热力学 第一定律 内能 吸热 放热 做功 符号 first law internal energy"><div class="demo-top"><span class="status">可用</span><span class="tag">第一定律</span></div><h3>热力学第一定律的符号<span class="jp">熱力学第一法則の符号</span></h3><p>用 Q、W、ΔU 的能量收支理解定积加热、绝热膨胀和绝热压缩。</p><div class="demo-foot"><span class="lesson">入门课程 第12–13讲</span><span class="open-link">打开演示 →</span></div></a>
+      </div>
+    </section>
+
+    <section class="domain" id="electromagnetism" data-domain="electromagnetism">
+      <div class="domain-head"><div><h2>电磁学</h2><p>电场与电位、电容器回路、电磁感应。</p></div><span class="count">3 个</span></div>
+      <div class="grid">
+        <a class="demo" href="field-potential-demo.html" data-search="电磁学 电场 电位 点电荷 叠加 双极子 field potential charge"><div class="demo-top"><span class="status">可用</span><span class="tag">电场・电位</span></div><h3>点电荷产生的电场与电位<span class="jp">点電荷がつくる電場と電位</span></h3><p>比较 +Q、−Q、偶极子和两个正电荷，区分电场的向量叠加与电位的标量叠加。</p><div class="demo-foot"><span class="lesson">入门课程 第14讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="rc-circuit-demo.html" data-search="电磁学 电容器 RC 回路 充电 放电 时间常数 capacitor charging"><div class="demo-top"><span class="status">可用</span><span class="tag advanced">发展</span></div><h3>RC 回路充电与放电<span class="jp">RC回路の充電・放電</span></h3><p>作为发展内容，观察电容器电压和电流如何随时间变化。入门课程不要求记忆指数公式。</p><div class="demo-foot"><span class="lesson">电容器相关・发展</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="electromagnetic-induction-demo.html" data-search="电磁学 电磁感应 楞次定律 磁通量 线圈 磁铁 induction lenz"><div class="demo-top"><span class="status">可用</span><span class="tag">电磁感应</span></div><h3>楞次定律：磁铁靠近与远离<span class="jp">レンツの法則</span></h3><p>分别比较 N 极、S 极靠近与远离线圈时，磁通量变化、线圈极性和电流方向。</p><div class="demo-foot"><span class="lesson">入门课程 第19讲</span><span class="open-link">打开演示 →</span></div></a>
+      </div>
+    </section>
+
+    <section class="domain" id="atomic" data-domain="atomic">
+      <div class="domain-head"><div><h2>原子</h2><p>光电效应与放射性衰变。</p></div><span class="count">2 个</span></div>
+      <div class="grid">
+        <a class="demo" href="photoelectric-demo.html" data-search="原子 光电效应 光电子 频率 光强 停止电压 仕事関数 photoelectric"><div class="demo-top"><span class="status">可用</span><span class="tag">光电效应</span></div><h3>频率、光强与停止电压<span class="jp">光電効果</span></h3><p>区分频率和光强的作用：频率决定最大动能，光强主要影响光电子数。</p><div class="demo-foot"><span class="lesson">入门课程 第20讲</span><span class="open-link">打开演示 →</span></div></a>
+        <a class="demo" href="half-life-demo.html" data-search="原子 半衰期 放射性 衰变 原子核 half life radioactive decay"><div class="demo-top"><span class="status">可用</span><span class="tag">半衰期</span></div><h3>半衰期与剩余原子核<span class="jp">半減期と残る原子核</span></h3><p>同时观察个别原子核的随机性和大量原子核 N/N₀=(1/2)^(t/T) 的规律。</p><div class="demo-foot"><span class="lesson">入门课程 第20讲</span><span class="open-link">打开演示 →</span></div></a>
+      </div>
+    </section>
+
+    <footer class="footer"><div><strong>中国旅人教育集团株式会社</strong><br>2026年度物理课程配套资料</div><div>Demo 中的示意图用于理解物理关系；考试作答时请使用课堂板书中的符号与约定。</div></footer>
   </main>
 
   <script>
-    const demos = {
-      mechanics: [
-        { status: 'todo', topic: 'motion', title: 'motionGraphs', desc: 'motionGraphsDesc' },
-        { status: 'todo', topic: 'energy', title: 'energyCollision', desc: 'energyCollisionDesc' },
-        { status: 'todo', topic: 'orbit', title: 'circularMotion', desc: 'circularMotionDesc' }
-      ],
-      waves: [
-        { href: 'standing-wave-demo.html', status: 'live', topic: 'waveform', title: 'standingWave', desc: 'standingWaveDesc' },
-        { href: 'air-column-demo.html', status: 'live', topic: 'sound', title: 'airColumn', desc: 'airColumnDesc' },
-        { href: 'beats-demo.html', status: 'live', topic: 'sound', title: 'beats', desc: 'beatsDesc' },
-        { href: 'doppler-demo.html', status: 'live', topic: 'sound', title: 'doppler', desc: 'dopplerDesc' },
-        { href: 'refraction-demo.html', status: 'live', topic: 'optics', title: 'refraction', desc: 'refractionDesc' },
-        { href: 'lens-demo.html', status: 'live', topic: 'optics', title: 'lensMirror', desc: 'lensMirrorDesc' },
-        { href: 'double-slit-demo.html', status: 'live', topic: 'optics', title: 'doubleSlit', desc: 'doubleSlitDesc' }
-      ],
-      thermal: [
-        { status: 'todo', topic: 'thermal', title: 'pvWork', desc: 'pvWorkDesc' },
-        { status: 'todo', topic: 'thermal', title: 'firstLaw', desc: 'firstLawDesc' }
-      ],
-      electromagnetism: [
-        { href: 'rc-circuit-demo.html', status: 'live', topic: 'capacitor', title: 'rcCircuit', desc: 'rcCircuitDesc' },
-        { status: 'todo', topic: 'electric', title: 'fieldPotential', desc: 'fieldPotentialDesc' },
-        { href: 'electromagnetic-induction-demo.html', status: 'live', topic: 'magnetic', title: 'induction', desc: 'inductionDesc' }
-      ],
-      atomic: [
-        { status: 'todo', topic: 'atomic', title: 'photoelectric', desc: 'photoelectricDesc' },
-        { status: 'todo', topic: 'atomic', title: 'halfLife', desc: 'halfLifeDesc' }
-      ]
-    };
-
-    const order = ['mechanics', 'waves', 'thermal', 'electromagnetism', 'atomic'];
-
-    const translations = {
-      ja: {
-        htmlLang: 'ja', title: '物理デモ集 · 旅人教育共通テスト物理', brand: '旅人教育｜共通テスト物理', back: '物理ページへ戻る',
-        heroLabel: '授業用インタラクティブ教材', heroTitle: '物理デモ集', heroLead: '共通テスト物理で扱う現象を、分野ごとに整理したデモ集です。授業中の導入、公式の確認、図とグラフの読み取り練習に使えます。',
-        statusAria: 'デモの概要', navAria: '分野ナビゲーション', liveCount: '公開中のデモ', domainCount: '力学・波動・熱・電磁気・原子', statusText: '各分野の基本現象を、図・式・操作を対応させながら確認できます。',
-        live: '公開中', todo: '準備中', countLive: (n) => `${n} 個のデモ`, countTodo: '準備中',
-        mechanics: '力学', mechanicsDesc: '運動、力、エネルギー、運動量、円運動、天体運動、単振動を扱います。',
-        waves: '波動', wavesDesc: '波形、音波、定常波、気柱共鳴、光の屈折・干渉・結像を扱います。',
-        thermal: '熱力学', thermalDesc: '熱量、内部エネルギー、気体の状態変化、p-V 図、熱力学第一法則を扱います。',
-        electromagnetism: '電磁気', electromagnetismDesc: '電場、電位、コンデンサー、直流回路、磁場、ローレンツ力、電磁誘導を扱います。',
-        atomic: '原子', atomicDesc: '光電効果、X 線、物質波、エネルギー準位、原子核、半減期を扱います。',
-        waveform: '波形', sound: '音波', optics: '光学', thermalTopic: '熱', capacitor: 'コンデンサー', electric: '電場', magnetic: '磁場', atomicTopic: '原子', motion: '運動', energy: 'エネルギー', orbit: '円運動',
-        motionGraphs: '運動グラフと相対運動', motionGraphsDesc: 'x-t グラフ、v-t グラフ、追いつき、相対速度を扱う予定です。',
-        energyCollision: 'エネルギーと衝突', energyCollisionDesc: '仕事、力学的エネルギー、運動量保存、反発係数を扱う予定です。',
-        circularMotion: '円運動と天体運動', circularMotionDesc: '向心力、万有引力、軌道速度、ケプラーの法則を扱う予定です。',
-        standingWave: '定常波と節・腹', standingWaveDesc: '反対向きに進む 2 つの波の重ね合わせから、節と腹の位置を確認します。',
-        airColumn: '気柱共鳴', airColumnDesc: '開管と閉管で、節・腹の位置と共鳴振動数がどう変わるかを見ます。',
-        beats: 'うなり', beatsDesc: '振動数が近い 2 つの音を重ね、音の強弱が周期的に変わる様子を確認します。',
-        doppler: 'ドップラー効果', dopplerDesc: '動く音源の前後で波長と聞こえる振動数が変わる理由を確認します。',
-        refraction: '屈折と全反射', refractionDesc: 'スネルの法則、法線との角度、臨界角、全反射の条件を確認します。',
-        lensMirror: 'レンズ・球面鏡の像', lensMirrorDesc: '凸レンズ、凹レンズ、凹面鏡、凸面鏡の実像・虚像を同じ式で比べます。',
-        doubleSlit: 'ヤングの二重スリット', doubleSlitDesc: '波長、スリット間隔、スクリーン距離と明線間隔の関係を確認します。',
-        pvWork: 'p-V 図と仕事', pvWorkDesc: '等温変化、等圧変化、等積変化、断熱変化と、面積で表す仕事を扱う予定です。',
-        firstLaw: '熱力学第一法則', firstLawDesc: '吸熱、仕事、内部エネルギー変化の関係を扱う予定です。',
-        rcCircuit: 'RC 回路の充電・放電', rcCircuitDesc: 'コンデンサーの電圧と電流が、時定数 τ = RC に従って変化する様子を確認します。',
-        fieldPotential: '電場と電位', fieldPotentialDesc: '電気力線、等電位線、電位エネルギー、荷電粒子の運動を扱う予定です。',
-        induction: '電磁誘導', inductionDesc: '磁束の変化、レンツの法則、交流発電機、変圧器を扱う予定です。',
-        photoelectric: '光電効果', photoelectricDesc: '限界振動数、仕事関数、阻止電圧、光の強さと電子数の関係を扱う予定です。',
-        halfLife: '半減期', halfLifeDesc: '放射性崩壊の確率的な性質と、指数関数的な減少を扱う予定です。'
-      },
-      'zh-CN': {
-        htmlLang: 'zh-CN', title: '物理演示集 · 旅人教育共通考试物理', brand: '旅人教育｜共通考试物理', back: '返回物理主页',
-        heroLabel: '课堂用交互教材', heroTitle: '物理演示集', heroLead: '本页以共通考试物理的主要分野整理常见物理现象。可用于课堂导入、公式确认，以及图像和图表读取练习。',
-        statusAria: '演示概览', navAria: '分野导航', liveCount: '已公开演示', domainCount: '力学・波动・热・电磁学・原子', statusText: '通过图、公式和操作，把各分野的基本现象对应起来确认。',
-        live: '公开中', todo: '准备中', countLive: (n) => `${n} 个演示`, countTodo: '准备中',
-        mechanics: '力学', mechanicsDesc: '涵盖运动、力、能量、动量、圆周运动、天体运动和简谐振动。',
-        waves: '波动', wavesDesc: '涵盖波形、声波、驻波、气柱共鸣、光的折射、干涉和成像。',
-        thermal: '热力学', thermalDesc: '涵盖热量、内能、气体状态变化、p-V 图和热力学第一定律。',
-        electromagnetism: '电磁学', electromagnetismDesc: '涵盖电场、电势、电容器、直流电路、磁场、洛伦兹力和电磁感应。',
-        atomic: '原子', atomicDesc: '涵盖光电效应、X 射线、物质波、能级、原子核和半衰期。',
-        waveform: '波形', sound: '声波', optics: '光学', thermalTopic: '热', capacitor: '电容器', electric: '电场', magnetic: '磁场', atomicTopic: '原子', motion: '运动', energy: '能量', orbit: '圆周运动',
-        motionGraphs: '运动图像与相对运动', motionGraphsDesc: '计划涵盖 x-t 图、v-t 图、追及问题和相对速度。',
-        energyCollision: '能量与碰撞', energyCollisionDesc: '计划涵盖功、机械能、动量守恒和反发系数。',
-        circularMotion: '圆周运动与天体运动', circularMotionDesc: '计划涵盖向心力、万有引力、轨道速度和开普勒定律。',
-        standingWave: '定常波与节・腹', standingWaveDesc: '通过两列反向传播的波叠加，确认节和腹的位置。',
-        airColumn: '气柱共鸣', airColumnDesc: '比较开管与闭管中节、腹的位置，以及共鸣频率的变化。',
-        beats: '拍频', beatsDesc: '叠加两个频率接近的声音，观察音量强弱周期性变化。',
-        doppler: '多普勒效应', dopplerDesc: '确认运动声源前后波长和听到的频率为什么会改变。',
-        refraction: '折射与全反射', refractionDesc: '确认斯涅尔定律、与法线的角度、临界角和全反射条件。',
-        lensMirror: '透镜与球面镜成像', lensMirrorDesc: '用同一公式比较凸透镜、凹透镜、凹面镜和凸面镜的实像与虚像。',
-        doubleSlit: '杨氏双缝', doubleSlitDesc: '确认波长、缝间距、屏幕距离和明线间隔之间的关系。',
-        pvWork: 'p-V 图与做功', pvWorkDesc: '计划涵盖等温、等压、等容、绝热变化，以及用面积表示气体做功。',
-        firstLaw: '热力学第一定律', firstLawDesc: '计划涵盖吸热、做功和内能变化的关系。',
-        rcCircuit: 'RC 回路充电・放电', rcCircuitDesc: '确认电容器电压和电流如何随时定数 τ = RC 变化。',
-        fieldPotential: '电场与电势', fieldPotentialDesc: '计划涵盖电场线、等势线、电势能和带电粒子的运动。',
-        induction: '电磁感应', inductionDesc: '计划涵盖磁通量变化、楞次定律、交流发电机和变压器。',
-        photoelectric: '光电效应', photoelectricDesc: '计划涵盖截止频率、逸出功、遏止电压、光强和电子数的关系。',
-        halfLife: '半衰期', halfLifeDesc: '计划涵盖放射性衰变的概率性质和指数衰减。'
-      },
-      'zh-TW': {
-        htmlLang: 'zh-Hant-TW', title: '物理演示集 · 旅人教育共通測驗物理', brand: '旅人教育｜共通測驗物理', back: '返回物理首頁',
-        heroLabel: '課堂用互動教材', heroTitle: '物理演示集', heroLead: '本頁依照共通測驗物理的主要領域整理常見物理現象。可用於課堂導入、公式確認，以及圖像和圖表判讀練習。',
-        statusAria: '演示概覽', navAria: '領域導覽', liveCount: '已公開演示', domainCount: '力學・波動・熱・電磁學・原子', statusText: '透過圖、公式與操作，對照確認各領域的基本現象。',
-        live: '公開中', todo: '準備中', countLive: (n) => `${n} 個演示`, countTodo: '準備中',
-        mechanics: '力學', mechanicsDesc: '涵蓋運動、力、能量、動量、圓周運動、天體運動與簡諧運動。',
-        waves: '波動', wavesDesc: '涵蓋波形、聲波、駐波、氣柱共鳴、光的折射、干涉與成像。',
-        thermal: '熱力學', thermalDesc: '涵蓋熱量、內能、氣體狀態變化、p-V 圖與熱力學第一定律。',
-        electromagnetism: '電磁學', electromagnetismDesc: '涵蓋電場、電位、電容器、直流電路、磁場、洛倫茲力與電磁感應。',
-        atomic: '原子', atomicDesc: '涵蓋光電效應、X 射線、物質波、能階、原子核與半衰期。',
-        waveform: '波形', sound: '聲波', optics: '光學', thermalTopic: '熱', capacitor: '電容器', electric: '電場', magnetic: '磁場', atomicTopic: '原子', motion: '運動', energy: '能量', orbit: '圓周運動',
-        motionGraphs: '運動圖像與相對運動', motionGraphsDesc: '預計涵蓋 x-t 圖、v-t 圖、追及問題與相對速度。',
-        energyCollision: '能量與碰撞', energyCollisionDesc: '預計涵蓋功、力學能、動量守恆與恢復係數。',
-        circularMotion: '圓周運動與天體運動', circularMotionDesc: '預計涵蓋向心力、萬有引力、軌道速度與克卜勒定律。',
-        standingWave: '駐波與節・腹', standingWaveDesc: '透過兩列反向傳播的波疊加，確認節與腹的位置。',
-        airColumn: '氣柱共鳴', airColumnDesc: '比較開管與閉管中節、腹的位置，以及共鳴頻率的變化。',
-        beats: '拍頻', beatsDesc: '疊加兩個頻率接近的聲音，觀察音量強弱的週期性變化。',
-        doppler: '都卜勒效應', dopplerDesc: '確認運動聲源前後波長與聽到的頻率為什麼會改變。',
-        refraction: '折射與全反射', refractionDesc: '確認司乃耳定律、與法線的角度、臨界角與全反射條件。',
-        lensMirror: '透鏡與球面鏡成像', lensMirrorDesc: '用同一公式比較凸透鏡、凹透鏡、凹面鏡與凸面鏡的實像和虛像。',
-        doubleSlit: '楊氏雙狹縫', doubleSlitDesc: '確認波長、狹縫間距、螢幕距離與亮紋間距之間的關係。',
-        pvWork: 'p-V 圖與作功', pvWorkDesc: '預計涵蓋等溫、等壓、等容、絕熱變化，以及用面積表示氣體作功。',
-        firstLaw: '熱力學第一定律', firstLawDesc: '預計涵蓋吸熱、作功與內能變化的關係。',
-        rcCircuit: 'RC 電路充電・放電', rcCircuitDesc: '確認電容器電壓與電流如何隨時間常數 τ = RC 變化。',
-        fieldPotential: '電場與電位', fieldPotentialDesc: '預計涵蓋電場線、等電位線、電位能與帶電粒子的運動。',
-        induction: '電磁感應', inductionDesc: '預計涵蓋磁通量變化、楞次定律、交流發電機與變壓器。',
-        photoelectric: '光電效應', photoelectricDesc: '預計涵蓋截止頻率、功函數、截止電壓、光強與電子數的關係。',
-        halfLife: '半衰期', halfLifeDesc: '預計涵蓋放射性衰變的機率性質與指數衰減。'
-      },
-      en: {
-        htmlLang: 'en', title: 'Physics Demo Library · Tabito Education Common Test Physics', brand: 'Tabito Education | Common Test Physics', back: 'Back to Physics',
-        heroLabel: 'Interactive Classroom Resources', heroTitle: 'Physics Demo Library', heroLead: 'A collection of interactive demos organized by the main areas of Common Test physics. Use them to introduce ideas, check formulas, and practice reading diagrams and graphs.',
-        statusAria: 'Demo overview', navAria: 'Area navigation', liveCount: 'Published demos', domainCount: 'Mechanics・Waves・Thermal・Electromagnetism・Atomic', statusText: 'Each demo connects the core phenomenon with diagrams, formulas, and simple controls.',
-        live: 'Published', todo: 'Coming soon', countLive: (n) => `${n} demos`, countTodo: 'Coming soon',
-        mechanics: 'Mechanics', mechanicsDesc: 'Motion, forces, energy, momentum, circular motion, celestial motion, and simple harmonic motion.',
-        waves: 'Waves', wavesDesc: 'Waveforms, sound, standing waves, air columns, refraction, interference, and image formation.',
-        thermal: 'Thermodynamics', thermalDesc: 'Heat, internal energy, gas processes, p-V diagrams, and the first law of thermodynamics.',
-        electromagnetism: 'Electromagnetism', electromagnetismDesc: 'Electric fields, potential, capacitors, DC circuits, magnetic fields, Lorentz force, and induction.',
-        atomic: 'Atomic Physics', atomicDesc: 'Photoelectric effect, X-rays, matter waves, energy levels, nuclei, and half-life.',
-        waveform: 'Waveform', sound: 'Sound', optics: 'Optics', thermalTopic: 'Thermal', capacitor: 'Capacitor', electric: 'Electric field', magnetic: 'Magnetic field', atomicTopic: 'Atomic', motion: 'Motion', energy: 'Energy', orbit: 'Circular motion',
-        motionGraphs: 'Motion Graphs and Relative Motion', motionGraphsDesc: 'Covers x-t graphs, v-t graphs, pursuit problems, and relative velocity.',
-        energyCollision: 'Energy and Collisions', energyCollisionDesc: 'Covers work, mechanical energy, momentum conservation, and coefficient of restitution.',
-        circularMotion: 'Circular and Celestial Motion', circularMotionDesc: 'Covers centripetal force, gravitation, orbital speed, and Kepler’s laws.',
-        standingWave: 'Standing Waves: Nodes and Antinodes', standingWaveDesc: 'See how two opposite traveling waves combine to form nodes and antinodes.',
-        airColumn: 'Air Column Resonance', airColumnDesc: 'Compare node and antinode positions, and resonant frequencies, in open and closed pipes.',
-        beats: 'Beats', beatsDesc: 'Combine two nearby frequencies and observe the periodic change in loudness.',
-        doppler: 'Doppler Effect', dopplerDesc: 'See why wavelength and observed frequency change in front of and behind a moving source.',
-        refraction: 'Refraction and Total Internal Reflection', refractionDesc: 'Check Snell’s law, angles from the normal, critical angle, and total reflection.',
-        lensMirror: 'Lenses and Spherical Mirrors', lensMirrorDesc: 'Compare real and virtual images for convex lenses, concave lenses, concave mirrors, and convex mirrors.',
-        doubleSlit: 'Young’s Double Slit', doubleSlitDesc: 'Explore how wavelength, slit spacing, and screen distance determine fringe spacing.',
-        pvWork: 'p-V Diagrams and Work', pvWorkDesc: 'Covers isothermal, isobaric, isochoric, and adiabatic processes, plus work as area.',
-        firstLaw: 'First Law of Thermodynamics', firstLawDesc: 'Covers the relationship between heat, work, and internal energy change.',
-        rcCircuit: 'RC Circuit Charging and Discharging', rcCircuitDesc: 'See how capacitor voltage and current change with the time constant τ = RC.',
-        fieldPotential: 'Electric Field and Potential', fieldPotentialDesc: 'Covers field lines, equipotential lines, potential energy, and charged-particle motion.',
-        induction: 'Electromagnetic Induction', inductionDesc: 'Covers magnetic flux change, Lenz’s law, AC generators, and transformers.',
-        photoelectric: 'Photoelectric Effect', photoelectricDesc: 'Covers threshold frequency, work function, stopping voltage, light intensity, and electron number.',
-        halfLife: 'Half-Life', halfLifeDesc: 'Covers the probabilistic nature of radioactive decay and exponential decrease.'
-      }
-    };
-
-    const topicKey = {
-      waveform: 'waveform', sound: 'sound', optics: 'optics', thermal: 'thermalTopic', capacitor: 'capacitor',
-      electric: 'electric', magnetic: 'magnetic', atomic: 'atomicTopic', motion: 'motion', energy: 'energy', orbit: 'orbit'
-    };
-
-    const select = document.getElementById('languageSelect');
-    const savedLang = localStorage.getItem('physicsDemoLang') || 'ja';
-    select.value = translations[savedLang] ? savedLang : 'ja';
-
-    function t(key){return translations[select.value][key] || translations.ja[key] || key}
-    function liveCount(domain){return demos[domain].filter((item)=>item.status==='live').length}
-    function createCard(item){
-      const tag = item.status === 'live' ? 'a' : 'article';
-      const el = document.createElement(tag);
-      el.className = item.status === 'live' ? 'demo-card' : 'empty-card';
-      if(item.href) el.href = item.href;
-      el.innerHTML = `
-        <div class="chip-row">
-          <span class="chip">${t(topicKey[item.topic])}</span>
-          <span class="chip ${item.status === 'live' ? 'checked' : 'todo'}">${t(item.status === 'live' ? 'live' : 'todo')}</span>
-        </div>
-        <h3>${t(item.title)}</h3>
-        <p>${t(item.desc)}</p>
-      `;
-      return el;
-    }
-    function render(){
-      document.documentElement.lang = t('htmlLang');
-      document.title = t('title');
-      document.getElementById('brandText').textContent = t('brand');
-      document.getElementById('backLink').textContent = t('back');
-      document.getElementById('heroLabel').textContent = t('heroLabel');
-      document.getElementById('heroTitle').textContent = t('heroTitle');
-      document.getElementById('heroLead').textContent = t('heroLead');
-      document.getElementById('statusPanel').setAttribute('aria-label', t('statusAria'));
-      document.getElementById('statusPanel').innerHTML = `
-        <div class="stat"><strong>${order.reduce((total, domain) => total + liveCount(domain), 0)}</strong><span>${t('liveCount')}</span></div>
-        <div class="stat"><strong>5</strong><span>${t('domainCount')}</span></div>
-        <p>${t('statusText')}</p>
-      `;
-      const nav = document.getElementById('domainNav');
-      nav.setAttribute('aria-label', t('navAria'));
-      nav.innerHTML = order.map((domain)=>`<a class="nav-chip" href="#${domain}">${t(domain)}</a>`).join('');
-      const domains = document.getElementById('domains');
-      domains.innerHTML = '';
-      order.forEach((domain)=>{
-        const section = document.createElement('section');
-        section.className = 'domain';
-        section.id = domain;
-        const count = liveCount(domain);
-        section.innerHTML = `
-          <div class="domain-head">
-            <div>
-              <h2>${t(domain)}</h2>
-              <p>${t(domain + 'Desc')}</p>
-            </div>
-            <span class="count">${count ? t('countLive')(count) : t('countTodo')}</span>
-          </div>
-          <div class="demo-grid"></div>
-        `;
-        const grid = section.querySelector('.demo-grid');
-        demos[domain].forEach((item)=>grid.appendChild(createCard(item)));
-        domains.appendChild(section);
-      });
-      localStorage.setItem('physicsDemoLang', select.value);
-    }
-    select.addEventListener('change', render);
-    render();
+    const search=document.getElementById('search'),filters=[...document.querySelectorAll('.filter')],domains=[...document.querySelectorAll('.domain')],cards=[...document.querySelectorAll('.demo')],empty=document.getElementById('empty');
+    let active='all';
+    function apply(){const q=search.value.trim().toLowerCase();let shown=0;domains.forEach(domain=>{const matchDomain=active==='all'||domain.dataset.domain===active;let local=0;domain.querySelectorAll('.demo').forEach(card=>{const ok=matchDomain&&(!q||(card.textContent+' '+card.dataset.search).toLowerCase().includes(q));card.style.display=ok?'flex':'none';if(ok){shown++;local++}});domain.classList.toggle('hidden',local===0)});empty.style.display=shown?'none':'block'}
+    filters.forEach(btn=>btn.addEventListener('click',()=>{active=btn.dataset.filter;filters.forEach(b=>b.classList.toggle('active',b===btn));apply()}));search.addEventListener('input',apply);apply();
   </script>
 </body>
 </html>
