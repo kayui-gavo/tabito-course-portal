@@ -1,222 +1,232 @@
 (() => {
-  const body = document.body;
-  body.classList.add('student-learning-ui');
+  document.body.classList.add('student-learning-ui');
 
-  const PAGE_KEY = 'tabito-informatics-progress-v2';
+  const COLLAPSE_KEY = 'tabito-info-open-groups-v1';
 
-  function readProgress() {
-    try {
-      const value = JSON.parse(localStorage.getItem(PAGE_KEY) || '{}');
-      return value && typeof value === 'object' ? value : {};
-    } catch (_) {
-      return {};
-    }
+  function readOpenGroups() {
+    try { return JSON.parse(localStorage.getItem(COLLAPSE_KEY) || '{}'); }
+    catch (_) { return {}; }
+  }
+  function saveOpenGroups(value) {
+    try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify(value)); } catch (_) {}
   }
 
-  function writeProgress(progress) {
-    try { localStorage.setItem(PAGE_KEY, JSON.stringify(progress)); } catch (_) {}
-  }
+  function enhanceCurriculum() {
+    const list = document.querySelector('.curriculum-list');
+    if (!list) return;
 
-  function lessonLinks() {
-    return [...document.querySelectorAll('a[href*="lessons/"]')]
-      .filter(a => !a.getAttribute('href').startsWith('#'));
-  }
+    const groups = [...list.querySelectorAll('.curriculum-lecture')];
+    if (!groups.length) return;
 
-  function normalizeHref(href) {
-    try {
-      const url = new URL(href, window.location.href);
-      return url.pathname.replace(/.*\/resources\/informatics-room\//, '');
-    } catch (_) {
-      return href;
-    }
-  }
+    const pageKey = location.pathname.includes('programming') ? 'programming' : 'main';
+    const stored = readOpenGroups();
+    const storedForPage = stored[pageKey] || [];
+    const firstIncomplete = list.querySelector('.curriculum-row:not(.is-done)')?.closest('.curriculum-lecture');
 
-  function registerLearningClicks() {
-    lessonLinks().forEach(link => {
-      link.addEventListener('click', () => {
-        const progress = readProgress();
-        const href = normalizeHref(link.getAttribute('href'));
-        progress[href] = {
-          title: link.textContent.trim(),
-          href,
-          visitedAt: Date.now()
-        };
-        progress.__last = href;
-        writeProgress(progress);
-      });
-    });
-  }
+    groups.forEach((group, index) => {
+      const heading = group.querySelector('.lecture-heading');
+      const rows = [...group.querySelectorAll('.curriculum-row')];
+      if (!heading || !rows.length) return;
 
-  function uniqueAvailableLessons() {
-    const seen = new Map();
-    lessonLinks().forEach(link => {
-      const href = normalizeHref(link.getAttribute('href'));
-      if (!href || seen.has(href)) return;
-      seen.set(href, {
-        href,
-        title: link.textContent.trim() || href
-      });
-    });
-    return [...seen.values()];
-  }
+      if (rows.every(row => row.classList.contains('is-done'))) group.classList.add('is-complete');
 
-  function dashboard() {
-    const hero = document.querySelector('.source-hero');
-    if (!hero || document.querySelector('.learn-dashboard')) return;
-
-    const available = uniqueAvailableLessons();
-    const progress = readProgress();
-    const completed = available.filter(item => progress[item.href]).length;
-    const percent = available.length ? Math.round(completed / available.length * 100) : 0;
-    const lastHref = progress.__last;
-    const last = lastHref && progress[lastHref] ? progress[lastHref] : null;
-    const first = available[0];
-    const resume = last || first;
-
-    const section = document.createElement('section');
-    section.className = 'learn-dashboard';
-    section.setAttribute('aria-label', '学習ナビゲーション');
-    section.innerHTML = `
-      <div class="learn-dashboard-main">
-        <p class="learn-dashboard-label">LEARNING NAVIGATOR</p>
-        <h2>${last ? '前回の続きから学ぶ' : 'ここから学習を始める'}</h2>
-        <p>${last ? `前回開いた「${escapeHtml(last.title)}」から再開できます。` : '初めて学ぶ場合は第1講から。気になる単元から始めても構いません。'}</p>
-        <div class="learn-dashboard-actions">
-          ${resume ? `<a class="source-primary-link" href="${escapeAttribute(resume.href)}">${last ? '学習を続ける' : '第1講から始める'}</a>` : ''}
-          <a href="#curriculum-title">学習目次を見る</a>
-        </div>
-      </div>
-      <div class="learn-dashboard-side">
-        <div class="learn-progress-row"><strong>閲覧した詳説</strong><span>${completed} / ${available.length}</span></div>
-        <div class="learn-progress-track" aria-label="学習進捗 ${percent}%"><div class="learn-progress-bar" style="width:${percent}%"></div></div>
-        <p>この端末で開いた詳説ページを記録します。成績評価ではなく、自習の目安です。</p>
-      </div>`;
-    hero.insertAdjacentElement('afterend', section);
-  }
-
-  function escapeHtml(value) {
-    const div = document.createElement('div');
-    div.textContent = String(value || '');
-    return div.innerHTML;
-  }
-
-  function escapeAttribute(value) {
-    return String(value || '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;');
-  }
-
-  function lectureNumber(element, index) {
-    const match = element.id && element.id.match(/lecture-(\d+)/);
-    return match ? Number(match[1]) : index + 1;
-  }
-
-  function enhanceLectures() {
-    const lectureNodes = [...document.querySelectorAll('[id^="lecture-"]')]
-      .filter(node => /^lecture-\d+$/.test(node.id));
-
-    lectureNodes.forEach((lecture, index) => {
-      const no = lectureNumber(lecture, index);
-      lecture.dataset.learnNo = String(no).padStart(2, '0');
-      if (lecture.querySelector('.learn-lecture-toggle')) return;
+      const groupId = `${pageKey}-${index}`;
+      group.dataset.groupId = groupId;
+      const shouldOpen = storedForPage.length
+        ? storedForPage.includes(groupId)
+        : group === firstIncomplete || (!firstIncomplete && index === 0);
+      group.classList.toggle('is-collapsed', !shouldOpen);
 
       const toggle = document.createElement('button');
       toggle.type = 'button';
-      toggle.className = 'learn-lecture-toggle';
-      toggle.textContent = no === 1 ? '内容を閉じる' : '内容を見る';
-      toggle.setAttribute('aria-expanded', no === 1 ? 'true' : 'false');
-      toggle.setAttribute('aria-controls', lecture.id);
+      toggle.className = 'lecture-toggle';
+      toggle.textContent = '⌄';
+      toggle.setAttribute('aria-label', 'この範囲を開閉');
+      toggle.setAttribute('aria-expanded', String(shouldOpen));
+      heading.appendChild(toggle);
 
-      if (no !== 1) lecture.classList.add('learn-collapsed');
-      toggle.addEventListener('click', () => {
-        const collapsed = lecture.classList.toggle('learn-collapsed');
-        toggle.textContent = collapsed ? '内容を見る' : '内容を閉じる';
-        toggle.setAttribute('aria-expanded', String(!collapsed));
-        if (!collapsed && window.innerWidth < 760) {
-          setTimeout(() => lecture.scrollIntoView({ behavior: 'smooth', block: 'start' }), 20);
-        }
+      const setOpen = (open, persist = true) => {
+        group.classList.toggle('is-collapsed', !open);
+        toggle.setAttribute('aria-expanded', String(open));
+        if (!persist) return;
+        const state = readOpenGroups();
+        const openIds = groups
+          .filter(item => !item.classList.contains('is-collapsed'))
+          .map(item => item.dataset.groupId);
+        state[pageKey] = openIds;
+        saveOpenGroups(state);
+      };
+
+      heading.addEventListener('click', event => {
+        if (event.target.closest('a')) return;
+        setOpen(group.classList.contains('is-collapsed'));
       });
-      lecture.appendChild(toggle);
+      toggle.addEventListener('click', event => event.stopPropagation());
+      toggle.addEventListener('click', () => setOpen(group.classList.contains('is-collapsed')));
     });
-  }
 
-  function enhanceProgramming() {
-    const syllabus = document.querySelector('#programming-syllabus');
-    if (!syllabus || document.querySelector('.learn-level-nav')) return;
-
-    const groups = [...syllabus.querySelectorAll('.source-programming-group')];
-    if (!groups.length) return;
-
-    const nav = document.createElement('nav');
-    nav.className = 'learn-level-nav';
-    nav.setAttribute('aria-label', '難易度を選ぶ');
-
-    const names = ['初級編', '中級編', '上級編'];
-    groups.forEach((group, i) => {
-      if (!group.id) group.id = `programming-level-${i + 1}`;
-      const heading = group.querySelector('h2, h3, strong');
-      const label = heading ? heading.textContent.trim() : names[i] || `レベル${i + 1}`;
-      const link = document.createElement('a');
-      link.href = `#${group.id}`;
-      link.textContent = label;
-      nav.appendChild(link);
-    });
-    syllabus.insertAdjacentElement('beforebegin', nav);
-  }
-
-  function shortenHeroCopy() {
-    const hero = document.querySelector('.source-hero');
-    if (!hero) return;
-    const lead = hero.querySelector('.source-hero-lead');
-    if (!lead) return;
-    const isProgramming = document.querySelector('#programming-syllabus');
-    if (isProgramming) {
-      lead.textContent = '基礎命令から、複数の処理を組み合わせる問題、長い問題文をプログラムへ落とし込む練習まで。自分の段階に合ったところから始められます。';
-    } else {
-      lead.textContent = '情報Ⅰを初めて学ぶ人のための自習ライブラリ。教材の9講・47PARTに沿って、理解 → 問題演習 → 確認の順で学べます。';
-    }
-  }
-
-  function improveStudyFlowCopy() {
-    const flow = document.querySelector('.source-study-flow');
-    if (!flow) return;
-    const heading = flow.querySelector('h2');
-    if (heading && heading.textContent.includes('教材と同じ')) heading.textContent = '1つのPARTをこう学ぶ';
-    const description = flow.querySelector('.source-section-heading > p');
-    if (description && !document.querySelector('#programming-syllabus')) {
-      description.textContent = '読むだけで終わらず、「理解する → 使う → 自力で確認する」を1セットにします。';
-    }
-  }
-
-  function addSearchShortcut() {
-    const search = document.querySelector('#sourceCourseSearch');
-    if (!search) return;
-    document.addEventListener('keydown', event => {
-      if (event.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) {
+    const search = document.querySelector('#curriculumSearch');
+    if (search) {
+      search.setAttribute('aria-keyshortcuts', '/');
+      search.addEventListener('input', () => {
+        const searching = search.value.trim().length > 0;
+        groups.forEach(group => {
+          if (searching && !group.hidden) group.classList.remove('is-collapsed');
+        });
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key !== '/' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '')) return;
         event.preventDefault();
         search.focus();
-      }
+      });
+    }
+  }
+
+  function enhanceSidebar() {
+    const sidebar = document.querySelector('.lesson-sidebar');
+    if (!sidebar) return;
+
+    [...sidebar.querySelectorAll('.sidebar-group')].forEach(group => {
+      const title = group.querySelector('.sidebar-group-title');
+      const hasCurrent = !!group.querySelector('.sidebar-link.is-current');
+      if (!title) return;
+      group.classList.toggle('is-collapsed', !hasCurrent);
+      title.setAttribute('role', 'button');
+      title.setAttribute('tabindex', '0');
+      title.setAttribute('aria-expanded', String(hasCurrent));
+      const toggle = () => {
+        const collapsed = group.classList.toggle('is-collapsed');
+        title.setAttribute('aria-expanded', String(!collapsed));
+      };
+      title.addEventListener('click', toggle);
+      title.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggle();
+        }
+      });
     });
-    search.setAttribute('aria-keyshortcuts', '/');
-    search.placeholder = '用語・講を検索　/';
+
+    const current = sidebar.querySelector('.sidebar-link.is-current');
+    if (current) setTimeout(() => current.scrollIntoView({ block: 'center' }), 20);
+  }
+
+  function labelOf(section) {
+    return section.querySelector('.lesson-section-label')?.textContent.trim().toUpperCase() || '';
+  }
+
+  function enhanceLessonRoute() {
+    const paper = document.querySelector('.lesson-paper');
+    if (!paper) return;
+
+    const sections = [...paper.querySelectorAll('.lesson-section')];
+    const key = sections.find(s => labelOf(s) === 'KEY POINTS');
+    const example = sections.find(s => labelOf(s) === 'EXAMPLE');
+    const check = sections.find(s => labelOf(s) === 'CHECK');
+    const complete = paper.querySelector('.lesson-complete');
+
+    if (key) key.id = key.id || 'learn-keypoints';
+    if (example) example.id = example.id || 'learn-example';
+    if (check) check.id = check.id || 'check';
+    if (complete) complete.id = 'learn-complete';
+
+    const route = document.createElement('nav');
+    route.className = 'lesson-route';
+    route.setAttribute('aria-label', 'このページの学習順序');
+    const items = [
+      [key, 'learn-keypoints', '1', '要点'],
+      [example, 'learn-example', '2', example ? '例を追う' : '要点確認'],
+      [check, 'check', '3', '1問解く'],
+      [complete, 'learn-complete', '4', '完了']
+    ];
+    route.innerHTML = items.map(([element, id, no, text]) => {
+      const fallback = element ? id : (key ? 'learn-keypoints' : 'learn-complete');
+      return `<a href="#${fallback}"><b>${no}</b><span>${text}</span></a>`;
+    }).join('');
+
+    const goals = paper.querySelector('.lesson-goals');
+    (goals || paper.querySelector('.lesson-lead'))?.insertAdjacentElement('afterend', route);
+  }
+
+  function enhanceQuizRetry() {
+    const quiz = document.querySelector('.quiz-box');
+    if (!quiz) return;
+    const feedback = quiz.querySelector('.quiz-feedback');
+    if (!feedback) return;
+
+    const observer = new MutationObserver(() => {
+      if (!feedback.classList.contains('is-visible')) return;
+      if (!quiz.querySelector('.quiz-choice.is-wrong')) return;
+      if (feedback.querySelector('.quiz-retry')) return;
+
+      const retry = document.createElement('button');
+      retry.type = 'button';
+      retry.className = 'quiz-retry';
+      retry.textContent = 'もう一度解く';
+      retry.style.cssText = 'margin-top:10px;padding:7px 10px;border:1px solid #cbd8df;border-radius:7px;background:#fff;color:#31566f;font:inherit;font-size:11px;font-weight:700;';
+      feedback.append(document.createElement('br'), retry);
+      retry.addEventListener('click', () => {
+        quiz.querySelectorAll('.quiz-choice').forEach(button => {
+          button.disabled = false;
+          button.classList.remove('is-correct', 'is-wrong');
+        });
+        feedback.classList.remove('is-visible');
+        feedback.textContent = '';
+      });
+    });
+    observer.observe(feedback, { childList: true, subtree: true, attributes: true });
+  }
+
+  function readingProgress() {
+    const paper = document.querySelector('.lesson-paper');
+    if (!paper) return;
+    const bar = document.createElement('div');
+    bar.className = 'lesson-reading-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<i></i>';
+    document.body.appendChild(bar);
+    const fill = bar.querySelector('i');
+    const update = () => {
+      const rect = paper.getBoundingClientRect();
+      const start = window.scrollY + rect.top;
+      const total = Math.max(1, paper.offsetHeight - window.innerHeight * .65);
+      const value = Math.min(1, Math.max(0, (window.scrollY - start + 80) / total));
+      fill.style.width = `${Math.round(value * 100)}%`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  function reviseStudentFacingCopy() {
+    const homeTitle = document.querySelector('.index-intro:not(.compact) h1');
+    const homeLead = document.querySelector('.index-intro:not(.compact) .index-lead');
+    if (homeTitle) homeTitle.textContent = '情報Ⅰを、わかる順番で。';
+    if (homeLead) homeLead.textContent = '初めて学ぶ人も、もう一度整理したい人も。教材の9講・47PARTに沿って、要点を理解し、例で確かめ、最後に自分で1問解くところまで進めます。';
+
+    const guide = document.querySelector('.study-guide:not(.programming-guide)');
+    if (guide) {
+      const strong = guide.querySelector('strong');
+      const spans = guide.querySelectorAll('span');
+      if (strong) strong.textContent = '1 PART の学び方';
+      const copy = ['目標を確認', '要点を理解', '1問で確認', '学習済みにする'];
+      spans.forEach((span, i) => { if (copy[i]) span.textContent = copy[i]; });
+    }
+
+    const programTitle = document.querySelector('.index-intro.compact h1');
+    if (programTitle) programTitle.textContent = 'プログラムは、手で追うとわかる。';
   }
 
   function init() {
-    shortenHeroCopy();
-    improveStudyFlowCopy();
-    registerLearningClicks();
-    dashboard();
-    enhanceLectures();
-    enhanceProgramming();
-    addSearchShortcut();
+    document.body.classList.add('student-learning-ui');
+    reviseStudentFacingCopy();
+    enhanceCurriculum();
+    enhanceSidebar();
+    enhanceLessonRoute();
+    enhanceQuizRetry();
+    readingProgress();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
 })();
