@@ -180,6 +180,19 @@ button{cursor:pointer}
 .lesson-goals strong{display:block;margin-bottom:7px;color:var(--navy);font-size:12px}
 .lesson-goals ul{margin:0;padding-left:1.3em;color:#425564;font-size:13px}
 .lesson-goals li+li{margin-top:3px}
+.lesson-terms{
+  margin:-18px 0 34px;border-top:1px solid #dce5ea;border-bottom:1px solid #dce5ea;background:#fbfcfc;
+}
+.lesson-terms summary{
+  list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;
+  color:#4e6170;font-size:11px;font-weight:700;cursor:pointer;
+}
+.lesson-terms summary::-webkit-details-marker{display:none}
+.lesson-terms summary::before{content:"＋";color:var(--blue);margin-right:6px}
+.lesson-terms[open] summary::before{content:"−"}
+.lesson-terms summary span{margin-left:auto;color:#89949c;font-size:10px;font-weight:500}
+.lesson-term-list{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 12px 30px}
+.lesson-term-list span{padding:3px 7px;border:1px solid #d7e0e5;background:#fff;color:#435766;border-radius:2px;font-size:10px;line-height:1.5}
 .lesson-section{padding:29px 0;border-top:1px solid var(--line)}
 .lesson-section:first-of-type{border-top:0}
 .lesson-section-label{margin:0 0 2px;color:var(--blue);font-size:10px;font-weight:800;letter-spacing:.09em}
