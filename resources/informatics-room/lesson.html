@@ -23,5 +23,10 @@
   <script src="study-electronic-ui-v1.js"></script>
   <script>renderStudyLesson();</script>
   <script src="student-ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (document.querySelector('.et-route')) document.querySelector('.lesson-route')?.remove();
+    }, { once: true });
+  </script>
 </body>
 </html>
