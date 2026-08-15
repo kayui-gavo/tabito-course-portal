@@ -1,0 +1,44 @@
+/* 情報Ⅰ＜プログラミング編＞ v12e — 第22〜28講を原教材の例題・確認問題に合わせて図解 */
+(() => {
+  const K=window.SCIENTIFIC_V12;if(!K)return;const C=K.C;
+  const configs={
+    p22:{title:'2つの数字の並べ替え：条件を満たしたときだけ交換する',height:700,caption:'教材例題は配列[5,2]を昇順へ、確認問題はa=2,b=5を降順へ。tempを使う交換処理は同じで、交換が必要になる比較条件が逆になる。',question:'昇順の例題では Arr[0] > Arr[1]、降順の確認問題では a < b のとき交換するのはなぜですか。',answer:'現在の並びが目標順と逆のときだけ交換するから。昇順なら左が大きいと逆、降順なら左が小さいと逆。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'2つの数字の並べ替え','「目標の順序」と「今の2値」を比較し、逆ならtempを使って入れ替える。');
+      text(ctx,'A　例題：昇順 [5,2] → [2,5]',45,120,16,C.navy,700);box(ctx,45,155,250,90,'比較','5 > 2 → True',{fill:'#fff8f0'});arrow(ctx,295,200,390,200,C.orange);box(ctx,390,155,350,90,'交換','temp=5\nArr[0]=2\nArr[1]=5',{fill:'#eef6fa'});arrow(ctx,740,200,835,200,C.blue);box(ctx,835,155,300,90,'結果','[2,5]',{fill:'#f4f9f7'});
+      text(ctx,'B　確認問題：降順 (2,5) → (5,2)',45,320,16,C.navy,700);box(ctx,45,355,250,90,'比較','a < b → 2 < 5 → True',{fill:'#fff8f0'});arrow(ctx,295,400,390,400,C.orange);box(ctx,390,355,350,90,'交換','temp=a\na=b\nb=temp',{fill:'#eef6fa'});arrow(ctx,740,400,835,400,C.blue);box(ctx,835,355,300,90,'結果','(5,2)',{fill:'#f4f9f7'});
+      rr(ctx,45,530,1090,80,'#f5f9fb','#d5e2e8',9);text(ctx,'共通する骨格',70,558,11,C.blue,700);wrap(ctx,'if「今の並びが目標と逆」→ 交換 → return。値がすでに目標順なら交換ブロックを実行しない。',205,541,870,20,11,C.gray,400);
+    }},
+    p23:{title:'合計と平均：先に合計を作り、最後に要素数で割る',height:710,caption:'教材例題は Data=[10,20,30,40,50] の平均を total/len(Data) で求める。確認問題は同じループで合計150を求める。',question:'平均を total / num とせず total / len(Data) とする例題の意図は何ですか。',answer:'numはforで取り出している各要素の値であり要素数ではない。平均は合計をデータ個数len(Data)で割る。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'合計と平均','平均は「合計 ÷ 個数」。まずforで合計を完成させ、その後len(Data)で個数を得る。');
+      text(ctx,'Data = [10,20,30,40,50]',45,120,16,C.navy,700);const rows=[['開始','—','0'],['1','10','10'],['2','20','30'],['3','30','60'],['4','40','100'],['5','50','150']];table(ctx,45,155,700,285,['反復','num','total'],rows,{fs:10,headFill:'#eff5f8'});
+      box(ctx,805,165,330,100,'確認問題','total = total + num\n→ 合計 150',{fill:'#eef6fa'});box(ctx,805,300,330,115,'例題','len(Data)=5\n150 / 5 = 30\n→ 平均30',{fill:'#fff8f0',stroke:'#e3d2bf'});
+      rr(ctx,45,505,1090,75,'#f5f9fb','#d5e2e8',9);text(ctx,'変数の役割を混同しない',70,535,11,C.blue,700);wrap(ctx,'num は「今取り出している値」。len(Data) は「全部で何個あるか」。同じ数値になり得ても意味が違う。',250,518,820,20,11,C.gray,400);
+    }},
+    p24:{title:'for文の入れ子：外側1回につき内側が最後まで回る',height:760,caption:'教材例題はn=3の段までの九九、確認問題は1×1から9×9まで。外側iが段、内側jが1〜9を担当する。',question:'n=3のとき、内側の処理は合計何回実行されますか。',answer:'外側iが1,2,3の3回、各iについて内側jが1〜9の9回なので、3×9=27回。',draw(ctx,k){const {text,wrap,rr,box,line,arrow,head}=k;head(ctx,'for文の入れ子','外側のiを1つ固定したまま、内側のjが最初から最後まで動く。その後iが次へ進む。');
+      text(ctx,'A　n=3 の例題',45,120,16,C.navy,700);const ys=[170,255,340];for(let r=0;r<3;r++){text(ctx,`i=${r+1}`,55,ys[r]+28,11,C.blue,700);for(let c=0;c<9;c++){const x=135+c*105;rr(ctx,x,ys[r],88,55,r===1&&c===4?'#fff8f0':'#fff','#d7e1e6',6);text(ctx,`${r+1}×${c+1}`,x+44,ys[r]+21,9,C.gray,700,'center');text(ctx,String((r+1)*(c+1)),x+44,ys[r]+40,11,r===1&&c===4?C.orange:C.navy,700,'center');}}
+      box(ctx,45,455,320,90,'外側','for i in range(1,n+1)\n→ i=1,2,3',{fill:'#eef6fa'});arrow(ctx,365,500,465,500,C.blue);box(ctx,465,455,320,90,'内側','for j in range(1,10)\n→ j=1〜9',{fill:'#f8fafb'});arrow(ctx,785,500,885,500,C.teal);box(ctx,885,455,250,90,'回数','3 × 9 = 27回',{fill:'#fff8f0'});
+      rr(ctx,45,610,1090,65,'#f5f9fb','#d5e2e8',9);wrap(ctx,'確認問題は外側も range(1,10) にすれば 9×9=81通り。range(1,9) では9を含まないので8までしか出ない。',70,626,1030,20,11,C.gray,400);
+    }},
+    p25:{title:'for文とif文の入れ子：反復の各回で条件判定する',height:760,caption:'教材例題はi=0..2、j=0..1の6組で i==j を判定。確認問題は1からnまでの各iについて奇数ならtotalへ加える。',question:'n=5の奇数合計で、i=2や4のとき total が変わらないのはなぜですか。',answer:'if i%2==1 がFalseなので、total=total+i の行を実行せず次の反復へ進むから。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'for文とif文の入れ子','forで候補を1つずつ取り出し、そのたびにifで「処理するか」を選別する。');
+      text(ctx,'A　例題：i,jの6組を判定',45,120,16,C.navy,700);const rows=[];for(let i=0;i<3;i++)for(let j=0;j<2;j++)rows.push([String(i),String(j),String(i===j),i===j?'A':'B']);table(ctx,45,155,650,270,['i','j','i == j','出力'],rows,{fs:10,headFill:'#eff5f8'});box(ctx,755,175,380,115,'読み方','i=0の間に j=0,1 を全部判定\n→ 次にi=1へ\n→ 合計6回',{fill:'#eef6fa'});
+      text(ctx,'B　確認問題：奇数だけを累積',45,485,16,C.navy,700);const odds=[['1','True','0→1'],['2','False','1'],['3','True','1→4'],['4','False','4'],['5','True','4→9']];table(ctx,45,520,720,175,['i','i%2==1','total'],odds,{fs:10,headFill:'#eff5f8'});box(ctx,825,530,310,120,'結果','1 + 3 + 5 = 9\nifがTrueの回だけ\ntotal = total + i',{fill:'#fff8f0',stroke:'#e3d2bf'});
+    }},
+    p26:{title:'最大値と最小値：先頭を仮の答えにして順に更新する',height:730,caption:'教材例題は最小値、確認問題は最大値。Numbers=[90,80,55,77,92] を1回走査し、比較条件だけを < と > で切り替える。',question:'min_valueやmax_valueを0から始めず Numbers[0] から始める利点は何ですか。',answer:'配列内の実在する値を初期候補にできるため。負数だけの配列などでも正しく最大・最小を求められる。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'最大値と最小値','「現在までの答え」を1つ保持し、新しいnumがより小さい/大きいときだけ更新する。');
+      const nums=[90,80,55,77,92];text(ctx,'Numbers',45,120,15,C.navy,700);nums.forEach((v,i)=>{rr(ctx,70+i*170,155,140,60,v===55?'#fff8f0':v===92?'#f4f9f7':'#fff','#d7e1e6',7);text(ctx,String(v),140+i*170,185,15,v===55?C.orange:v===92?C.green:C.navy,700,'center','middle');});
+      text(ctx,'A　例題：最小値',45,270,15,C.navy,700);const minRows=[['開始','90'],['80','80'],['55','55'],['77','55'],['92','55']];table(ctx,45,305,500,210,['num','min_value'],minRows,{fs:10,headFill:'#eff5f8'});box(ctx,590,315,250,105,'更新条件','if num < min_value:\n    min_value = num',{fill:'#fff8f0'});
+      text(ctx,'B　確認問題：最大値',875,270,15,C.navy,700);box(ctx,875,315,260,105,'更新条件','if num > max_value:\n    max_value = num',{fill:'#eef6fa'});box(ctx,590,455,545,80,'最終結果','min = 55　/　max = 92',{fill:'#f4f9f7'});
+      rr(ctx,45,615,1090,55,'#f5f9fb','#d5e2e8',9);wrap(ctx,'アルゴリズムの骨格は同じ。変わるのは「新しい値を採用する条件」が < か > かだけ。',70,630,1030,20,11,C.gray,400);
+    }},
+    p27:{title:'カウントダウン：whileの条件・出力・更新の順序を追う',height:700,caption:'教材例題はcount=10から count>5 の間10,9,8,7,6を表示。確認問題はcount=5からcount>0で5,4,3,2,1を表示する。',question:'例題で5が表示されないのはなぜですか。',answer:'6を表示した後countが5へ更新され、次のwhile条件 count>5 がFalseになってループを抜けるため。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'カウントダウン','whileでは毎回「条件確認 → 処理 → 更新 → 条件へ戻る」。境界値が表示されるかはこの順序で決まる。');
+      text(ctx,'A　例題：count = 10, while count > 5',45,120,16,C.navy,700);const rows=[['10','True','10','9'],['9','True','9','8'],['8','True','8','7'],['7','True','7','6'],['6','True','6','5'],['5','False','—','終了']];table(ctx,45,155,720,275,['条件前count','count>5','print','更新後'],rows,{fs:10,headFill:'#eff5f8'});box(ctx,825,170,310,120,'出力','10\n9\n8\n7\n6',{fill:'#eef6fa'});
+      text(ctx,'B　確認問題',45,500,16,C.navy,700);box(ctx,45,535,420,90,'count = 5 / while count > 0','更新式は count = count - 1',{fill:'#fff8f0',stroke:'#e3d2bf'});arrow(ctx,465,580,570,580,C.orange);box(ctx,570,535,565,90,'出力','5, 4, 3, 2, 1　→ 更新後0で条件False',{fill:'#f4f9f7'});
+    }},
+    p28:{title:'while文とif文の入れ子：各反復で「特別な値」だけ表示を変える',height:760,caption:'教材例題は1〜10で3の倍数ならOh!、それ以外は数値。確認問題は0〜4でx==3のときだけThreeを表示する。',question:'例題で3,6,9の代わりにOh!が表示されるのは、どの条件がTrueになるからですか。',answer:'i % 3 == 0。3で割った余りが0になる値だけif側へ進むため。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'while文とif文の入れ子','whileが「何回続けるか」、ifが「その回でどちらを実行するか」を担当する。');
+      text(ctx,'A　例題：1〜10 / 3の倍数だけOh!',45,120,16,C.navy,700);const rows=[];for(let i=1;i<=10;i++)rows.push([String(i),String(i%3===0),i%3===0?'Oh!':String(i)]);table(ctx,45,155,650,360,['i','i%3==0','出力'],rows,{fs:9,headFill:'#eff5f8'});box(ctx,755,175,380,125,'役割分担','while i <= 10\n→ 1〜10まで反復\n\nif i % 3 == 0\n→ その回の表示を選ぶ',{fill:'#eef6fa'});
+      text(ctx,'B　確認問題：x==3だけThree',755,345,15,C.navy,700);box(ctx,755,380,380,125,'x = 0,1,2,3,4','出力：0 / 1 / 2 / Three / 4',{fill:'#fff8f0',stroke:'#e3d2bf'});
+      rr(ctx,45,620,1090,55,'#f5f9fb','#d5e2e8',9);wrap(ctx,'重要なのは最後の x=x+1 / i=i+1。更新がなければ条件が変わらず、同じ状態を繰り返して停止しない。',70,635,1030,20,11,C.gray,400);
+    }}
+  };
+  const baseRender=window.renderStudyLesson;
+  function insert(){const id=new URLSearchParams(location.search).get('id')||'',lesson=typeof studyLessonById==='function'?studyLessonById(id):null,config=configs[id];if(!lesson||lesson.track!=='programming'||!config||document.querySelector(`[data-program-figure-v12e="${id}"]`))return;const section=K.makeSection(id,config);section.dataset.programFigureV12e=id;const target=document.querySelector('.program-source-v9')||document.querySelector('.program-example-v6')||document.querySelector('#example');if(target)target.insertAdjacentElement('afterend',section);else document.querySelector('.lesson-paper')?.appendChild(section);K.bindSection(section,config);}
+  window.PROGRAM_FIGURE_V12E_COUNT=Object.keys(configs).length;
+  window.renderStudyLesson=function renderProgramFiguresV12e(){baseRender();insert();};
+})();
