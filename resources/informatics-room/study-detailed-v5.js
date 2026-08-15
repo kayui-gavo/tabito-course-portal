@@ -1,5 +1,5 @@
 /* 情報Ⅰ 電子教材 v5 — 自学用詳細ノート
-   v3/v4の本文・図解・例題を残しつつ、教材由来の要点データを再び本文に統合する。
+   v3/v4の本文・図解・例題を残しつつ、教材由来の要点データを本文に統合する。
    47PARTすべてで「定義→具体例→混同しやすい点→用語確認」まで読める構成。 */
 (() => {
   const baseRender = window.renderStudyLesson;
@@ -11,7 +11,21 @@
   }
 
   function normalizeText(text) {
-    return String(text || '').replace(/\s+/g, '').replace(/[、。，．・（）()「」『』]/g, '');
+    return String(text || '').replace(/\s+/g, '').replace(/[、。，．・（）()「」『』：:；;]/g, '');
+  }
+
+  function grams(text) {
+    const s=normalizeText(text);
+    const set=new Set();
+    for(let i=0;i<s.length-1;i++)set.add(s.slice(i,i+2));
+    return set;
+  }
+
+  function similarity(a,b) {
+    const A=grams(a),B=grams(b);
+    if(!A.size||!B.size)return 0;
+    let hit=0; A.forEach(g=>{if(B.has(g))hit++;});
+    return hit/Math.min(A.size,B.size);
   }
 
   function isNearDuplicate(point, proseSections) {
@@ -20,17 +34,15 @@
     return proseSections.some(section => {
       const s = normalizeText(section.body);
       if (!s) return false;
-      const head = p.slice(0, Math.min(32, p.length));
-      return head.length >= 12 && s.includes(head);
+      if (p.length>=18 && (s.includes(p.slice(0,18)) || p.includes(s.slice(0,18)))) return true;
+      return similarity(p,s) >= .68;
     });
   }
 
   function noteBlocks(lesson) {
     const v3 = (window.ELECTRONIC_TEXTBOOK_V3 || {})[lesson.id];
     const prose = v3?.sections || [];
-    const all = lesson.points || [];
-    const filtered = all.filter(point => !isNearDuplicate(point, prose));
-    return filtered.length >= 2 ? filtered : all;
+    return (lesson.points || []).filter(point => !isNearDuplicate(point, prose));
   }
 
   function termKeys(term) {
@@ -72,15 +84,15 @@
     const terms = lesson.terms || [];
     return `<div class="et-detail-v5" data-et-detail-v5>
       <div class="et-detail-v5-head">
-        <div><span>TEXTBOOK NOTES</span><h3>教科書ノートでもう一段詳しく</h3></div>
-        <p>本文で流れを理解したあと、教科書の定義・補足・具体例を細かく確認します。ここまで説明できれば、このPARTを自力で復習できます。</p>
+        <div><span>教科書ノート</span><h3>定義・補足をもう一段詳しく</h3></div>
+        <p>上の本文と重なる説明は繰り返さず、教材にある補足事項・具体例・注意点を追加で確認します。最後の用語一覧では、各語を本文の文脈に戻して確認できます。</p>
       </div>
-      <div class="et-detail-v5-notes">
+      ${notes.length ? `<div class="et-detail-v5-notes">
         ${notes.map((point, i) => `<section class="et-detail-v5-note">
           <div class="et-detail-v5-index">${String(i + 1).padStart(2, '0')}</div>
           <div><h4>${escapeHTML(point.title)}</h4><p>${escapeHTML(point.body)}</p></div>
         </section>`).join('')}
-      </div>
+      </div>` : ''}
       ${(d.focus || d.trap) ? `<div class="et-detail-v5-reading">
         ${d.focus ? `<section><b>理解の軸</b><p>${escapeHTML(d.focus)}</p></section>` : ''}
         ${d.trap ? `<section><b>混同しやすいところ</b><p>${escapeHTML(d.trap)}</p></section>` : ''}
@@ -106,11 +118,11 @@
     const section = document.querySelector('#points');
     if (!section) return;
     const intro = section.querySelector('.et-body-intro');
-    if (intro) intro.textContent = '最初の本文では概念の流れをつかみ、その後の「教科書ノート」で定義・具体例・補足まで確認します。太字の用語だけを暗記せず、なぜそう判断できるかまで自分のことばで説明できる状態を目指します。';
+    if (intro) intro.textContent = '最初の本文で概念の流れをつかみ、その後の「教科書ノート」で補足・具体例・注意点を確認します。太字の用語だけを暗記せず、なぜそう判断できるかまで自分のことばで説明できる状態を目指します。';
     const label = section.querySelector('.lesson-section-label');
-    if (label) label.textContent = 'TEXTBOOK';
+    if (label) label.textContent = '本文';
     const heading = section.querySelector('h2');
-    if (heading) heading.textContent = '本文・知識点を詳しく読む';
+    if (heading) heading.textContent = '本文・要点を詳しく読む';
   }
 
   function addGlossaryLink() {
