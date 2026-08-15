@@ -8,7 +8,7 @@
       ['要点',document.querySelector('#points,.lesson-goals')],
       ['図解',document.querySelector('.et-figure-v4,.et-figure-v3')],
       ['本文',document.querySelector('.et-textbook-sections,.et-detail-v5-reading')],
-      ['操作',document.querySelector('[data-transfer-lab-v10],[data-micro-lab-v9b],[data-micro-lab-v9]')],
+      ['操作',document.querySelector('[data-transfer-lab-v10],.source-wireless-v10,[data-micro-lab-v9b],[data-micro-lab-v9]')],
       ['例題',document.querySelector('#example,.et-practice-v4')],
       ['実践',document.querySelector('.source-practice-v7,.et-source-practice-v7')],
       ['確認',document.querySelector('#check,.et-check-v3')]
