@@ -1,4 +1,4 @@
-/* 情報Ⅰ v10 — 本編/プログラミング目次から学習機能へ導く */
+/* 情報Ⅰ v11 — 本編/プログラミング目次から学習機能へ導く */
 (() => {
   const page=location.pathname.split('/').pop()||'index.html';
   function insertStrip(root,items){
@@ -7,12 +7,12 @@
   }
   if(page==='index.html'||page===''){
     const lead=document.querySelector('.index-intro:not(.compact) .index-lead');
-    if(lead)lead.textContent='教材の9講・47PARTを原教材と逐項照合し、本文・細部ノート・教材型演習に加えて、2進法、画像・音声、圧縮、論理回路、2の補数、記憶装置、セキュリティ、無線通信、メール、データベース、尺度・統計・回帰などは画面上で操作しながら学べます。';
+    if(lead)lead.textContent='教材の9講・47PARTを原教材と逐項照合。本文・細部ノート・教材型演習だけでなく、音のPCM化、五大装置、論理回路、アルゴリズム図、ネットワーク、TCP/IP、DNS・メール、暗号、データベース、回帰・推定など、図そのものが理解の中心になる項目は専用の高精細図版へ作り直しています。';
     insertStrip(document.querySelector('.study-guide:not(.programming-guide)'),[
       ['47','PARTを逐項照合','定義・側注・数値例まで本文へ戻す'],
+      ['11','高精細の専用図版','関係・方向・数値例を教材に合わせて描き直す'],
       ['25','インタラクティブ実験','計算・分類・通信・論理・統計をその場で操作'],
-      ['2+','実践演習 / PART','原教材の判断・計算・説明の型を改編'],
-      ['1','到達チェック','「読んだ」ではなく説明できる項目を記録']
+      ['2+','実践演習 / PART','原教材の判断・計算・説明の型を改編']
     ]);
   }
   if(page==='programming.html'){
