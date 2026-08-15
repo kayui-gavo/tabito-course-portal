@@ -18,13 +18,23 @@
     nodes.forEach(node=>{if(node.nodeValue.includes(from))node.nodeValue=node.nodeValue.split(from).join(to);});
   }
 
+  function polishExamCounts(){
+    if(path!=='exam.html'||typeof STUDY_DATA==='undefined')return;
+    document.querySelectorAll('.tool-lecture-row').forEach((row,index)=>{
+      const lecture=index+1;
+      const parts=STUDY_DATA.mainLessons.filter(x=>x.lecture===lecture).length;
+      const p=row.querySelector('p');
+      if(p)p.textContent=`${parts} PART / 約${parts*4}問`;
+    });
+  }
+
   function restorePageCopy(){
     if(path==='index.html'||path===''){
       setActive('home');
       const title=document.querySelector('.index-intro:not(.compact) h1');
       const lead=document.querySelector('.index-intro:not(.compact) .index-lead');
       if(title)title.textContent='情報Ⅰを、わかる順番で。';
-      if(lead)lead.textContent='教材の9講・47PARTに沿って、図で関係をつかみ、本文と教科書ノートで定義・具体例を確認し、改編例題と確認問題で定着まで進めます。初めて学ぶ人が、このサイトだけでも復習できる構成を目指しています。';
+      if(lead)lead.textContent='教材の9講・47PARTに沿って、図で関係をつかみ、本文と教科書ノートで定義・具体例を確認し、改編例題と確認問題で定着まで進めます。初めて学ぶ人が、各PARTを一人でも復習しやすい構成です。';
       const guide=document.querySelector('.study-guide:not(.programming-guide)');
       if(guide){
         const strong=guide.querySelector('strong'); if(strong)strong.textContent='1 PART の学び方';
@@ -47,6 +57,7 @@
       if(title)title.textContent='問題演習';
       replaceText(document.querySelector('.tool-shell'),'知識点','学習事項');
       replaceText(document.querySelector('.tool-shell'),'全範囲を刷る','全範囲を演習する');
+      polishExamCounts();
     }
     if(path==='glossary.html'){
       setActive('glossary');
