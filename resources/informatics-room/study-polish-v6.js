@@ -106,15 +106,22 @@
 
   function polishGlossary(){
     if(path!=='glossary.html')return;
-    document.querySelectorAll('.tool-glossary-row').forEach(row=>{
-      const term=row.querySelector('.tool-glossary-term strong')?.textContent.trim();
-      const link=row.querySelector('a[href*="lesson.html?id="]');
-      const id=link?new URL(link.href,location.href).searchParams.get('id'):'';
-      const lesson=id&&typeof studyLessonById==='function'?studyLessonById(id):null;
-      const desc=row.querySelector('p');
-      const improved=betterDefinition(lesson,term);
-      if(desc&&improved)desc.textContent=improved;
-    });
+    const root=document.querySelector('#glossaryList');
+    if(!root)return;
+    const apply=()=>{
+      root.querySelectorAll('.tool-glossary-row').forEach(row=>{
+        const term=row.querySelector('.tool-glossary-term strong')?.textContent.trim();
+        const link=row.querySelector('a[href*="lesson.html?id="]');
+        const id=link?new URL(link.href,location.href).searchParams.get('id'):'';
+        const lesson=id&&typeof studyLessonById==='function'?studyLessonById(id):null;
+        const desc=row.querySelector('p');
+        const improved=betterDefinition(lesson,term);
+        if(desc&&improved&&desc.textContent!==improved)desc.textContent=improved;
+      });
+    };
+    apply();
+    const observer=new MutationObserver(()=>requestAnimationFrame(apply));
+    observer.observe(root,{childList:true,subtree:true});
   }
 
   function polishProgrammingLesson(){
