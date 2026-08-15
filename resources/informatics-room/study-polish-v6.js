@@ -1,0 +1,131 @@
+/* 情報Ⅰ UI / 教材仕上げ v6
+   core pages share one navigation/copy system; remove development-facing artifacts;
+   repair glossary descriptions using the actual PART prose when available. */
+(() => {
+  const path=location.pathname.split('/').pop()||'index.html';
+
+  function setActive(key){
+    document.querySelectorAll('.study-nav a').forEach(a=>a.classList.remove('is-active'));
+    const map={home:'index.html',programming:'programming.html',practice:'exam.html',glossary:'glossary.html'};
+    const href=map[key];
+    if(href) document.querySelector(`.study-nav a[href="${href}"]`)?.classList.add('is-active');
+  }
+
+  function replaceText(root,from,to){
+    if(!root)return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const nodes=[]; while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(node=>{if(node.nodeValue.includes(from))node.nodeValue=node.nodeValue.split(from).join(to);});
+  }
+
+  function restorePageCopy(){
+    if(path==='index.html'||path===''){
+      setActive('home');
+      const title=document.querySelector('.index-intro:not(.compact) h1');
+      const lead=document.querySelector('.index-intro:not(.compact) .index-lead');
+      if(title)title.textContent='情報Ⅰを、わかる順番で。';
+      if(lead)lead.textContent='教材の9講・47PARTに沿って、図で関係をつかみ、本文と教科書ノートで定義・具体例を確認し、改編例題と確認問題で定着まで進めます。初めて学ぶ人が、このサイトだけでも復習できる構成を目指しています。';
+      const guide=document.querySelector('.study-guide:not(.programming-guide)');
+      if(guide){
+        const strong=guide.querySelector('strong'); if(strong)strong.textContent='1 PART の学び方';
+        [...guide.querySelectorAll('span')].forEach((span,i)=>{const copy=['図でつかむ','本文・教科書ノート','例題で使う','確認して定着'];if(copy[i])span.textContent=copy[i];});
+      }
+    }
+    if(path==='programming.html'){
+      setActive('programming');
+      const title=document.querySelector('.index-intro.compact h1');
+      if(title)title.textContent='プログラムは、手で追うとわかる。';
+    }
+    if(path==='questions.html'){
+      setActive('practice');
+      const title=document.querySelector('.tool-intro h1');
+      if(title)title.textContent='確認問題を、解きながら定着させる。';
+    }
+    if(path==='exam.html'){
+      setActive('practice');
+      const title=document.querySelector('.tool-intro h1');
+      if(title)title.textContent='問題演習';
+      replaceText(document.querySelector('.tool-shell'),'知識点','学習事項');
+      replaceText(document.querySelector('.tool-shell'),'全範囲を刷る','全範囲を演習する');
+    }
+    if(path==='glossary.html'){
+      setActive('glossary');
+      const title=document.querySelector('.tool-intro h1');
+      if(title)title.textContent='用語一覧';
+    }
+    if(path==='lesson.html'){
+      const params=new URLSearchParams(location.search);
+      const lesson=typeof studyLessonById==='function'?studyLessonById(params.get('id')||'b1-1'):null;
+      setActive(lesson?.track==='programming'?'programming':'home');
+      document.querySelectorAll('.et-v4-status,.lesson-route').forEach(node=>node.remove());
+      replaceText(document.querySelector('.lesson-paper'),'知識点','要点');
+      const source=document.querySelector('.lesson-source');
+      if(source)source.textContent=source.textContent.replace('Web自学用に説明と例題を再構成しています。','教材の学習順序を保ちながら、Web自学用に本文・図解・例題を再構成しています。');
+    }
+  }
+
+  function termKeys(term){
+    const raw=String(term||'').trim();
+    const noParen=raw.replace(/[（(][^）)]*[）)]/g,'').trim();
+    return [...new Set([raw,noParen,...raw.split(/[（(／/・]/).map(x=>x.trim())].filter(x=>x.length>=2))];
+  }
+
+  function betterDefinition(lesson,term){
+    if(!lesson)return'';
+    const v3=(window.ELECTRONIC_TEXTBOOK_V3||{})[lesson.id];
+    const texts=[...(v3?.sections||[]).map(x=>x.body),...(lesson.points||[]).map(x=>x.body),lesson.lead,lesson.note].filter(Boolean);
+    const keys=termKeys(term);
+    for(const text of texts){
+      const sentences=String(text).split('。').map(x=>x.trim()).filter(Boolean);
+      const hit=sentences.find(s=>keys.some(k=>s.includes(k)));
+      if(hit)return `${hit}。`;
+    }
+    return lesson.lead||'';
+  }
+
+  function polishGlossary(){
+    if(path!=='glossary.html')return;
+    document.querySelectorAll('.tool-glossary-row').forEach(row=>{
+      const term=row.querySelector('.tool-glossary-term strong')?.textContent.trim();
+      const link=row.querySelector('a[href*="lesson.html?id="]');
+      const id=link?new URL(link.href,location.href).searchParams.get('id'):'';
+      const lesson=id&&typeof studyLessonById==='function'?studyLessonById(id):null;
+      const desc=row.querySelector('p');
+      const improved=betterDefinition(lesson,term);
+      if(desc&&improved)desc.textContent=improved;
+    });
+  }
+
+  function polishProgrammingLesson(){
+    if(path!=='lesson.html')return;
+    const params=new URLSearchParams(location.search);
+    const lesson=typeof studyLessonById==='function'?studyLessonById(params.get('id')||''):null;
+    if(!lesson||lesson.track!=='programming')return;
+    document.body.classList.add('programming-textbook-v6');
+    const paper=document.querySelector('.lesson-paper');
+    if(!paper||paper.querySelector('.programming-cue-v6'))return;
+    const goals=paper.querySelector('.lesson-goals');
+    goals?.insertAdjacentHTML('afterend','<div class="programming-cue-v6"><b>この講の進め方</b><span>要点を読む → コードを1行ずつ追う → 実行結果を予想する → 確認問題</span></div>');
+    const key=paper.querySelector('.lesson-section');
+    key?.classList.add('programming-key-v6');
+  }
+
+  function cleanDeveloperCopy(){
+    document.querySelectorAll('[data-dev],[data-debug]').forEach(node=>node.remove());
+    document.querySelectorAll('.lesson-paper,.tool-shell,.index-shell').forEach(root=>{
+      replaceText(root,'PART別編集済み','');
+      replaceText(root,'SOURCE MAP','');
+    });
+  }
+
+  function init(){
+    document.body.classList.add('information-ui-v6');
+    restorePageCopy();
+    polishGlossary();
+    polishProgrammingLesson();
+    cleanDeveloperCopy();
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
