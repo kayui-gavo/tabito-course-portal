@@ -1,12 +1,12 @@
-/* 情報Ⅰ＜プログラミング編＞ v10 — source-order / source-model micro fixes */
+/* 情報Ⅰ＜プログラミング編＞ v11 — source-order / source-model micro fixes */
 (() => {
   const p=window.PROGRAM_SOURCE_V9||{};
   if(p.p16)p.p16.drill='4要素のおみくじ配列で、random.randint(0,3) の結果を添字として1要素を取り出す流れを追う。';
   if(p.p45){
-    p.p45.core='グラフ理論の教材例では、A〜Dの友人関係を0/1の2次元配列で表し、Data[i][j]==1 を「iとjが友人」として読む。';
-    p.p45.read='Human.index(name) で調べたい人の添字を得て、その人に対応する Data[name_index] の行を左から走査する。';
-    p.p45.pitfall='教材の友人関係は相互的な関係なので表は対称になる。SNSの一方向フォロー関係のような有向グラフへ勝手に読み替えない。';
-    p.p45.drill='A〜Dの友人関係表について、Bの行で1になっている列を探し、Friends配列へ対応する人名を追加する流れを追う。';
+    p.p45.core='第45講は二段階で学ぶ。例題ではA〜Dの相互的な友人関係を0/1の2次元配列で表し、確認問題では矢印をもつ有向グラフへ発展してSNSのフォロー関係を扱う。';
+    p.p45.read='友人関係では Human.index(name) で得た name_index の行 Data[name_index][i] を走査する。SNSでは、その行を見ると「その人がフォローしている相手」、列 Data[i][name_index] を見ると「その人をフォローしている相手」になる。';
+    p.p45.pitfall='例題の友人関係は相互的なので隣接行列が対称だが、確認問題のSNSフォローは方向をもつため一般には対称とは限らない。「行」と「列」を入れ替えると矢印の向きも逆になる。';
+    p.p45.drill='まず例題の友人関係でBの行からFriendsを求め、次に確認問題のSNS表でBについてToFollowとFromFollowをそれぞれ行・列から求める。';
   }
   if(p.p46){
     p.p46.core='教材の渋滞シミュレーションでは、10秒ごとのランダムな到着台数と信号周期を組み合わせ、青信号と赤信号で待ち台数 wait の更新式を切り替える。';
