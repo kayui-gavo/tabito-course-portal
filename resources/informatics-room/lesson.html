@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="情報Ⅰを教材準拠で学ぶ自学用電子教材。47PARTすべてを原教材と逐項照合し、図解、詳細本文、実践演習、共通テストを意識した確認問題まで学べます。">
+  <meta name="description" content="情報Ⅰを教材準拠で学ぶ自学用電子教材。47PARTを原教材と逐項照合し、図解、詳細本文、インタラクティブ演習、実践問題、共通テストを意識した確認まで学べます。">
   <link rel="stylesheet" href="source-course.css">
   <link rel="stylesheet" href="student-ui.css">
   <link rel="stylesheet" href="study-electronic-v1.css">
@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="study-source-v7.css">
   <link rel="stylesheet" href="study-source-practice-v7.css">
   <link rel="stylesheet" href="study-mastery-v8.css">
+  <link rel="stylesheet" href="study-programming-v9.css">
+  <link rel="stylesheet" href="study-interactive-v9.css">
   <title>情報Ⅰ 学習ページ｜旅人教育</title>
 </head>
 <body>
@@ -23,6 +25,7 @@
   <script src="study-main-c.js"></script>
   <script src="study-prog-a.js"></script>
   <script src="study-prog-b.js"></script>
+  <script src="study-programming-source-v9.js"></script>
   <script src="study-enrich.js"></script>
   <script src="study-content.js"></script>
   <script src="source-course.js"></script>
@@ -59,6 +62,8 @@
   <script src="study-source-practice-render-v7.js"></script>
   <script src="study-source-audit-map-v7.js"></script>
   <script src="study-mastery-v8.js"></script>
+  <script src="study-programming-lab-v9.js"></script>
+  <script src="study-interactive-labs-v9.js"></script>
   <script src="study-integrity-v6.js"></script>
   <script>
     renderStudyLesson();
@@ -70,7 +75,7 @@
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
       const cue = document.querySelector('.et-study-cue-v3 b');
-      if (cue) cue.textContent = '図で関係をつかむ → 本文と詳しいノートで細部まで読む → 例題・実践演習で使う → 到達チェックと確認問題で定着';
+      if (cue) cue.textContent = '図で関係をつかむ → 本文と詳しいノートで細部まで読む → インタラクティブに確かめる → 例題・実践演習 → 到達チェックと確認問題';
       const checkLead = document.querySelector('.et-check-head p');
       if (checkLead) checkLead.textContent = '単語暗記だけでなく、資料の読み取り・場面への適用・計算・分類まで確認します。3問のあと、仕上げ問題にも挑戦してください。';
     })();
