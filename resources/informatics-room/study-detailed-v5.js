@@ -77,8 +77,8 @@
     const exam=master()[lesson.id]?.exam||'';
     return `<div class="et-detail-v5" data-et-detail-v5>
       <div class="et-detail-v5-head">
-        <div><span>原教材逐項照合</span><h3>本文で省略した細部まで確認する</h3></div>
-        <p>上の連続本文と重なる説明は省き、原教材をPART単位で再照合して、定義・注記・数値例・用語の区別を補っています。ここに残る項目まで説明できる状態を目標にします。</p>
+        <div><span>DETAILS</span><h3>定義・具体例・補足を整理する</h3></div>
+        <p>上の本文で全体の流れをつかんだら、ここで細かな定義、数値例、注意点まで確認します。同じ説明は繰り返さず、本文に入りきらなかった内容だけを補います。</p>
       </div>
       ${notes.length?`<div class="et-detail-v5-notes">${notes.map((point,i)=>`<section class="et-detail-v5-note"><div class="et-detail-v5-index">${String(i+1).padStart(2,'0')}</div><div><h4>${escapeHTML(point.title)}</h4><p>${escapeHTML(point.body)}</p></div></section>`).join('')}</div>`:''}
       ${(d.focus||d.trap)?`<div class="et-detail-v5-reading">${d.focus?`<section><b>理解の軸</b><p>${escapeHTML(d.focus)}</p></section>`:''}${d.trap?`<section><b>混同しやすいところ</b><p>${escapeHTML(d.trap)}</p></section>`:''}</div>`:''}
@@ -98,7 +98,7 @@
   function polishSectionCopy() {
     const section=document.querySelector('#points'); if(!section)return;
     const intro=section.querySelector('.et-body-intro');
-    if(intro)intro.textContent='まず連続した本文で概念の流れをつかみ、その後の「原教材逐項照合」で本文に入りきらなかった定義・数値例・注記まで確認します。同じ説明を繰り返して読むのではなく、段階を追って知識を完成させます。';
+    if(intro)intro.textContent='まず連続した本文で概念の流れをつかみ、その後の「詳しく確認」で定義・具体例・数値例・注意点まで補います。太字の用語を覚えるだけでなく、なぜそう判断できるかを自分のことばで説明できる状態を目指します。';
     const label=section.querySelector('.lesson-section-label'); if(label)label.textContent='本文';
     const heading=section.querySelector('h2'); if(heading)heading.textContent='本文・要点を詳しく読む';
   }
