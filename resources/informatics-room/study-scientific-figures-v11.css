@@ -4,4 +4,11 @@
 .scientific-figure-head-v11 span{display:block;color:#2d759a;font-size:8.5px;font-weight:850;letter-spacing:.12em}.scientific-figure-head-v11 h3{margin:4px 0 0;color:#203f54;font-size:15px;line-height:1.45}.scientific-figure-head-v11 button{flex:0 0 auto;padding:7px 10px;border:1px solid #c5d5dd;background:#fff;color:#3a6379;font-size:9px;font-weight:800;cursor:pointer}.scientific-figure-head-v11 button:hover{border-color:#6393aa;background:#eef6fa}
 .scientific-figure-v11 canvas{display:block;box-sizing:border-box;width:100%;height:auto;background:#fff}.scientific-figure-v11 figcaption{padding:10px 14px;border-top:1px solid #e6ebee;color:#657984;font-size:9.5px;line-height:1.75}
 .scientific-dialog-v11{width:min(96vw,1500px);max-width:none;padding:0;border:0;background:#fff;box-shadow:0 24px 80px rgba(16,39,53,.28)}.scientific-dialog-v11::backdrop{background:rgba(16,32,42,.66);backdrop-filter:blur(3px)}.scientific-dialog-v11>div{position:relative;padding:42px 12px 12px}.scientific-dialog-v11 canvas{display:block;width:100%;height:auto}.scientific-dialog-v11 [data-close]{position:absolute;right:12px;top:10px;padding:6px 10px;border:1px solid #ccd8de;background:#fff;color:#456170;font-size:9px;font-weight:800;cursor:pointer}
-@media(max-width:700px){.scientific-figure-v11{margin:17px 0 24px}.scientific-figure-head-v11{align-items:flex-start}.scientific-figure-head-v11 h3{font-size:13px}.scientific-figure-head-v11 button{padding:6px 8px}.scientific-figure-v11 figcaption{font-size:9px}.scientific-dialog-v11{width:99vw}}
+@media(max-width:700px){
+  .scientific-figure-v11{margin:17px 0 24px;overflow-x:auto;overscroll-behavior-inline:contain}
+  .scientific-figure-head-v11{position:sticky;left:0;z-index:2;min-width:0;align-items:flex-start}
+  .scientific-figure-head-v11 h3{font-size:13px}.scientific-figure-head-v11 button{padding:6px 8px}
+  .scientific-figure-v11 canvas{width:760px;max-width:none}
+  .scientific-figure-v11 figcaption{position:sticky;left:0;box-sizing:border-box;width:min(100vw - 34px,100%);min-width:330px;background:#fff;font-size:9px}
+  .scientific-dialog-v11{width:99vw}.scientific-dialog-v11>div{overflow:auto}.scientific-dialog-v11 canvas{width:1050px;max-width:none}
+}
