@@ -1,0 +1,38 @@
+/* 情報Ⅰ＜プログラミング編＞ v12g — 初級第8〜14講を原教材に合わせて図解 */
+(() => {
+  const K=window.SCIENTIFIC_V12;if(!K)return;const C=K.C;
+  const configs={
+    p8:{title:'range関数：start・end・stepから整数列を作る',height:690,caption:'教材は range(5)、range(3,8)、range(2,10,2) を比較。確認問題は [1,4,7,10,13,16,19] を range(1,20,3) で生成する。',question:'range(1,20,3) で19まで出るのに20が出ないのはなぜですか。',answer:'rangeのendは範囲に含まれないから。1から3ずつ増やし、20未満の最後の値19で止まる。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'range関数','開始値・終了値・間隔を分けて読む。特に終了値endは生成列に含まれない。');
+      box(ctx,45,150,330,100,'range(5)','start=0 / end=5 / step=1\n→ [0,1,2,3,4]',{fill:'#eef6fa'});box(ctx,435,150,330,100,'range(3,8)','start=3 / end=8 / step=1\n→ [3,4,5,6,7]',{fill:'#f8fafb'});box(ctx,825,150,310,100,'range(2,10,2)','start=2 / end=10 / step=2\n→ [2,4,6,8]',{fill:'#fff8f0'});
+      text(ctx,'確認問題',45,335,16,C.navy,700);const vals=[1,4,7,10,13,16,19];vals.forEach((v,i)=>{const x=65+i*150;rr(ctx,x,380,120,60,'#fff','#d7e1e6',7);text(ctx,String(v),x+60,410,14,C.navy,700,'center','middle');if(i<vals.length-1)text(ctx,'+3',x+135,410,9,C.orange,700,'center','middle');});box(ctx,330,500,540,80,'list(range(1,20,3))','start=1 / end=20（含まない） / step=3',{fill:'#eef6fa',stroke:'#bfd1db'});
+    }},
+    p9:{title:'for文：整数列の要素を1つずつ変数iへ代入して反復する',height:680,caption:'教材は [0,1,2,3,4] と range(5) のforを対応付ける。確認問題は [2,4,6,8] と同じ出力を range(2,9,2) で作る。',question:'for i in range(5) のiは、5まで進むのではなく0〜4になるのはなぜですか。',answer:'range(5) が [0,1,2,3,4] に相当し、forはその要素を順にiへ代入するから。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'for文','forは「用意された並びの値を1つずつ取り出し、そのたびに同じ処理を行う」と読む。');
+      text(ctx,'A　for i in range(5)',45,120,16,C.navy,700);const vals=[0,1,2,3,4];vals.forEach((v,i)=>{const x=75+i*185;rr(ctx,x,165,150,65,'#fff','#d7e1e6',7);text(ctx,String(v),x+75,197,15,C.navy,700,'center','middle');if(i<4)arrow(ctx,x+150,197,x+180,197,C.blue,1.5);});box(ctx,310,280,580,90,'各反復','i=0 → print(0)\ni=1 → print(1) → … → i=4 → print(4)',{fill:'#eef6fa'});
+      text(ctx,'B　確認問題',45,435,16,C.navy,700);box(ctx,45,470,330,90,'元の並び','[2,4,6,8]',{fill:'#f8fafb'});arrow(ctx,375,515,470,515,C.teal);box(ctx,470,470,330,90,'range(2,9,2)','2,4,6,8',{fill:'#eef6fa'});arrow(ctx,800,515,895,515,C.teal);box(ctx,895,470,240,90,'forで出力','2\n4\n6\n8',{fill:'#fff8f0'});
+    }},
+    p10:{title:'if文：条件がTrueのときだけブロックを実行する',height:620,caption:'教材例はx=11、x>10がTrueなので表示。確認問題はx=3で条件Falseなので何も表示されない。',question:'if文にはelseがない場合、条件がFalseなら何が起きますか。',answer:'ifブロックを飛ばして、その後の処理へ進む。確認問題ではifの後に処理がないため何も表示されない。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'if文','条件判定で「実行する / 飛ばす」を決める。Falseのときに自動で別の文章を表示するわけではない。');
+      text(ctx,'教材例：x=11',45,130,15,C.navy,700);box(ctx,45,165,260,85,'x > 10 ?','11 > 10 → True',{fill:'#eef6fa'});arrow(ctx,305,208,410,208,C.blue);box(ctx,410,165,330,85,'ifブロックを実行','11 は 10 より大きい',{fill:'#f4f9f7'});
+      text(ctx,'確認問題：x=3',45,330,15,C.navy,700);box(ctx,45,365,260,85,'x > 10 ?','3 > 10 → False',{fill:'#fff8f0'});arrow(ctx,305,408,410,408,C.orange);box(ctx,410,365,330,85,'ifブロックを飛ばす','何も表示されない',{fill:'#f8fafb'});box(ctx,825,285,310,165,'ifの構造','True → インデント内を実行\nFalse → インデント内を実行しない',{fill:'#eef6fa'});
+    }},
+    p11:{title:'if-else文：TrueとFalseで必ずどちらか一方へ進む',height:650,caption:'教材例はx=5、x>10がFalseなのでelseで「5は10以下」。確認問題はx=10、x<10がFalseなのでelseで「10は10以上」。',question:'x=10で if x<10 がFalseのとき、「10以上」と表示できるのはなぜですか。',answer:'x<10でないことが確定すると、xは10以上なのでelse側の説明と一致するから。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'if-else文','1つの条件を境界にして2つへ分ける。条件がTrueならif、Falseならelseのどちらか一方だけ。');
+      box(ctx,455,120,290,80,'条件','x < 10 ?',{fill:'#eef6fa'});arrow(ctx,455,160,285,260,C.blue);arrow(ctx,745,160,915,260,C.orange);text(ctx,'True',350,210,10,C.blue,700,'center');text(ctx,'False',850,210,10,C.orange,700,'center');box(ctx,90,260,390,100,'if側','x は 10 より小さい',{fill:'#eef6fa'});box(ctx,720,260,390,100,'else側','x は 10 以上',{fill:'#fff8f0'});
+      text(ctx,'確認問題：x=10',45,440,15,C.navy,700);box(ctx,45,475,500,85,'10 < 10 → False','elseへ進む',{fill:'#fff8f0'});box(ctx,635,475,500,85,'出力','10 は 10 以上',{fill:'#f4f9f7'});
+    }},
+    p12:{title:'if-elif-else文：上から順に判定し、最初のTrueだけ実行する',height:680,caption:'教材例はx=12で最初のx>10がTrue。確認問題はx=10でx<10がFalse、x==10がTrueとなり「10に等しい」。',question:'x=12の例でelifやelseをさらに判定しないのはなぜですか。',answer:'if-elif-elseは最初にTrueになった分岐だけを実行し、それ以降の分岐は飛ばすから。',draw(ctx,k){const {text,wrap,rr,box,arrow,head}=k;head(ctx,'if-elif-else文','複数条件は同時に全部実行するのではなく、上から順に調べて最初のTrueで分岐が確定する。');
+      const ys=[145,275,405];box(ctx,80,ys[0],330,75,'if x > 10 ?','Trueなら「10より大きい」',{fill:'#eef6fa'});arrow(ctx,245,220,245,275,C.blue);box(ctx,80,ys[1],330,75,'elif x == 10 ?','最初がFalseなら判定',{fill:'#fff8f0'});arrow(ctx,245,350,245,405,C.orange);box(ctx,80,ys[2],330,75,'else','両方Falseなら「10より小さい」',{fill:'#f8fafb'});
+      box(ctx,525,150,610,120,'教材例 x=12','x>10 → True\n→ 最初の分岐で「12は10より大きい」\n→ elif / else は見ない',{fill:'#eef6fa'});box(ctx,525,335,610,120,'確認問題 x=10','x<10 → False\nx==10 → True\n→ 「10は10に等しい」',{fill:'#fff8f0',stroke:'#e3d2bf'});
+    }},
+    p13:{title:'while文：条件がTrueの間、処理と更新を繰り返す',height:680,caption:'教材例はcount=1から5まで表示。確認問題はcount<=3の間Helloを3回表示。更新式が停止条件へ近づける。',question:'count=count+1 がなければ、確認問題はどうなりますか。',answer:'countが1のままで count<=3 がずっとTrueになり、Helloを繰り返し続ける。',draw(ctx,k){const {text,wrap,rr,box,arrow,head,table}=k;head(ctx,'while文','毎回「条件 → 処理 → 更新 → 条件へ戻る」。更新が条件をFalseへ近づけることが停止に必要。');
+      const rows=[['1','True','1','2'],['2','True','2','3'],['3','True','3','4'],['4','True','4','5'],['5','True','5','6'],['6','False','—','終了']];table(ctx,45,145,720,280,['count','count<=5','print','更新後'],rows,{fs:10,headFill:'#eff5f8'});box(ctx,825,155,310,130,'教材例の出力','1\n2\n3\n4\n5',{fill:'#eef6fa'});
+      text(ctx,'確認問題',45,485,15,C.navy,700);box(ctx,45,520,500,90,'count <= 3','count=1,2,3 の3回True',{fill:'#fff8f0'});box(ctx,635,520,500,90,'print(\'Hello\')','Helloを3回表示',{fill:'#f4f9f7'});
+    }},
+    p14:{title:'論理演算子：and / or / not をTrue・Falseの表で読む',height:720,caption:'教材は True/False を使って and・or・not を説明。確認問題は a=True,b=True の a or b → True。',question:'a or b は、aとbのどちらか一方だけがTrueのときもTrueになりますか。',answer:'なる。orは少なくとも一方がTrueならTrue。両方FalseのときだけFalse。',draw(ctx,k){const {text,wrap,rr,box,head,table}=k;head(ctx,'論理演算子','条件を組み合わせるための3基本。andは両方、orは少なくとも一方、notは反転。');
+      table(ctx,45,145,690,250,['a','b','a and b','a or b'],[['False','False','False','False'],['False','True','False','True'],['True','False','False','True'],['True','True','True','True']],{fs:10,headFill:'#eff5f8'});box(ctx,800,155,335,110,'not','not True → False\nnot False → True',{fill:'#fff8f0'});box(ctx,800,300,335,95,'確認問題','True or True\n→ True',{fill:'#eef6fa'});
+      rr(ctx,45,470,1090,90,'#f5f9fb','#d5e2e8',9);text(ctx,'覚え方より条件の意味',70,502,11,C.blue,700);wrap(ctx,'and：全部満たす必要がある条件 / or：どれかを満たせばよい条件 / not：条件の成立・不成立を反転する。',245,485,820,21,11,C.gray,400);
+    }}
+  };
+  const baseRender=window.renderStudyLesson;
+  function insert(){const id=new URLSearchParams(location.search).get('id')||'',lesson=typeof studyLessonById==='function'?studyLessonById(id):null,config=configs[id];if(!lesson||lesson.track!=='programming'||!config||document.querySelector(`[data-program-figure-v12g="${id}"]`))return;const section=K.makeSection(id,config);section.dataset.programFigureV12g=id;const target=document.querySelector('.program-source-v9')||document.querySelector('.program-example-v6')||document.querySelector('#example');if(target)target.insertAdjacentElement('afterend',section);else document.querySelector('.lesson-paper')?.appendChild(section);K.bindSection(section,config);}
+  window.PROGRAM_FIGURE_V12G_COUNT=Object.keys(configs).length;
+  window.renderStudyLesson=function renderProgramFiguresV12g(){baseRender();insert();};
+})();
