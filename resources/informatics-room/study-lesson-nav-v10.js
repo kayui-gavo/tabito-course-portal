@@ -1,4 +1,4 @@
-/* 情報Ⅰ v10 — 長い電子教材を迷わず読める章内ナビ */
+/* 情報Ⅰ v11 — 長い電子教材を迷わず読める章内ナビ */
 (() => {
   const baseRender=window.renderStudyLesson;
   const current=()=>{const id=new URLSearchParams(location.search).get('id')||'';return typeof studyLessonById==='function'?studyLessonById(id):null;};
@@ -6,7 +6,7 @@
   function targets(lesson){
     const main=[
       ['要点',document.querySelector('#points,.lesson-goals')],
-      ['図解',document.querySelector('.et-figure-v4,.et-figure-v3')],
+      ['図解',document.querySelector('.scientific-figure-v11,.et-figure-v4:not([hidden]),.et-figure-v3:not([hidden])')],
       ['本文',document.querySelector('.et-textbook-sections,.et-detail-v5-reading')],
       ['操作',document.querySelector('[data-transfer-lab-v10],.source-wireless-v10,[data-micro-lab-v9b],[data-micro-lab-v9]')],
       ['例題',document.querySelector('#example,.et-practice-v4')],
@@ -15,6 +15,7 @@
     ];
     const prog=[
       ['要点',document.querySelector('.program-text-v6,#points')],
+      ['図解',document.querySelector('.scientific-figure-v11')],
       ['例題',document.querySelector('.program-example-v6,#example')],
       ['コード読解',document.querySelector('[data-program-lab-v9]')],
       ['Python実行',document.querySelector('[data-program-run-v10]')],
@@ -36,5 +37,5 @@
     const paint=()=>{const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);progress.style.width=`${Math.min(100,Math.max(0,scrollY/max*100))}%`;let best=null,bestY=-Infinity;items.forEach(item=>{const y=item.node.getBoundingClientRect().top;if(y<=140&&y>bestY){best=item;bestY=y;}});nav.querySelectorAll('a').forEach((a,i)=>a.classList.toggle('is-active',items[i]===best));};
     addEventListener('scroll',paint,{passive:true});addEventListener('resize',paint,{passive:true});paint();
   }
-  window.renderStudyLesson=function renderLessonNavV10(){baseRender();init();};
+  window.renderStudyLesson=function renderLessonNavV11(){baseRender();init();};
 })();
