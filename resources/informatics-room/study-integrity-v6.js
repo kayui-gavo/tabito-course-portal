@@ -1,4 +1,4 @@
-/* 情報Ⅰ 教材データ整合性チェック v9
+/* 情報Ⅰ 教材データ整合性チェック v10
    学生画面には表示せず、47PART / 48講と主要教材レイヤーの欠落をconsoleで検出する。 */
 (() => {
   const main=window.STUDY_MAIN||[];
@@ -38,9 +38,10 @@
     mainCount:main.length,programmingCount:programming.length,
     sourceMasterCount:Object.keys(source).length,sourcePracticeCount:Object.keys(sourcePractice).length,sourceAuditMapCount:Object.keys(auditMap).length,sourceCheckCount:window.SOURCE_CHECK_V7_COUNT||0,
     programmingSourceCount:Object.keys(programSource).length,middleProgrammingCount:Object.keys(middle).length,advancedProgrammingCount:Object.keys(advanced).length,
+    pythonRunnerLoaded:window.PROGRAM_RUNNER_V10===true,
     missing,missingProgrammingSource,missingMiddle,missingAdvanced,incompleteSource,incompleteSourcePractice,incompleteProgrammingSource,incompleteMiddle,incompleteAdvanced,invalidAuditRange
   };
-  window.INFORMATION_TEXTBOOK_AUDIT_V9=report;
-  const hasProblem=main.length!==47||programming.length!==48||middleIds.length!==19||advancedIds.length!==15||Object.keys(source).length!==47||Object.keys(sourcePractice).length!==47||Object.keys(auditMap).length!==47||(window.SOURCE_CHECK_V7_COUNT||0)!==47||Object.keys(programSource).length!==48||Object.keys(middle).length!==19||Object.keys(advanced).length!==15||Object.values(missing).some(list=>list.length)||missingProgrammingSource.length||missingMiddle.length||missingAdvanced.length||incompleteSource.length||incompleteSourcePractice.length||incompleteProgrammingSource.length||incompleteMiddle.length||incompleteAdvanced.length||invalidAuditRange.length;
-  if(hasProblem) console.warn('[情報Ⅰ 教材整合性 v9]',report);
+  window.INFORMATION_TEXTBOOK_AUDIT_V10=report;
+  const hasProblem=main.length!==47||programming.length!==48||middleIds.length!==19||advancedIds.length!==15||Object.keys(source).length!==47||Object.keys(sourcePractice).length!==47||Object.keys(auditMap).length!==47||(window.SOURCE_CHECK_V7_COUNT||0)!==47||Object.keys(programSource).length!==48||Object.keys(middle).length!==19||Object.keys(advanced).length!==15||window.PROGRAM_RUNNER_V10!==true||Object.values(missing).some(list=>list.length)||missingProgrammingSource.length||missingMiddle.length||missingAdvanced.length||incompleteSource.length||incompleteSourcePractice.length||incompleteProgrammingSource.length||incompleteMiddle.length||incompleteAdvanced.length||invalidAuditRange.length;
+  if(hasProblem) console.warn('[情報Ⅰ 教材整合性 v10]',report);
 })();
