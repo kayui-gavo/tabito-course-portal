@@ -1,0 +1,79 @@
+/* 情報Ⅰ UI polish v6 — 本編・プログラミング・問題演習・用語を同じ出版系UIへ統一 */
+.information-ui-v6 .study-header{box-shadow:none}
+.information-ui-v6 .study-header-inner{max-width:1180px}
+.information-ui-v6 .study-nav a{font-weight:650;letter-spacing:.01em}
+.information-ui-v6 .index-shell{padding-top:36px}
+.information-ui-v6 .index-intro{gap:54px}
+.information-ui-v6 .index-kicker{letter-spacing:.1em}
+.information-ui-v6 .index-intro h1{max-width:720px}
+.information-ui-v6 .index-lead{max-width:760px;line-height:1.95}
+.information-ui-v6 .study-guide{background:#fff;border-color:#dbe2e5;padding:12px 15px}
+.information-ui-v6 .study-guide span{color:#536673}
+.information-ui-v6 .curriculum-list{box-shadow:0 7px 22px rgba(26,48,64,.035)}
+.information-ui-v6 .lecture-heading{background:#fafcfc}
+.information-ui-v6 .curriculum-row{min-height:55px}
+.information-ui-v6 .curriculum-row:hover{background:#f3f8fb}
+
+/* tool pages: no dashboard-card feel; use a study-paper rhythm */
+.information-ui-v6 .tool-shell{width:min(1000px,calc(100% - 40px));padding-bottom:78px}
+.information-ui-v6 .tool-intro{margin-bottom:22px}
+.information-ui-v6 .tool-toolbar{position:sticky;top:66px;z-index:20;background:rgba(244,245,241,.96);backdrop-filter:blur(9px);padding:12px 0;border-top:1px solid #dfe4e7;border-bottom:1px solid #dfe4e7}
+.information-ui-v6 .tool-session-bar{margin-top:16px}
+.information-ui-v6 .tool-question-list{display:grid;gap:14px}
+.information-ui-v6 .tool-question-card{border-radius:4px;box-shadow:none}
+.information-ui-v6 .tool-question-meta{align-items:center}
+.information-ui-v6 .tool-question-meta>a{font-weight:650}
+.practice-level-v2{margin-left:auto;padding:2px 7px;border:1px solid #d7e0e5;background:#f7f9fa;color:#637682;font-size:9px;font-weight:800;border-radius:99px}
+.practice-input-v2{display:flex;gap:8px;margin-top:14px}
+.practice-input-v2 input{flex:1;min-width:0;height:42px;padding:0 12px;border:1px solid #cbd6dc;background:#fff;color:#223744;border-radius:4px;outline:none}
+.practice-input-v2 input:focus{border-color:#6c99b1;box-shadow:0 0 0 3px rgba(45,124,172,.08)}
+.practice-input-v2 button,.practice-input-actions button{border:1px solid #173a58;background:#173a58;color:#fff;padding:0 14px;border-radius:4px;font-size:11px;font-weight:750}
+.practice-input-actions{display:flex;gap:8px;margin-top:9px}
+.practice-input-actions button{height:36px}
+.practice-input-actions .is-secondary{border-color:#cbd6dc;background:#fff;color:#496270}
+.practice-order-note{margin:12px 0 7px;color:#697b86;font-size:10px}
+.practice-order-bank,.practice-order-answer{display:flex;flex-wrap:wrap;gap:7px;min-height:44px;padding:8px;border:1px dashed #c9d5db;background:#fafcfc}
+.practice-order-answer{margin-top:8px;background:#f5f8f9}
+.practice-order-answer>span{align-self:center;color:#7d8d96;font-size:9px}
+.practice-order-bank button,.practice-order-answer button{border:1px solid #ced9df;background:#fff;color:#38515f;padding:6px 9px;border-radius:3px;font-size:10px}
+.practice-back-v2{margin-top:8px!important}
+.practice-back-v2 a{color:#285f82;font-size:10px;font-weight:750;text-decoration:none}
+
+/* glossary: closer to a reference book than a tile list */
+.information-ui-v6 .tool-glossary-list{border-top:1px solid #ccd7dc}
+.information-ui-v6 .tool-glossary-row{border-radius:0!important;border:0!important;border-bottom:1px solid #e0e6e9!important;background:#fff!important;box-shadow:none!important;padding:18px 2px!important}
+.information-ui-v6 .tool-glossary-term strong{font-size:14px}
+.information-ui-v6 .tool-glossary-row p{font-size:12px;line-height:1.9}
+
+/* main textbook cleanup */
+.information-ui-v6.lesson-body .lesson-paper{box-shadow:0 8px 24px rgba(25,44,58,.045)}
+.information-ui-v6 .et-v4-diagram-head span:empty{display:none}
+.information-ui-v6 .et-v4-status{display:none!important}
+.information-ui-v6 .et-section-copy p,.information-ui-v6 .et-detail-v5-note p{letter-spacing:.005em}
+.information-ui-v6 .et-detail-v5-dictionary{margin-top:16px;border-top:1px solid #dce4e8;border-bottom:1px solid #dce4e8;background:#fbfcfc}
+.information-ui-v6 .et-detail-v5-dictionary summary{display:flex;justify-content:space-between;gap:14px;padding:11px 12px;cursor:pointer;color:#385769;font-size:10px;font-weight:750;list-style:none}
+.information-ui-v6 .et-detail-v5-dictionary summary::-webkit-details-marker{display:none}
+.information-ui-v6 .et-detail-v5-dictionary summary b{color:#81919a;font-size:9px}
+.information-ui-v6 .et-detail-v5-dictionary dl{margin:0;padding:0 12px 12px}
+.information-ui-v6 .et-detail-v5-dictionary dl>div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:11px 0;border-top:1px solid #e4e9ec}
+.information-ui-v6 .et-detail-v5-dictionary dt{color:#27465b;font-size:11px;font-weight:800}
+.information-ui-v6 .et-detail-v5-dictionary dd{margin:0;color:#516672;font-size:10px;line-height:1.8}
+
+/* programming lessons use the same reading cue / paper rhythm */
+.programming-textbook-v6 .lesson-paper{max-width:820px}
+.programming-cue-v6{display:flex;align-items:center;gap:12px;margin:-17px 0 28px;padding:11px 14px;border:1px solid #d8e2e7;border-left:3px solid #2d7cac;background:#f8fbfc;color:#536a77;font-size:11px}
+.programming-cue-v6 b{color:#225d82;white-space:nowrap}
+.programming-key-v6 .concept-block p{line-height:1.95}
+
+@media(max-width:850px){
+  .information-ui-v6 .tool-shell{width:calc(100% - 24px)}
+  .information-ui-v6 .tool-toolbar{top:58px}
+  .practice-input-v2{flex-direction:column}
+  .practice-input-v2 button{height:40px}
+  .information-ui-v6 .et-detail-v5-dictionary dl>div{grid-template-columns:1fr;gap:4px}
+  .programming-cue-v6{align-items:flex-start;flex-direction:column;gap:5px}
+}
+@media(max-width:560px){
+  .practice-level-v2{display:none}
+  .information-ui-v6 .tool-question-meta{align-items:flex-start}
+}
