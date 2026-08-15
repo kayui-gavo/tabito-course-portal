@@ -1,0 +1,18 @@
+/* 情報Ⅰ source-audited v7 */
+.source-audited-v7 .et-detail-v5-head{grid-template-columns:minmax(210px,.8fr) minmax(0,1.2fr)}
+.source-audited-v7 .et-detail-v5-head>div>span{letter-spacing:.08em}
+.source-audited-v7 .et-detail-v5-note p{font-size:13.2px;line-height:2.02}
+.et-common-test-v7{margin:20px 0 0;padding:15px 17px;border:1px solid #c8dbe6;border-left:4px solid #1f5f8b;background:#f2f8fb;color:#405a69}
+.et-common-test-v7>b{display:block;margin-bottom:5px;color:#1c5578;font-size:11px}
+.et-common-test-v7>p{margin:0;font-size:11.5px;line-height:1.9}
+.et-common-test-v7 .ct-notation-v7{margin-top:10px;padding-top:10px;border-top:1px solid #d7e5ec}
+.et-common-test-v7 .ct-notation-v7 strong{color:#285f80}
+.common-test-code-v7{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(0,1.2fr);gap:24px;margin:-14px 0 28px;padding:15px 17px;border:1px solid #c9dce7;border-left:4px solid #1f5f8b;background:#f4f9fb;color:#405865}
+.common-test-code-v7 b{display:block;margin-bottom:4px;color:#1f587b;font-size:11px}
+.common-test-code-v7 span{display:block;font-size:10.5px;line-height:1.75}
+.common-test-code-v7 ol{margin:0;padding-left:1.4em;font-size:10.5px;line-height:1.8}
+.common-test-code-v7 li+li{margin-top:2px}
+@media(max-width:760px){
+  .source-audited-v7 .et-detail-v5-head,.common-test-code-v7{grid-template-columns:1fr;gap:8px}
+  .source-audited-v7 .et-detail-v5-note p{font-size:12.5px;line-height:1.92}
+}
