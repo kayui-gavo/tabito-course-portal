@@ -1,4 +1,4 @@
-/* 情報Ⅰ＜プログラミング編＞ v10 — advanced source-alignment fixes */
+/* 情報Ⅰ＜プログラミング編＞ v11 — advanced source-alignment fixes */
 (() => {
   const a=window.PROGRAM_ADVANCED_V9||{};
   if(a.p44){
@@ -9,11 +9,11 @@
     a.p44.check='どちらも [1,2,4,5] になるが、「隣接比較」と「最小値選択」という処理の違いを途中配列で説明できる。';
   }
   if(a.p45){
-    a.p45.title='友人関係を2次元配列から取り出す';
-    a.p45.conditions=['友人でない関係を0、友人関係を1で表す','Human.index(name)で調べたい人の行番号を得る','その行で1の列に対応する人をFriendsへ追加する'];
-    a.p45.code=`Data = [\n [0,1,1,0],\n [1,0,1,1],\n [1,1,0,0],\n [0,1,0,0]\n]\nHuman = ['A','B','C','D']\nFriends = []\nname = 'B'\nname_index = Human.index(name)\nfor i in range(len(Data)):\n    if Data[name_index][i] == 1:\n        Friends.append(Human[i])\nprint(Friends)`;
-    a.p45.focus='Data[name_index][i] は「調べたい人の行」を左から見る。教材の友人関係は相互的なので行列は対称になる。';
-    a.p45.check='Bの行 [1,0,1,1] から、友人は A・C・D と読み取れる。';
+    a.p45.title='有向グラフでSNSのフォロー方向を読み分ける';
+    a.p45.conditions=['確認問題では矢印の先を「フォローしている相手」とする','Data[name_index][i]==1 はその人から外へ出る関係を読む','Data[i][name_index]==1 はその人へ入ってくる関係を読む'];
+    a.p45.code=`Data = [\n [0,1,1,0], # A\n [1,0,0,1], # B\n [0,0,0,0], # C\n [1,1,0,0]  # D\n]\nHuman = ['A','B','C','D']\nToFollow = []\nFromFollow = []\nname = 'B'\nname_index = Human.index(name)\nfor i in range(len(Data)):\n    if Data[name_index][i] == 1:\n        ToFollow.append(Human[i])\n    if Data[i][name_index] == 1:\n        FromFollow.append(Human[i])\nprint(ToFollow)\nprint(FromFollow)`;
+    a.p45.focus='同じ name_index でも、Data[name_index][i] は行、Data[i][name_index] は列を見る。向きをもつグラフではこの2つを区別する。';
+    a.p45.check='Bがフォローしている人は A・D、Bをフォローしている人も A・D。結果が同じでも、行と列から別々に求めたことを説明できる。';
   }
   if(a.p46){
     a.p46.title='交通信号と到着台数から渋滞をシミュレーションする';
