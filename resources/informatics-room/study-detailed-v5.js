@@ -30,7 +30,6 @@
     const prose = v3?.sections || [];
     const all = lesson.points || [];
     const filtered = all.filter(point => !isNearDuplicate(point, prose));
-    // v3本文と重なる場合でも、定義一覧として最低2項目は残す。
     return filtered.length >= 2 ? filtered : all;
   }
 
@@ -53,6 +52,7 @@
         ${d.focus ? `<section><b>理解の軸</b><p>${escapeHTML(d.focus)}</p></section>` : ''}
         ${d.trap ? `<section><b>混同しやすいところ</b><p>${escapeHTML(d.trap)}</p></section>` : ''}
       </div>` : ''}
+      ${lesson.note ? `<aside class="et-detail-v5-caution"><b>教科書上の注意</b><p>${escapeHTML(lesson.note)}</p></aside>` : ''}
       ${terms.length ? `<div class="et-detail-v5-terms">
         <div class="et-detail-v5-terms-title"><b>このPARTで説明できるようにする用語</b><span>${terms.length}語</span></div>
         <div>${terms.map(term => `<a href="glossary.html?q=${encodeURIComponent(term)}">${escapeHTML(term)}</a>`).join('')}</div>
