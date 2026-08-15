@@ -33,7 +33,7 @@
     return `<section class="lesson-section et-check-v2" id="check">
       <p class="lesson-section-label">CHECK</p>
       <h2>確認問題</h2>
-      <div class="et-check-head"><p>暗記できたかではなく、用語を場面に当てはめられるかを3問で確認します。間違えた問題は、その場で解き直せます。</p></div>
+      <div class="et-check-head"><p>まず3問で定義・区別・基本的な当てはめを確認します。ここで終わりではなく、続く「仕上げ問題」で資料の読み取り・計算・順序整理など、もう一段深い使い方まで確かめます。</p></div>
       <div class="et-qstack">
         ${qs.map((q,qi)=>`<div class="et-qcard" data-q="${qi}" data-answer="${q.answer}">
           <div class="et-qcard-head"><b>${qi+1}</b><span>${escapeHTML(q.q)}</span></div>
@@ -41,7 +41,7 @@
           <div class="et-qfeedback" data-feedback></div>
         </div>`).join('')}
       </div>
-      <div class="et-check-score" data-check-score><span>このPARTの確認</span><strong>0 / ${qs.length} 正解</strong></div>
+      <div class="et-check-score" data-check-score><span>定着確認 3問</span><strong>0 / ${qs.length} 正解</strong></div>
     </section>`;
   }
 
