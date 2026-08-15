@@ -1,0 +1,57 @@
+/* 情報Ⅰ 電子教材 v2 — 本文を「読む・判断する・解く」に変える。 */
+.et-opener{margin:20px 0 28px;padding:18px 20px;border:1px solid #d5e1e7;border-left:4px solid #2d7cac;border-radius:10px;background:#f8fbfd}
+.et-opener small{display:block;margin-bottom:6px;color:#2d7cac;font-size:10px;font-weight:800;letter-spacing:.08em}
+.et-opener p{margin:0;color:#2c4454;font-size:15px;font-weight:700;line-height:1.75}
+
+.electronic-textbook .concept-block{position:relative;padding:0 0 24px 42px}
+.electronic-textbook .concept-block+.concept-block{padding-top:23px}
+.electronic-textbook .concept-block h3{font-size:17px;line-height:1.55}
+.electronic-textbook .concept-block h3::before{content:attr(data-et-index);position:absolute;left:0;top:1px;display:grid;place-items:center;width:28px;height:28px;border:1px solid #cbdce5;border-radius:50%;background:#f4f9fc;color:#236b95;font-size:10px;font-weight:800}
+.electronic-textbook .concept-block p{font-size:14px;line-height:2.02;color:#334b5a}
+.et-reading-guide{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 0}
+.et-reading-guide>div{padding:15px 16px;border:1px solid #dce5e9;border-radius:9px;background:#fff}
+.et-reading-guide>div:first-child{background:#f6fafc}
+.et-reading-guide>div:last-child{background:#fff9f2;border-color:#ead9c7}
+.et-reading-guide b{display:block;margin-bottom:5px;color:#173a58;font-size:11px}
+.et-reading-guide>div:last-child b{color:#9a5c29}
+.et-reading-guide p{margin:0;color:#536876;font-size:12px;line-height:1.8}
+
+.et-worked .et-reasoning{position:relative}
+.et-worked .et-reasoning::before{content:"教材の用語だけで筋道を追う";display:block;margin:0 0 9px;color:#72838e;font-size:9px;letter-spacing:.04em}
+.et-answer summary{transition:background .15s ease}
+.et-answer[open] summary{background:#eef6fa}
+
+.et-check-v2{padding:0!important}
+.et-check-head{margin-bottom:15px}
+.et-check-head p{margin:0;color:#667a87;font-size:12px;line-height:1.75}
+.et-qstack{display:grid;gap:14px}
+.et-qcard{overflow:hidden;border:1px solid #d5dfe4;border-radius:10px;background:#fff}
+.et-qcard-head{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid #e4eaed;background:#f8fafb}
+.et-qcard-head b{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e8f3f9;color:#236b95;font-size:10px}
+.et-qcard-head span{color:#263e4e;font-size:13px;font-weight:750;line-height:1.55}
+.et-qchoices{display:grid;gap:7px;padding:14px 15px}
+.et-qchoice{display:grid;grid-template-columns:25px 1fr;gap:8px;align-items:start;width:100%;padding:10px 11px;border:1px solid #dce3e7;border-radius:7px;background:#fff;color:#334a59;text-align:left;font-size:12px;line-height:1.6;transition:border-color .15s ease,background .15s ease}
+.et-qchoice i{display:grid;place-items:center;width:21px;height:21px;border:1px solid #cbd8df;border-radius:50%;font-style:normal;font-size:9px;color:#607582}
+.et-qchoice:hover:not(:disabled){border-color:#96b8ca;background:#f7fbfd}
+.et-qchoice.is-correct{border-color:#8dbba2;background:#eff8f3;color:#285b44}
+.et-qchoice.is-correct i{border-color:#73a98d;background:#dff1e7;color:#285b44}
+.et-qchoice.is-wrong{border-color:#d9a4a4;background:#fff5f5;color:#863d3d}
+.et-qchoice.is-wrong i{border-color:#cb8d8d;background:#fbe7e7;color:#863d3d}
+.et-qfeedback{display:none;margin:0 15px 14px;padding:12px 13px;border-radius:7px;background:#f6f8f9;color:#4b606e;font-size:11px;line-height:1.75}
+.et-qfeedback.is-visible{display:block}
+.et-qretry{margin-top:9px;padding:6px 9px;border:1px solid #cbd8df;border-radius:6px;background:#fff;color:#315d78;font:inherit;font-size:10px;font-weight:700}
+.et-check-score{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:15px;padding:13px 15px;border:1px solid #dce5e9;border-radius:9px;background:#fbfcfc}
+.et-check-score span{color:#607481;font-size:11px}
+.et-check-score strong{color:#173a58;font-size:13px}
+.et-check-score.is-complete{background:#f1f8f4;border-color:#c7ddd1}
+
+.et-source-badge{display:flex;align-items:flex-start;gap:9px;margin:20px 0 0;padding:10px 12px;border-top:1px solid #e3e9ec;border-bottom:1px solid #e3e9ec;color:#71808a;font-size:10px;line-height:1.7}
+.et-source-badge b{flex:0 0 auto;color:#315f7a}
+
+@media(max-width:760px){
+  .et-reading-guide{grid-template-columns:1fr}
+  .electronic-textbook .concept-block{padding-left:36px}
+  .et-opener{padding:15px 16px}
+  .et-opener p{font-size:14px}
+  .et-qcard-head{align-items:flex-start}
+}
