@@ -1,4 +1,4 @@
-/* 情報Ⅰ UI / 教材仕上げ v7
+/* 情報Ⅰ UI / 教材仕上げ v12
    core pages share one navigation/copy system; source-master details also feed glossary definitions. */
 (() => {
   const path=location.pathname.split('/').pop()||'index.html';
@@ -18,8 +18,11 @@
   function polishExamCounts(){
     if(path!=='exam.html'||typeof STUDY_DATA==='undefined')return;
     document.querySelectorAll('.tool-lecture-row').forEach((row,index)=>{
-      const lecture=index+1,parts=STUDY_DATA.mainLessons.filter(x=>x.lecture===lecture).length;
-      const p=row.querySelector('p'); if(p)p.textContent=`${parts} PART / 約${parts*4}問`;
+      const lecture=index+1;
+      const lessons=STUDY_DATA.mainLessons.filter(x=>x.lecture===lecture);
+      const parts=lessons.length;
+      const open=lessons.reduce((sum,l)=>sum+((window.SOURCE_PRACTICE_V7?.[l.id]||[]).length),0);
+      const p=row.querySelector('p'); if(p)p.textContent=`${parts} PART / 自動採点 約${parts*4}問 + 記述${open}問`;
     });
   }
   function addPracticeJump(lesson){
