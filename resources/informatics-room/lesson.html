@@ -45,6 +45,10 @@
         [...figures[0].children].forEach((bar, i) => { bar.style.height = `${Math.round(values[i] / 1450 * 90)}px`; });
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
+      const cue = document.querySelector('.et-study-cue-v3 b');
+      if (cue) cue.textContent = '図で関係をつかむ → 本文で定義する → 例題で使う → 確認問題で定着';
+      const checkLead = document.querySelector('.et-check-head p');
+      if (checkLead) checkLead.textContent = '用語を暗記できたかではなく、場面への適用・計算・分類まで確認します。3問を解いたあと、仕上げ問題にも挑戦してください。';
     })();
   </script>
   <script src="student-ui.js"></script>
