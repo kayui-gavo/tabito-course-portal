@@ -38,7 +38,7 @@
     return `<section class="program-run-v10" data-program-run-v10>
       <header><div><span>RUN PYTHON</span><h3>予想してから、実際に動かす</h3></div><p>上の「コード読解」は行の役割を読むためのガイドです。ここでは本物のPythonを実行し、分岐・反復・関数呼び出しを含む実際の結果を確かめます。</p></header>
       <div class="program-run-v10-main">
-        <div class="program-run-v10-editor"><label><span>Pythonコード</span><textarea rows="12" spellcheck="false" data-python-code>${escapeHTML(code)}</textarea></label>${hasInput?`<label class="program-stdin-v10"><span>input() に渡す値（1行につき1つ）</span><textarea rows="3" data-python-stdin placeholder="例：グー\n10">${escapeHTML(state.stdin||'')}</textarea></label>`:''}<div class="program-run-v10-actions"><button type="button" data-python-run>実行する</button><button type="button" data-python-reset>教材のコードに戻す</button><small>Ctrl / ⌘ + Enter でも実行</small></div></div>
+        <div class="program-run-v10-editor"><label><span>Pythonコード</span><textarea rows="12" spellcheck="false" data-python-code>${escapeHTML(code)}</textarea></label><details class="program-stdin-details-v10" ${hasInput?'open':''}><summary>input() を使う場合の入力値</summary><label class="program-stdin-v10"><span>1行につき1つ。input() が呼ばれる順に入力します。</span><textarea rows="3" data-python-stdin placeholder="例：グー\n10">${escapeHTML(state.stdin||'')}</textarea></label></details><div class="program-run-v10-actions"><button type="button" data-python-run>実行する</button><button type="button" data-python-reset>教材のコードに戻す</button><small>Ctrl / ⌘ + Enter でも実行</small></div></div>
         <aside class="program-run-v10-output"><div><span>標準出力</span><pre data-python-stdout>(まだ実行していません)</pre></div><div><span>エラー</span><pre data-python-stderr>(エラーはありません)</pre></div><p data-python-status>先に出力を予想してから実行してください。</p></aside>
       </div>
       <div class="program-run-v10-note"><b>共通テストへのつなぎ</b><p>共通テスト本番はPythonそのものではなく大学入試センター独自の表記を使います。ここでは構文暗記より、値・条件・配列・反復がどう変化するかを確認してください。</p></div>
@@ -53,10 +53,11 @@
     reset.addEventListener('click',()=>{code.value=lesson.code||'';if(stdin)stdin.value='';persist();stdout.textContent='(まだ実行していません)';stderr.textContent='(エラーはありません)';status.textContent='教材のコードへ戻しました。まず結果を予想してください。';});
     runBtn.addEventListener('click',async()=>{
       runBtn.disabled=true;runBtn.textContent='実行中…';status.textContent='初回はPython実行環境の読み込みに少し時間がかかります。';
-      try{const result=await run(code.value,(stdin?.value||'').split(/\r?\n/));stdout.textContent=result.stdout||'(出力はありません)';stderr.textContent=result.stderr||'(エラーはありません)';status.textContent=result.status==='error'?'エラー箇所を読み、どの行まで実行されたか確認してください。':`実行完了（約 ${result.runtimeMs} ms）。予想と一致したか確認してください。`;}
+      try{const values=(stdin?.value||'').split(/\r?\n/).filter((v,i,a)=>v!==''||i<a.length-1);const result=await run(code.value,values);stdout.textContent=result.stdout||'(出力はありません)';stderr.textContent=result.stderr||'(エラーはありません)';status.textContent=result.status==='error'?'エラー箇所を読み、どの行まで実行されたか確認してください。':`実行完了（約 ${result.runtimeMs} ms）。予想と一致したか確認してください。`;}
       catch(err){stderr.textContent=err.message;status.textContent='実行できませんでした。コードと入力値を確認してください。';}
       finally{runBtn.disabled=false;runBtn.textContent='実行する';}
     });
   }
+  window.PROGRAM_RUNNER_V10=true;
   window.renderStudyLesson=function renderProgrammingRunV10(){baseRender();const {id,lesson}=current();if(!lesson||lesson.track!=='programming')return;const trace=document.querySelector('[data-program-lab-v9]');const target=trace||document.querySelector('.program-example-v6')||document.querySelector('#example');if(target&&!document.querySelector('[data-program-run-v10]')){target.insertAdjacentHTML('afterend',html(id,lesson));bind(id,lesson);}};
 })();
