@@ -1,0 +1,7 @@
+/* 情報Ⅰ v8 問題演習ハブ */
+.tool-route-grid.has-v8{grid-template-columns:repeat(4,1fr)}
+.tool-route-grid.has-v8 .tool-route-card[data-v8-open-route]{border-top-color:#7f6a9f}
+.tool-route-grid.has-v8 .tool-route-card[data-v8-open-route] small,.tool-route-grid.has-v8 .tool-route-card[data-v8-open-route]>span{color:#6f5b91}
+.tool-lecture-actions a[data-v8-open-link]{border-color:#b9c5d2;background:#f7f9fb;color:#56657b}
+@media(max-width:1080px){.tool-route-grid.has-v8{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.tool-route-grid.has-v8{grid-template-columns:1fr}}
