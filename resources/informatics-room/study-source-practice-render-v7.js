@@ -8,7 +8,7 @@
   }
   function blockHTML(tasks){
     return `<div class="et-source-practice-v7" data-source-practice-v7>
-      <div class="et-source-practice-v7-head"><div><span>原教材型演習</span><h3>実践問題の型まで取りこぼさない</h3></div><p>原教材の実践問題で使われている判断・計算・制作の型を、数値や場面を変えてもう一度練習します。先に自力で考えてから解答を開いてください。</p></div>
+      <div class="et-source-practice-v7-head"><div><span>PRACTICE</span><h3>実践演習でもう一段使ってみる</h3></div><p>このPARTで学んだ内容を、数値や場面を変えた問題でも使えるか確かめます。先に自力で考えてから解答を開いてください。</p></div>
       <div class="et-source-practice-v7-list">${tasks.map((task,i)=>`<article>
         <header><b>${String(i+1).padStart(2,'0')}</b><strong>${escapeHTML(task.title)}</strong></header>
         <p class="et-source-practice-v7-q">${escapeHTML(task.q)}</p>
