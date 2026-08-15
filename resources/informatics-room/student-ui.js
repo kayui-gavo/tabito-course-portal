@@ -199,22 +199,30 @@
   }
 
   function reviseStudentFacingCopy() {
-    const homeTitle = document.querySelector('.index-intro:not(.compact) h1');
-    const homeLead = document.querySelector('.index-intro:not(.compact) .index-lead');
-    if (homeTitle) homeTitle.textContent = '情報Ⅰを、わかる順番で。';
-    if (homeLead) homeLead.textContent = '初めて学ぶ人も、もう一度整理したい人も。教材の9講・47PARTに沿って、要点を理解し、例で確かめ、最後に自分で1問解くところまで進めます。';
+    const path = location.pathname;
+    const isProgramming = path.endsWith('/programming.html') || path.endsWith('programming.html');
+    const isHome = path.endsWith('/informatics-room/') || path.endsWith('/informatics-room/index.html') || path.endsWith('informatics-room/index.html');
 
-    const guide = document.querySelector('.study-guide:not(.programming-guide)');
-    if (guide) {
-      const strong = guide.querySelector('strong');
-      const spans = guide.querySelectorAll('span');
-      if (strong) strong.textContent = '1 PART の学び方';
-      const copy = ['目標を確認', '要点を理解', '1問で確認', '学習済みにする'];
-      spans.forEach((span, i) => { if (copy[i]) span.textContent = copy[i]; });
+    if (isHome) {
+      const homeTitle = document.querySelector('.index-intro:not(.compact) h1');
+      const homeLead = document.querySelector('.index-intro:not(.compact) .index-lead');
+      if (homeTitle) homeTitle.textContent = '情報Ⅰを、わかる順番で。';
+      if (homeLead) homeLead.textContent = '初めて学ぶ人も、もう一度整理したい人も。教材の9講・47PARTに沿って、図解、詳しい本文・教科書ノート、教材型の改編例題、確認問題の順で学べます。';
+
+      const guide = document.querySelector('.study-guide:not(.programming-guide)');
+      if (guide) {
+        const strong = guide.querySelector('strong');
+        const spans = guide.querySelectorAll('span');
+        if (strong) strong.textContent = '1 PART の学び方';
+        const copy = ['図で関係をつかむ', '本文・ノートを読む', '改編例題を解く', '確認問題で定着'];
+        spans.forEach((span, i) => { if (copy[i]) span.textContent = copy[i]; });
+      }
     }
 
-    const programTitle = document.querySelector('.index-intro.compact h1');
-    if (programTitle) programTitle.textContent = 'プログラムは、手で追うとわかる。';
+    if (isProgramming) {
+      const programTitle = document.querySelector('.index-intro.compact h1');
+      if (programTitle) programTitle.textContent = 'プログラムは、手で追うとわかる。';
+    }
   }
 
   function init() {
