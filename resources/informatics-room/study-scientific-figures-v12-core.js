@@ -8,8 +8,16 @@
     ctx.fillStyle=color;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(String(s),x,y);
   }
   function wrap(ctx,s,x,y,w,lh=19,size=12,color=C.gray,weight=400){
-    ctx.fillStyle=color;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign='left';ctx.textBaseline='top';let line='',yy=y;
-    for(const ch of String(s)){const test=line+ch;if(ctx.measureText(test).width>w&&line){ctx.fillText(line,x,yy);line=ch;yy+=lh;}else line=test;}if(line)ctx.fillText(line,x,yy);return yy;
+    ctx.fillStyle=color;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign='left';ctx.textBaseline='top';let yy=y;
+    const paragraphs=String(s).split('\n');
+    paragraphs.forEach((para,pi)=>{
+      if(!para){yy+=lh;return;}
+      let line='';
+      for(const ch of para){const test=line+ch;if(ctx.measureText(test).width>w&&line){ctx.fillText(line,x,yy);line=ch;yy+=lh;}else line=test;}
+      if(line){ctx.fillText(line,x,yy);yy+=lh;}
+      if(pi<paragraphs.length-1&&para)yy+=1;
+    });
+    return yy;
   }
   function rr(ctx,x,y,w,h,fill=C.white,stroke=C.grid,r=10,lw=1.2){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke();}
   function box(ctx,x,y,w,h,h1,p='',opt={}){rr(ctx,x,y,w,h,opt.fill||C.white,opt.stroke||C.grid,opt.r||10,opt.lw||1.2);text(ctx,h1,x+13,y+22,opt.ts||14,opt.tc||C.navy,700);if(p)wrap(ctx,p,x+13,y+35,w-26,opt.lh||18,opt.bs||11,opt.bc||C.gray,400);}
