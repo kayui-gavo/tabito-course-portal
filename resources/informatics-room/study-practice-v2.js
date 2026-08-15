@@ -1,16 +1,25 @@
 /* 情報Ⅰ 問題演習 v2
    本編47PARTの確認問題に、各PARTの仕上げ問題も統合する。
-   選択・数値入力・文字入力・並べ替えを同一UIで扱う。 */
+   選択・数値入力・文字入力・並べ替えを同一UIで扱い、誤答復習も保存する。 */
 (() => {
   const lessons = () => STUDY_DATA.mainLessons || [];
   const depth = () => window.ELECTRONIC_DEPTH_V2 || {};
   const finish = () => window.ELECTRONIC_CHALLENGE_V4 || {};
+  const WRONG_KEY = 'tabito-info-practice-wrong-v2';
 
   const esc = value => escapeHTML(value);
   const lessonLabel = lesson => `第${lesson.lecture}講 PART${lesson.part}`;
   const normalize = value => String(value ?? '')
     .trim().toLowerCase().replace(/\s+/g,'')
     .replace(/[，、]/g, ',').replace(/₂/g,'2');
+
+  function readWrong() {
+    try { return new Set(JSON.parse(localStorage.getItem(WRONG_KEY) || '[]')); }
+    catch (_) { return new Set(); }
+  }
+  function saveWrong(set) {
+    try { localStorage.setItem(WRONG_KEY, JSON.stringify([...set])); } catch (_) {}
+  }
 
   function bestExplanation(lesson) {
     const correct = lesson.quiz?.choices?.[lesson.quiz.answer] || '';
@@ -57,10 +66,10 @@
     return `<div class="practice-input-v2"><input type="text" inputmode="${mode}" data-practice-input placeholder="${placeholder}"><button type="button" data-input-check>答え合わせ</button></div>`;
   }
 
-  function card(item,index) {
+  function card(item,index,state) {
     const lesson=studyLessonById(item.lessonId);
     const searchable=[item.q,...(item.choices||[]),...(item.items||[]),lesson?.title||'',item.level].join(' ');
-    return `<article class="tool-question-card practice-card-v2" data-qid="${item.id}" data-lecture="${item.lecture}" data-search="${esc(searchable)}">
+    return `<article class="tool-question-card practice-card-v2 ${state.wrong.has(item.id)?'is-in-wrong-book':''}" data-qid="${item.id}" data-lecture="${item.lecture}" data-search="${esc(searchable)}">
       <div class="tool-question-meta"><span>問 ${index+1}</span><a href="${lessonHref(item.lessonId)}">${lessonLabel(lesson)}　${esc(lesson.title)}</a><b class="practice-level-v2">${esc(item.level)}</b></div>
       <p class="tool-question-text">${esc(item.q)}</p>
       ${answerUI(item)}
@@ -71,11 +80,39 @@
   function feedback(card,correct,item) {
     const box=card.querySelector('.tool-question-feedback');
     box.className=`tool-question-feedback is-visible ${correct?'is-correct':'is-wrong'}`;
-    box.innerHTML=`<strong>${correct?'正解です。':'もう一度確認しましょう。'}</strong><p>${esc(item.why||'本文の該当箇所に戻り、根拠まで確認してください。')}</p>${!correct?`<p class="practice-back-v2"><a href="${lessonHref(item.lessonId)}">このPARTの本文へ戻る →</a></p>`:''}`;
+    box.innerHTML=`<strong>${correct?'正解です。':'もう一度確認しましょう。'}</strong><p>${esc(item.why||'本文の該当箇所に戻り、根拠まで確認してください。')}</p><div class="practice-feedback-actions">${!correct?'<button type="button" class="tool-retry" data-practice-retry>もう一度解く</button>':''}<a href="${lessonHref(item.lessonId)}">このPARTの本文へ →</a></div>`;
+  }
+
+  function markWrong(state,item,correct,card) {
+    if(correct) state.wrong.delete(item.id); else state.wrong.add(item.id);
+    saveWrong(state.wrong);
+    card.classList.toggle('is-in-wrong-book',!correct);
+    updateWrongButton(state);
+  }
+
+  function clearCard(card,item,state) {
+    state.answers.delete(item.id);
+    card.querySelectorAll('.tool-choice').forEach(b=>{b.disabled=false;b.classList.remove('is-correct','is-wrong');});
+    const input=card.querySelector('[data-practice-input]'); if(input){input.value='';input.removeAttribute('aria-invalid');}
+    const bank=card.querySelector('[data-order-bank]');
+    const answer=card.querySelector('[data-order-answer]');
+    if(bank&&answer){
+      [...bank.querySelectorAll('button'),...answer.querySelectorAll('button')]
+        .sort((a,b)=>Number(a.dataset.origin)-Number(b.dataset.origin))
+        .forEach(btn=>bank.appendChild(btn));
+    }
+    const box=card.querySelector('.tool-question-feedback'); if(box){box.className='tool-question-feedback';box.innerHTML='';}
+    updateScore(state);
   }
 
   function bindCard(card,item,state) {
-    const setResult=correct=>{state.answers.set(item.id,correct);updateScore(state);feedback(card,correct,item);};
+    const setResult=correct=>{
+      state.answers.set(item.id,correct);
+      markWrong(state,item,correct,card);
+      updateScore(state);
+      feedback(card,correct,item);
+      card.querySelector('[data-practice-retry]')?.addEventListener('click',()=>clearCard(card,item,state));
+    };
     if (item.type === 'choice') {
       const buttons=[...card.querySelectorAll('[data-choice]')];
       buttons.forEach(button=>button.addEventListener('click',()=>{
@@ -96,13 +133,7 @@
         (btn.parentElement===bank?answer:bank).appendChild(btn);
       };
       bank.addEventListener('click',move); answer.addEventListener('click',move);
-      card.querySelector('[data-order-reset]').addEventListener('click',()=>{
-        [...bank.querySelectorAll('button'),...answer.querySelectorAll('button')]
-          .sort((a,b)=>Number(a.dataset.origin)-Number(b.dataset.origin))
-          .forEach(btn=>bank.appendChild(btn));
-        state.answers.delete(item.id); updateScore(state);
-        const box=card.querySelector('.tool-question-feedback'); box.className='tool-question-feedback'; box.innerHTML='';
-      });
+      card.querySelector('[data-order-reset]').addEventListener('click',()=>clearCard(card,item,state));
       card.querySelector('[data-order-check]').addEventListener('click',()=>{
         const got=[...answer.querySelectorAll('button')].map(btn=>btn.dataset.orderValue);
         const correct=got.length===item.answer.length&&got.every((x,i)=>x===item.answer[i]);
@@ -111,7 +142,11 @@
       return;
     }
     const input=card.querySelector('[data-practice-input]');
-    const check=()=>setResult(normalize(input.value)===normalize(item.answer));
+    const check=()=>{
+      const correct=normalize(input.value)===normalize(item.answer);
+      input.setAttribute('aria-invalid',String(!correct));
+      setResult(correct);
+    };
     card.querySelector('[data-input-check]').addEventListener('click',check);
     input.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
   }
@@ -125,9 +160,17 @@
     score.classList.toggle('is-complete',answered>0&&answered===state.visible.length);
   }
 
+  function updateWrongButton(state) {
+    const btn=document.querySelector('[data-wrong-only]');
+    if(!btn)return;
+    btn.innerHTML=`誤答だけ <small>${state.wrong.size}</small>`;
+    btn.classList.toggle('is-active',state.wrongOnly);
+  }
+
   function visibleItems(state) {
     let data=state.bank;
     if(state.lecture)data=data.filter(q=>q.lecture===state.lecture);
+    if(state.wrongOnly)data=data.filter(q=>state.wrong.has(q.id));
     if(state.query){
       const q=normalize(state.query);
       data=data.filter(item=>{
@@ -143,9 +186,9 @@
     const root=document.querySelector('#toolQuestionList');
     state.visible=visibleItems(state);
     state.answers.clear();
-    root.innerHTML=state.visible.length?state.visible.map(card).join(''):'<div class="tool-empty">条件に合う問題がありません。</div>';
+    root.innerHTML=state.visible.length?state.visible.map((item,index)=>card(item,index,state)).join(''):'<div class="tool-empty">条件に合う問題がありません。</div>';
     document.querySelector('[data-tool-count]').textContent=`${state.visible.length}問`;
-    updateScore(state);
+    updateScore(state); updateWrongButton(state);
     root.querySelectorAll('.tool-question-card').forEach(node=>{
       const item=state.visible.find(q=>q.id===node.dataset.qid); if(item)bindCard(node,item,state);
     });
@@ -155,15 +198,15 @@
     const all=bank();
     const params=new URLSearchParams(location.search);
     const lectureParam=Number(params.get('lecture'));
-    const state={bank:all,visible:[],lecture:Number.isInteger(lectureParam)&&lectureParam>=1&&lectureParam<=9?lectureParam:0,query:'',random:false,answers:new Map()};
+    const state={bank:all,visible:[],lecture:Number.isInteger(lectureParam)&&lectureParam>=1&&lectureParam<=9?lectureParam:0,query:'',random:false,wrongOnly:params.get('wrong')==='1',wrong:readWrong(),answers:new Map()};
     document.body.innerHTML=`${renderStudyHeader('practice')}<main class="study-shell index-shell tool-shell">
       <section class="index-intro compact tool-intro">
-        <div><p class="index-kicker">PRACTICE / 本編9講</p><h1>確認問題を、解きながら定着させる。</h1><p class="index-lead">本編47PARTの確認問題と仕上げ問題をまとめています。四択だけでなく、数値入力・文字入力・並べ替えも使って、用語の暗記から一段進んだ理解を確認します。</p></div>
+        <div><p class="index-kicker">PRACTICE / 本編9講</p><h1>確認問題を、解きながら定着させる。</h1><p class="index-lead">本編47PARTの確認問題と仕上げ問題をまとめています。四択だけでなく、数値入力・文字入力・並べ替えも使って、用語の暗記から一段進んだ理解を確認します。間違えた問題は「誤答だけ」に自動で残ります。</p></div>
         <div class="index-progress-box tool-intro-aside"><span>収録問題</span><strong class="tool-big-number">${all.length}</strong><small>教材9講・47PARTから構成</small></div>
       </section>
-      <section class="tool-practice-guide"><b>解き方</b><span>① 講を選ぶ</span><span>② 根拠を考えて答える</span><span>③ 解説を読む</span><span>④ 間違えたPARTへ戻る</span></section>
+      <section class="tool-practice-guide"><b>解き方</b><span>① 講を選ぶ</span><span>② 根拠を考えて答える</span><span>③ 解説を読む</span><span>④ 誤答を解き直す</span></section>
       <div class="tool-toolbar">
-        <div class="tool-filter" role="group" aria-label="講で絞り込む"><button type="button" data-lecture="0">すべて</button>${STUDY_DATA.lectures.map(meta=>`<button type="button" data-lecture="${meta.no}">第${meta.no}講</button>`).join('')}<button type="button" data-random="1">ランダム20問</button></div>
+        <div class="tool-filter" role="group" aria-label="講で絞り込む"><button type="button" data-lecture="0">すべて</button>${STUDY_DATA.lectures.map(meta=>`<button type="button" data-lecture="${meta.no}">第${meta.no}講</button>`).join('')}<button type="button" data-random="1">ランダム20問</button><button type="button" data-wrong-only>誤答だけ <small>${state.wrong.size}</small></button></div>
         <label class="tool-search"><span class="sr-only">問題を検索</span><input type="search" id="toolQuestionSearch" placeholder="問題・用語を検索"></label>
       </div>
       <div class="tool-session-bar"><span data-tool-count>${all.length}問</span><div data-tool-score><span>回答 0 / 0</span><strong>正解 0</strong></div></div>
@@ -171,10 +214,12 @@
     </main>`;
     const lectureButtons=[...document.querySelectorAll('[data-lecture]')];
     const randomBtn=document.querySelector('[data-random]');
+    const wrongBtn=document.querySelector('[data-wrong-only]');
     const search=document.querySelector('#toolQuestionSearch');
-    const active=()=>{lectureButtons.forEach(b=>b.classList.toggle('is-active',!state.random&&Number(b.dataset.lecture)===state.lecture));randomBtn.classList.toggle('is-active',state.random);};
-    lectureButtons.forEach(btn=>btn.addEventListener('click',()=>{state.lecture=Number(btn.dataset.lecture);state.random=false;active();renderList(state);}));
-    randomBtn.addEventListener('click',()=>{state.lecture=0;state.random=true;active();renderList(state);});
+    const active=()=>{lectureButtons.forEach(b=>b.classList.toggle('is-active',!state.random&&!state.wrongOnly&&Number(b.dataset.lecture)===state.lecture));randomBtn.classList.toggle('is-active',state.random);updateWrongButton(state);};
+    lectureButtons.forEach(btn=>btn.addEventListener('click',()=>{state.lecture=Number(btn.dataset.lecture);state.random=false;state.wrongOnly=false;active();renderList(state);}));
+    randomBtn.addEventListener('click',()=>{state.lecture=0;state.random=true;state.wrongOnly=false;active();renderList(state);});
+    wrongBtn.addEventListener('click',()=>{state.wrongOnly=!state.wrongOnly;state.random=false;active();renderList(state);});
     search.addEventListener('input',()=>{state.query=search.value.trim();state.random=false;active();renderList(state);});
     active();renderList(state);
   };
