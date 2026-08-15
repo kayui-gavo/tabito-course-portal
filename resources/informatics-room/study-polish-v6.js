@@ -77,7 +77,7 @@
       const isMain=lesson?.track!=='programming';
       setActive(isMain?'home':'programming');
       document.querySelectorAll('.et-v4-status').forEach(node=>node.remove());
-      if(isMain||document.querySelector('.et-route'))document.querySelectorAll('.lesson-route').forEach(node=>node.remove());
+      if(isMain||document.querySelector('.et-route')||document.querySelector('.program-source-flow-v6'))document.querySelectorAll('.lesson-route').forEach(node=>node.remove());
       replaceText(document.querySelector('.lesson-paper'),'知識点','要点');
       const source=document.querySelector('.lesson-source');
       if(source)source.textContent=source.textContent.replace('Web自学用に説明と例題を再構成しています。','教材の学習順序を保ちながら、Web自学用に本文・図解・例題を再構成しています。');
