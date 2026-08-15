@@ -41,7 +41,7 @@
   }
   function lineRows(code){
     return String(code||'').split('\n').map((line,i)=>{
-      const [name,desc]=role(line);
+      const [name]=role(line);
       return `<button type="button" class="program-lab-v9-line" data-line="${i}"><i>${String(i+1).padStart(2,'0')}</i><code>${escapeHTML(line||' ')}</code><span>${escapeHTML(name)}</span></button>`;
     }).join('');
   }
@@ -82,11 +82,23 @@
     root.querySelector('[data-trace-next]').addEventListener('click',()=>{if(pos<lines.length-1){pos++;paint();}});
     paint();
   }
+  function reorderByLevel(lesson,key,ex,lab){
+    if(lesson.level==='初級'||!key||!ex)return;
+    document.body.classList.add('program-prestudy-v9');
+    const anchor=document.querySelector('.program-source-flow-v6')||document.querySelector('.lesson-goals');
+    if(anchor){anchor.insertAdjacentElement('afterend',ex);ex.insertAdjacentElement('afterend',lab);}
+    const h2=ex.querySelector('h2');if(h2)h2.textContent='まず例題コードを自力で追う';
+    const intro=ex.querySelector('.program-intro-v6,.et-section-lead,.example-box');
+    if(intro&&lesson.level!=='初級')intro.insertAdjacentHTML('beforebegin','<p class="program-prestudy-note-v9">中級・上級は、先に例題を解いてから解説へ進みます。実行結果を予想し、分からない行に印を付けてください。</p>');
+  }
   function insert(id,lesson){
     const key=document.querySelector('.program-text-v6')||document.querySelector('#points');
     if(key&&!document.querySelector('[data-program-source-v9]')) key.insertAdjacentHTML('beforeend',sourcePanel(id));
     const ex=document.querySelector('.program-example-v6')||document.querySelector('#example');
-    if(ex&&!document.querySelector('[data-program-lab-v9]')){ex.insertAdjacentHTML('afterend',labHTML(id,lesson));bindLab(id,lesson);}
+    if(ex&&!document.querySelector('[data-program-lab-v9]')) ex.insertAdjacentHTML('afterend',labHTML(id,lesson));
+    const lab=document.querySelector('[data-program-lab-v9]');
+    if(lab)bindLab(id,lesson);
+    reorderByLevel(lesson,key,ex,lab);
   }
   window.renderStudyLesson=function renderProgrammingLabV9(){
     baseRender();
