@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="study-source-interactive-v10.css">
   <link rel="stylesheet" href="study-scientific-figures-v11.css">
   <link rel="stylesheet" href="study-scientific-figures-v12.css">
+  <link rel="stylesheet" href="study-figure-interactives-v12.css">
   <link rel="stylesheet" href="study-programming-run-v10.css">
   <link rel="stylesheet" href="study-current-notes-v10.css">
   <link rel="stylesheet" href="study-lesson-nav-v10.css">
@@ -86,6 +87,7 @@
   <script src="study-scientific-figures-v12-c.js"></script>
   <script src="study-scientific-figures-v12-d.js"></script>
   <script src="study-scientific-figures-v12-render.js"></script>
+  <script src="study-figure-interactives-v12.js"></script>
   <script src="study-interactive-labs-v9.js"></script>
   <script src="study-interactive-labs-v9b.js"></script>
   <script src="study-interactive-labs-v10.js"></script>
@@ -104,7 +106,7 @@
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
       const cue = document.querySelector('.et-study-cue-v3 b');
-      if (cue) cue.textContent = '図で関係をつかむ → 本文と詳しいノートで細部まで読む → 操作・実行して確かめる → 例題・実践演習 → 到達チェックと確認問題';
+      if (cue) cue.textContent = '図で関係をつかむ → 図の下で自分の言葉にする → 本文で細部を読む → 操作・実行して確かめる → 例題・実践演習 → 到達チェック';
       const checkLead = document.querySelector('.et-check-head p');
       if (checkLead) checkLead.textContent = '単語暗記だけでなく、資料の読み取り・場面への適用・計算・分類まで確認します。3問のあと、仕上げ問題にも挑戦してください。';
     })();
