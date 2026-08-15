@@ -33,6 +33,39 @@
     return filtered.length >= 2 ? filtered : all;
   }
 
+  function termKeys(term) {
+    const raw = String(term || '').trim();
+    const noParen = raw.replace(/[（(][^）)]*[）)]/g, '').trim();
+    const parts = raw.split(/[（(／/・]/).map(x => x.trim()).filter(Boolean);
+    return [...new Set([raw, noParen, ...parts].filter(x => x.length >= 2))];
+  }
+
+  function termDefinition(lesson, term) {
+    const v3 = (window.ELECTRONIC_TEXTBOOK_V3 || {})[lesson.id];
+    const texts = [
+      ...(v3?.sections || []).map(x => x.body),
+      ...(lesson.points || []).map(x => x.body),
+      lesson.lead,
+      lesson.note
+    ].filter(Boolean);
+    const keys = termKeys(term);
+    for (const text of texts) {
+      const sentences = String(text).split('。').map(x => x.trim()).filter(Boolean);
+      const hit = sentences.find(sentence => keys.some(key => sentence.includes(key)));
+      if (hit) return `${hit}。`;
+    }
+    const point = (lesson.points || []).find(x => keys.some(key => x.title.includes(key) || x.body.includes(key)));
+    return point?.body || lesson.lead || '';
+  }
+
+  function dictionaryHTML(lesson, terms) {
+    if (!terms.length) return '';
+    return `<details class="et-detail-v5-dictionary">
+      <summary><span>用語を1語ずつ確認する</span><b>${terms.length}語</b></summary>
+      <dl>${terms.map(term => `<div><dt>${escapeHTML(term)}</dt><dd>${escapeHTML(termDefinition(lesson, term))}</dd></div>`).join('')}</dl>
+    </details>`;
+  }
+
   function detailHTML(lesson) {
     const d = depth[lesson.id] || {};
     const notes = noteBlocks(lesson);
@@ -57,6 +90,7 @@
         <div class="et-detail-v5-terms-title"><b>このPARTで説明できるようにする用語</b><span>${terms.length}語</span></div>
         <div>${terms.map(term => `<a href="glossary.html?q=${encodeURIComponent(term)}">${escapeHTML(term)}</a>`).join('')}</div>
       </div>` : ''}
+      ${dictionaryHTML(lesson, terms)}
     </div>`;
   }
 
