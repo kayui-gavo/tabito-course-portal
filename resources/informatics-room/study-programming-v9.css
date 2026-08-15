@@ -1,0 +1,43 @@
+/* 情報Ⅰ＜プログラミング編＞ v9 */
+.program-source-v9{margin:24px 0 0;border-top:2px solid #244f69;border-bottom:1px solid #d9e2e7;background:#fff}
+.program-source-v9-head{display:grid;grid-template-columns:170px 1fr;align-items:end;padding:15px 0 12px;border-bottom:1px solid #e4e9ec}
+.program-source-v9-head span{color:#2e78a1;font-size:9px;font-weight:850;letter-spacing:.1em}
+.program-source-v9-head h3{margin:0;color:#243f51;font-size:15px}
+.program-source-v9-grid{display:grid;grid-template-columns:1fr 1fr}
+.program-source-v9-grid article{padding:14px 16px;border-bottom:1px solid #e7ecef}
+.program-source-v9-grid article:nth-child(odd){border-right:1px solid #e7ecef}
+.program-source-v9-grid b{display:block;margin-bottom:5px;color:#2a5f7e;font-size:10px}
+.program-source-v9-grid p{margin:0;color:#526774;font-size:11px;line-height:1.9}
+.program-lab-v9{margin:0 0 30px;border:1px solid #cbd8de;background:#fff}
+.program-lab-v9>header{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:24px;padding:17px 18px;border-bottom:1px solid #dfe6ea;background:#f8fafb}
+.program-lab-v9>header span{display:block;color:#2e78a1;font-size:9px;font-weight:850;letter-spacing:.1em}
+.program-lab-v9>header h3{margin:4px 0 0;color:#203f54;font-size:16px}
+.program-lab-v9>header p{margin:0;color:#617580;font-size:11px;line-height:1.85}
+.program-lab-v9-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr)}
+.program-lab-v9-code{max-height:420px;overflow:auto;border-right:1px solid #dfe6ea;background:#fbfcfd}
+.program-lab-v9-line{display:grid;grid-template-columns:32px minmax(0,1fr) 80px;width:100%;gap:8px;align-items:start;padding:8px 10px;border:0;border-top:1px solid #edf1f3;background:transparent;text-align:left;color:#344f60}
+.program-lab-v9-line:first-child{border-top:0}
+.program-lab-v9-line:hover{background:#f2f7fa}
+.program-lab-v9-line.is-active{background:#eaf4fa;box-shadow:inset 3px 0 #2f789e}
+.program-lab-v9-line i{font-style:normal;color:#94a1a9;font-size:9px;padding-top:2px}
+.program-lab-v9-line code{white-space:pre-wrap;overflow-wrap:anywhere;font:500 11px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;color:#2b4352}
+.program-lab-v9-line span{justify-self:end;padding:2px 5px;border:1px solid #d2dfe5;background:#fff;color:#5f7786;font-size:8px;white-space:nowrap}
+.program-lab-v9-side{padding:15px 16px}
+.program-lab-v9-step>span{color:#8998a1;font-size:9px}.program-lab-v9-step>strong{float:right;color:#49677a;font-size:10px}
+.program-lab-v9-step>b{display:block;clear:both;margin:14px 0 5px;color:#1f5d81;font-size:12px}
+.program-lab-v9-step>p{min-height:44px;margin:0;color:#556a77;font-size:10.5px;line-height:1.75}
+.program-lab-v9-step>div{display:flex;gap:7px;margin:11px 0 16px}
+.program-lab-v9-step button{flex:1;min-height:32px;border:1px solid #c7d5dc;background:#fff;color:#315b74;font-size:9px;font-weight:750}
+.program-lab-v9-step button:not(:disabled):hover{background:#eff6fa}.program-lab-v9-step button:disabled{opacity:.4}
+.program-lab-v9-memo{display:block;border-top:1px solid #e3e9ec;padding-top:13px}
+.program-lab-v9-memo>span{display:block;margin-bottom:6px;color:#365d73;font-size:10px;font-weight:750}
+.program-lab-v9-memo textarea{box-sizing:border-box;width:100%;resize:vertical;padding:9px 10px;border:1px solid #cbd8de;background:#fff;color:#344d5c;font:500 10px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}
+.program-lab-v9-memo textarea:focus{border-color:#5790ad;box-shadow:0 0 0 3px rgba(47,120,158,.08)}
+.program-lab-v9-memo small{display:block;margin-top:4px;color:#95a1a8;font-size:8px}
+.program-lab-v9-check{border-top:1px solid #dfe6ea;padding:0 16px}.program-lab-v9-check summary{padding:11px 0;color:#34627c;font-size:10px;font-weight:750;cursor:pointer}.program-lab-v9-check p{margin:0 0 13px;color:#5f727d;font-size:10.5px;line-height:1.8}
+@media(max-width:760px){
+  .program-source-v9-head,.program-lab-v9>header,.program-lab-v9-layout{grid-template-columns:1fr}
+  .program-source-v9-grid{grid-template-columns:1fr}.program-source-v9-grid article:nth-child(odd){border-right:0}
+  .program-lab-v9-code{max-height:330px;border-right:0;border-bottom:1px solid #dfe6ea}
+  .program-lab-v9-line{grid-template-columns:28px minmax(0,1fr)}.program-lab-v9-line span{grid-column:2;justify-self:start}
+}
