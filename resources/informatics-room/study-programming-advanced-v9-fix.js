@@ -1,4 +1,4 @@
-/* 情報Ⅰ＜プログラミング編＞ v9 — advanced source-alignment fixes */
+/* 情報Ⅰ＜プログラミング編＞ v10 — advanced source-alignment fixes */
 (() => {
   const a=window.PROGRAM_ADVANCED_V9||{};
   if(a.p44){
@@ -14,5 +14,19 @@
     a.p45.code=`Data = [\n [0,1,1,0],\n [1,0,1,1],\n [1,1,0,0],\n [0,1,0,0]\n]\nHuman = ['A','B','C','D']\nFriends = []\nname = 'B'\nname_index = Human.index(name)\nfor i in range(len(Data)):\n    if Data[name_index][i] == 1:\n        Friends.append(Human[i])\nprint(Friends)`;
     a.p45.focus='Data[name_index][i] は「調べたい人の行」を左から見る。教材の友人関係は相互的なので行列は対称になる。';
     a.p45.check='Bの行 [1,0,1,1] から、友人は A・C・D と読み取れる。';
+  }
+  if(a.p46){
+    a.p46.title='交通信号と到着台数から渋滞をシミュレーションする';
+    a.p46.conditions=['10秒ごとに5〜10台がランダムに到着する','青信号では到着分を加えて通過可能台数を引き、待ち台数を0未満にしない','赤信号では通過できないため到着台数をそのまま待ち台数へ加える'];
+    a.p46.code=`import random\ntotaltime = 18\npasstime = 10\nsignal_b = 6\nsignal_r = 3\nwait = 0\nfor t in range(1, totaltime + 1):\n    arrive = random.randint(5, 10)\n    mod = (t - 1) % (signal_b + signal_r) + 1\n    blue_flag = (mod <= signal_b)\n    if blue_flag:\n        wait = max(wait + arrive - passtime, 0)\n    else:\n        wait = wait + arrive\n    print(t * 10, arrive, wait)`;
+    a.p46.focus='教材の中心は、時刻tから信号周期内の位置modを求め、青/赤でwaitの更新式を切り替えること。各時刻で「到着前wait→arrive加算→通過後wait」を追う。';
+    a.p46.check='青信号の更新が max(wait + arrive - passtime, 0)、赤信号の更新が wait + arrive になる理由を、車の流れから説明できる。';
+  }
+  if(a.p48){
+    a.p48.title='罠のある1人用すごろくゲーム';
+    a.p48.conditions=['六面サイコロの出目だけ現在位置を進める','10マス目にちょうど止まると5マス戻る','20マス目以上へ到達したらゴールとし、振った回数を出力する'];
+    a.p48.code=`import random\nplayer_position = 0\ntrap_position = 10\ngoal_position = 20\nroll_count = 0\nwhile player_position < goal_position:\n    roll = random.randint(1, 6)\n    player_position = player_position + roll\n    roll_count = roll_count + 1\n    if player_position == trap_position:\n        player_position = player_position - 5\n    if player_position >= goal_position:\n        break\nprint(roll_count, player_position)`;
+    a.p48.focus='1ターンを「出目→位置更新→回数更新→罠判定→ゴール判定」に分け、罠の処理後の位置を次の反復へ渡す。';
+    a.p48.check='教材条件の「10マス目で5マス戻る」「20以上でゴール」をコードの条件式と対応させられる。';
   }
 })();
