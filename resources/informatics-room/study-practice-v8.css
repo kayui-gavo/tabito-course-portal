@@ -1,0 +1,20 @@
+/* 情報Ⅰ v8 問題演習：原教材型の記述・思考問題 */
+.practice-open-v8{margin-top:14px;border-top:1px solid #e1e7ea;padding-top:12px}
+.practice-open-v8-note{margin:0 0 10px;color:#667983;font-size:11px;line-height:1.8}
+.practice-open-v8-actions{display:flex;gap:8px;flex-wrap:wrap}
+.practice-open-v8 button{height:36px;padding:0 11px;border:1px solid #c5d2d9;background:#fff;color:#35596e;border-radius:4px;font-size:10.5px;font-weight:750}
+.practice-open-v8 button[data-open-reveal]{border-color:#173a58;background:#173a58;color:#fff}
+.practice-open-v8-answer{margin-top:11px;padding:12px 13px;border-left:3px solid #7b9fb3;background:#f7fafb;color:#4a626f}
+.practice-open-v8-answer>b{display:block;margin-bottom:5px;color:#2b546d;font-size:10.5px}
+.practice-open-v8-answer p{margin:0;font-size:11.5px;line-height:1.9}
+.practice-open-v8-grade{display:flex;align-items:center;gap:8px;margin-top:10px}
+.practice-open-v8-grade span{margin-right:auto;color:#778992;font-size:10px}
+.practice-open-v8-grade [data-open-good]{border-color:#84ad99;color:#35694f}
+.practice-open-v8-grade [data-open-review]{border-color:#d4a28d;color:#915b44}
+.practice-card-v2.is-open-practice{background:#fcfdfd}
+.practice-card-v2.is-open-practice .practice-level-v2{border-color:#b9cdd8;background:#f2f7fa;color:#315d76}
+.practice-title-v8{display:block;margin:9px 0 -2px;color:#2d5d77;font-size:10px;font-weight:800;letter-spacing:.02em}
+.tool-mode-filter-v8{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.tool-mode-filter-v8 button{height:30px;padding:0 10px;border:1px solid #d0dbe0;background:#fff;color:#506773;border-radius:99px;font-size:9.5px;font-weight:750}
+.tool-mode-filter-v8 button.is-active{border-color:#315f7a;background:#edf5f9;color:#1f5575}
+@media(max-width:560px){.practice-open-v8-grade{align-items:flex-start;flex-wrap:wrap}.practice-open-v8-grade span{width:100%;margin-right:0}}
