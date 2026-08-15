@@ -32,6 +32,12 @@ if not hasattr(builtins, "_lesson_original_import"):
     builtins._lesson_original_import = builtins.__import__
 real_import = builtins._lesson_original_import
 
+if not hasattr(builtins, "_lesson_original_input"):
+    builtins._lesson_original_input = builtins.input
+
+stdin_values = [str(value) for value in (exercise.get("stdin") or [])]
+stdin_index = 0
+
 def safe_import(name, globals=None, locals=None, fromlist=(), level=0):
     top_level = name.split(".")[0]
     if top_level in blocked_modules:
@@ -41,8 +47,19 @@ def safe_import(name, globals=None, locals=None, fromlist=(), level=0):
 def blocked_open(*args, **kwargs):
     raise PermissionError("この練習ではファイルを開くことはできません。")
 
+def lesson_input(prompt=""):
+    global stdin_index
+    if prompt:
+        print(prompt, end="")
+    if stdin_index >= len(stdin_values):
+        raise EOFError("input() に渡す値が足りません。実行欄の『入力値』へ1行ずつ追加してください。")
+    value = stdin_values[stdin_index]
+    stdin_index += 1
+    return value
+
 builtins.__import__ = safe_import
 builtins.open = blocked_open
+builtins.input = lesson_input
 
 def normalize_output(text):
     text = str(text).replace("\r\n", "\n").replace("\r", "\n")
@@ -72,7 +89,11 @@ try:
     with contextlib.redirect_stdout(stdout_buffer), contextlib.redirect_stderr(stderr_buffer):
         exec(user_code, namespace)
 
-    if exercise.get("mode") == "function":
+    mode = exercise.get("mode")
+    if mode == "sandbox":
+        result["passed"] = True
+        result["message"] = "実行が完了しました。出力と自分の予想を比べてください。"
+    elif mode == "function":
         tests = exercise.get("tests") or []
         passed_all = True
         for test in tests:
