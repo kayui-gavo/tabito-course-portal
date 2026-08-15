@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="情報Ⅰを教材準拠で学ぶ自学用電子教材。図解、詳しい本文・教科書ノート、教材型の改編例題、確認問題の順で1PARTずつ学べます。">
+  <meta name="description" content="情報Ⅰを教材準拠で学ぶ自学用電子教材。47PARTすべてを原教材と逐項照合し、図解、詳細本文、教材型改編例題、共通テストを意識した確認問題まで学べます。">
   <link rel="stylesheet" href="source-course.css">
   <link rel="stylesheet" href="student-ui.css">
   <link rel="stylesheet" href="study-electronic-v1.css">
@@ -26,21 +26,25 @@
   <script src="study-ui.js"></script>
   <script src="study-electronic-data-v1.js"></script>
   <script src="study-electronic-ui-v1.js"></script>
-  <script src="study-electronic-quiz-v1.js"></script>
   <script src="study-electronic-depth-v2.js"></script>
   <script src="study-electronic-ui-v2.js"></script>
   <script src="study-textbook-v3-a.js"></script>
   <script src="study-textbook-v3-b.js"></script>
   <script src="study-textbook-v3-c.js"></script>
   <script src="study-textbook-v3-sourcefix.js"></script>
+  <script src="study-source-master-v7-a.js"></script>
+  <script src="study-source-master-v7-b.js"></script>
+  <script src="study-source-master-v7-c.js"></script>
   <script src="study-textbook-v3.js"></script>
   <script src="study-textbook-v4-figures.js"></script>
   <script src="study-figure-fix-v6.js"></script>
   <script src="study-textbook-v4-practice.js"></script>
   <script src="study-textbook-v4-challenge.js"></script>
+  <script src="study-source-check-v7.js"></script>
   <script src="study-textbook-v4.js"></script>
   <script src="study-detailed-v5.js"></script>
   <script src="study-programming-textbook-v6.js"></script>
+  <script src="study-common-test-v7.js"></script>
   <script src="study-integrity-v6.js"></script>
   <script>
     renderStudyLesson();
@@ -52,9 +56,9 @@
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
       const cue = document.querySelector('.et-study-cue-v3 b');
-      if (cue) cue.textContent = '図で関係をつかむ → 詳しい本文・教科書ノートを読む → 例題で使う → 確認問題で定着';
+      if (cue) cue.textContent = '図で関係をつかむ → 本文と原教材逐項照合で細部まで読む → 教材型例題で使う → 確認問題で定着';
       const checkLead = document.querySelector('.et-check-head p');
-      if (checkLead) checkLead.textContent = '用語を暗記できたかではなく、場面への適用・計算・分類まで確認します。3問を解いたあと、仕上げ問題にも挑戦してください。';
+      if (checkLead) checkLead.textContent = '単語暗記だけでなく、資料の読み取り・場面への適用・計算・分類まで確認します。3問のあと、原教材を再照合した仕上げ問題にも挑戦してください。';
     })();
   </script>
   <script src="student-ui.js"></script>
