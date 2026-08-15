@@ -1,0 +1,22 @@
+/* 情報Ⅰ v12 — 教材図版の出版物寄りレイアウト */
+.scientific-figure-v12{margin:24px 0 32px;border:1px solid #c9d7de;background:#fff;box-shadow:0 10px 30px rgba(25,52,67,.035)}
+.scientific-figure-head-v12{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:15px 17px;border-bottom:1px solid #dfe7ea;background:#f8fafb}
+.scientific-figure-head-v12 span{display:block;color:#2d759a;font-size:8.5px;font-weight:850;letter-spacing:.12em}
+.scientific-figure-head-v12 h3{margin:4px 0 0;color:#203f54;font-size:15px;line-height:1.45}
+.scientific-figure-head-v12 button{flex:0 0 auto;padding:7px 10px;border:1px solid #c4d4dc;background:#fff;color:#3b6379;font-size:9px;font-weight:800;cursor:pointer}
+.scientific-figure-head-v12 button:hover{border-color:#648fa7;background:#eef6fa}
+.scientific-figure-v12 canvas{display:block;box-sizing:border-box;width:100%;height:auto;background:#fff}
+.scientific-figure-v12 figcaption{padding:10px 15px;border-top:1px solid #e5ebee;color:#657984;font-size:9.5px;line-height:1.75}
+.scientific-question-v12{margin:0;border-top:1px solid #e2e8eb;background:#fbfcfc;padding:0 15px 13px}
+.scientific-question-v12 summary{padding:11px 0 9px;color:#2f6684;font-size:10px;font-weight:800;cursor:pointer}
+.scientific-question-v12 p{margin:0 0 9px;color:#3f5968;font-size:10.5px;line-height:1.85}
+.scientific-question-answer-v12{margin:8px 0;padding:10px 12px;border-left:3px solid #3b8c8c;background:#f3f9f8;color:#375b5b;font-size:10px;line-height:1.8}
+.scientific-question-v12 button{padding:7px 10px;border:1px solid #c7d5dc;background:#fff;color:#46677a;font-size:9px;font-weight:800;cursor:pointer}
+.et-figure-v4.is-superseded-v12,.et-figure-v3.is-superseded-v12{display:none!important}
+.scientific-dialog-v12{width:min(98vw,1540px);max-width:none;padding:0;border:0;background:#fff;box-shadow:0 26px 90px rgba(15,38,52,.3)}
+.scientific-dialog-v12::backdrop{background:rgba(16,32,42,.68);backdrop-filter:blur(3px)}
+.scientific-dialog-v12>div{position:relative;padding:42px 12px 12px}
+.scientific-dialog-v12 canvas{display:block;width:100%;height:auto;background:#fff}
+.scientific-dialog-v12 [data-close]{position:absolute;right:12px;top:10px;padding:6px 10px;border:1px solid #ccd8de;background:#fff;color:#456170;font-size:9px;font-weight:800;cursor:pointer}
+@media(max-width:760px){.scientific-figure-v12{margin:18px 0 26px;overflow-x:auto}.scientific-figure-head-v12{position:sticky;left:0;align-items:flex-start;min-width:720px}.scientific-figure-v12 canvas{width:900px;max-width:none}.scientific-figure-v12 figcaption,.scientific-question-v12{min-width:690px}.scientific-dialog-v12{width:99vw}.scientific-dialog-v12 canvas{min-width:1050px}.scientific-dialog-v12>div{overflow:auto}}
+@media(max-width:460px){.scientific-figure-head-v12 h3{font-size:13px}.scientific-figure-head-v12 button{padding:6px 8px}.scientific-figure-v12 figcaption{font-size:9px}}
