@@ -1,0 +1,14 @@
+/* 情報Ⅰ＜プログラミング編＞ v9 — 上級長文問題 */
+.program-advanced-v9{margin:26px 0 30px;border:1px solid #cbd8de;border-top:3px solid #8f6b3d;background:#fff}
+.program-advanced-v9>header{display:grid;grid-template-columns:minmax(210px,.8fr) minmax(0,1.2fr);gap:24px;padding:16px 17px;border-bottom:1px solid #e3e8ea;background:#fbfaf7}
+.program-advanced-v9>header span{display:block;color:#966e3c;font-size:9px;font-weight:850;letter-spacing:.1em}
+.program-advanced-v9>header h3{margin:4px 0 0;color:#3f4d54;font-size:16px;line-height:1.5}
+.program-advanced-v9>header p{margin:0;color:#6b777d;font-size:10.5px;line-height:1.85}
+.program-advanced-v9-grid{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #e0e6e9}
+.program-advanced-v9-grid>div{padding:14px 16px}.program-advanced-v9-grid>div+div{border-left:1px solid #e3e9ec}
+.program-advanced-v9-grid b{display:block;margin-bottom:6px;color:#73572f;font-size:10px}.program-advanced-v9-grid b:not(:first-child){margin-top:12px}
+.program-advanced-v9-grid ol{margin:0;padding-left:1.4em;color:#526774;font-size:10.5px;line-height:1.85}.program-advanced-v9-grid li+li{margin-top:3px}
+.program-advanced-v9-grid p{margin:0;color:#526774;font-size:10.5px;line-height:1.85}
+.program-advanced-v9-code{margin:0;padding:15px 17px;overflow:auto;background:#f7f9fa;color:#2b4655;font:500 10.5px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
+.program-advanced-v9-code code{font:inherit}
+@media(max-width:760px){.program-advanced-v9>header,.program-advanced-v9-grid{grid-template-columns:1fr}.program-advanced-v9-grid>div+div{border-left:0;border-top:1px solid #e3e9ec}.program-advanced-v9-code{white-space:pre-wrap;overflow-wrap:anywhere}}
