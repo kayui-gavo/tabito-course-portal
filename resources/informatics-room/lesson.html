@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="study-polish-v6.css">
   <link rel="stylesheet" href="study-source-v7.css">
   <link rel="stylesheet" href="study-source-practice-v7.css">
+  <link rel="stylesheet" href="study-mastery-v8.css">
   <title>情報Ⅰ 学習ページ｜旅人教育</title>
 </head>
 <body>
@@ -39,6 +40,7 @@
   <script src="study-source-master-v7-c.js"></script>
   <script src="study-source-master-v7-fixes.js"></script>
   <script src="study-source-master-v7-microfix.js"></script>
+  <script src="study-source-master-v8-fixes.js"></script>
   <script src="study-source-practice-v7-a.js"></script>
   <script src="study-source-practice-v7-b.js"></script>
   <script src="study-source-practice-v7-c.js"></script>
@@ -46,6 +48,7 @@
   <script src="study-textbook-v3.js"></script>
   <script src="study-textbook-v4-figures.js"></script>
   <script src="study-figure-fix-v6.js"></script>
+  <script src="study-figure-fix-v8.js"></script>
   <script src="study-textbook-v4-practice.js"></script>
   <script src="study-textbook-v4-challenge.js"></script>
   <script src="study-source-check-v7.js"></script>
@@ -55,6 +58,7 @@
   <script src="study-common-test-v7.js"></script>
   <script src="study-source-practice-render-v7.js"></script>
   <script src="study-source-audit-map-v7.js"></script>
+  <script src="study-mastery-v8.js"></script>
   <script src="study-integrity-v6.js"></script>
   <script>
     renderStudyLesson();
@@ -66,7 +70,7 @@
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
       const cue = document.querySelector('.et-study-cue-v3 b');
-      if (cue) cue.textContent = '図で関係をつかむ → 本文と詳しいノートで細部まで読む → 例題・実践演習で使う → 確認問題で定着';
+      if (cue) cue.textContent = '図で関係をつかむ → 本文と詳しいノートで細部まで読む → 例題・実践演習で使う → 到達チェックと確認問題で定着';
       const checkLead = document.querySelector('.et-check-head p');
       if (checkLead) checkLead.textContent = '単語暗記だけでなく、資料の読み取り・場面への適用・計算・分類まで確認します。3問のあと、仕上げ問題にも挑戦してください。';
     })();
