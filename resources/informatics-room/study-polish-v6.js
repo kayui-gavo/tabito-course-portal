@@ -35,6 +35,16 @@
     complete.insertAdjacentHTML('afterend',`<div class="practice-jump-v6"><div><b>このPARTを読んだら</b><p>同じ第${lesson.lecture}講の問題を続けて解くと、用語だけでなく場面への当てはめまで確認できます。</p></div><a href="questions.html?lecture=${lesson.lecture}">第${lesson.lecture}講の問題演習へ →</a></div>`);
   }
 
+  function deMetaTextbookCopy(){
+    const roots=document.querySelectorAll('.et-textbook-sections,.et-figure-note-v3,.et-detail-v5-notes,.et-detail-v5-reading');
+    roots.forEach(root=>{
+      replaceText(root,'教材では、','');
+      replaceText(root,'教材では','');
+      replaceText(root,'本教材では、','');
+      replaceText(root,'本教材では','');
+    });
+  }
+
   function restorePageCopy(){
     if(path==='index.html'||path===''){
       setActive('home');
@@ -79,6 +89,7 @@
       document.querySelectorAll('.et-v4-status').forEach(node=>node.remove());
       if(isMain||document.querySelector('.et-route')||document.querySelector('.program-source-flow-v6'))document.querySelectorAll('.lesson-route').forEach(node=>node.remove());
       replaceText(document.querySelector('.lesson-paper'),'知識点','要点');
+      if(isMain)deMetaTextbookCopy();
       const source=document.querySelector('.lesson-source');
       if(source)source.textContent=source.textContent.replace('Web自学用に説明と例題を再構成しています。','教材の学習順序を保ちながら、Web自学用に本文・図解・例題を再構成しています。');
       addPracticeJump(lesson);
