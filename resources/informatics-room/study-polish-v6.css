@@ -21,10 +21,12 @@
 .information-ui-v6 .tool-session-bar{margin-top:16px}
 .information-ui-v6 .tool-question-list{display:grid;gap:14px}
 .information-ui-v6 .tool-question-card{border-radius:4px;box-shadow:none}
+.information-ui-v6 .tool-question-card.is-in-wrong-book{border-left:3px solid #bd775b}
 .information-ui-v6 .tool-question-meta{align-items:center}
 .information-ui-v6 .tool-question-meta>a{font-weight:650}
 .information-ui-v6 .tool-question-text{font-size:14px;line-height:1.85}
 .information-ui-v6 .tool-question-feedback p{font-size:12px;line-height:1.85}
+.information-ui-v6 .tool-filter [data-wrong-only] small{display:inline-grid;place-items:center;min-width:18px;height:18px;margin-left:4px;padding:0 4px;border-radius:99px;background:rgba(255,255,255,.85);font-size:9px}
 .practice-level-v2{margin-left:auto;padding:2px 7px;border:1px solid #d7e0e5;background:#f7f9fa;color:#637682;font-size:9px;font-weight:800;border-radius:99px}
 .practice-input-v2{display:flex;gap:8px;margin-top:14px}
 .practice-input-v2 input{flex:1;min-width:0;height:42px;padding:0 12px;border:1px solid #cbd6dc;background:#fff;color:#223744;border-radius:4px;outline:none}
@@ -38,8 +40,9 @@
 .practice-order-answer{margin-top:8px;background:#f5f8f9}
 .practice-order-answer>span{align-self:center;color:#7d8d96;font-size:10px}
 .practice-order-bank button,.practice-order-answer button{border:1px solid #ced9df;background:#fff;color:#38515f;padding:6px 9px;border-radius:3px;font-size:11px}
-.practice-back-v2{margin-top:8px!important}
-.practice-back-v2 a{color:#285f82;font-size:11px;font-weight:750;text-decoration:none}
+.practice-feedback-actions{display:flex;align-items:center;gap:14px;margin-top:10px}
+.practice-feedback-actions .tool-retry{padding:6px 9px;border:1px solid #bfcfd8;background:#fff;color:#31566f;border-radius:4px;font-size:10px;font-weight:750}
+.practice-feedback-actions a{color:#285f82;font-size:10px;font-weight:750;text-decoration:none}
 
 /* glossary: closer to a reference book than a tile list */
 .information-ui-v6 .tool-glossary-list{border-top:1px solid #ccd7dc}
@@ -121,4 +124,5 @@
   .practice-level-v2{display:none}
   .information-ui-v6 .tool-question-meta{align-items:flex-start}
   .information-ui-v6 .et-v4-hub .et-v4-items{grid-template-columns:1fr}
+  .practice-feedback-actions{align-items:flex-start;flex-direction:column;gap:7px}
 }
