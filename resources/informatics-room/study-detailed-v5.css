@@ -35,6 +35,18 @@
 .et-detail-v5-terms a{display:inline-block;padding:4px 8px;border:1px solid #d2dee4;background:#fff;color:#38566a;text-decoration:none;font-size:10px;line-height:1.45}
 .et-detail-v5-terms a:hover{border-color:#8eb1c3;background:#f5fafc;color:#1f5f8b}
 
+.et-detail-v5-dictionary{margin:10px 0 22px;border-top:1px solid #dce4e8;border-bottom:1px solid #dce4e8;background:#fbfcfc}
+.et-detail-v5-dictionary>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 2px;list-style:none;cursor:pointer;color:#38576a;font-size:10px;font-weight:800}
+.et-detail-v5-dictionary>summary::-webkit-details-marker{display:none}
+.et-detail-v5-dictionary>summary span::before{content:'＋';display:inline-block;width:21px;color:#2c739c}
+.et-detail-v5-dictionary[open]>summary span::before{content:'−'}
+.et-detail-v5-dictionary>summary b{color:#87959e;font-size:9px;font-weight:600}
+.et-detail-v5-dictionary dl{margin:0;border-top:1px solid #e2e8eb;background:#fff}
+.et-detail-v5-dictionary dl>div{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:18px;padding:12px 10px;border-top:1px solid #edf1f3}
+.et-detail-v5-dictionary dl>div:first-child{border-top:0}
+.et-detail-v5-dictionary dt{color:#244d68;font-size:11px;font-weight:800;line-height:1.7}
+.et-detail-v5-dictionary dd{margin:0;color:#506570;font-size:11px;line-height:1.82}
+
 .et-v5-glossary-link{margin-left:10px!important;color:#2d7199!important;text-decoration:none;font-size:9px!important;font-weight:750!important}
 .electronic-textbook-v5 .lesson-terms summary>span{margin-left:auto}
 .electronic-textbook-v5 .lesson-terms summary .et-v5-glossary-link{margin-left:8px!important}
@@ -44,4 +56,5 @@
   .et-detail-v5-note{grid-template-columns:30px minmax(0,1fr);gap:8px}
   .et-detail-v5-note p{font-size:12px;line-height:1.9;text-align:left}
   .et-detail-v5-reading{grid-template-columns:1fr}
+  .et-detail-v5-dictionary dl>div{grid-template-columns:1fr;gap:3px;padding:11px 6px}
 }
