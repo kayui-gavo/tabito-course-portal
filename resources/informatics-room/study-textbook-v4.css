@@ -1,0 +1,115 @@
+/* ================================================================
+   情報Ⅰ ELECTRONIC TEXTBOOK v4
+   47PARTを「図解→本文→教材型例題→確認」に統一しつつ、
+   各PARTの図解と演習内容は個別データで構成する。
+   ================================================================ */
+
+.electronic-textbook-v4 .et-figure{background:#fff;border-color:#cfdce3}
+.electronic-textbook-v4 .et-figure>figcaption{padding:15px 18px;background:#f4f8fa;font-size:13px}
+
+/* source-specific concept map */
+.et-v4-diagram{padding:22px;background:#fbfcfc}
+.et-v4-diagram-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px}
+.et-v4-diagram-head b{color:#173a58;font-size:11px;letter-spacing:.02em}
+.et-v4-diagram-head span{color:#738591;font-size:9px;letter-spacing:.08em}
+.et-v4-items{display:grid;gap:10px}
+.et-v4-item{position:relative;min-width:0;padding:14px 15px;border:1px solid #d7e1e6;border-radius:8px;background:#fff}
+.et-v4-item strong{display:block;margin-bottom:4px;color:#203b4e;font-size:12px;line-height:1.45}
+.et-v4-item p{margin:0;color:#617482;font-size:10px;line-height:1.65}
+.et-v4-note{margin:14px 0 0;padding:10px 12px;border-left:3px solid #6d9db8;background:#f0f6f9;color:#4f6573;font-size:10px;line-height:1.75}
+
+.et-v4-timeline .et-v4-items,.et-v4-flow .et-v4-items,.et-v4-ladder .et-v4-items,.et-v4-layers .et-v4-items,.et-v4-cycle .et-v4-items,.et-v4-system .et-v4-items,.et-v4-network .et-v4-items,.et-v4-sheet .et-v4-items{
+  grid-template-columns:repeat(auto-fit,minmax(115px,1fr));
+}
+.et-v4-timeline .et-v4-item:not(:last-child)::after,
+.et-v4-flow .et-v4-item:not(:last-child)::after,
+.et-v4-ladder .et-v4-item:not(:last-child)::after,
+.et-v4-layers .et-v4-item:not(:last-child)::after,
+.et-v4-cycle .et-v4-item:not(:last-child)::after,
+.et-v4-system .et-v4-item:not(:last-child)::after,
+.et-v4-network .et-v4-item:not(:last-child)::after,
+.et-v4-sheet .et-v4-item:not(:last-child)::after{
+  content:'→';position:absolute;right:-10px;top:50%;z-index:2;transform:translate(50%,-50%);display:grid;place-items:center;width:20px;height:20px;border:1px solid #d2dde3;border-radius:50%;background:#f9fbfc;color:#66889b;font-size:9px
+}
+.et-v4-cycle .et-v4-item:last-child::after{content:'↺';position:absolute;right:-7px;top:-10px;color:#6a8fa4;font-size:17px}
+.et-v4-triple .et-v4-items{grid-template-columns:repeat(3,1fr)}
+.et-v4-compare .et-v4-items,.et-v4-tree .et-v4-items,.et-v4-matrix .et-v4-items{grid-template-columns:repeat(2,1fr)}
+.et-v4-tree .et-v4-item{border-left:4px solid #7da5ba}
+.et-v4-weights .et-v4-items{grid-template-columns:repeat(4,1fr)}
+.et-v4-weights .et-v4-item{text-align:center}
+.et-v4-weights .et-v4-item strong{font-size:14px}
+.et-v4-rgb .et-v4-items{grid-template-columns:repeat(4,1fr)}
+.et-v4-rgb .et-v4-item:nth-child(1){border-top:4px solid #d36f6f}
+.et-v4-rgb .et-v4-item:nth-child(2){border-top:4px solid #72a77c}
+.et-v4-rgb .et-v4-item:nth-child(3){border-top:4px solid #668fb8}
+.et-v4-rgb .et-v4-item:nth-child(4){border-top:4px solid #9a8bb8}
+.et-v4-table .et-v4-items,.et-v4-truth .et-v4-items{grid-template-columns:repeat(2,1fr)}
+.et-v4-shield .et-v4-items{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}
+.et-v4-shield .et-v4-item:first-child{border-left:4px solid #4b8a68}
+.et-v4-scatter .et-v4-items{grid-template-columns:repeat(2,1fr)}
+
+/* When an interactive v1 figure is useful, v4 concept map is attached below it. */
+.et-v4-companion{margin-top:12px;border-top:1px solid #e0e7ea}
+.et-v4-companion .et-v4-diagram{background:#f8fafb}
+
+/* Second source-derived worked example */
+.et-practical-section-v3 .et-v4-more-label{display:flex;align-items:center;gap:9px;margin:24px 0 10px;color:#5d7280;font-size:10px;font-weight:800;letter-spacing:.05em}
+.et-practical-section-v3 .et-v4-more-label::before,.et-practical-section-v3 .et-v4-more-label::after{content:'';height:1px;flex:1;background:#dde5e9}
+.et-practical-v4{border:1px solid #ccd9e0;border-radius:10px;overflow:hidden;background:#fff}
+.et-practical-v4 header{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid #dbe4e8;background:#f8fafb}
+.et-practical-v4 header span{display:inline-grid;place-items:center;min-width:42px;height:22px;border-radius:4px;background:#e9f3f8;color:#246b98;font-size:9px;font-weight:850}
+.et-practical-v4 header strong{color:#203b4e;font-size:13px}
+.et-practical-v4 .et-v4-prompt{padding:17px 18px;color:#324955;font-size:13px;line-height:1.85}
+.et-practical-v4 details{border-top:1px solid #e2e8eb}
+.et-practical-v4 summary{padding:11px 16px;cursor:pointer;color:#385b72;font-size:11px;font-weight:750;list-style:none}
+.et-practical-v4 summary::-webkit-details-marker{display:none}
+.et-practical-v4 summary::before{content:'＋';display:inline-block;width:19px;color:#2c739c}
+.et-practical-v4 details[open] summary::before{content:'−'}
+.et-practical-v4 ol{margin:0;padding:0 24px 15px 43px;color:#405663;font-size:11px;line-height:1.75}
+.et-practical-v4 details p{margin:0;padding:0 17px 16px 35px;color:#344b58;font-size:11px;line-height:1.85}
+.et-practical-v4 .et-v4-skill{margin:0;padding:10px 16px;border-top:1px solid #e2e8eb;background:#fbfcfc;color:#60727e;font-size:10px}
+.et-practical-v4 .et-v4-skill b{color:#2c6688}
+
+/* Finishing challenge after the three checks */
+.et-v4-challenge{margin-top:25px;padding-top:25px;border-top:1px solid #dbe3e7}
+.et-v4-challenge-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.et-v4-challenge-head b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#173a58;color:#fff;font-size:10px}
+.et-v4-challenge-head span{color:#173a58;font-size:13px;font-weight:800}
+.et-v4-challenge-question{margin:0 0 13px;color:#2d4351;font-size:13px;font-weight:650;line-height:1.8}
+.et-v4-choice-grid{display:grid;gap:7px}
+.et-v4-choice{display:flex;align-items:flex-start;gap:9px;width:100%;padding:10px 12px;border:1px solid #d5dee3;border-radius:7px;background:#fff;color:#344b58;text-align:left;font-size:11px}
+.et-v4-choice i{display:grid;place-items:center;flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:#f1f5f7;color:#617986;font-style:normal;font-size:9px}
+.et-v4-choice:hover:not(:disabled){border-color:#92b5c8;background:#f5fafc}
+.et-v4-choice.is-correct{border-color:#7fae95;background:#eef8f2;color:#285e45}
+.et-v4-choice.is-wrong{border-color:#d6a0a0;background:#fff3f3;color:#803c3c}
+.et-v4-input-row{display:flex;gap:8px}
+.et-v4-input-row input{flex:1;min-width:0;height:40px;padding:0 11px;border:1px solid #cbd8df;border-radius:7px;outline:none;font-size:12px}
+.et-v4-input-row input:focus{border-color:#6d9eb9;box-shadow:0 0 0 3px rgba(45,124,172,.08)}
+.et-v4-check-btn,.et-v4-reset-btn{padding:0 13px;border:1px solid #173a58;border-radius:7px;background:#173a58;color:#fff;font-size:10px;font-weight:800}
+.et-v4-reset-btn{border-color:#cbd8df;background:#fff;color:#516b7a}
+.et-v4-order-bank,.et-v4-order-answer{display:flex;flex-wrap:wrap;gap:7px;min-height:36px;padding:8px;border:1px dashed #ccd8de;border-radius:7px;background:#fafcfc}
+.et-v4-order-bank button,.et-v4-order-answer button{padding:6px 9px;border:1px solid #d0dbe1;border-radius:6px;background:#fff;color:#425966;font-size:10px}
+.et-v4-order-answer{margin-top:8px;background:#f6f9fa}
+.et-v4-order-answer::before{content:'選んだ順：';align-self:center;color:#7a8a94;font-size:9px}
+.et-v4-order-actions{display:flex;gap:7px;margin-top:9px}
+.et-v4-feedback{display:none;margin:11px 0 0;padding:10px 12px;border-left:3px solid #84a8bb;background:#f3f8fa;color:#405663;font-size:10px;line-height:1.75}
+.et-v4-feedback.is-visible{display:block}
+.et-v4-feedback.is-correct{border-left-color:#4e8b68;background:#eff8f3;color:#315e46}
+.et-v4-feedback.is-wrong{border-left-color:#b96d6d;background:#fff5f5;color:#744646}
+
+/* Make the body read like a textbook page, not a stack of independent cards. */
+.electronic-textbook-v4 .et-textbook-section{padding-top:22px;padding-bottom:22px}
+.electronic-textbook-v4 .et-textbook-section+.et-textbook-section{border-top:1px solid #e4eaed}
+.electronic-textbook-v4 .et-section-copy p{font-size:14px;line-height:2}
+.electronic-textbook-v4 .et-checkpoint-v3{margin-top:19px}
+
+@media(max-width:760px){
+  .et-v4-triple .et-v4-items,.et-v4-compare .et-v4-items,.et-v4-tree .et-v4-items,.et-v4-matrix .et-v4-items,.et-v4-weights .et-v4-items,.et-v4-rgb .et-v4-items,.et-v4-table .et-v4-items,.et-v4-truth .et-v4-items,.et-v4-scatter .et-v4-items{grid-template-columns:1fr 1fr}
+  .et-v4-timeline .et-v4-items,.et-v4-flow .et-v4-items,.et-v4-ladder .et-v4-items,.et-v4-layers .et-v4-items,.et-v4-cycle .et-v4-items,.et-v4-system .et-v4-items,.et-v4-network .et-v4-items,.et-v4-sheet .et-v4-items{grid-template-columns:1fr}
+  .et-v4-timeline .et-v4-item::after,.et-v4-flow .et-v4-item::after,.et-v4-ladder .et-v4-item::after,.et-v4-layers .et-v4-item::after,.et-v4-cycle .et-v4-item::after,.et-v4-system .et-v4-item::after,.et-v4-network .et-v4-item::after,.et-v4-sheet .et-v4-item::after{display:none!important}
+  .et-v4-input-row{flex-direction:column}
+  .et-v4-input-row button{height:39px}
+}
+@media(max-width:470px){
+  .et-v4-triple .et-v4-items,.et-v4-compare .et-v4-items,.et-v4-tree .et-v4-items,.et-v4-matrix .et-v4-items,.et-v4-weights .et-v4-items,.et-v4-rgb .et-v4-items,.et-v4-table .et-v4-items,.et-v4-truth .et-v4-items,.et-v4-scatter .et-v4-items{grid-template-columns:1fr}
+}
