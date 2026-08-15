@@ -6,9 +6,10 @@
   const save=(key,v)=>{try{localStorage.setItem(key,JSON.stringify(v));}catch(_){}};
   function enhance(){
     const lessonId=new URLSearchParams(location.search).get('id')||'';
-    document.querySelectorAll('.scientific-figure-v12').forEach((fig,idx)=>{
+    document.querySelectorAll('.scientific-figure-v12,.scientific-figure-v11').forEach((fig,idx)=>{
       const details=fig.querySelector('.scientific-question-v12');if(!details||details.querySelector('.figure-writing-v12'))return;
-      const key=`${lessonId}:${fig.dataset.figureV12||fig.dataset.programFigureV12||fig.dataset.programFigureV12b||idx}`;
+      const figureId=fig.dataset.figureV12||fig.dataset.programFigureV12||fig.dataset.programFigureV12b||(fig.classList.contains('scientific-figure-v11')?'v11':'figure')+idx;
+      const key=`${lessonId}:${figureId}`;
       const drafts=load(DRAFT_KEY), reviews=load(REVIEW_KEY), current=drafts[key]||'', status=reviews[key]||'';
       const block=document.createElement('div');block.className='figure-writing-v12';block.innerHTML=`<label><span>自分の説明</span><textarea rows="3" placeholder="図の数値・方向・条件を使って、答えを見る前に説明する。"></textarea><small><b data-figure-char>0</b>字</small></label><div class="figure-selfcheck-v12"><span>答えを見た後</span><button type="button" data-figure-review="mastered" class="${status==='mastered'?'is-selected':''}">説明できた</button><button type="button" data-figure-review="review" class="${status==='review'?'is-selected':''}">要復習</button></div>`;
       const answerButton=details.querySelector('[data-v12-answer]');details.insertBefore(block,answerButton);
