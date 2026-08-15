@@ -23,7 +23,8 @@ function renderStudyHeader(active='home') {
       <nav class="study-nav" aria-label="メインナビゲーション">
         <a class="${active==='home'?'is-active':''}" href="index.html">本編</a>
         <a class="${active==='programming'?'is-active':''}" href="programming.html">プログラミング</a>
-        <a href="exam.html">問題演習</a>
+        <a class="${active==='practice'?'is-active':''}" href="exam.html">問題演習</a>
+        <a class="${active==='glossary'?'is-active':''}" href="glossary.html">用語</a>
         <a href="../../index.html">コース一覧</a>
       </nav>
     </div>
@@ -109,8 +110,8 @@ window.renderTop = function renderTop() {
     <section class="index-intro">
       <div>
         <p class="index-kicker">共通テスト 情報Ⅰ・自学用</p>
-        <h1>授業のあと、ここで理解を固める。</h1>
-        <p class="index-lead">教材の第1講から第9講までを、47のPARTに分けて整理しています。短い解説を読む → 例で確認する → 1問解く、の順で進められます。</p>
+        <h1>情報Ⅰを、わかる順番で。</h1>
+        <p class="index-lead">教材の第1講から第9講までを47のPARTに分け、図解 → 詳しい本文 → 教材型の改編例題 → 確認問題の順で学べるように再構成しています。初めて学ぶ人も、このサイトだけで用語の定義と使い方まで確認できます。</p>
       </div>
       <div class="index-progress-box">
         <span>本編の進捗</span>
@@ -119,8 +120,8 @@ window.renderTop = function renderTop() {
     </section>
     ${continuePanel(completedSet,'main')}
     <section class="study-guide" aria-label="使い方">
-      <strong>1 PART は 10〜15分が目安</strong>
-      <span>① 学習目標を見る</span><span>② 要点を読む</span><span>③ 確認問題を解く</span><span>④ 完了にする</span>
+      <strong>1 PART の学び方</strong>
+      <span>① 図で関係をつかむ</span><span>② 本文・教科書ノートを読む</span><span>③ 改編例題を解く</span><span>④ 確認問題で定着</span>
     </section>
     <div class="curriculum-toolbar">
       <div>
@@ -136,6 +137,10 @@ window.renderTop = function renderTop() {
     <div id="mainCurriculum" class="curriculum-list">
       ${STUDY_DATA.lectures.map(meta => lectureBlock(meta.no, lessons.filter(x=>x.lecture===meta.no), completedSet)).join('')}
     </div>
+    <section class="next-track">
+      <div><span>PRACTICE</span><h2>読んだら、そのまま問題演習へ。</h2><p>47PARTの確認問題を講別・検索・ランダムで解けます。間違えたPARTへすぐ戻れます。</p></div>
+      <a href="questions.html">問題を解く</a>
+    </section>
     <section class="next-track">
       <div><span>PROGRAMMING</span><h2>プログラミング編は別の学習ルートで。</h2><p>初級14講 → 中級19講 → 上級15講。教材と同じ48講の順序で進められます。</p></div>
       <a href="programming.html">48講の目次へ</a>
