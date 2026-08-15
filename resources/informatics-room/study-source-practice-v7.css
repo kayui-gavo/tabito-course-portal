@@ -1,0 +1,26 @@
+/* 原教材型演習 v7 */
+.et-source-practice-v7{margin:30px 0 0;padding-top:25px;border-top:2px solid #284f69}
+.et-source-practice-v7-head{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:24px;margin-bottom:15px}
+.et-source-practice-v7-head span{display:block;margin-bottom:3px;color:#2d7cac;font-size:9px;font-weight:850;letter-spacing:.09em}
+.et-source-practice-v7-head h3{margin:0;color:#173a58;font-size:16px;line-height:1.45}
+.et-source-practice-v7-head p{margin:0;color:#61737f;font-size:10.8px;line-height:1.85}
+.et-source-practice-v7-list{display:grid;gap:10px}
+.et-source-practice-v7-list article{border:1px solid #d4dee3;background:#fff}
+.et-source-practice-v7-list article>header{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #e2e8eb;background:#f8fafb}
+.et-source-practice-v7-list article>header b{color:#7792a1;font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.et-source-practice-v7-list article>header strong{color:#2a4658;font-size:12px}
+.et-source-practice-v7-q{margin:0;padding:15px 16px;color:#334b59;font-size:12.5px;line-height:1.9}
+.et-source-practice-v7-list details{border-top:1px solid #e5eaed;background:#fbfcfc}
+.et-source-practice-v7-list summary{padding:10px 15px;color:#315f7b;font-size:10.5px;font-weight:750;cursor:pointer;list-style:none}
+.et-source-practice-v7-list summary::-webkit-details-marker{display:none}
+.et-source-practice-v7-list summary::before{content:'＋';display:inline-block;width:20px;color:#2d7cac}
+.et-source-practice-v7-list details[open] summary::before{content:'−'}
+.et-source-practice-v7-list details p{margin:0;padding:0 16px 14px 35px;color:#485f6c;font-size:11.5px;line-height:1.85}
+.et-source-practice-v7-point{display:flex;gap:10px;margin:0;padding:9px 14px;border-top:1px solid #e8edef;background:#fcfdfd;color:#687a85;font-size:10px;line-height:1.7}
+.et-source-practice-v7-point span{flex:0 0 auto;color:#93602e;font-weight:800}
+@media(max-width:760px){
+  .et-source-practice-v7-head{grid-template-columns:1fr;gap:6px}
+  .et-source-practice-v7-q{font-size:12px}
+  .et-source-practice-v7-point{display:block}
+  .et-source-practice-v7-point span{display:block;margin-bottom:3px}
+}
