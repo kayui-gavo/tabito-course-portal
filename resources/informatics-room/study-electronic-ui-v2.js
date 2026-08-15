@@ -24,12 +24,7 @@
   }
 
   function allQuestions(lesson,data){
-    const original={
-      q:lesson.quiz.question,
-      choices:lesson.quiz.choices,
-      answer:lesson.quiz.answer,
-      why:lesson.quiz.explanation
-    };
+    const original={q:lesson.quiz.question,choices:lesson.quiz.choices,answer:lesson.quiz.answer,why:lesson.quiz.explanation};
     return [original,...(data.qs||[])];
   }
 
@@ -61,20 +56,15 @@
       score.querySelector('strong').textContent=`${correct} / ${qs.length} 正解`;
       score.classList.toggle('is-complete',correct===qs.length);
     };
-
     section.querySelectorAll('.et-qcard').forEach(card=>{
       const qi=Number(card.dataset.q), q=qs[qi];
       const buttons=[...card.querySelectorAll('.et-qchoice')];
       const feedback=card.querySelector('[data-feedback]');
       const answer=Number(card.dataset.answer);
-
       const reset=()=>{
         buttons.forEach(btn=>{btn.disabled=false;btn.classList.remove('is-correct','is-wrong');});
-        feedback.classList.remove('is-visible');
-        feedback.innerHTML='';
-        solved.delete(qi); updateScore();
+        feedback.classList.remove('is-visible'); feedback.innerHTML=''; solved.delete(qi); updateScore();
       };
-
       buttons.forEach(btn=>btn.addEventListener('click',()=>{
         if(buttons.some(x=>x.disabled))return;
         const choice=Number(btn.dataset.choice);
@@ -94,14 +84,15 @@
   function enhanceBody(lesson,data){
     const paper=document.querySelector('.lesson-paper');
     if(!paper)return;
-
     const goals=paper.querySelector('.lesson-goals');
     const terms=paper.querySelector('.lesson-terms');
     const anchor=terms || goals;
     if(anchor && !paper.querySelector('.et-opener')) anchor.insertAdjacentHTML('afterend',openerHTML(data));
 
-    const points=[...paper.querySelectorAll('#points .concept-block')];
-    points.forEach((block,i)=>block.setAttribute('data-et-index',String(i+1).padStart(2,'0')));
+    [...paper.querySelectorAll('#points .concept-block')].forEach((block,i)=>{
+      const h3=block.querySelector('h3');
+      if(h3)h3.setAttribute('data-et-index',String(i+1).padStart(2,'0'));
+    });
     const pointsSection=paper.querySelector('#points');
     if(pointsSection){
       const label=pointsSection.querySelector('.lesson-section-label');
@@ -113,9 +104,11 @@
       if(!pointsSection.querySelector('.et-reading-guide')) pointsSection.insertAdjacentHTML('beforeend',readingGuideHTML(data));
     }
 
+    const routeText=paper.querySelector('.et-route a[href="#points"] span');
+    if(routeText)routeText.textContent='本文';
+
     const oldCheck=paper.querySelector('#check');
     if(oldCheck) oldCheck.outerHTML=checkHTML(lesson,data);
-
     const src=paper.querySelector('.lesson-source');
     if(src){src.insertAdjacentHTML('beforebegin',sourceBadge(lesson));src.remove();}
   }
