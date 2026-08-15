@@ -1,0 +1,6 @@
+/* 情報Ⅰ v9 index capability strip */
+.index-capabilities-v9{display:grid;grid-template-columns:repeat(4,1fr);margin:-2px 0 28px;border:1px solid #d3dee4;background:#fff}
+.index-capabilities-v9>div{padding:13px 14px;border-left:1px solid #e1e7ea}.index-capabilities-v9>div:first-child{border-left:0}
+.index-capabilities-v9 span{display:block;color:#2c78a1;font:600 17px/1.1 Georgia,serif}.index-capabilities-v9 b{display:block;margin-top:5px;color:#2c4b5e;font-size:10px}.index-capabilities-v9 p{margin:4px 0 0;color:#6b7d87;font-size:9px;line-height:1.65}
+@media(max-width:760px){.index-capabilities-v9{grid-template-columns:1fr 1fr}.index-capabilities-v9>div:nth-child(odd){border-left:0}.index-capabilities-v9>div:nth-child(n+3){border-top:1px solid #e1e7ea}}
+@media(max-width:460px){.index-capabilities-v9{grid-template-columns:1fr}.index-capabilities-v9>div{border-left:0;border-top:1px solid #e1e7ea}.index-capabilities-v9>div:first-child{border-top:0}}
