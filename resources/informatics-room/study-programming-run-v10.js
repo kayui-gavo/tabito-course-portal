@@ -33,10 +33,11 @@
     });
   }
   function current(){const id=new URLSearchParams(location.search).get('id')||'';return {id,lesson:typeof studyLessonById==='function'?studyLessonById(id):null};}
+  function defaultCode(id,lesson){return lesson.level==='上級'&&window.PROGRAM_ADVANCED_V9?.[id]?.code?window.PROGRAM_ADVANCED_V9[id].code:(lesson.code||'');}
   function html(id,lesson){
-    const state=read()[id]||{}; const code=state.code??lesson.code??''; const hasInput=/\binput\s*\(/.test(code);
+    const state=read()[id]||{}; const sourceCode=defaultCode(id,lesson); const code=state.code??sourceCode; const hasInput=/\binput\s*\(/.test(code);
     return `<section class="program-run-v10" data-program-run-v10>
-      <header><div><span>RUN PYTHON</span><h3>予想してから、実際に動かす</h3></div><p>上の「コード読解」は行の役割を読むためのガイドです。ここでは本物のPythonを実行し、分岐・反復・関数呼び出しを含む実際の結果を確かめます。</p></header>
+      <header><div><span>RUN PYTHON</span><h3>予想してから、実際に動かす</h3></div><p>上の「コード読解」は行の役割を読むためのガイドです。ここでは本物のPythonを実行し、分岐・反復・関数呼び出しを含む実際の結果を確かめます。上級編では長文問題のコードをそのまま実行できます。</p></header>
       <div class="program-run-v10-main">
         <div class="program-run-v10-editor"><label><span>Pythonコード</span><textarea rows="12" spellcheck="false" data-python-code>${escapeHTML(code)}</textarea></label><details class="program-stdin-details-v10" ${hasInput?'open':''}><summary>input() を使う場合の入力値</summary><label class="program-stdin-v10"><span>1行につき1つ。input() が呼ばれる順に入力します。</span><textarea rows="3" data-python-stdin placeholder="例：グー\n10">${escapeHTML(state.stdin||'')}</textarea></label></details><div class="program-run-v10-actions"><button type="button" data-python-run>実行する</button><button type="button" data-python-reset>教材のコードに戻す</button><small>Ctrl / ⌘ + Enter でも実行</small></div></div>
         <aside class="program-run-v10-output"><div><span>標準出力</span><pre data-python-stdout>(まだ実行していません)</pre></div><div><span>エラー</span><pre data-python-stderr>(エラーはありません)</pre></div><p data-python-status>先に出力を予想してから実行してください。</p></aside>
@@ -50,7 +51,7 @@
     const persist=()=>{const all=read();all[id]={code:code.value,stdin:stdin?.value||''};save(all);};
     code.addEventListener('input',persist);stdin?.addEventListener('input',persist);
     code.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const a=code.selectionStart,b=code.selectionEnd;code.value=code.value.slice(0,a)+'    '+code.value.slice(b);code.selectionStart=code.selectionEnd=a+4;persist();}if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();runBtn.click();}});
-    reset.addEventListener('click',()=>{code.value=lesson.code||'';if(stdin)stdin.value='';persist();stdout.textContent='(まだ実行していません)';stderr.textContent='(エラーはありません)';status.textContent='教材のコードへ戻しました。まず結果を予想してください。';});
+    reset.addEventListener('click',()=>{code.value=defaultCode(id,lesson);if(stdin)stdin.value='';persist();stdout.textContent='(まだ実行していません)';stderr.textContent='(エラーはありません)';status.textContent='教材のコードへ戻しました。まず結果を予想してください。';});
     runBtn.addEventListener('click',async()=>{
       runBtn.disabled=true;runBtn.textContent='実行中…';status.textContent='初回はPython実行環境の読み込みに少し時間がかかります。';
       try{const values=(stdin?.value||'').split(/\r?\n/).filter((v,i,a)=>v!==''||i<a.length-1);const result=await run(code.value,values);stdout.textContent=result.stdout||'(出力はありません)';stderr.textContent=result.stderr||'(エラーはありません)';status.textContent=result.status==='error'?'エラー箇所を読み、どの行まで実行されたか確認してください。':`実行完了（約 ${result.runtimeMs} ms）。予想と一致したか確認してください。`;}
