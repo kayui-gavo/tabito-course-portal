@@ -7,6 +7,7 @@
     const main=[
       ['要点',document.querySelector('#points,.lesson-goals')],
       ['図解',document.querySelector('.scientific-figure-v12,.scientific-figure-v11,.et-figure-v4:not([hidden]):not(.is-superseded-v12),.et-figure-v3:not([hidden]):not(.is-superseded-v12)')],
+      ['図で操作',document.querySelector('.figure-lab-v12')],
       ['本文',document.querySelector('.et-textbook-sections,.et-detail-v5-reading')],
       ['操作',document.querySelector('[data-transfer-lab-v10],.source-wireless-v10,[data-micro-lab-v9b],[data-micro-lab-v9]')],
       ['例題',document.querySelector('#example,.et-practice-v4')],
@@ -16,6 +17,7 @@
     const prog=[
       ['要点',document.querySelector('.program-text-v6,#points')],
       ['図解',document.querySelector('.scientific-figure-v12,.scientific-figure-v11')],
+      ['図で操作',document.querySelector('.program-figlab-v12')],
       ['例題',document.querySelector('.program-example-v6,#example')],
       ['コード読解',document.querySelector('[data-program-lab-v9]')],
       ['Python実行',document.querySelector('[data-program-run-v10]')],
