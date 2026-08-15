@@ -8,6 +8,8 @@
 .program-source-v9-grid article:nth-child(odd){border-right:1px solid #e7ecef}
 .program-source-v9-grid b{display:block;margin-bottom:5px;color:#2a5f7e;font-size:10px}
 .program-source-v9-grid p{margin:0;color:#526774;font-size:11px;line-height:1.9}
+.program-prestudy-note-v9{margin:0 0 13px;padding:10px 12px;border-left:3px solid #b18a50;background:#fbf8f1;color:#66583f;font-size:10px;line-height:1.8}
+.program-prestudy-v9 .program-example-v6{border-top-color:#b18a50}
 .program-lab-v9{margin:0 0 30px;border:1px solid #cbd8de;background:#fff}
 .program-lab-v9>header{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:24px;padding:17px 18px;border-bottom:1px solid #dfe6ea;background:#f8fafb}
 .program-lab-v9>header span{display:block;color:#2e78a1;font-size:9px;font-weight:850;letter-spacing:.1em}
