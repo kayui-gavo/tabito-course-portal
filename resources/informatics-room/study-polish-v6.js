@@ -123,11 +123,7 @@
     const lesson=typeof studyLessonById==='function'?studyLessonById(params.get('id')||''):null;
     if(!lesson||lesson.track!=='programming')return;
     document.body.classList.add('programming-textbook-v6');
-    const paper=document.querySelector('.lesson-paper');
-    if(!paper||paper.querySelector('.programming-cue-v6'))return;
-    const goals=paper.querySelector('.lesson-goals');
-    goals?.insertAdjacentHTML('afterend','<div class="programming-cue-v6"><b>この講の進め方</b><span>要点を読む → コードを1行ずつ追う → 実行結果を予想する → 確認問題</span></div>');
-    const key=paper.querySelector('.lesson-section');
+    const key=document.querySelector('.program-text-v6')||document.querySelector('.lesson-section');
     key?.classList.add('programming-key-v6');
   }
 
