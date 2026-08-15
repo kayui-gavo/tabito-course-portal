@@ -1,0 +1,93 @@
+/* 情報Ⅰ 電子教材 v3 — 読書体験と演習導線 */
+.electronic-textbook-v3 .lesson-paper{padding-top:42px}
+.electronic-textbook-v3 .lesson-title{max-width:650px}
+
+.et-study-cue-v3{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:10px 13px;
+  border:1px solid #dbe5ea;border-radius:9px;background:#f8fbfc;color:#617481;font-size:10px;line-height:1.55;
+}
+.et-study-cue-v3 span{flex:0 0 auto;padding:2px 7px;border-radius:99px;background:#e9f3f8;color:#246b98;font-weight:800}
+.et-study-cue-v3 b{color:#314b5c;font-size:11px;font-weight:700}
+.et-advanced-badge-v3{
+  display:inline-block;margin:-2px 0 12px;padding:3px 8px;border:1px solid #e8c9a9;border-radius:99px;
+  background:#fff7ee;color:#a55c22;font-size:9px;font-weight:800;letter-spacing:.08em;
+}
+
+/* 図は「見て終わり」にせず、何を見る図かを直下で指示する。 */
+.et-figure-note-v3{
+  margin:10px 0 0;padding:11px 14px;border-left:3px solid #7eaac1;background:#f7fafb;
+  color:#536976;font-size:11px;line-height:1.75;
+}
+.et-figure-note-v3 b{display:inline-block;margin-right:9px;color:#1f5f8b;font-size:10px;letter-spacing:.04em}
+
+/* 本文：カードを並べるのではなく、教科書の節として縦に読む。 */
+.et-textbook-body-v3{position:relative}
+.et-body-intro{margin:-9px 0 23px;color:#657783;font-size:12px;line-height:1.85}
+.et-textbook-sections{border-top:1px solid #dbe3e7}
+.et-textbook-section{
+  display:grid;grid-template-columns:46px minmax(0,1fr);gap:16px;padding:25px 0 26px;border-bottom:1px solid #e1e7ea;
+}
+.et-section-no{
+  padding-top:2px;color:#8ba1ae;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;font-weight:700;
+}
+.et-section-copy h3{margin:0 0 8px;color:#203d52;font-size:16px;line-height:1.45;letter-spacing:-.01em}
+.et-section-copy p{margin:0;color:#344b5a;font-size:14px;line-height:2.02;text-align:justify;text-justify:inter-ideograph}
+.et-checkpoint-v3{
+  margin:22px 0 0;padding:15px 17px;border:1px solid #d6e2e8;border-left:4px solid #2d7cac;border-radius:8px;background:#f8fbfd;
+}
+.et-checkpoint-v3 b{display:block;margin:0 0 5px;color:#1d557a;font-size:11px}
+.et-checkpoint-v3 p{margin:0;color:#4d6472;font-size:12px;line-height:1.75}
+
+/* 改編例題：先に問題、思考手順と解答は折りたたむ。 */
+.et-practical-v3{overflow:hidden;border:1px solid #cfdce3;border-radius:11px;background:#fff;box-shadow:0 7px 22px rgba(30,62,82,.035)}
+.et-practical-v3 header{display:flex;align-items:center;gap:10px;padding:13px 17px;border-bottom:1px solid #dce5ea;background:#f5f9fb}
+.et-practical-v3 header span{display:inline-grid;place-items:center;min-width:36px;height:24px;padding:0 7px;border-radius:5px;background:#1f5f8b;color:#fff;font-size:9px;font-weight:800}
+.et-practical-v3 header strong{color:#173a58;font-size:13px;line-height:1.5}
+.et-practical-prompt{padding:20px 20px 19px;color:#2f4554;font-size:14px;font-weight:650;line-height:1.9}
+.et-hints-v3,.et-answer-v3{margin:0;border-top:1px solid #e1e7ea;background:#fbfcfc}
+.et-hints-v3 summary,.et-answer-v3 summary{list-style:none;position:relative;padding:12px 42px 12px 18px;color:#31536a;font-size:11px;font-weight:800;cursor:pointer}
+.et-hints-v3 summary::-webkit-details-marker,.et-answer-v3 summary::-webkit-details-marker{display:none}
+.et-hints-v3 summary::after,.et-answer-v3 summary::after{content:'＋';position:absolute;right:17px;top:10px;color:#708692;font-size:16px;font-weight:500}
+.et-hints-v3[open] summary::after,.et-answer-v3[open] summary::after{content:'−'}
+.et-hints-v3 ol{margin:0;padding:0 21px 16px 39px;color:#475e6d;font-size:12px;line-height:1.8}
+.et-hints-v3 li+li{margin-top:5px}
+.et-answer-v3{background:#fffaf4}
+.et-answer-v3 summary{color:#8d5b2e}
+.et-answer-v3 p{margin:0;padding:0 20px 18px;color:#604c3b;font-size:12px;line-height:1.85}
+
+/* v2の確認問題を、本文後の小テストとして少し落ち着かせる。 */
+.electronic-textbook-v3 .et-check-v2{margin-top:2px}
+.electronic-textbook-v3 .et-check-head{margin:-8px 0 16px;padding:0;border:0;background:transparent}
+.electronic-textbook-v3 .et-check-head p{margin:0;color:#687a86;font-size:11px;line-height:1.75}
+.electronic-textbook-v3 .et-qstack{display:grid;gap:12px}
+.electronic-textbook-v3 .et-qcard{border:1px solid #d7e0e5;border-radius:10px;background:#fff;overflow:hidden}
+.electronic-textbook-v3 .et-qcard-head{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;padding:14px 16px 12px;border-bottom:1px solid #e4e9ec;background:#fafcfc;color:#304858;font-size:12px;line-height:1.7}
+.electronic-textbook-v3 .et-qcard-head b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#eaf4f9;color:#246b98;font-size:10px}
+.electronic-textbook-v3 .et-qchoices{display:grid;gap:0;padding:0}
+.electronic-textbook-v3 .et-qchoice{display:grid;grid-template-columns:27px minmax(0,1fr);gap:8px;align-items:center;width:100%;padding:10px 15px;border:0;border-top:1px solid #edf1f3;background:#fff;color:#3d5361;text-align:left;font-size:11px}
+.electronic-textbook-v3 .et-qchoice:first-child{border-top:0}
+.electronic-textbook-v3 .et-qchoice:hover:not(:disabled){background:#f4f9fc}
+.electronic-textbook-v3 .et-qchoice i{display:grid;place-items:center;width:21px;height:21px;border:1px solid #cfd9df;border-radius:50%;font-style:normal;font-size:9px}
+.electronic-textbook-v3 .et-qchoice.is-correct{background:#edf7f2;color:#245a42}
+.electronic-textbook-v3 .et-qchoice.is-wrong{background:#fff4f4;color:#8a4141}
+.electronic-textbook-v3 .et-qfeedback{display:none;padding:12px 16px;border-top:1px solid #e0e7ea;background:#fbfcfc;color:#4c616e;font-size:11px;line-height:1.75}
+.electronic-textbook-v3 .et-qfeedback.is-visible{display:block}
+.electronic-textbook-v3 .et-qretry{margin-top:8px;padding:6px 9px;border:1px solid #cbd8df;border-radius:6px;background:#fff;color:#31566f;font-size:10px;font-weight:700}
+.electronic-textbook-v3 .et-check-score{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:10px 13px;border:1px solid #d8e1e6;border-radius:8px;background:#f9fbfb;color:#687a86;font-size:10px}
+.electronic-textbook-v3 .et-check-score strong{color:#173a58;font-size:12px}
+.electronic-textbook-v3 .et-check-score.is-complete{border-color:#b8d3c5;background:#f1f8f4;color:#2f7657}
+
+/* source note */
+.electronic-textbook-v3 .et-source-badge{margin-top:30px;border-radius:8px}
+
+@media (max-width:760px){
+  .et-study-cue-v3{align-items:flex-start;flex-direction:column;gap:6px}
+  .et-textbook-section{grid-template-columns:34px minmax(0,1fr);gap:9px;padding:21px 0}
+  .et-section-copy h3{font-size:15px}
+  .et-section-copy p{font-size:13px;line-height:1.92;text-align:left}
+  .et-practical-prompt{padding:17px 16px;font-size:13px}
+  .et-practical-v3 header{align-items:flex-start;padding:12px 14px}
+  .et-hints-v3 summary,.et-answer-v3 summary{padding-left:15px}
+  .electronic-textbook-v3 .et-qcard-head{padding:12px 13px}
+  .electronic-textbook-v3 .et-qchoice{padding:10px 13px}
+}
