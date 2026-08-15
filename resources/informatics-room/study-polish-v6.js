@@ -28,6 +28,13 @@
     });
   }
 
+  function addPracticeJump(lesson){
+    if(!lesson||lesson.track!=='main')return;
+    const complete=document.querySelector('.lesson-complete');
+    if(!complete||document.querySelector('.practice-jump-v6'))return;
+    complete.insertAdjacentHTML('afterend',`<div class="practice-jump-v6"><div><b>このPARTを読んだら</b><p>同じ第${lesson.lecture}講の問題を続けて解くと、用語だけでなく場面への当てはめまで確認できます。</p></div><a href="questions.html?lecture=${lesson.lecture}">第${lesson.lecture}講の問題演習へ →</a></div>`);
+  }
+
   function restorePageCopy(){
     if(path==='index.html'||path===''){
       setActive('home');
@@ -74,6 +81,7 @@
       replaceText(document.querySelector('.lesson-paper'),'知識点','要点');
       const source=document.querySelector('.lesson-source');
       if(source)source.textContent=source.textContent.replace('Web自学用に説明と例題を再構成しています。','教材の学習順序を保ちながら、Web自学用に本文・図解・例題を再構成しています。');
+      addPracticeJump(lesson);
     }
   }
 
