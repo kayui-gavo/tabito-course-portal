@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="情報Ⅰを初めて学ぶ人のための自学ライブラリ。教材の本編9講・47PARTに沿って、図解、要点、改編例題、確認問題の順で学べます。">
+  <meta name="description" content="情報Ⅰを初めて学ぶ人のための自学ライブラリ。教材の本編9講・47PARTに沿って、図解、本文、改編例題、3問の確認問題まで学べます。">
   <link rel="stylesheet" href="source-course.css">
   <link rel="stylesheet" href="student-ui.css">
   <style>@media (min-width:901px){.student-learning-ui .study-guide:not(.programming-guide){grid-template-columns:1.2fr repeat(4,minmax(0,1fr))}}</style>
@@ -26,12 +26,12 @@
       const lead = document.querySelector('.index-intro:not(.compact) .index-lead');
       const guide = document.querySelector('.study-guide:not(.programming-guide)');
       if (title) title.textContent = '情報Ⅰを、わかる順番で。';
-      if (lead) lead.textContent = '初めて学ぶ人も、もう一度整理したい人も。教材の9講・47PARTに沿って、図で関係をつかみ、要点を読み、改編例題を解き、最後に確認問題で定着まで確かめます。';
+      if (lead) lead.textContent = '初めて学ぶ人も、もう一度整理したい人も。教材の9講・47PARTに沿って、図で関係をつかみ、本文で定義と区別を理解し、改編例題を解き、最後に3問の確認問題で定着まで確かめます。';
       if (guide) {
         const strong = guide.querySelector('strong');
         const spans = guide.querySelectorAll('span');
         if (strong) strong.textContent = '1 PART の学び方';
-        ['図でつかむ','要点を理解','例題を解く','確認して完了'].forEach((text, i) => { if (spans[i]) spans[i].textContent = text; });
+        ['図でつかむ','本文を読む','例題を解く','3問で確認'].forEach((text, i) => { if (spans[i]) spans[i].textContent = text; });
       }
     })();
   </script>
