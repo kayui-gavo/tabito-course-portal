@@ -21,7 +21,7 @@ concurrency:
 jobs:
   layout-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,6 +36,12 @@ jobs:
           npm install --no-save playwright-core
           test -x /usr/bin/google-chrome || test -x /usr/bin/google-chrome-stable
           if test -x /usr/bin/google-chrome; then echo "CHROME_PATH=/usr/bin/google-chrome" >> "$GITHUB_ENV"; else echo "CHROME_PATH=/usr/bin/google-chrome-stable" >> "$GITHUB_ENV"; fi
+
+      - name: Install Japanese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+          fc-cache -f
 
       - name: Start static server
         run: |
