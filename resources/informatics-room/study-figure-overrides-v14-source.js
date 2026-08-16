@@ -81,13 +81,13 @@
       rr(ctx,520,390,630,300,'#f8fafb','#d6e1e6',12);
       text(ctx,'A',555,451,13,C.navy,700);text(ctx,'B',555,625,13,C.navy,700);
       line(ctx,580,446,700,446,C.gray,2);line(ctx,700,446,700,501,C.gray,2);line(ctx,700,501,705,501,C.gray,2);
-      line(ctx,700,446,900,446,C.gray,2);line(ctx,900,446,900,618,C.gray,2);line(ctx,900,618,910,618,C.gray,2);
-      line(ctx,580,620,680,620,C.gray,2);line(ctx,680,547,680,620,C.gray,2);line(ctx,680,547,705,547,C.gray,2);
+      line(ctx,700,446,900,446,C.gray,2);line(ctx,900,446,900,523,C.gray,2);line(ctx,900,523,910,523,C.gray,2);
+      line(ctx,580,620,680,620,C.gray,2);line(ctx,680,523,680,620,C.gray,2);line(ctx,680,523,705,523,C.gray,2);
       line(ctx,680,620,880,620,C.gray,2);line(ctx,880,547,880,620,C.gray,2);line(ctx,880,547,910,547,C.gray,2);
       orGate(735,478,105,68,true,false);andGate(940,500,105,70,false);
       text(ctx,'XOR',787,466,10,C.orange,700,'center');text(ctx,'AND',992,488,10,C.blue,700,'center');
-      line(ctx,840,512,885,512,C.blue,2);text(ctx,'S',902,516,18,C.blue,700,'center');text(ctx,'Sum',925,516,10,C.gray,400,'left');
-      line(ctx,1045,535,1085,535,C.orange,2);text(ctx,'C',1102,539,18,C.orange,700,'center');text(ctx,'Carry Out',1123,539,9.5,C.gray,400,'left',70,9);
+      line(ctx,874,512,885,512,C.blue,2);text(ctx,'S',902,516,18,C.blue,700,'center');text(ctx,'Sum',925,516,10,C.gray,400,'left');
+      line(ctx,1079,535,1085,535,C.orange,2);text(ctx,'C',1102,539,18,C.orange,700,'center');text(ctx,'Carry Out',1123,539,9.5,C.gray,400,'left',70,9);
 
       box(ctx,45,710,500,92,'1 + 1 = 10₂','A=1，B=1 → S=0 / C=1',{fill:'#fff8f0',stroke:'#e3d2bf'});
       box(ctx,610,710,540,92,'全加算回路','半加算回路を組み合わせ、下位桁からのCarry Inも入力して多桁加算へつなぐ。',{fill:'#eef6fa',stroke:'#bfd1db',bs:10.5});
