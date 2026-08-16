@@ -69,6 +69,9 @@
 .graph-axis-lab-v12>label{display:grid;width:100%;min-width:0;gap:6px;align-content:center}
 .graph-axis-lab-v12>label input[type="range"]{display:block;box-sizing:border-box;width:100%!important;min-width:0;margin:0;padding:0}
 .graph-axis-lab-v12>label span,.graph-axis-lab-v12>label b{max-width:100%}
+.reference-lab-v12>div:first-child>label{display:grid;width:100%;min-width:0;gap:6px}
+.reference-lab-v12>div:first-child>label input[type="range"]{display:block;box-sizing:border-box;width:calc(100% - 6px)!important;min-width:0;margin:0;padding:0}
+.reference-lab-v12>div:first-child>label b{display:block;max-width:100%;overflow-wrap:anywhere}
 .corr-control-v9{width:100%;max-width:480px!important;overflow:hidden}
 .corr-control-v9 input{box-sizing:border-box;width:100%!important;margin:0!important}
 
