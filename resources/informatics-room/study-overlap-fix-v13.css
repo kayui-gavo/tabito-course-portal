@@ -1,0 +1,117 @@
+/* 情報Ⅰ v13 — 文字重なり・はみ出し防止の最終オーバーライド */
+
+/* Grid/Flex itemのmin-content幅で隣の文字を押しつぶさない。 */
+.student-learning-ui .lesson-paper *,
+.student-learning-ui .index-shell *,
+.student-learning-ui .scientific-figure-v11 *,
+.student-learning-ui .scientific-figure-v12 *,
+.student-learning-ui .figure-lab-v12 *,
+.student-learning-ui .program-figlab-v12 *{box-sizing:border-box;min-width:0}
+
+/* 通常の教材文は必ず折り返す。コード・Canvasだけは別扱い。 */
+.student-learning-ui .lesson-paper h1,
+.student-learning-ui .lesson-paper h2,
+.student-learning-ui .lesson-paper h3,
+.student-learning-ui .lesson-paper h4,
+.student-learning-ui .lesson-paper p,
+.student-learning-ui .lesson-paper li,
+.student-learning-ui .lesson-paper figcaption,
+.student-learning-ui .lesson-paper summary,
+.student-learning-ui .lesson-paper label,
+.student-learning-ui .lesson-paper button,
+.student-learning-ui .lesson-paper strong,
+.student-learning-ui .index-shell h1,
+.student-learning-ui .index-shell h2,
+.student-learning-ui .index-shell h3,
+.student-learning-ui .index-shell p,
+.student-learning-ui .index-shell a{overflow-wrap:anywhere;word-break:normal}
+.student-learning-ui pre,
+.student-learning-ui code,
+.student-learning-ui .code-block,
+.student-learning-ui .pd-output,
+.student-learning-ui [data-program-run-output]{overflow-wrap:normal;word-break:normal}
+
+/* Figure heading: title and zoom button may never overlap. */
+.scientific-figure-head-v11,
+.scientific-figure-head-v12{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:14px!important}
+.scientific-figure-head-v11>div,
+.scientific-figure-head-v12>div{min-width:0}
+.scientific-figure-head-v11 h3,
+.scientific-figure-head-v12 h3{max-width:100%;overflow-wrap:anywhere}
+.scientific-figure-head-v11 button,
+.scientific-figure-head-v12 button{align-self:center;white-space:nowrap}
+
+/* Lab headerは狭くなったら説明文を下段へ落とす。 */
+.figure-lab-v12>header,
+.program-figlab-v12>header{grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr)!important;align-items:start!important}
+.figure-lab-v12>header>*,
+.program-figlab-v12>header>*{min-width:0}
+.figure-lab-v12>header h3,
+.program-figlab-v12>header h3,
+.figure-lab-v12>header p,
+.program-figlab-v12>header p{max-width:100%;overflow-wrap:anywhere}
+
+/* Interactive controls: a long Japanese label must not sit on top of an input/button. */
+.figure-lab-v12 input,
+.figure-lab-v12 select,
+.figure-lab-v12 textarea,
+.program-figlab-v12 input,
+.program-figlab-v12 select,
+.program-figlab-v12 textarea{max-width:100%}
+.pd-matrix-controls label,
+.pd-range-control label,
+.pd-interval>label,
+.pf-fee-v12c>label,
+.pf-discount-v12c>label,
+.pe-slider label{grid-template-columns:minmax(90px,auto) minmax(0,1fr) auto!important}
+
+/* Practice / note / table headings also need a real shrinkable column. */
+.et-source-practice-v7-head{grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr)!important}
+.et-source-practice-v7-list article>header{min-width:0}
+.et-source-practice-v7-list article>header strong{min-width:0;overflow-wrap:anywhere}
+.practice-rubric-v13 label,.practice-rubric-v13 strong{min-width:0;overflow-wrap:anywhere}
+
+/* Syllabus / chapter title: avoid collision with number, progress and toggle. */
+.student-learning-ui .lecture-heading>*{min-width:0}
+.student-learning-ui .lecture-copy h2,
+.student-learning-ui .lecture-copy p{overflow-wrap:anywhere}
+.student-learning-ui .curriculum-title{min-width:0;overflow-wrap:anywhere}
+.student-learning-ui .continue-text{min-width:0}
+
+/* Captions and recall stay in normal flow even if older CSS imposed a min-width. */
+.scientific-figure-v11 figcaption,
+.scientific-figure-v12 figcaption,
+.scientific-question-v12,
+.figure-text-summary-v12,
+.figure-writing-v12{min-width:0!important;max-width:100%!important}
+
+/* Tables that genuinely need width scroll locally instead of overlapping nearby copy. */
+.pd-matrix,
+.pf-matrix-table-v12c,
+.pf-trace-table-v12c,
+.pf-janken-grid-v12c,
+.et-source-practice-v7-list{max-width:100%}
+
+@media(max-width:860px){
+  .figure-lab-v12>header,
+  .program-figlab-v12>header{grid-template-columns:1fr!important;gap:6px!important}
+  .figure-lab-v12>header p,
+  .program-figlab-v12>header p{margin-top:0}
+  .pd-matrix-controls label,
+  .pd-range-control label,
+  .pd-interval>label,
+  .pf-fee-v12c>label,
+  .pf-discount-v12c>label,
+  .pe-slider label{grid-template-columns:1fr!important;gap:6px!important}
+}
+
+@media(max-width:640px){
+  .scientific-figure-head-v11,
+  .scientific-figure-head-v12{grid-template-columns:1fr!important;gap:9px!important}
+  .scientific-figure-head-v11 button,
+  .scientific-figure-head-v12 button{justify-self:start}
+  .student-learning-ui .lesson-title{font-size:clamp(27px,8vw,31px);line-height:1.24}
+  .student-learning-ui .lesson-section h2{font-size:21px;line-height:1.4}
+  .student-learning-ui .concept-block h3{font-size:15px;line-height:1.55}
+  .et-source-practice-v7-head{grid-template-columns:1fr!important}
+}
