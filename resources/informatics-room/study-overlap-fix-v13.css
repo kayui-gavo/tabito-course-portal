@@ -71,6 +71,8 @@
 .pf-fee-v12c>label,
 .pf-discount-v12c>label,
 .pe-slider label{grid-template-columns:minmax(90px,auto) minmax(0,1fr) auto!important}
+.corr-control-v9{width:100%;max-width:480px!important;overflow:hidden}
+.corr-control-v9 input{box-sizing:border-box;width:100%!important;margin:0!important}
 
 /* Practice / note / table headings also need a real shrinkable column. */
 .et-source-practice-v7-head{grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr)!important}
@@ -99,6 +101,9 @@
 .tool-section-title>*{min-width:0}
 .tool-session-bar>*{min-width:0}
 .tool-session-bar>[data-tool-score]{flex-wrap:wrap;justify-content:flex-end}
+.tool-glossary-toolbar>*{min-width:0}
+.tool-glossary-toolbar .tool-search{flex:1 1 auto;width:auto!important}
+.tool-glossary-toolbar>span{flex:0 0 auto}
 
 /* Captions and recall stay in normal flow even if older CSS imposed a min-width. */
 .scientific-figure-v12 figcaption,
@@ -145,4 +150,7 @@
   .tool-glossary-row{grid-template-columns:1fr!important}
   .tool-glossary-row>a{grid-column:1}
   .tool-question-meta a{text-align:left}
+  .tool-glossary-toolbar{align-items:stretch!important;flex-direction:column!important;gap:7px!important}
+  .tool-glossary-toolbar .tool-search{width:100%!important}
+  .tool-glossary-toolbar>span{align-self:flex-end}
 }
