@@ -1,6 +1,8 @@
 /* 情報Ⅰ v13 — production lesson runtime / visual QA */
 :root{--info-v13-blue:#2f789e;--info-v13-navy:#203f54;--info-v13-line:#d7e1e6;--info-v13-muted:#637884;--info-v13-paper:#fff}
 .student-learning-ui.lesson-body{overflow-x:clip}
+/* student-ui.js の旧3px読了バーは、節ナビ内の進捗と役割が重なるため非表示。 */
+.student-learning-ui.lesson-body .lesson-reading-progress{display:none!important}
 
 /* Wider reading surface: Canvas labels no longer shrink to tiny desktop text. */
 .student-learning-ui .lesson-layout{width:min(1480px,calc(100% - 28px));grid-template-columns:244px minmax(0,1120px);gap:32px}
