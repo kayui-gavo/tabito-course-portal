@@ -54,6 +54,7 @@
       box(ctx,55,335,500,105,'配列と反復','Uriage = [0,0,0,0,0,0,0,0,0,0,0]\nfor i in range(len(Uriage)):\n  Uriage[i] = tanka * i',{fill:'#f8fafb'});
       rr(ctx,610,335,510,105,'#fff','#d8e1e6',8);
       line(ctx,665,415,1065,415,C.grid,1);line(ctx,665,365,665,415,C.grid,1);
+      const ys=[415,405,395,385,375,365];
       ctx.beginPath();ctx.moveTo(665,415);for(let i=1;i<=10;i++)ctx.lineTo(665+i*40,415-i*5);ctx.strokeStyle=C.blue;ctx.lineWidth=3;ctx.stroke();
       for(let i=0;i<=10;i++){ctx.beginPath();ctx.arc(665+i*40,415-i*5,3.5,0,Math.PI*2);ctx.fillStyle=C.orange;ctx.fill();}
       text(ctx,"plt.plot(Uriage, marker='o')",865,355,11,C.gray,700,'center');
@@ -72,7 +73,7 @@
   });
 
   register('b7-3',{
-    title:'表計算によるシミュレーション：複利・参照・人口増減',height:820,
+    title:'表計算によるシミュレーション：複利・参照・人口増減',height:880,
     caption:'教材のセル位置と式 B7=B6+C7，C7=B6*B$3，人口 B7=B6*(1+B$3) を中心に整理する。',
     question:'B7の式を下へコピーするとき，年利B3の「行3」だけ固定する表記は何ですか。',
     answer:'B$3。教材の金利計算では C7=B6*B$3 とする。',
@@ -92,14 +93,14 @@
       box(ctx,860,350,260,120,'絶対参照','固定したい行・列の前に$\n教材例：B$3 は行3を固定',{fill:'#eef6fa'});
       arrow(ctx,685,485,685,530,C.blue);text(ctx,'オートフィルで下へコピー',685,550,11,C.blue,700,'center');
 
-      text(ctx,'C　人口の増減シミュレーション',45,610,16,C.navy,700);
-      box(ctx,55,645,360,105,'教材例','初期人口 A3 = 100,000\n増減率 B3 = 20%\nB6 = A3\nB7 = B6 * (1 + B$3)',{fill:'#f8fafb'});
-      box(ctx,465,645,325,105,'POINT','増減率だけを掛けると\n「増加数／減少数」になる。\n総人口には 1（100%）を足す。',{fill:'#fff8f0',stroke:'#e3d2bf'});
-      rr(ctx,840,645,280,105,'#fff','#d8e1e6',8);
-      line(ctx,875,730,1080,730,C.grid,1);line(ctx,875,670,875,730,C.grid,1);
-      ctx.beginPath();ctx.moveTo(875,730);[[1,721],[2,710],[3,697],[4,682],[5,665]].forEach(([i,y])=>ctx.lineTo(875+i*36,y));ctx.strokeStyle=C.blue;ctx.lineWidth=3;ctx.stroke();
-      text(ctx,'20%増加のイメージ',980,755,10,C.gray,700,'center');
-      wrap(ctx,'減少させる場合は増減率へ負の値を入力する。表の結果をグラフにすると，増減率を変えたときの形の変化を確認できる。',55,785,1060,18,10,C.gray,400);
+      text(ctx,'C　人口の増減シミュレーション',45,650,16,C.navy,700);
+      box(ctx,55,685,360,105,'教材例','初期人口 A3 = 100,000\n増減率 B3 = 20%\nB6 = A3\nB7 = B6 * (1 + B$3)',{fill:'#f8fafb'});
+      box(ctx,465,685,325,105,'POINT','増減率だけを掛けると\n「増加数／減少数」になる。\n総人口には 1（100%）を足す。',{fill:'#fff8f0',stroke:'#e3d2bf'});
+      rr(ctx,840,685,280,105,'#fff','#d8e1e6',8);
+      line(ctx,875,770,1080,770,C.grid,1);line(ctx,875,710,875,770,C.grid,1);
+      ctx.beginPath();ctx.moveTo(875,770);[[1,761],[2,750],[3,737],[4,722],[5,705]].forEach(([i,y])=>ctx.lineTo(875+i*36,y));ctx.strokeStyle=C.blue;ctx.lineWidth=3;ctx.stroke();
+      text(ctx,'20%増加のイメージ',980,795,10,C.gray,700,'center');
+      wrap(ctx,'減少させる場合は増減率へ負の値を入力する。表の結果をグラフにすると，増減率を変えたときの形の変化を確認できる。',55,835,1060,18,10,C.gray,400);
     }
   });
 })();
