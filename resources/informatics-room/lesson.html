@@ -123,8 +123,16 @@
   <script src="study-practice-rubric-v13.js"></script>
   <script src="study-production-v13.js"></script>
   <script src="study-integrity-v6.js"></script>
+  <script src="student-ui.js"></script>
+  <script src="study-polish-v6.js"></script>
+  <script src="study-production-failsafe-v13.js"></script>
+  <script src="study-layout-audit-v13.js"></script>
+  <script src="study-page-audit-v13.js"></script>
   <script>
+    /* renderStudyLesson() rewrites body.innerHTML. Keep this invocation last so no
+       production script is removed by that rewrite before the browser can execute it. */
     renderStudyLesson();
+    ensureStudyProductionV13?.();
     (() => {
       const figures = document.querySelectorAll('.et-two-figures .et-bars');
       if (figures.length === 2) {
@@ -132,12 +140,9 @@
         [...figures[0].children].forEach((bar, i) => { bar.style.height = `${Math.round(values[i] / 1450 * 90)}px`; });
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
+      runInformationLayoutAuditV13?.();
+      runInformationPageAuditV13?.();
     })();
   </script>
-  <script src="student-ui.js"></script>
-  <script src="study-polish-v6.js"></script>
-  <script src="study-production-failsafe-v13.js"></script>
-  <script src="study-layout-audit-v13.js"></script>
-  <script src="study-page-audit-v13.js"></script>
 </body>
 </html>
