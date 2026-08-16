@@ -1,6 +1,5 @@
 /* 情報Ⅰ v13 — 文字重なり・はみ出し防止の最終オーバーライド */
 
-/* Grid/Flex itemのmin-content幅で隣の文字を押しつぶさない。 */
 .student-learning-ui .lesson-paper *,
 .student-learning-ui .index-shell *,
 .student-learning-ui .tool-shell *,
@@ -8,7 +7,6 @@
 .student-learning-ui .figure-lab-v12 *,
 .student-learning-ui .program-figlab-v12 *{box-sizing:border-box;min-width:0}
 
-/* 通常の教材文は必ず折り返す。コード・Canvasだけは別扱い。 */
 .student-learning-ui .lesson-paper h1,
 .student-learning-ui .lesson-paper h2,
 .student-learning-ui .lesson-paper h3,
@@ -39,13 +37,11 @@
 .student-learning-ui .pd-output,
 .student-learning-ui [data-program-run-output]{overflow-wrap:normal;word-break:normal}
 
-/* Figure heading: title and zoom button may never overlap. */
 .scientific-figure-head-v12{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:14px!important}
 .scientific-figure-head-v12>div{min-width:0}
 .scientific-figure-head-v12 h3{max-width:100%;overflow-wrap:anywhere}
 .scientific-figure-head-v12 button{align-self:center;white-space:nowrap}
 
-/* Lab headerは狭くなったら説明文を下段へ落とす。 */
 .figure-lab-v12>header,
 .program-figlab-v12>header{grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr)!important;align-items:start!important}
 .figure-lab-v12>header>*,
@@ -55,7 +51,6 @@
 .figure-lab-v12>header p,
 .program-figlab-v12>header p{max-width:100%;overflow-wrap:anywhere}
 
-/* Interactive controls: a long Japanese label must not sit on top of an input/button. */
 .figure-lab-v12 input,
 .figure-lab-v12 select,
 .figure-lab-v12 textarea,
@@ -71,23 +66,23 @@
 .pf-fee-v12c>label,
 .pf-discount-v12c>label,
 .pe-slider label{grid-template-columns:minmax(90px,auto) minmax(0,1fr) auto!important}
+.graph-axis-lab-v12>label{display:grid;width:100%;min-width:0;gap:6px;align-content:center}
+.graph-axis-lab-v12>label input[type="range"]{display:block;box-sizing:border-box;width:100%!important;min-width:0;margin:0;padding:0}
+.graph-axis-lab-v12>label span,.graph-axis-lab-v12>label b{max-width:100%}
 .corr-control-v9{width:100%;max-width:480px!important;overflow:hidden}
 .corr-control-v9 input{box-sizing:border-box;width:100%!important;margin:0!important}
 
-/* Practice / note / table headings also need a real shrinkable column. */
 .et-source-practice-v7-head{grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr)!important}
 .et-source-practice-v7-list article>header{min-width:0}
 .et-source-practice-v7-list article>header strong{min-width:0;overflow-wrap:anywhere}
 .practice-rubric-v13 label,.practice-rubric-v13 strong{min-width:0;overflow-wrap:anywhere}
 
-/* Syllabus / chapter title: avoid collision with number, progress and toggle. */
 .student-learning-ui .lecture-heading>*{min-width:0}
 .student-learning-ui .lecture-copy h2,
 .student-learning-ui .lecture-copy p{overflow-wrap:anywhere}
 .student-learning-ui .curriculum-title{min-width:0;overflow-wrap:anywhere}
 .student-learning-ui .continue-text{min-width:0}
 
-/* Tool pages: metadata/action columns shrink safely instead of covering the question. */
 .tool-question-meta>*{min-width:0}
 .tool-question-meta a{overflow-wrap:anywhere;text-align:right}
 .tool-choice{grid-template-columns:25px minmax(0,1fr)!important}
@@ -105,13 +100,11 @@
 .tool-glossary-toolbar .tool-search{flex:1 1 auto;width:auto!important}
 .tool-glossary-toolbar>span{flex:0 0 auto}
 
-/* Captions and recall stay in normal flow even if older CSS imposed a min-width. */
 .scientific-figure-v12 figcaption,
 .scientific-question-v12,
 .figure-text-summary-v12,
 .figure-writing-v12{min-width:0!important;max-width:100%!important}
 
-/* Tables that genuinely need width scroll locally instead of overlapping nearby copy. */
 .pd-matrix,
 .pf-matrix-table-v12c,
 .pf-trace-table-v12c,
@@ -124,7 +117,6 @@
   .tool-glossary-row{grid-template-columns:140px minmax(0,1fr)!important}
   .tool-glossary-row>a{grid-column:2;justify-self:start}
 }
-
 @media(max-width:860px){
   .figure-lab-v12>header,
   .program-figlab-v12>header{grid-template-columns:1fr!important;gap:6px!important}
@@ -137,7 +129,6 @@
   .pf-discount-v12c>label,
   .pe-slider label{grid-template-columns:1fr!important;gap:6px!important}
 }
-
 @media(max-width:640px){
   .scientific-figure-head-v12{grid-template-columns:1fr!important;gap:9px!important}
   .scientific-figure-head-v12 button{justify-self:start}
