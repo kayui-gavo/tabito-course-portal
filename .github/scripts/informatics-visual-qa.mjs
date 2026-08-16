@@ -7,7 +7,7 @@ const OUT = path.resolve('artifacts/informatics-visual');
 fs.mkdirSync(OUT, { recursive: true });
 
 const targets = [
-  'b3-4','b3-5','b3-6','b3-7','b3-8','b4-1','b4-2','b4-3','b4-4','b5-3','b5-5','b6-8','b7-3','b8-2','b8-3','b8-5','b8-7','b9-2','b9-3','b9-4',
+  'b3-4','b3-5','b3-6','b3-7','b3-8','b4-1','b4-2','b4-3','b4-4','b5-1','b5-2','b5-3','b5-4','b5-5','b6-8','b7-3','b8-2','b8-3','b8-5','b8-7','b9-2','b9-3','b9-4',
   'p43','p45','p46','p48'
 ];
 const viewports = [
