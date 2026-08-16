@@ -31,11 +31,9 @@
   <link rel="stylesheet" href="study-programming-figure-interactives-v12c.css">
   <link rel="stylesheet" href="study-programming-figure-interactives-v12d.css">
   <link rel="stylesheet" href="study-programming-figure-interactives-v12e.css">
-  <link rel="stylesheet" href="study-figure-writing-v12.css">
-  <link rel="stylesheet" href="study-figure-accessibility-v12.css">
   <link rel="stylesheet" href="study-programming-run-v10.css">
   <link rel="stylesheet" href="study-current-notes-v10.css">
-  <link rel="stylesheet" href="study-lesson-nav-v10.css">
+  <link rel="stylesheet" href="study-production-v13.css">
   <title>情報Ⅰ 学習ページ｜旅人教育</title>
 </head>
 <body>
@@ -116,16 +114,14 @@
   <script src="study-programming-figure-interactives-v12c2.js"></script>
   <script src="study-programming-figure-interactives-v12d.js"></script>
   <script src="study-programming-figure-interactives-v12e.js"></script>
-  <script src="study-v11-question-bridge-v12.js"></script>
-  <script src="study-figure-writing-v12.js"></script>
-  <script src="study-figure-accessibility-v12.js"></script>
   <script src="study-interactive-labs-v9.js"></script>
   <script src="study-interactive-labs-v9b.js"></script>
   <script src="study-interactive-labs-v10.js"></script>
   <script src="study-source-interactive-v10.js"></script>
   <script src="study-programming-run-v10.js"></script>
   <script src="study-current-notes-v10.js"></script>
-  <script src="study-lesson-nav-v10.js"></script>
+  <script src="study-practice-rubric-v13.js"></script>
+  <script src="study-production-v13.js"></script>
   <script src="study-integrity-v6.js"></script>
   <script>
     renderStudyLesson();
@@ -136,10 +132,6 @@
         [...figures[0].children].forEach((bar, i) => { bar.style.height = `${Math.round(values[i] / 1450 * 90)}px`; });
         [...figures[1].children].forEach((bar, i) => { bar.style.height = `${Math.round((values[i] - 1200) / 250 * 90)}px`; });
       }
-      const cue = document.querySelector('.et-study-cue-v3 b');
-      if (cue) cue.textContent = '図で関係をつかむ → 図の下で自分の言葉にする → 本文で細部を読む → 操作・実行して確かめる → 例題・実践演習 → 到達チェック';
-      const checkLead = document.querySelector('.et-check-head p');
-      if (checkLead) checkLead.textContent = '単語暗記だけでなく、資料の読み取り・場面への適用・計算・分類まで確認します。3問のあと、仕上げ問題にも挑戦してください。';
     })();
   </script>
   <script src="student-ui.js"></script>
