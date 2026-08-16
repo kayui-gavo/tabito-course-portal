@@ -1,3 +1,4 @@
+// v13 final production matrix: 5 hub pages + 95 lessons, desktop and mobile = 200 cases.
 import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
