@@ -3,7 +3,7 @@
 /* Grid/Flex itemのmin-content幅で隣の文字を押しつぶさない。 */
 .student-learning-ui .lesson-paper *,
 .student-learning-ui .index-shell *,
-.student-learning-ui .scientific-figure-v11 *,
+.student-learning-ui .tool-shell *,
 .student-learning-ui .scientific-figure-v12 *,
 .student-learning-ui .figure-lab-v12 *,
 .student-learning-ui .program-figlab-v12 *{box-sizing:border-box;min-width:0}
@@ -24,7 +24,15 @@
 .student-learning-ui .index-shell h2,
 .student-learning-ui .index-shell h3,
 .student-learning-ui .index-shell p,
-.student-learning-ui .index-shell a{overflow-wrap:anywhere;word-break:normal}
+.student-learning-ui .index-shell a,
+.student-learning-ui .tool-shell h1,
+.student-learning-ui .tool-shell h2,
+.student-learning-ui .tool-shell h3,
+.student-learning-ui .tool-shell p,
+.student-learning-ui .tool-shell a,
+.student-learning-ui .tool-shell button,
+.student-learning-ui .tool-shell label,
+.student-learning-ui .tool-shell strong{overflow-wrap:anywhere;word-break:normal}
 .student-learning-ui pre,
 .student-learning-ui code,
 .student-learning-ui .code-block,
@@ -32,13 +40,9 @@
 .student-learning-ui [data-program-run-output]{overflow-wrap:normal;word-break:normal}
 
 /* Figure heading: title and zoom button may never overlap. */
-.scientific-figure-head-v11,
 .scientific-figure-head-v12{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:14px!important}
-.scientific-figure-head-v11>div,
 .scientific-figure-head-v12>div{min-width:0}
-.scientific-figure-head-v11 h3,
 .scientific-figure-head-v12 h3{max-width:100%;overflow-wrap:anywhere}
-.scientific-figure-head-v11 button,
 .scientific-figure-head-v12 button{align-self:center;white-space:nowrap}
 
 /* Lab headerは狭くなったら説明文を下段へ落とす。 */
@@ -57,7 +61,10 @@
 .figure-lab-v12 textarea,
 .program-figlab-v12 input,
 .program-figlab-v12 select,
-.program-figlab-v12 textarea{max-width:100%}
+.program-figlab-v12 textarea,
+.tool-shell input,
+.tool-shell select,
+.tool-shell textarea{max-width:100%}
 .pd-matrix-controls label,
 .pd-range-control label,
 .pd-interval>label,
@@ -78,8 +85,22 @@
 .student-learning-ui .curriculum-title{min-width:0;overflow-wrap:anywhere}
 .student-learning-ui .continue-text{min-width:0}
 
+/* Tool pages: metadata/action columns shrink safely instead of covering the question. */
+.tool-question-meta>*{min-width:0}
+.tool-question-meta a{overflow-wrap:anywhere;text-align:right}
+.tool-choice{grid-template-columns:25px minmax(0,1fr)!important}
+.tool-choice>*{min-width:0}
+.tool-route-card,.tool-lecture-row,.tool-glossary-row,.tool-note-panel{min-width:0}
+.tool-lecture-row{grid-template-columns:64px minmax(0,1fr) minmax(0,auto)!important}
+.tool-lecture-actions{min-width:0;flex-wrap:wrap;justify-content:flex-end}
+.tool-lecture-actions a{white-space:normal;text-align:center}
+.tool-glossary-row{grid-template-columns:minmax(135px,180px) minmax(0,1fr) minmax(100px,155px)!important}
+.tool-glossary-row>*{min-width:0}
+.tool-section-title>*{min-width:0}
+.tool-session-bar>*{min-width:0}
+.tool-session-bar>[data-tool-score]{flex-wrap:wrap;justify-content:flex-end}
+
 /* Captions and recall stay in normal flow even if older CSS imposed a min-width. */
-.scientific-figure-v11 figcaption,
 .scientific-figure-v12 figcaption,
 .scientific-question-v12,
 .figure-text-summary-v12,
@@ -91,6 +112,13 @@
 .pf-trace-table-v12c,
 .pf-janken-grid-v12c,
 .et-source-practice-v7-list{max-width:100%}
+
+@media(max-width:900px){
+  .tool-lecture-row{grid-template-columns:50px minmax(0,1fr)!important}
+  .tool-lecture-actions{grid-column:2;justify-content:flex-start}
+  .tool-glossary-row{grid-template-columns:140px minmax(0,1fr)!important}
+  .tool-glossary-row>a{grid-column:2;justify-self:start}
+}
 
 @media(max-width:860px){
   .figure-lab-v12>header,
@@ -106,12 +134,15 @@
 }
 
 @media(max-width:640px){
-  .scientific-figure-head-v11,
   .scientific-figure-head-v12{grid-template-columns:1fr!important;gap:9px!important}
-  .scientific-figure-head-v11 button,
   .scientific-figure-head-v12 button{justify-self:start}
   .student-learning-ui .lesson-title{font-size:clamp(27px,8vw,31px);line-height:1.24}
   .student-learning-ui .lesson-section h2{font-size:21px;line-height:1.4}
   .student-learning-ui .concept-block h3{font-size:15px;line-height:1.55}
   .et-source-practice-v7-head{grid-template-columns:1fr!important}
+  .tool-session-bar{align-items:flex-start;flex-direction:column}
+  .tool-session-bar>[data-tool-score]{justify-content:flex-start}
+  .tool-glossary-row{grid-template-columns:1fr!important}
+  .tool-glossary-row>a{grid-column:1}
+  .tool-question-meta a{text-align:left}
 }
