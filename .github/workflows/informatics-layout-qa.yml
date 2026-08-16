@@ -6,7 +6,9 @@ on:
     paths:
       - 'resources/informatics-room/**'
       - '.github/scripts/informatics-layout-qa.mjs'
+      - '.github/scripts/informatics-visual-qa.mjs'
       - '.github/workflows/informatics-layout-qa.yml'
+      - '.github/workflows/informatics-visual-qa.yml'
   workflow_dispatch:
 
 permissions:
