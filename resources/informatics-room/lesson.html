@@ -52,6 +52,7 @@
   <script src="study-ui.js"></script>
   <script src="study-electronic-data-v1.js"></script>
   <script src="study-electronic-ui-v1.js"></script>
+  <script src="study-main-nav-v13.js"></script>
   <script src="study-electronic-depth-v2.js"></script>
   <script src="study-electronic-ui-v2.js"></script>
   <script src="study-textbook-v3-a.js"></script>
@@ -129,9 +130,8 @@
   <script src="study-layout-audit-v13.js"></script>
   <script src="study-page-audit-v13.js"></script>
   <script>
-    /* renderStudyLesson() rewrites body.innerHTML. Keep this invocation last so no
-       production script is removed by that rewrite before the browser can execute it. */
     renderStudyLesson();
+    ensureMainLessonNavV13?.();
     ensureStudyProductionV13?.();
     (() => {
       const figures = document.querySelectorAll('.et-two-figures .et-bars');
