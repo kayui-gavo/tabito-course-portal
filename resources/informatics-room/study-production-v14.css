@@ -1,0 +1,39 @@
+/* 情報Ⅰ v14 — デスクトップは図版・表・コードに横幅を返し、本文行長は抑える */
+@media (min-width:901px){
+  body.student-learning-ui.lesson-body .lesson-paper{
+    box-sizing:border-box;
+    width:100%;
+    max-width:none;
+  }
+
+  /* 本文は読みやすい行長を維持する。図版・表・コードはこの制限を受けない。 */
+  .electronic-textbook-v5 .lesson-title,
+  .electronic-textbook-v5 .lesson-lead,
+  .electronic-textbook-v5 .lesson-goals,
+  .electronic-textbook-v5 .lesson-terms,
+  .electronic-textbook-v5 .et-study-cue-v3,
+  .electronic-textbook-v5 .et-body-intro,
+  .electronic-textbook-v5 .et-textbook-sections,
+  .electronic-textbook-v5 .et-checkpoint-v3,
+  .electronic-textbook-v5 .et-detail-v5{
+    max-width:820px;
+  }
+
+  .programming-textbook-v6 .lesson-title,
+  .programming-textbook-v6 .lesson-lead,
+  .programming-textbook-v6 .lesson-goals,
+  .programming-textbook-v6 .lesson-terms,
+  .programming-textbook-v6 .programming-cue-v6,
+  .programming-textbook-v6 .program-intro-v6,
+  .programming-textbook-v6 .program-terms-v6,
+  .programming-textbook-v6 .program-reading-v6{
+    max-width:820px;
+  }
+
+  /* 1200px logical canvas is nearly fully visible at a 1440px desktop viewport. */
+  .scientific-figure-v12,
+  .scientific-figure-v11{
+    margin-left:-18px;
+    margin-right:-18px;
+  }
+}
