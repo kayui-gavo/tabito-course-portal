@@ -57,7 +57,7 @@
     question:'半加算回路でA=1、B=1のとき、なぜC=1、S=0になりますか。',
     answer:'1+1=10₂なので、和の下位bit Sは0、上位桁への桁上がりC（Carry Out）は1になる。',
     draw(ctx,k){
-      const {text,wrap,rr,box,line,arrow,head,table}=k;
+      const {text,wrap,rr,box,line,head,table}=k;
       head(ctx,'演算の仕組みと論理回路','論理回路は記号の形だけでなく、入力→中間出力→最終出力を真理値表と対応させて読む。教材の回路記号はANSIの体系。');
 
       function pins(x,y,w,h){line(ctx,x-30,y+h/3,x,y+h/3,C.gray,1.5);line(ctx,x-30,y+2*h/3,x,y+2*h/3,C.gray,1.5);line(ctx,x+w,y+h/2,x+w+34,y+h/2,C.gray,1.5);}
@@ -79,17 +79,15 @@
 
       text(ctx,'C　半加算回路：A・BをXORとANDへ分岐',520,355,15,C.navy,700);
       rr(ctx,520,390,630,300,'#f8fafb','#d6e1e6',12);
-      text(ctx,'A',555,463,13,C.navy,700);text(ctx,'B',555,583,13,C.navy,700);
-      line(ctx,580,458,680,458,C.gray,2);line(ctx,580,578,680,578,C.gray,2);
-      line(ctx,630,458,630,485,C.gray,2);line(ctx,630,485,705,485,C.gray,2);
-      line(ctx,650,578,650,535,C.gray,2);line(ctx,650,535,705,535,C.gray,2);
-      line(ctx,680,458,680,590,C.gray,2);line(ctx,680,590,705,590,C.gray,2);
-      line(ctx,680,578,680,640,C.gray,2);line(ctx,680,640,705,640,C.gray,2);
-      orGate(735,478,105,68,true,false);andGate(735,595,105,68,false);
-      text(ctx,'XOR',787,466,10,C.orange,700,'center');text(ctx,'AND',787,583,10,C.blue,700,'center');
-      line(ctx,840,512,970,512,C.blue,2);line(ctx,840,629,970,629,C.orange,2);
-      text(ctx,'S',990,516,18,C.blue,700,'center');text(ctx,'Sum',1040,516,10,C.gray,400,'left');
-      text(ctx,'C',990,633,18,C.orange,700,'center');text(ctx,'Carry Out',1040,633,10,C.gray,400,'left');
+      text(ctx,'A',555,451,13,C.navy,700);text(ctx,'B',555,625,13,C.navy,700);
+      line(ctx,580,446,700,446,C.gray,2);line(ctx,700,446,700,501,C.gray,2);line(ctx,700,501,705,501,C.gray,2);
+      line(ctx,700,446,900,446,C.gray,2);line(ctx,900,446,900,618,C.gray,2);line(ctx,900,618,910,618,C.gray,2);
+      line(ctx,580,620,680,620,C.gray,2);line(ctx,680,547,680,620,C.gray,2);line(ctx,680,547,705,547,C.gray,2);
+      line(ctx,680,620,880,620,C.gray,2);line(ctx,880,547,880,620,C.gray,2);line(ctx,880,547,910,547,C.gray,2);
+      orGate(735,478,105,68,true,false);andGate(940,500,105,70,false);
+      text(ctx,'XOR',787,466,10,C.orange,700,'center');text(ctx,'AND',992,488,10,C.blue,700,'center');
+      line(ctx,840,512,885,512,C.blue,2);text(ctx,'S',902,516,18,C.blue,700,'center');text(ctx,'Sum',925,516,10,C.gray,400,'left');
+      line(ctx,1045,535,1085,535,C.orange,2);text(ctx,'C',1102,539,18,C.orange,700,'center');text(ctx,'Carry Out',1123,539,9.5,C.gray,400,'left',70,9);
 
       box(ctx,45,710,500,92,'1 + 1 = 10₂','A=1，B=1 → S=0 / C=1',{fill:'#fff8f0',stroke:'#e3d2bf'});
       box(ctx,610,710,540,92,'全加算回路','半加算回路を組み合わせ、下位桁からのCarry Inも入力して多桁加算へつなぐ。',{fill:'#eef6fa',stroke:'#bfd1db',bs:10.5});
