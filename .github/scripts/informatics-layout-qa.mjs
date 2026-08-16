@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
 const base='http://127.0.0.1:4173/resources/informatics-room/';
@@ -9,7 +9,7 @@ const mobileFocus=['b1-6','b3-4','b5-3','b6-8','b8-3','b8-7','b9-4','p5','p17','
 const failures=[];
 await fs.mkdir('artifacts/informatics-layout',{recursive:true});
 
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
 async function checkPage(page,label,url,viewport){
   const jsErrors=[];
   const onError=e=>jsErrors.push(String(e?.message||e));page.on('pageerror',onError);
