@@ -21,7 +21,7 @@ Public study entry points use the newer `study-*` stack:
 - `study-page-audit-v13.js` — page-wide overflow/clipping/overlap audit on all public entry pages.
 - `study-integrity-v6.js` — data/coverage/runtime integrity report (`INFORMATION_TEXTBOOK_AUDIT_V13`).
 
-The base lesson renderer now creates the v13 in-page navigation directly, so the navigation does not depend on a late post-render wrapper. `study-production-failsafe-v13.js` remains as a final defensive pass for late figure correction / navigation recovery while the older rendering stack is still being consolidated.
+The base lesson renderer creates the v13 in-page navigation directly. Rich main lessons also pass through `study-main-nav-v13.js`, because the v1 electronic-textbook renderer rebuilds `body.innerHTML` instead of delegating to the base renderer. This keeps the same navigation behavior across both main and programming lessons. `study-production-failsafe-v13.js` remains as a defensive final pass while the older rendering stack is still being consolidated.
 
 The superseded post-render wrappers and matching styles (`study-v11-question-bridge-v12.js`, `study-figure-writing-v12.js/.css`, `study-figure-accessibility-v12.js/.css`, `study-lesson-nav-v10.js/.css`) were removed after `lesson.html` switched to the consolidated v13 layer.
 
@@ -41,9 +41,9 @@ Text overlap is a release-blocking defect.
 - text that still cannot fit is ellipsized rather than painted across a neighboring object;
 - every rendered figure records `shrunk`, `truncated`, `wrappedCell`, `outsideCanvas`, and `textOverlaps` events in `INFORMATION_CANVAS_TEXT_AUDIT_V13`.
 
-A release should fail if a figure reports truncation, outside-canvas text, internal text overlap, or text below the accepted minimum. Individual figures should then be redrawn with more space; do not simply lower the global minimum font size.
+A release fails if a figure reports truncation, outside-canvas text, internal text overlap, or text below the accepted minimum. Individual figures should then be redrawn with more space; do not simply lower the global minimum font size.
 
-The 1200px logical Canvas should not be squeezed into the old ~650px reading column. The v13 layout widens the desktop lesson surface and places only the Canvas itself in a horizontal viewport when necessary. Heading, caption, text alternative, recall question and answer-writing UI stay at normal document width.
+The 1200px logical Canvas is not squeezed into the old ~650px reading column. The v13 layout widens the desktop lesson surface and places only the Canvas itself in a horizontal viewport when necessary. Heading, caption, text alternative, recall question and answer-writing UI stay at normal document width.
 
 On narrow screens, preserve figure legibility rather than shrinking the Canvas into the phone width. The Canvas remains around 1040px display width and is panned inside its own viewport; all surrounding explanatory text stays responsive and must not require page-wide horizontal scrolling.
 
@@ -71,7 +71,18 @@ The browser QA rejects:
 - duplicate DOM ids;
 - duplicate lesson navigators / old progress bars.
 
-Failure screenshots and `report.json` are uploaded as a workflow artifact. Do not describe the QA as passing until the relevant workflow run has actually completed successfully on the current production head.
+### First full green run
+
+- Workflow run: `Informatics layout QA #23`
+- Run ID: `31929679974`
+- Production head tested: `09a0ef19c805b81783de5912587ee5678ab11eca`
+- Chromium job conclusion: `success`
+- Matrix: 200 / 200 cases passed
+- Artifact `report.json`: `failures: []`, `screenshotsCaptured: 0`
+
+This green run came after fixing the issues caught by earlier failed runs: b5-5 decimal-label collision, p43 FizzBuzz text collision, b9-3 range clipping, mobile glossary overflow, b1-2 graph-axis control clipping, b7-3 spreadsheet-reference control clipping, and missing main-lesson navigation caused by the body-rebuilding rich renderer.
+
+Future production changes to `resources/informatics-room/**` must rerun the workflow. Do not describe a newer production head as green until its own run succeeds.
 
 ## Legacy stack
 
@@ -81,7 +92,7 @@ The legacy header/navigation also still uses the old labels. Treat this as migra
 
 ## Remaining manual / runtime QA
 
-After layout automation is green, still verify the behaviors that a static layout pass cannot fully judge:
+The green Chromium layout run establishes layout/text-overlap safety for the tested matrix. Still verify the behaviors that the layout pass cannot fully judge:
 
 1. Pyodide first load, stdin, timeout, reset and mobile editor behavior;
 2. open-response draft persistence and figure/practice review persistence;
