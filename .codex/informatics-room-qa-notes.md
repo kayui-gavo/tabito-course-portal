@@ -19,11 +19,13 @@ Public study entry points use the newer `study-*` stack:
 - `study-layout-audit-v13.js` — post-render console-only layout audit.
 - `study-integrity-v6.js` — data/coverage/runtime integrity report (`INFORMATION_TEXTBOOK_AUDIT_V13`).
 
-The old post-render wrappers `study-v11-question-bridge-v12.js`, `study-figure-writing-v12.js`, `study-figure-accessibility-v12.js`, and `study-lesson-nav-v10.js` remain in the repository for history but are no longer loaded by `lesson.html`.
+The superseded post-render wrappers and matching styles (`study-v11-question-bridge-v12.js`, `study-figure-writing-v12.js/.css`, `study-figure-accessibility-v12.js/.css`, `study-lesson-nav-v10.js/.css`) were removed after `lesson.html` switched to the consolidated v13 layer.
 
 ## Figure QA policy
 
 The 1200px logical Canvas should not be squeezed into the old ~650px reading column. The v13 layout widens the desktop lesson surface and places only the Canvas itself in a horizontal viewport when necessary. Heading, caption, text alternative, recall question and answer-writing UI must stay at normal document width.
+
+On narrow screens, preserve figure legibility rather than shrinking the Canvas into the phone width. The Canvas remains around 1040px display width and is panned inside its own viewport; all surrounding explanatory text stays responsive and does not require horizontal scrolling.
 
 `study-layout-audit-v13.js` checks after browser layout:
 
