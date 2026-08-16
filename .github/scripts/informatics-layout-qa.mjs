@@ -18,9 +18,9 @@ async function checkPage(page,label,url,viewport){
     await page.goto(url,{waitUntil:'domcontentloaded',timeout:15000});
     await page.evaluate(()=>document.fonts?.ready||Promise.resolve());
     await page.waitForTimeout(220);
-    if(typeof await page.evaluate(()=>typeof window.runInformationPageAuditV13)==='string')await page.evaluate(()=>window.runInformationPageAuditV13?.());
-    if(url.includes('lesson.html'))await page.evaluate(()=>window.runInformationLayoutAuditV13?.());
-    await page.waitForTimeout(80);
+    if((await page.evaluate(()=>typeof window.runInformationPageAuditV13))==='function')await page.evaluate(()=>window.runInformationPageAuditV13());
+    if(url.includes('lesson.html')&&(await page.evaluate(()=>typeof window.runInformationLayoutAuditV13))==='function')await page.evaluate(()=>window.runInformationLayoutAuditV13());
+    await page.waitForTimeout(100);
     const state=await page.evaluate(()=>{
       const id=new URLSearchParams(location.search).get('id')||'';
       const width=Math.max(document.documentElement.scrollWidth,document.body.scrollWidth);
@@ -48,6 +48,8 @@ async function checkPage(page,label,url,viewport){
       if(state.duplicateNav!==1)problems.push(`lesson nav count ${state.duplicateNav}, expected 1`);
       if(state.visibleOldProgress)problems.push('old reading progress bar is visible');
       if(state.canvas?.truncated?.length)problems.push(`Canvas text truncated: ${state.canvas.truncated.length}`);
+      if(state.canvas?.outsideCanvas?.length)problems.push(`Canvas text outside drawing area: ${state.canvas.outsideCanvas.length}`);
+      if(state.canvas?.textOverlaps?.length)problems.push(`Canvas internal text overlaps: ${state.canvas.textOverlaps.length}`);
       if(state.canvas?.shrunk?.some(x=>Number(x.to)<8.8))problems.push('Canvas text shrunk below 8.8px');
       if(state.layout?.overlappingTextPairs?.length)problems.push(`DOM text overlaps: ${state.layout.overlappingTextPairs.length}`);
       if(state.layout?.clippedTextNodes?.length)problems.push(`DOM text clipped: ${state.layout.clippedTextNodes.length}`);
@@ -55,6 +57,7 @@ async function checkPage(page,label,url,viewport){
     }else{
       if(state.pageAudit?.overlappingPairs?.length)problems.push(`page text overlaps: ${state.pageAudit.overlappingPairs.length}`);
       if(state.pageAudit?.clippedTextNodes?.length)problems.push(`page text clipped: ${state.pageAudit.clippedTextNodes.length}`);
+      if(state.pageAudit?.duplicateIds?.length)problems.push(`duplicate ids: ${state.pageAudit.duplicateIds.join(',')}`);
     }
     if(problems.length){
       const slug=label.replace(/[^a-zA-Z0-9_-]+/g,'-');
