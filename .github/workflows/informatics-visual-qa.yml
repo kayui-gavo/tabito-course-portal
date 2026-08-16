@@ -1,0 +1,57 @@
+name: Informatics visual QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'resources/informatics-room/**'
+      - '.github/scripts/informatics-visual-qa.mjs'
+      - '.github/workflows/informatics-visual-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: informatics-visual-qa-main
+  cancel-in-progress: true
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Playwright core
+        run: |
+          npm install --no-save playwright-core
+          test -x /usr/bin/google-chrome || test -x /usr/bin/google-chrome-stable
+          if test -x /usr/bin/google-chrome; then echo "CHROME_PATH=/usr/bin/google-chrome" >> "$GITHUB_ENV"; else echo "CHROME_PATH=/usr/bin/google-chrome-stable" >> "$GITHUB_ENV"; fi
+
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/informatics-http.log 2>&1 &
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/resources/informatics-room/index.html >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/informatics-http.log
+          exit 1
+
+      - name: Capture and audit high-risk figures
+        run: node .github/scripts/informatics-visual-qa.mjs
+
+      - name: Upload visual review set
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informatics-visual-qa
+          path: artifacts/informatics-visual
+          if-no-files-found: error
