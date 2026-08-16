@@ -9,7 +9,7 @@
     return original(ctx,{
       ...k,
       text(c,s,x,y,...rest){
-        if(s==='比較：6 > 1 → 交換') return originalText(c,s,545,y,...rest);
+        if(s==='比較：6 > 1 → 交換') return originalText(c,s,760,850,...rest);
         return originalText(c,s,x,y,...rest);
       }
     });
