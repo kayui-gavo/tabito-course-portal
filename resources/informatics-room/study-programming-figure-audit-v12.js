@@ -20,3 +20,20 @@
   const c=report.figureCounts;
   if(c.v12a!==5||c.v12b!==6||c.v12c!==9||c.v12d!==7||c.v12e!==7||c.v12f!==7||c.v12g!==7||all.size!==48||missing.length||unexpected.length) console.warn('[情報Ⅰ プログラミング図版監査 v12]',report);
 })();
+
+/* v17 release guard — b5-2の2行タイトルと本文が衝突しないよう，描画時だけ1行化する。 */
+(() => {
+  const K=window.SCIENTIFIC_V12;
+  const cfg=K?.registry?.['b5-2'];
+  if(!cfg||typeof cfg.draw!=='function')return;
+  const original=cfg.draw;
+  cfg.draw=(ctx,k)=>{
+    const originalBox=k.box;
+    return original(ctx,{
+      ...k,
+      box(c,x,y,w,h,title,body='',opt={}){
+        return originalBox(c,x,y,w,h,title==='デバイス\nドライバ'?'デバイスドライバ':title,body,opt);
+      }
+    });
+  };
+})();
