@@ -1,0 +1,53 @@
+name: Informatics layout QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'resources/informatics-room/**'
+      - '.github/scripts/informatics-layout-qa.mjs'
+      - '.github/workflows/informatics-layout-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  layout-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/informatics-http.log 2>&1 &
+          echo $! > /tmp/informatics-http.pid
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/resources/informatics-room/index.html >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/informatics-http.log
+          exit 1
+
+      - name: Run layout QA
+        run: node .github/scripts/informatics-layout-qa.mjs
+
+      - name: Upload QA report and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informatics-layout-qa
+          path: artifacts/informatics-layout
+          if-no-files-found: ignore
