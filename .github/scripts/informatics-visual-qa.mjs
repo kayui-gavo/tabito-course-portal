@@ -76,7 +76,8 @@ for (const vp of viewports) {
       await canvas.screenshot({ path: path.join(OUT, canvasShot), animations: 'disabled' });
       record.screenshot = figureShot;
       record.canvasScreenshot = canvasShot;
-      const tooNarrowOnDesktop = vp.name === 'desktop' && metrics.geometry.figureWidth < 680;
+      const desktopCanvasVisibility = metrics.geometry.canvasWidth > 0 ? metrics.geometry.viewportWidth / metrics.geometry.canvasWidth : 0;
+      const tooNarrowOnDesktop = vp.name === 'desktop' && (metrics.geometry.figureWidth < 980 || desktopCanvasVisibility < 0.9);
       const failed = pageErrors.length || metrics.figureCount !== 1 || metrics.globalOverflow > 4 || !metrics.canvasQa || metrics.canvasQa.truncated || metrics.canvasQa.outsideCanvas || metrics.canvasQa.textOverlaps || metrics.canvasQa.shrunkBelowNine || tooNarrowOnDesktop;
       if (failed) report.failures.push(record);
     } catch (error) {
