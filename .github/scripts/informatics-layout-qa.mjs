@@ -1,4 +1,5 @@
-// v13 final production matrix: 5 hub pages + 95 lessons, desktop and mobile = 200 cases.
+// v14 production matrix: 5 hub pages + 95 lessons, desktop and mobile = 200 cases.
+// Hub pages also carry semantic freshness guards so source-aligned overlays cannot silently drop out.
 import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
@@ -22,7 +23,26 @@ async function checkPage(page,label,url,viewport){
     await page.waitForTimeout(35);
     const state=await page.evaluate(()=>{
       const id=new URLSearchParams(location.search).get('id')||'',width=Math.max(document.documentElement.scrollWidth,document.body.scrollWidth);
-      return {id,overflow:Math.max(0,Math.round(width-innerWidth)),canvas:(window.INFORMATION_CANVAS_TEXT_AUDIT_V13||{})[id]||null,layout:window.INFORMATION_LAYOUT_AUDIT_V13||null,pageAudit:window.INFORMATION_PAGE_AUDIT_V13||null,figures:document.querySelectorAll('.scientific-figure-v12').length,oldFigures:document.querySelectorAll('.scientific-figure-v11').length,duplicateNav:document.querySelectorAll('.lesson-nav-v13').length,visibleOldProgress:[...document.querySelectorAll('.lesson-reading-progress')].filter(n=>getComputedStyle(n).display!=='none').length};
+      const pageName=location.pathname.split('/').pop()||'index.html';
+      const master=window.SOURCE_MASTER_V7||{};
+      const sourcePractice=window.SOURCE_PRACTICE_V7||{};
+      const practiceHas=(id,title)=>(sourcePractice[id]||[]).some(x=>x?.title===title);
+      const latestPractice=[
+        ['b1-1','生活を情報技術で変える'],
+        ['b5-1','自分の端末の仕様を調べる'],
+        ['b6-1','採点処理をフローチャートで追う'],
+        ['b7-1','対象の特性で分類する'],
+        ['b8-1','ネットワーク構成図を完成する'],
+        ['b9-4','回帰式から予測する']
+      ].every(([lessonId,title])=>practiceHas(lessonId,title));
+      const mainSourceCurrent=JSON.stringify(master['b3-8']||{}).includes('8.53MB')&&JSON.stringify(master['b3-8']||{}).includes('6.43MB')&&!JSON.stringify(master['b8-7']||{}).includes('主キー');
+      const p45Row=[...document.querySelectorAll('#programmingCurriculum .curriculum-row')].find(row=>new URL(row.getAttribute('href')||'',location.href).searchParams.get('id')==='p45');
+      let hubSemantic=null;
+      if(pageName==='index.html')hubSemantic={name:'main-index-source',ok:window.INDEX_SOURCE_V9===true&&document.querySelectorAll('#mainCurriculum .curriculum-row').length===47&&mainSourceCurrent};
+      if(pageName==='programming.html')hubSemantic={name:'programming-index-source',ok:window.PROGRAMMING_INDEX_SOURCE_V17===true&&document.querySelectorAll('#programmingCurriculum .curriculum-row').length===48&&String(p45Row?.dataset.search||'').includes('ToFollow')&&String(p45Row?.dataset.search||'').includes('FromFollow')};
+      if(pageName==='glossary.html')hubSemantic={name:'glossary-source',ok:window.GLOSSARY_SOURCE_V10===true&&document.querySelectorAll('#glossaryList .tool-glossary-row[data-source-master]').length>0&&mainSourceCurrent};
+      if(pageName==='questions.html'||pageName==='exam.html')hubSemantic={name:'practice-source',ok:latestPractice};
+      return {id,overflow:Math.max(0,Math.round(width-innerWidth)),canvas:(window.INFORMATION_CANVAS_TEXT_AUDIT_V13||{})[id]||null,layout:window.INFORMATION_LAYOUT_AUDIT_V13||null,pageAudit:window.INFORMATION_PAGE_AUDIT_V13||null,figures:document.querySelectorAll('.scientific-figure-v12').length,oldFigures:document.querySelectorAll('.scientific-figure-v11').length,duplicateNav:document.querySelectorAll('.lesson-nav-v13').length,visibleOldProgress:[...document.querySelectorAll('.lesson-reading-progress')].filter(n=>getComputedStyle(n).display!=='none').length,hubSemantic};
     });
     const problems=[];
     if(state.overflow>4)problems.push(`global horizontal overflow ${state.overflow}px`);if(jsErrors.length)problems.push(`pageerror: ${jsErrors.join(' | ')}`);if(state.oldFigures)problems.push(`legacy v11 figure still rendered: ${state.oldFigures}`);
@@ -32,6 +52,7 @@ async function checkPage(page,label,url,viewport){
       if(state.layout?.overlappingTextPairs?.length)problems.push(`DOM text overlaps: ${state.layout.overlappingTextPairs.length}`);if(state.layout?.clippedTextNodes?.length)problems.push(`DOM text clipped: ${state.layout.clippedTextNodes.length}`);if(state.layout?.duplicateIds?.length)problems.push(`duplicate ids: ${state.layout.duplicateIds.join(',')}`);
       if(state.pageAudit?.overlappingPairs?.length)problems.push(`page text overlaps: ${state.pageAudit.overlappingPairs.length}`);if(state.pageAudit?.clippedTextNodes?.length)problems.push(`page text clipped: ${state.pageAudit.clippedTextNodes.length}`);if(state.pageAudit?.duplicateIds?.length)problems.push(`page duplicate ids: ${state.pageAudit.duplicateIds.join(',')}`);
     }else{
+      if(state.hubSemantic&&!state.hubSemantic.ok)problems.push(`hub semantic freshness failed: ${state.hubSemantic.name}`);
       if(state.pageAudit?.overlappingPairs?.length)problems.push(`page text overlaps: ${state.pageAudit.overlappingPairs.length}`);if(state.pageAudit?.clippedTextNodes?.length)problems.push(`page text clipped: ${state.pageAudit.clippedTextNodes.length}`);if(state.pageAudit?.duplicateIds?.length)problems.push(`duplicate ids: ${state.pageAudit.duplicateIds.join(',')}`);
     }
     if(problems.length){if(screenshotCount<MAX_FAILURE_SCREENSHOTS){const slug=label.replace(/[^a-zA-Z0-9_-]+/g,'-');await page.screenshot({path:`artifacts/informatics-layout/${slug}.png`,fullPage:true});screenshotCount++;}failures.push({label,url,viewport,problems,state});console.error(`FAIL ${label}: ${problems.join('; ')}`);}else console.log(`PASS ${label}`);
