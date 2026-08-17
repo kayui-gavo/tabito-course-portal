@@ -1,4 +1,4 @@
-// v14 production matrix: 5 hub pages + 95 lessons, desktop and mobile = 200 cases.
+// v15 production matrix: 5 hub pages + 95 lessons, desktop and mobile = 200 cases.
 // Hub pages also carry semantic freshness guards so source-aligned overlays cannot silently drop out.
 import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
@@ -11,6 +11,7 @@ const hubPages=['index.html','programming.html','questions.html','exam.html','gl
 const failures=[];
 const MAX_FAILURE_SCREENSHOTS=24;
 let screenshotCount=0;
+let hubScreenshotCount=0;
 await fs.mkdir('artifacts/informatics-layout',{recursive:true});
 
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
@@ -37,13 +38,27 @@ async function checkPage(page,label,url,viewport){
       ].every(([lessonId,title])=>practiceHas(lessonId,title));
       const mainSourceCurrent=JSON.stringify(master['b3-8']||{}).includes('8.53MB')&&JSON.stringify(master['b3-8']||{}).includes('6.43MB')&&!JSON.stringify(master['b8-7']||{}).includes('主キー');
       const p45Row=[...document.querySelectorAll('#programmingCurriculum .curriculum-row')].find(row=>new URL(row.getAttribute('href')||'',location.href).searchParams.get('id')==='p45');
+      const glossaryTerms=[...document.querySelectorAll('#glossaryList .tool-glossary-term strong')].map(x=>x.textContent.trim());
       let hubSemantic=null;
-      if(pageName==='index.html')hubSemantic={name:'main-index-source',ok:window.INDEX_SOURCE_V9===true&&document.querySelectorAll('#mainCurriculum .curriculum-row').length===47&&mainSourceCurrent};
-      if(pageName==='programming.html')hubSemantic={name:'programming-index-source',ok:window.PROGRAMMING_INDEX_SOURCE_V17===true&&document.querySelectorAll('#programmingCurriculum .curriculum-row').length===48&&String(p45Row?.dataset.search||'').includes('ToFollow')&&String(p45Row?.dataset.search||'').includes('FromFollow')};
-      if(pageName==='glossary.html')hubSemantic={name:'glossary-source',ok:window.GLOSSARY_SOURCE_V10===true&&document.querySelectorAll('#glossaryList .tool-glossary-row[data-source-master]').length>0&&mainSourceCurrent};
-      if(pageName==='questions.html'||pageName==='exam.html')hubSemantic={name:'practice-source',ok:latestPractice};
+      if(pageName==='index.html'){
+        const details={overlay:window.INDEX_SOURCE_V9===true,rows:document.querySelectorAll('#mainCurriculum .curriculum-row').length,mainSourceCurrent};
+        hubSemantic={name:'main-index-source',details,ok:details.overlay&&details.rows===47&&details.mainSourceCurrent};
+      }
+      if(pageName==='programming.html'){
+        const details={overlay:window.PROGRAMMING_INDEX_SOURCE_V17===true,rows:document.querySelectorAll('#programmingCurriculum .curriculum-row').length,p45ToFollow:String(p45Row?.dataset.search||'').includes('ToFollow'),p45FromFollow:String(p45Row?.dataset.search||'').includes('FromFollow')};
+        hubSemantic={name:'programming-index-source',details,ok:details.overlay&&details.rows===48&&details.p45ToFollow&&details.p45FromFollow};
+      }
+      if(pageName==='glossary.html'){
+        const details={renderer:window.GLOSSARY_SOURCE_RENDER_V11===true,rows:document.querySelectorAll('#glossaryList .tool-glossary-row[data-source-master]').length,hasSampling:glossaryTerms.includes('標本化'),hasPrimaryKey:glossaryTerms.includes('主キー'),mainSourceCurrent};
+        hubSemantic={name:'glossary-source',details,ok:details.renderer&&details.rows>0&&details.hasSampling&&!details.hasPrimaryKey&&details.mainSourceCurrent};
+      }
+      if(pageName==='questions.html'||pageName==='exam.html'){
+        const details={latestPractice};hubSemantic={name:'practice-source',details,ok:details.latestPractice};
+      }
       return {id,overflow:Math.max(0,Math.round(width-innerWidth)),canvas:(window.INFORMATION_CANVAS_TEXT_AUDIT_V13||{})[id]||null,layout:window.INFORMATION_LAYOUT_AUDIT_V13||null,pageAudit:window.INFORMATION_PAGE_AUDIT_V13||null,figures:document.querySelectorAll('.scientific-figure-v12').length,oldFigures:document.querySelectorAll('.scientific-figure-v11').length,duplicateNav:document.querySelectorAll('.lesson-nav-v13').length,visibleOldProgress:[...document.querySelectorAll('.lesson-reading-progress')].filter(n=>getComputedStyle(n).display!=='none').length,hubSemantic};
     });
+    const isHub=!url.includes('lesson.html');
+    if(isHub){const slug=label.replace(/[^a-zA-Z0-9_-]+/g,'-');await page.screenshot({path:`artifacts/informatics-layout/hub-${slug}.png`,fullPage:false});hubScreenshotCount++;}
     const problems=[];
     if(state.overflow>4)problems.push(`global horizontal overflow ${state.overflow}px`);if(jsErrors.length)problems.push(`pageerror: ${jsErrors.join(' | ')}`);if(state.oldFigures)problems.push(`legacy v11 figure still rendered: ${state.oldFigures}`);
     if(url.includes('lesson.html')){
@@ -55,7 +70,7 @@ async function checkPage(page,label,url,viewport){
       if(state.hubSemantic&&!state.hubSemantic.ok)problems.push(`hub semantic freshness failed: ${state.hubSemantic.name}`);
       if(state.pageAudit?.overlappingPairs?.length)problems.push(`page text overlaps: ${state.pageAudit.overlappingPairs.length}`);if(state.pageAudit?.clippedTextNodes?.length)problems.push(`page text clipped: ${state.pageAudit.clippedTextNodes.length}`);if(state.pageAudit?.duplicateIds?.length)problems.push(`duplicate ids: ${state.pageAudit.duplicateIds.join(',')}`);
     }
-    if(problems.length){if(screenshotCount<MAX_FAILURE_SCREENSHOTS){const slug=label.replace(/[^a-zA-Z0-9_-]+/g,'-');await page.screenshot({path:`artifacts/informatics-layout/${slug}.png`,fullPage:true});screenshotCount++;}failures.push({label,url,viewport,problems,state});console.error(`FAIL ${label}: ${problems.join('; ')}`);}else console.log(`PASS ${label}`);
+    if(problems.length){if(screenshotCount<MAX_FAILURE_SCREENSHOTS){const slug=label.replace(/[^a-zA-Z0-9_-]+/g,'-');await page.screenshot({path:`artifacts/informatics-layout/failure-${slug}.png`,fullPage:true});screenshotCount++;}failures.push({label,url,viewport,problems,state});console.error(`FAIL ${label}: ${problems.join('; ')}`);}else console.log(`PASS ${label}`);
   }catch(error){failures.push({label,url,viewport,problems:[String(error?.stack||error)]});console.error(`ERROR ${label}:`,error);}finally{page.off('pageerror',onError);}
 }
 
@@ -65,5 +80,5 @@ for(const id of lessonIds)await checkPage(page,`desktop-${id}`,`${base}lesson.ht
 for(const name of hubPages)await checkPage(page,`mobile-${name}`,base+name,{width:390,height:844});
 for(const id of lessonIds)await checkPage(page,`mobile-${id}`,`${base}lesson.html?id=${id}`,{width:390,height:844});
 await browser.close();
-await fs.writeFile('artifacts/informatics-layout/report.json',JSON.stringify({checked:{hubDesktop:hubPages.length,lessonDesktop:lessonIds.length,hubMobile:hubPages.length,lessonMobile:lessonIds.length,total:hubPages.length*2+lessonIds.length*2},failures,screenshotsCaptured:screenshotCount},null,2));
-if(failures.length){console.error(`\n${failures.length} layout QA case(s) failed; ${screenshotCount} screenshot(s) captured.`);process.exit(1);}else console.log(`\nAll ${hubPages.length*2+lessonIds.length*2} Informatics layout QA cases passed.`);
+await fs.writeFile('artifacts/informatics-layout/report.json',JSON.stringify({checked:{hubDesktop:hubPages.length,lessonDesktop:lessonIds.length,hubMobile:hubPages.length,lessonMobile:lessonIds.length,total:hubPages.length*2+lessonIds.length*2},failures,failureScreenshotsCaptured:screenshotCount,hubScreenshotsCaptured:hubScreenshotCount},null,2));
+if(failures.length){console.error(`\n${failures.length} layout QA case(s) failed; ${screenshotCount} failure screenshot(s), ${hubScreenshotCount} hub screenshot(s) captured.`);process.exit(1);}else console.log(`\nAll ${hubPages.length*2+lessonIds.length*2} Informatics layout QA cases passed; ${hubScreenshotCount} hub screenshot(s) captured.`);
