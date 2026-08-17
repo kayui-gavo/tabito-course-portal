@@ -3,6 +3,7 @@
   const baseRender=window.renderUnifiedGlossary;
   const lessons=()=>window.STUDY_DATA?.mainLessons||[];
   const master=()=>window.SOURCE_MASTER_V7||{};
+  const enrich=()=>typeof STUDY_ENRICH!=='undefined'?STUDY_ENRICH:{};
   const norm=s=>String(s||'').replace(/[（）()・\s]/g,'').toLowerCase();
   const lectureLabel=lesson=>`第${lesson.lecture}講 PART${lesson.part}`;
 
@@ -14,6 +15,9 @@
     const bodyHit=sections.find(([,body])=>norm(body).includes(target));
     const hit=exact||titleHit||bodyHit;
     if(hit?.[1])return hit[1];
+    const extra=enrich()[lesson.id]?.extraPoints||[];
+    const extraHit=extra.find(p=>p.title.includes(term)||p.body.includes(term));
+    if(extraHit?.body)return extraHit.body;
     const point=(lesson.points||[]).find(p=>p.title.includes(term)||p.body.includes(term))||(lesson.points||[])[0];
     return point?.body||lesson.lead||'';
   }
@@ -21,7 +25,8 @@
   function items(){
     const map=new Map();
     lessons().forEach(lesson=>{
-      (lesson.terms||[]).forEach(term=>{
+      const terms=[...(lesson.terms||[]),...(enrich()[lesson.id]?.terms||[])];
+      [...new Set(terms)].forEach(term=>{
         if(map.has(term))return;
         map.set(term,{term,desc:sourceDescription(lesson,term),lesson});
       });
