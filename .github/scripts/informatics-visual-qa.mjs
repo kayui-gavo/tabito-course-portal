@@ -16,7 +16,7 @@ const targets = [
   'b7-1','b7-2','b7-3',
   'b8-1','b8-2','b8-3','b8-4','b8-5','b8-6','b8-7',
   'b9-1','b9-2','b9-3','b9-4',
-  'p43','p45','p46','p48'
+  ...Array.from({ length: 48 }, (_, i) => `p${i + 1}`)
 ];
 const viewports = [
   { name: 'desktop', width: 1440, height: 1000 },
