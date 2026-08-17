@@ -1,7 +1,9 @@
 /* 情報Ⅰ v11 — 用語一覧そのものを最新SOURCE_MASTERから構成 */
 (() => {
   const baseRender=window.renderUnifiedGlossary;
-  const lessons=()=>window.STUDY_DATA?.mainLessons||[];
+  // study-content.js の STUDY_DATA は global lexical で window には載らない。
+  // study-enrich.js が直接更新済みの STUDY_MAIN を読むのが、このページでは最も確実。
+  const lessons=()=>window.STUDY_MAIN||[];
   const master=()=>window.SOURCE_MASTER_V7||{};
   const enrich=()=>typeof STUDY_ENRICH!=='undefined'?STUDY_ENRICH:{};
   const norm=s=>String(s||'').replace(/[（）()・\s]/g,'').toLowerCase();
