@@ -27,8 +27,11 @@
   window.PRACTICE_RUBRIC_V13=true;
 })();
 
-/* lesson.html は互換性レイヤーを維持するため、ここで新しい source-practice overlay を
+/* lesson.html は既存の互換性レイヤーを維持したまま、新しい source-practice overlay を
    parser 同期で後置ロードする。最終 renderStudyLesson() より前に必ず評価される。 */
-if(!window.SOURCE_PRACTICE_CH3_FIDELITY_V15){
-  document.write('<script src="study-source-practice-v15-ch3-fidelity.js"><\/script>');
-}
+[
+  ['SOURCE_PRACTICE_CH3_FIDELITY_V15','study-source-practice-v15-ch3-fidelity.js'],
+  ['SOURCE_PRACTICE_CH4_FIDELITY_V16','study-source-practice-v16-ch4-fidelity.js']
+].forEach(([flag,src])=>{
+  if(!window[flag])document.write(`<script src="${src}"><\/script>`);
+});
