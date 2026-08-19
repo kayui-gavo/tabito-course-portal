@@ -1,0 +1,17 @@
+{
+  "head_sha": "6c8573617b5def59f0d2d2f75a22a121651120ae",
+  "layout_exit": 0,
+  "visual_exit": 0,
+  "layout_checked": {
+    "hubDesktop": 5,
+    "lessonDesktop": 95,
+    "hubMobile": 5,
+    "lessonMobile": 95,
+    "total": 200
+  },
+  "layout_failures": [],
+  "visual_case_count": 190,
+  "visual_failures": [],
+  "hub_screenshots": 10,
+  "practice_screenshots": 16
+}
