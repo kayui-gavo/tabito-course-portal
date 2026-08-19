@@ -7,6 +7,13 @@
   const lessonId=()=>new URLSearchParams(location.search).get('id')||'';
 
   function enhance(){
+    const practice=document.querySelector('.et-source-practice-v7');
+    if(practice){
+      const title=practice.querySelector('.et-source-practice-v7-head h3');
+      const lead=practice.querySelector('.et-source-practice-v7-head p');
+      if(title)title.textContent='原教材の実践問題を解き直す';
+      if(lead)lead.textContent='原教材の設問・条件・数値を保った実践問題です。教材で解答が省略されている課題は、Web側でも一つの模範解答へ固定せず、自分の作業や説明を本文の観点と照合します。';
+    }
     document.querySelectorAll('.et-source-practice-v7-list article').forEach((article,index)=>{
       if(article.querySelector('.practice-rubric-v13'))return;
       const details=article.querySelector('details'),point=article.querySelector('.et-source-practice-v7-point')?.textContent.replace('確認する力','').trim()||'';
