@@ -31,7 +31,8 @@
    parser 同期で後置ロードする。最終 renderStudyLesson() より前に必ず評価される。 */
 [
   ['SOURCE_PRACTICE_CH3_FIDELITY_V15','study-source-practice-v15-ch3-fidelity.js'],
-  ['SOURCE_PRACTICE_CH4_FIDELITY_V16','study-source-practice-v16-ch4-fidelity.js']
+  ['SOURCE_PRACTICE_CH4_FIDELITY_V16','study-source-practice-v16-ch4-fidelity.js'],
+  ['SOURCE_PRACTICE_CH5_FIDELITY_V17','study-source-practice-v17-ch5-fidelity.js']
 ].forEach(([flag,src])=>{
   if(!window[flag])document.write(`<script src="${src}"><\/script>`);
 });
