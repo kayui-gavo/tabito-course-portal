@@ -33,7 +33,10 @@
   ['SOURCE_PRACTICE_CH3_FIDELITY_V15','study-source-practice-v15-ch3-fidelity.js'],
   ['SOURCE_PRACTICE_CH4_FIDELITY_V16','study-source-practice-v16-ch4-fidelity.js'],
   ['SOURCE_PRACTICE_CH5_FIDELITY_V17','study-source-practice-v17-ch5-fidelity.js'],
-  ['SOURCE_PRACTICE_CH6_FIDELITY_V18','study-source-practice-v18-ch6-fidelity.js']
+  ['SOURCE_PRACTICE_CH6_FIDELITY_V18','study-source-practice-v18-ch6-fidelity.js'],
+  ['SOURCE_PRACTICE_CH7_FIDELITY_V19','study-source-practice-v19-ch7-fidelity.js'],
+  ['SOURCE_PRACTICE_CH8_FIDELITY_V20','study-source-practice-v20-ch8-fidelity.js'],
+  ['SOURCE_PRACTICE_CH9_FIDELITY_V21','study-source-practice-v21-ch9-fidelity.js']
 ].forEach(([flag,src])=>{
   if(!window[flag])document.write(`<script src="${src}"><\/script>`);
 });
