@@ -1,0 +1,147 @@
+name: Informatics release QA snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'resources/informatics-room/**'
+      - '.github/scripts/informatics-layout-qa.mjs'
+      - '.github/scripts/informatics-visual-qa.mjs'
+      - '.github/workflows/informatics-release-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: informatics-release-qa-main
+  cancel-in-progress: true
+
+jobs:
+  release-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install browser and review dependencies
+        run: |
+          npm install --no-save playwright-core
+          python3 -m pip install --quiet pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+          fc-cache -f
+          if test -x /usr/bin/google-chrome; then
+            echo "CHROME_PATH=/usr/bin/google-chrome" >> "$GITHUB_ENV"
+          else
+            echo "CHROME_PATH=/usr/bin/google-chrome-stable" >> "$GITHUB_ENV"
+          fi
+
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/informatics-http.log 2>&1 &
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/resources/informatics-room/index.html >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/informatics-http.log
+          exit 1
+
+      - name: Run complete browser QA
+        run: |
+          set +e
+          node .github/scripts/informatics-layout-qa.mjs
+          echo $? > /tmp/informatics-layout-exit
+          node .github/scripts/informatics-visual-qa.mjs
+          echo $? > /tmp/informatics-visual-exit
+          exit 0
+
+      - name: Build compact QA snapshot
+        if: always()
+        env:
+          QA_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          from PIL import Image
+
+          out=Path('/tmp/informatics-qa-publish')
+          previews=out/'previews'
+          previews.mkdir(parents=True,exist_ok=True)
+          def load(path):
+              try: return json.loads(Path(path).read_text())
+              except Exception: return {}
+          def exit_code(path):
+              try: return int(Path(path).read_text().strip())
+              except Exception: return 99
+          layout=load('artifacts/informatics-layout/report.json')
+          visual=load('artifacts/informatics-visual/report.json')
+          summary={
+              'head_sha':os.environ.get('QA_SHA',''),
+              'layout_exit':exit_code('/tmp/informatics-layout-exit'),
+              'visual_exit':exit_code('/tmp/informatics-visual-exit'),
+              'layout_checked':layout.get('checked',{}),
+              'layout_failures':layout.get('failures',[]),
+              'visual_case_count':len(visual.get('cases',[])),
+              'visual_failures':visual.get('failures',[]),
+              'hub_screenshots':layout.get('hubScreenshotsCaptured',0),
+          }
+          (out/'status.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
+
+          selected=[
+              ('artifacts/informatics-layout/hub-desktop-glossary-html.png','hub-desktop-glossary.jpg'),
+              ('artifacts/informatics-layout/hub-mobile-glossary-html.png','hub-mobile-glossary.jpg'),
+              ('artifacts/informatics-layout/hub-desktop-questions-html.png','hub-desktop-questions.jpg'),
+              ('artifacts/informatics-layout/hub-mobile-questions-html.png','hub-mobile-questions.jpg'),
+              ('artifacts/informatics-layout/hub-desktop-exam-html.png','hub-desktop-exam.jpg'),
+              ('artifacts/informatics-layout/hub-mobile-exam-html.png','hub-mobile-exam.jpg'),
+              ('artifacts/informatics-visual/desktop-b1-3-figure.png','desktop-b1-3-figure.jpg'),
+              ('artifacts/informatics-visual/mobile-b1-3-figure.png','mobile-b1-3-figure.jpg'),
+              ('artifacts/informatics-visual/desktop-b1-4-figure.png','desktop-b1-4-figure.jpg'),
+              ('artifacts/informatics-visual/mobile-b1-4-figure.png','mobile-b1-4-figure.jpg'),
+              ('artifacts/informatics-visual/desktop-p45-figure.png','desktop-p45-figure.jpg'),
+              ('artifacts/informatics-visual/mobile-p45-figure.png','mobile-p45-figure.jpg'),
+          ]
+          made=[]
+          for src,name in selected:
+              p=Path(src)
+              if not p.exists(): continue
+              im=Image.open(p).convert('RGB')
+              max_w=700
+              if im.width>max_w:
+                  h=round(im.height*max_w/im.width)
+                  im=im.resize((max_w,h),Image.Resampling.LANCZOS)
+              dest=previews/name
+              im.save(dest,'JPEG',quality=48,optimize=True,progressive=True)
+              made.append(name)
+          (out/'previews.json').write_text(json.dumps({'files':made},ensure_ascii=False,indent=2))
+          PY
+
+      - name: Publish QA snapshot branch
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan informatics-qa-status
+          git rm -rf . >/dev/null 2>&1 || true
+          cp -R /tmp/informatics-qa-publish/. .
+          git add status.json previews.json previews/
+          git commit -m "Informatics QA snapshot for ${GITHUB_SHA}"
+          git push --force origin HEAD:refs/heads/informatics-qa-status
+
+      - name: Enforce QA result
+        if: always()
+        run: |
+          L=$(cat /tmp/informatics-layout-exit 2>/dev/null || echo 99)
+          V=$(cat /tmp/informatics-visual-exit 2>/dev/null || echo 99)
+          echo "layout=$L visual=$V"
+          test "$L" -eq 0 -a "$V" -eq 0
