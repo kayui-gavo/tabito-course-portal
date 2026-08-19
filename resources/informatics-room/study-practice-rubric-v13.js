@@ -26,3 +26,9 @@
   window.renderStudyLesson=function renderPracticeRubricV13(){baseRender();enhance();};
   window.PRACTICE_RUBRIC_V13=true;
 })();
+
+/* lesson.html は互換性レイヤーを維持するため、ここで新しい source-practice overlay を
+   parser 同期で後置ロードする。最終 renderStudyLesson() より前に必ず評価される。 */
+if(!window.SOURCE_PRACTICE_CH3_FIDELITY_V15){
+  document.write('<script src="study-source-practice-v15-ch3-fidelity.js"><\/script>');
+}
