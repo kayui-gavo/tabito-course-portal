@@ -118,12 +118,12 @@ jobs:
               p=Path(src)
               if not p.exists(): continue
               im=Image.open(p).convert('RGB')
-              max_w=700
+              max_w=300
               if im.width>max_w:
                   h=round(im.height*max_w/im.width)
                   im=im.resize((max_w,h),Image.Resampling.LANCZOS)
               dest=previews/name
-              im.save(dest,'JPEG',quality=48,optimize=True,progressive=True)
+              im.save(dest,'JPEG',quality=24,optimize=True,progressive=True)
               made.append(name)
           (out/'previews.json').write_text(json.dumps({'files':made},ensure_ascii=False,indent=2))
           PY
