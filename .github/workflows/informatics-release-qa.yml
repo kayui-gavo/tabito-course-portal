@@ -20,7 +20,7 @@ concurrency:
 jobs:
   release-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,6 +96,7 @@ jobs:
               'visual_case_count':len(visual.get('cases',[])),
               'visual_failures':visual.get('failures',[]),
               'hub_screenshots':layout.get('hubScreenshotsCaptured',0),
+              'practice_screenshots':layout.get('practiceScreenshotsCaptured',0),
           }
           (out/'status.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
 
@@ -106,10 +107,18 @@ jobs:
               ('artifacts/informatics-layout/hub-mobile-questions-html.png','hub-mobile-questions.jpg'),
               ('artifacts/informatics-layout/hub-desktop-exam-html.png','hub-desktop-exam.jpg'),
               ('artifacts/informatics-layout/hub-mobile-exam-html.png','hub-mobile-exam.jpg'),
+              ('artifacts/informatics-layout/focus-desktop-b3-4-practice.png','focus-desktop-b3-4-practice.jpg'),
+              ('artifacts/informatics-layout/focus-mobile-b3-4-practice.png','focus-mobile-b3-4-practice.jpg'),
+              ('artifacts/informatics-layout/focus-desktop-b4-2-practice.png','focus-desktop-b4-2-practice.jpg'),
+              ('artifacts/informatics-layout/focus-mobile-b4-2-practice.png','focus-mobile-b4-2-practice.jpg'),
+              ('artifacts/informatics-layout/focus-desktop-b7-3-practice.png','focus-desktop-b7-3-practice.jpg'),
+              ('artifacts/informatics-layout/focus-mobile-b7-3-practice.png','focus-mobile-b7-3-practice.jpg'),
+              ('artifacts/informatics-layout/focus-desktop-b8-7-practice.png','focus-desktop-b8-7-practice.jpg'),
+              ('artifacts/informatics-layout/focus-mobile-b8-7-practice.png','focus-mobile-b8-7-practice.jpg'),
+              ('artifacts/informatics-layout/focus-desktop-b9-3-practice.png','focus-desktop-b9-3-practice.jpg'),
+              ('artifacts/informatics-layout/focus-mobile-b9-3-practice.png','focus-mobile-b9-3-practice.jpg'),
               ('artifacts/informatics-visual/desktop-b1-3-figure.png','desktop-b1-3-figure.jpg'),
               ('artifacts/informatics-visual/mobile-b1-3-figure.png','mobile-b1-3-figure.jpg'),
-              ('artifacts/informatics-visual/desktop-b1-4-figure.png','desktop-b1-4-figure.jpg'),
-              ('artifacts/informatics-visual/mobile-b1-4-figure.png','mobile-b1-4-figure.jpg'),
               ('artifacts/informatics-visual/desktop-p45-figure.png','desktop-p45-figure.jpg'),
               ('artifacts/informatics-visual/mobile-p45-figure.png','mobile-p45-figure.jpg'),
           ]
