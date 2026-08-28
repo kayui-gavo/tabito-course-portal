@@ -142,14 +142,19 @@ h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.12; margin: 5px 0 10px; l
 .segment { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: #f5f7fa; }
 .segment-btn { min-height: 32px; border: 0; background: transparent; color: var(--muted); padding: 5px 9px; }
 .segment-btn.active { background: #fff; color: var(--navy-dark); box-shadow: 0 1px 3px rgba(24,34,48,.08); }
+.view-segment .segment-btn { min-width: 42px; }
 
-.legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 14px 2px 18px; color: var(--muted); font-size: 12px; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 14px 2px 18px; color: var(--muted); font-size: 12px; }
 .legend-item { display: inline-flex; align-items: center; gap: 6px; }
 .legend-swatch { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
-.legend-swatch.normal { background: var(--navy); }
 .legend-swatch.tentative { background: var(--tentative); }
 .legend-swatch.cancelled { background: var(--cancel); }
 .legend-swatch.pending { background: transparent; border: 1px dashed var(--soft); }
+.subject-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.subject-legend.politics i { background: var(--politics); }
+.subject-legend.japanese i { background: var(--japanese); }
+.subject-legend.english i { background: var(--english); }
+.legend-divider { width: 1px; height: 14px; background: var(--line-strong); }
 
 .content-layout { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: start; }
 .calendar-panel, .summary-card, .pending-card, .note-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); }
@@ -213,6 +218,36 @@ h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.12; margin: 5px 0 10px; l
 .mobile-event p { margin-top: 2px; color: var(--muted); font-size: 12px; }
 .mobile-empty { color: var(--soft); font-size: 12px; padding: 10px 2px 4px; }
 
+.month-view[hidden] { display: none; }
+.month-view { overflow-x: auto; background: #fff; }
+.month-weekdays, .month-grid { min-width: 760px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.month-weekdays { border-bottom: 1px solid var(--line); background: #fbfcfd; }
+.month-weekdays span { min-height: 42px; display: grid; place-items: center; border-right: 1px solid var(--line); color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .04em; }
+.month-weekdays span:last-child { border-right: 0; }
+.month-grid { grid-auto-rows: minmax(126px, auto); }
+.month-day { min-width: 0; min-height: 126px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 8px; background: #fff; }
+.month-day:nth-child(7n) { border-right: 0; }
+.month-day.outside { background: #fafbfc; }
+.month-day.outside .month-date { color: #b1b8c2; }
+.month-day.today { box-shadow: inset 0 0 0 2px rgba(36,79,122,.16); }
+.month-date-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-height: 24px; margin-bottom: 5px; }
+.month-date { width: 26px; height: 26px; display: inline-grid; place-items: center; border-radius: 50%; font-size: 12px; font-weight: 850; }
+.month-day.today .month-date { color: #fff; background: var(--navy); }
+.month-day-count { color: var(--soft); font-size: 10px; }
+.month-events { display: grid; gap: 4px; }
+.month-event { width: 100%; min-width: 0; border: 0; border-left: 3px solid; border-radius: 5px; padding: 5px 6px; text-align: left; overflow: hidden; }
+.month-event:hover { filter: brightness(.985); }
+.month-event .month-event-top { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+.month-event time { flex: 0 0 auto; font-size: 9px; font-weight: 850; font-variant-numeric: tabular-nums; }
+.month-event strong { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 10px; line-height: 1.25; }
+.month-event p { margin-top: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgba(24,34,48,.65); font-size: 9px; line-height: 1.2; }
+.month-event.politics { border-left-color: var(--politics); background: var(--politics-bg); }
+.month-event.japanese { border-left-color: var(--japanese); background: var(--japanese-bg); }
+.month-event.english { border-left-color: var(--english); background: var(--english-bg); }
+.month-event.tentative { border-left-color: var(--tentative); background: var(--tentative-bg); }
+.month-event.cancelled { border-left-color: var(--cancel); background: var(--cancel-bg); color: #717985; text-decoration: none; }
+.month-more { color: var(--soft); font-size: 9px; font-weight: 750; padding: 1px 3px; }
+
 .side-panel { display: grid; gap: 12px; }
 .summary-card, .pending-card, .note-card { padding: 16px; }
 .side-panel h2 { font-size: 17px; margin-top: 2px; }
@@ -272,9 +307,12 @@ h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.12; margin: 5px 0 10px; l
   .toolbar-right { justify-content: space-between; }
   .select-wrap { flex: 1; }
   .select-wrap select { flex: 1; min-width: 0; }
+  #rangeSegment[hidden] { display: none; }
   .calendar-desktop { display: none; }
   .calendar-mobile { display: block; }
+  .month-view { margin: 0; }
   .side-panel { grid-template-columns: 1fr; }
+  .legend-divider { display: none; }
   .footer-inner { min-height: 76px; align-items: flex-start; justify-content: center; flex-direction: column; gap: 2px; padding: 14px 0; }
 }
 
@@ -285,4 +323,5 @@ h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.12; margin: 5px 0 10px; l
   .segment-btn { flex: 1; }
   .toolbar-right { gap: 8px; }
   .select-wrap { width: 100%; flex-basis: 100%; }
+  .view-segment { width: 100%; }
 }
