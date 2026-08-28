@@ -67,8 +67,11 @@
   const weekdayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
   const shortWeekdayNames = ['一', '二', '三', '四', '五', '六', '日'];
 
+  const initial = getInitialState();
   const state = {
-    weekStart: getInitialWeekStart(),
+    view: initial.view,
+    weekStart: initial.weekStart,
+    monthStart: initial.monthStart,
     range: 'workdays',
     subject: 'all'
   };
@@ -80,12 +83,20 @@
     timeAxis: document.getElementById('timeAxis'),
     dayGrid: document.getElementById('dayGrid'),
     calendarMobile: document.getElementById('calendarMobile'),
+    weekView: document.getElementById('weekView'),
+    monthView: document.getElementById('monthView'),
+    monthGrid: document.getElementById('monthGrid'),
+    rangeSegment: document.getElementById('rangeSegment'),
+    summaryPeriodLabel: document.getElementById('summaryPeriodLabel'),
     summarySessions: document.getElementById('summarySessions'),
     summaryHours: document.getElementById('summaryHours'),
     summaryCancelled: document.getElementById('summaryCancelled'),
     subjectFilter: document.getElementById('subjectFilter'),
     pendingList: document.getElementById('pendingList'),
     pendingCount: document.getElementById('pendingCount'),
+    prevLabel: document.getElementById('prevLabel'),
+    todayLabel: document.getElementById('todayLabel'),
+    nextLabel: document.getElementById('nextLabel'),
     dialog: document.getElementById('eventDialog'),
     dialogSubject: document.getElementById('dialogSubject'),
     dialogTitle: document.getElementById('dialogTitle'),
@@ -104,6 +115,14 @@
     return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
   }
 
+  function firstOfMonth(date) {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
+  }
+
+  function lastOfMonth(date) {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0));
+  }
+
   function startOfWeek(date) {
     const copy = new Date(date.getTime());
     const day = copy.getUTCDay();
@@ -112,19 +131,37 @@
     return copy;
   }
 
-  function getInitialWeekStart() {
+  function getInitialState() {
     const params = new URLSearchParams(location.search);
+    const requestedView = params.get('view') === 'month' ? 'month' : 'week';
+    const now = new Date();
+    const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+
+    let weekStart = startOfWeek(today);
     const queryWeek = params.get('week');
     if (queryWeek && /^\d{4}-\d{2}-\d{2}$/.test(queryWeek)) {
       const parsed = parseDate(queryWeek);
-      if (!Number.isNaN(parsed.getTime())) return startOfWeek(parsed);
+      if (!Number.isNaN(parsed.getTime())) weekStart = startOfWeek(parsed);
     }
-    const now = new Date();
-    return startOfWeek(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())));
+
+    let monthStart = firstOfMonth(today);
+    const queryMonth = params.get('month');
+    if (queryMonth && /^\d{4}-\d{2}$/.test(queryMonth)) {
+      const parsed = parseDate(`${queryMonth}-01`);
+      if (!Number.isNaN(parsed.getTime())) monthStart = parsed;
+    } else if (queryWeek) {
+      monthStart = firstOfMonth(weekStart);
+    }
+
+    return { view: requestedView, weekStart, monthStart };
   }
 
   function addDays(date, days) {
     return new Date(date.getTime() + days * DAY_MS);
+  }
+
+  function addMonths(date, months) {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1));
   }
 
   function minutes(time) {
@@ -136,17 +173,35 @@
     return Math.max(0, minutes(event.end) - minutes(event.start)) / 60;
   }
 
+  function subjectMatches(event) {
+    return state.subject === 'all' || event.subject === state.subject;
+  }
+
+  function eventsBetween(start, end) {
+    const startKey = formatDate(start);
+    const endKey = formatDate(end);
+    return scheduleEvents
+      .filter(event => event.date >= startKey && event.date <= endKey)
+      .filter(subjectMatches)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
+  }
+
   function visibleDates() {
     const count = state.range === 'fullweek' ? 7 : 5;
     return Array.from({ length: count }, (_, i) => addDays(state.weekStart, i));
   }
 
-  function visibleEvents() {
-    const dates = new Set(visibleDates().map(formatDate));
-    return scheduleEvents
-      .filter(event => dates.has(event.date))
-      .filter(event => state.subject === 'all' || event.subject === state.subject)
-      .sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
+  function visibleWeekEvents() {
+    const dates = visibleDates();
+    return eventsBetween(dates[0], dates[dates.length - 1]);
+  }
+
+  function visibleMonthEvents() {
+    return eventsBetween(state.monthStart, lastOfMonth(state.monthStart));
+  }
+
+  function currentPeriodEvents() {
+    return state.view === 'month' ? visibleMonthEvents() : visibleWeekEvents();
   }
 
   function renderTimeAxis() {
@@ -195,13 +250,13 @@
     const top = ((topMinute - START_MINUTE) / (END_MINUTE - START_MINUTE)) * GRID_HEIGHT;
     const height = Math.max(34, ((endMinute - topMinute) / (END_MINUTE - START_MINUTE)) * GRID_HEIGHT - 5);
     const subjectName = subjects[event.subject].name;
-    const name = event.status === 'cancelled' ? '休讲' : `${subjectName} · ${event.title}`;
+    const name = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
     return `<button type="button" class="event ${eventClass(event)}" data-event-id="${event.id}" style="top:${top}px;height:${height}px" aria-label="${name} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${name}</span><span class="event-topic">${event.topic}</span></button>`;
   }
 
   function renderGrid() {
     const dates = visibleDates();
-    const events = visibleEvents();
+    const events = visibleWeekEvents();
     els.dayGrid.style.gridTemplateColumns = `repeat(${dates.length}, minmax(0, 1fr))`;
     els.dayGrid.innerHTML = dates.map(date => {
       const key = formatDate(date);
@@ -212,14 +267,14 @@
 
   function renderMobile() {
     const dates = visibleDates();
-    const events = visibleEvents();
+    const events = visibleWeekEvents();
     els.calendarMobile.innerHTML = dates.map((date, index) => {
       const key = formatDate(date);
       const dayEvents = events.filter(event => event.date === key);
       const body = dayEvents.length
         ? dayEvents.map(event => {
             const subjectName = subjects[event.subject].name;
-            const line = event.status === 'cancelled' ? '休讲' : `${subjectName} · ${event.title}`;
+            const line = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
             return `<button type="button" class="mobile-event" data-event-id="${event.id}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${line}</strong><p>${event.topic}</p></span></button>`;
           }).join('')
         : '<p class="mobile-empty">无课程</p>';
@@ -227,8 +282,41 @@
     }).join('');
   }
 
+  function monthGridDates() {
+    const first = state.monthStart;
+    const last = lastOfMonth(first);
+    const gridStart = startOfWeek(first);
+    const lastDayIndex = (last.getUTCDay() + 6) % 7;
+    const gridEnd = addDays(last, 6 - lastDayIndex);
+    const count = Math.round((gridEnd - gridStart) / DAY_MS) + 1;
+    return Array.from({ length: count }, (_, i) => addDays(gridStart, i));
+  }
+
+  function monthEventButton(event) {
+    const subjectName = subjects[event.subject].name;
+    const name = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
+    return `<button type="button" class="month-event ${eventClass(event)}" data-event-id="${event.id}" aria-label="${name} ${event.start}至${event.end}"><span class="month-event-top"><time>${event.start}</time><strong>${name}</strong></span><p>${event.topic}</p></button>`;
+  }
+
+  function renderMonth() {
+    const dates = monthGridDates();
+    const events = eventsBetween(dates[0], dates[dates.length - 1]);
+    const currentMonth = state.monthStart.getUTCMonth();
+    const today = new Date();
+    const todayKey = formatDate(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
+
+    els.monthGrid.innerHTML = dates.map(date => {
+      const key = formatDate(date);
+      const dayEvents = events.filter(event => event.date === key);
+      const outside = date.getUTCMonth() !== currentMonth ? ' outside' : '';
+      const isToday = key === todayKey ? ' today' : '';
+      const countLabel = dayEvents.length ? `<span class="month-day-count">${dayEvents.length} 项</span>` : '';
+      return `<section class="month-day${outside}${isToday}" data-date="${key}"><div class="month-date-row"><span class="month-date">${date.getUTCDate()}</span>${countLabel}</div><div class="month-events">${dayEvents.map(monthEventButton).join('')}</div></section>`;
+    }).join('');
+  }
+
   function renderSummary() {
-    const events = visibleEvents();
+    const events = currentPeriodEvents();
     const teaching = events.filter(event => event.status !== 'cancelled');
     const cancelled = events.filter(event => event.status === 'cancelled');
     const hours = teaching.reduce((sum, event) => sum + durationHours(event), 0);
@@ -236,15 +324,20 @@
     els.summaryHours.textContent = `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
     els.summaryCancelled.textContent = String(cancelled.length);
     els.weekCount.textContent = `${teaching.length} 节授课${cancelled.length ? ` · ${cancelled.length} 项休讲` : ''}`;
+    els.summaryPeriodLabel.textContent = state.view === 'month' ? '本月' : '本周';
   }
 
-  function renderWeekTitle() {
+  function renderPeriodTitle() {
+    if (state.view === 'month') {
+      els.weekTitle.textContent = `${state.monthStart.getUTCFullYear()}年${state.monthStart.getUTCMonth() + 1}月`;
+      return;
+    }
+
     const end = addDays(state.weekStart, state.range === 'fullweek' ? 6 : 4);
     const sameMonth = state.weekStart.getUTCMonth() === end.getUTCMonth();
-    const title = sameMonth
+    els.weekTitle.textContent = sameMonth
       ? `${state.weekStart.getUTCFullYear()}年${state.weekStart.getUTCMonth() + 1}月${state.weekStart.getUTCDate()}日 – ${end.getUTCDate()}日`
       : `${state.weekStart.getUTCFullYear()}年${state.weekStart.getUTCMonth() + 1}月${state.weekStart.getUTCDate()}日 – ${end.getUTCMonth() + 1}月${end.getUTCDate()}日`;
-    els.weekTitle.textContent = title;
   }
 
   function renderPending() {
@@ -255,14 +348,32 @@
       return;
     }
     const preview = pendingCourses.slice(0, 5).map(item => `<div class="pending-item"><strong>共通英语阅读</strong><span>${item}</span></div>`).join('');
-    els.pendingList.innerHTML = `${preview}<p class="pending-more">另有 ${pendingCourses.length - 5} 回，日期与时间确定后将加入周课程表。</p>`;
+    els.pendingList.innerHTML = `${preview}<p class="pending-more">另有 ${pendingCourses.length - 5} 回，日期与时间确定后将自动加入日历。</p>`;
+  }
+
+  function renderViewControls() {
+    const isMonth = state.view === 'month';
+    els.weekView.hidden = isMonth;
+    els.monthView.hidden = !isMonth;
+    els.rangeSegment.hidden = isMonth;
+    els.prevLabel.textContent = isMonth ? '上一月' : '上一周';
+    els.todayLabel.textContent = isMonth ? '本月' : '本周';
+    els.nextLabel.textContent = isMonth ? '下一月' : '下一周';
+    document.querySelectorAll('[data-view]').forEach(button => {
+      button.classList.toggle('active', button.dataset.view === state.view);
+    });
   }
 
   function render() {
-    renderWeekTitle();
-    renderHeader();
-    renderGrid();
-    renderMobile();
+    renderViewControls();
+    renderPeriodTitle();
+    if (state.view === 'month') {
+      renderMonth();
+    } else {
+      renderHeader();
+      renderGrid();
+      renderMobile();
+    }
     renderSummary();
     renderPending();
     updateQuery();
@@ -270,7 +381,14 @@
 
   function updateQuery() {
     const url = new URL(location.href);
-    url.searchParams.set('week', formatDate(state.weekStart));
+    url.searchParams.set('view', state.view);
+    if (state.view === 'month') {
+      url.searchParams.set('month', `${state.monthStart.getUTCFullYear()}-${String(state.monthStart.getUTCMonth() + 1).padStart(2, '0')}`);
+      url.searchParams.delete('week');
+    } else {
+      url.searchParams.set('week', formatDate(state.weekStart));
+      url.searchParams.delete('month');
+    }
     history.replaceState(null, '', url);
   }
 
@@ -295,18 +413,22 @@
   }
 
   document.getElementById('prevWeek').addEventListener('click', () => {
-    state.weekStart = addDays(state.weekStart, -7);
+    if (state.view === 'month') state.monthStart = addMonths(state.monthStart, -1);
+    else state.weekStart = addDays(state.weekStart, -7);
     render();
   });
 
   document.getElementById('nextWeek').addEventListener('click', () => {
-    state.weekStart = addDays(state.weekStart, 7);
+    if (state.view === 'month') state.monthStart = addMonths(state.monthStart, 1);
+    else state.weekStart = addDays(state.weekStart, 7);
     render();
   });
 
   document.getElementById('todayWeek').addEventListener('click', () => {
     const now = new Date();
-    state.weekStart = startOfWeek(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())));
+    const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    state.weekStart = startOfWeek(today);
+    state.monthStart = firstOfMonth(today);
     render();
   });
 
@@ -315,9 +437,20 @@
     render();
   });
 
-  document.querySelectorAll('.segment-btn').forEach(button => {
+  document.querySelectorAll('[data-view]').forEach(button => {
     button.addEventListener('click', () => {
-      document.querySelectorAll('.segment-btn').forEach(item => item.classList.remove('active'));
+      const nextView = button.dataset.view;
+      if (nextView === state.view) return;
+      if (nextView === 'month') state.monthStart = firstOfMonth(state.weekStart);
+      else state.weekStart = startOfWeek(state.monthStart);
+      state.view = nextView;
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-range]').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('[data-range]').forEach(item => item.classList.remove('active'));
       button.classList.add('active');
       state.range = button.dataset.range;
       render();
