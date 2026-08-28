@@ -59,6 +59,8 @@
             <option value="politics">公共政治经济</option>
             <option value="japanese">国语</option>
             <option value="english">共通英语阅读</option>
+            <option value="geography">共通考试地理</option>
+            <option value="privatePhysics">魏思远物理一对一</option>
           </select>
         </label>
         <div class="segment" id="rangeSegment" role="group" aria-label="周视图显示范围">
@@ -72,6 +74,8 @@
       <span class="legend-item subject-legend politics"><i></i>公共政治经济</span>
       <span class="legend-item subject-legend japanese"><i></i>国语</span>
       <span class="legend-item subject-legend english"><i></i>共通英语阅读</span>
+      <span class="legend-item subject-legend geography"><i></i>共通考试地理</span>
+      <span class="legend-item subject-legend privatePhysics"><i></i>魏思远物理一对一</span>
       <span class="legend-divider" aria-hidden="true"></span>
       <span class="legend-item"><i class="legend-swatch tentative"></i>暂定线上</span>
       <span class="legend-item"><i class="legend-swatch cancelled"></i>休讲</span>
@@ -123,7 +127,7 @@
 
         <section class="note-card">
           <strong>查看方式</strong>
-          <p>周视图按实际起止时间排布，适合确认一天中的时间安排；月视图适合快速查看整月课程与休讲。点击课程可查看授课内容。</p>
+          <p>周视图按实际起止时间排布，适合确认一天中的时间安排；月视图适合快速查看整月课程与休讲。点击课程可查看授课老师、授课方式和本次内容。</p>
         </section>
       </aside>
     </div>
@@ -145,12 +149,14 @@
       <dl class="dialog-meta">
         <div><dt>日期</dt><dd id="dialogDate"></dd></div>
         <div><dt>时间</dt><dd id="dialogTime"></dd></div>
+        <div><dt>老师</dt><dd id="dialogTeacher"></dd></div>
+        <div><dt>方式</dt><dd id="dialogMode"></dd></div>
         <div><dt>状态</dt><dd id="dialogStatus"></dd></div>
       </dl>
       <p class="dialog-note" id="dialogNote"></p>
     </section>
   </div>
 
-  <script src="assets/schedule.js?v=20260829b"></script>
+  <script src="assets/schedule.js?v=20260829c"></script>
 </body>
 </html>
