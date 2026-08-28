@@ -32,6 +32,7 @@
   const summaryHours = document.getElementById('summaryHours');
   const summarySessions = document.getElementById('summarySessions');
   const summaryCancelled = document.getElementById('summaryCancelled');
+  const weekCount = document.getElementById('weekCount');
   const pendingCount = document.getElementById('pendingCount');
   const pendingFollowup = document.querySelector('.pending-followup');
 
@@ -68,14 +69,11 @@
     const room = roomFor(node);
 
     if (teacherFilter.value !== 'all' && teacher !== teacherFilter.value) return false;
-
     if (modeFilter.value === 'offline' && mode !== '线下') return false;
     if (modeFilter.value === 'online' && mode !== '网课') return false;
     if (modeFilter.value === 'tentative' && mode !== '暂定线上') return false;
-
     if (roomFilter.value === 'pending' && room !== '待分配') return false;
     if (roomFilter.value === 'online' && room !== '无需教室') return false;
-
     return true;
   }
 
@@ -87,9 +85,20 @@
     ];
   }
 
+  function currentMonthPrefix() {
+    const params = new URLSearchParams(location.search);
+    const month = params.get('month');
+    if (/^\d{4}-\d{2}$/.test(month || '')) return month;
+    const title = document.getElementById('weekTitle')?.textContent || '';
+    const match = title.match(/(\d{4})年(\d{1,2})月$/);
+    return match ? `${match[1]}-${String(Number(match[2])).padStart(2,'0')}` : '';
+  }
+
   function currentSourceNodes() {
     if (monthView && !monthView.hidden) {
-      return [...monthGrid.querySelectorAll('.month-event[data-event-id]')];
+      const prefix = currentMonthPrefix();
+      return [...monthGrid.querySelectorAll('.month-event[data-event-id]')]
+        .filter(node => !prefix || dateFor(node).startsWith(`${prefix}-`));
     }
     return [...dayGrid.querySelectorAll('.event[data-event-id]')];
   }
@@ -228,6 +237,7 @@
     summaryHours.textContent = `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
     summarySessions.textContent = `${teaching.length} 节`;
     summaryCancelled.textContent = String(cancelled.length);
+    if (weekCount) weekCount.textContent = `${teaching.length} 节授课${cancelled.length ? ` · ${cancelled.length} 项休讲` : ''}`;
 
     const conflicts = countTeacherConflicts(nodes);
     conflictMetric.textContent = String(conflicts);
