@@ -2,12 +2,13 @@
   'use strict';
 
   const subjects = {
-    politics: { name: '公共政治经济' },
-    japanese: { name: '国语' },
-    english: { name: '共通英语阅读' }
+    politics: { name: '公共政治经济', teacher: '刘淼' },
+    japanese: { name: '国语', teacher: '刘淼' },
+    english: { name: '共通英语阅读', teacher: '刘淼' },
+    geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
+    privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
   };
 
-  // 课程数据统一放在这里维护。date 使用 YYYY-MM-DD，time 使用 24 小时制。
   const scheduleEvents = [
     { id: 'pol-01', subject: 'politics', date: '2026-08-30', start: '14:00', end: '17:00', title: '第1回', topic: '政治哲学编年史、政治体系基础，哲学史入门', status: 'normal' },
     { id: 'pol-off-01', subject: 'politics', date: '2026-09-06', start: '14:00', end: '17:00', title: '休讲', topic: '公共政治经济', status: 'cancelled' },
@@ -25,7 +26,7 @@
 
     { id: 'jp-01', subject: 'japanese', date: '2026-08-28', start: '14:00', end: '16:00', title: '第1回', topic: '基础读解方法：组合意图，接续词', status: 'normal' },
     { id: 'jp-02', subject: 'japanese', date: '2026-08-30', start: '18:30', end: '20:30', title: '第2回', topic: '基础读解方法：读题技巧', status: 'normal' },
-    { id: 'jp-03', subject: 'japanese', date: '2026-09-04', start: '14:00', end: '16:00', title: '第3回', topic: '基础现代文练习1', status: 'tentative' },
+    { id: 'jp-03', subject: 'japanese', date: '2026-09-04', start: '14:00', end: '16:00', title: '第3回', topic: '基础现代文练习1', status: 'tentative', mode: '暂定线上' },
     { id: 'jp-off-01', subject: 'japanese', date: '2026-09-06', start: '18:30', end: '20:30', title: '休讲', topic: '国语', status: 'cancelled' },
     { id: 'jp-04', subject: 'japanese', date: '2026-09-11', start: '14:00', end: '16:00', title: '第4回', topic: '基础现代文练习1', status: 'normal' },
     { id: 'jp-05', subject: 'japanese', date: '2026-09-13', start: '18:30', end: '20:30', title: '第5回', topic: '基础现代文练习2', status: 'normal' },
@@ -39,7 +40,49 @@
     { id: 'jp-11', subject: 'japanese', date: '2026-10-18', start: '18:30', end: '20:30', title: '第11回', topic: '2020年小说', status: 'normal' },
     { id: 'jp-12', subject: 'japanese', date: '2026-10-23', start: '14:00', end: '16:00', title: '第12回', topic: '2021年评论', status: 'normal' },
     { id: 'jp-13', subject: 'japanese', date: '2026-10-25', start: '18:30', end: '20:30', title: '第13回', topic: '2021年小说', status: 'normal' },
-    { id: 'jp-14', subject: 'japanese', date: '2026-10-30', start: '14:00', end: '16:00', title: '第14回', topic: '2022年评论', status: 'normal' }
+    { id: 'jp-14', subject: 'japanese', date: '2026-10-30', start: '14:00', end: '16:00', title: '第14回', topic: '2022年评论', status: 'normal' },
+
+    { id: 'geo-01', subject: 'geography', date: '2026-08-30', start: '09:00', end: '12:00', title: '第1回', topic: '大地形', status: 'normal' },
+    { id: 'geo-02', subject: 'geography', date: '2026-09-06', start: '09:00', end: '12:00', title: '第2回', topic: '小地形', status: 'normal' },
+    { id: 'geo-03', subject: 'geography', date: '2026-09-13', start: '09:00', end: '12:00', title: '第3回', topic: '气候・植生・土壤', status: 'normal' },
+    { id: 'geo-04', subject: 'geography', date: '2026-09-20', start: '09:00', end: '12:00', title: '第4回', topic: '农业', status: 'normal' },
+    { id: 'geo-05', subject: 'geography', date: '2026-09-27', start: '09:00', end: '12:00', title: '第5回', topic: '工业', status: 'normal' },
+    { id: 'geo-06', subject: 'geography', date: '2026-10-04', start: '09:00', end: '12:00', title: '第6回', topic: '文化・宗教・语言／民族・纷争', status: 'normal' },
+    { id: 'geo-07', subject: 'geography', date: '2026-10-11', start: '09:00', end: '12:00', title: '第7回', topic: '人口・村落・都市／商业・交通', status: 'normal' },
+    { id: 'geo-08', subject: 'geography', date: '2026-10-18', start: '09:00', end: '12:00', title: '第8回', topic: '日本地理', status: 'normal' },
+    { id: 'geo-09', subject: 'geography', date: '2026-10-25', start: '09:00', end: '12:00', title: '第9回', topic: '地形 专题演习', status: 'normal' },
+    { id: 'geo-10', subject: 'geography', date: '2026-11-01', start: '09:00', end: '12:00', title: '第10回', topic: '气候・植生・土壤 专题演习', status: 'normal' },
+    { id: 'geo-11', subject: 'geography', date: '2026-11-08', start: '09:00', end: '12:00', title: '第11回', topic: '农业 专题演习', status: 'normal' },
+    { id: 'geo-12', subject: 'geography', date: '2026-11-15', start: '09:00', end: '12:00', title: '第12回', topic: '工业 专题演习', status: 'normal' },
+    { id: 'geo-13', subject: 'geography', date: '2026-11-22', start: '09:00', end: '12:00', title: '第13回', topic: '人文地理 专题演习', status: 'normal' },
+    { id: 'geo-14', subject: 'geography', date: '2026-11-29', start: '09:00', end: '12:00', title: '第14回', topic: '地形图・图法 专题演习', status: 'normal' },
+    { id: 'geo-15', subject: 'geography', date: '2026-12-06', start: '09:00', end: '12:00', title: '第15回', topic: '地域地理 专题演习', status: 'normal' },
+    { id: 'geo-16', subject: 'geography', date: '2026-12-13', start: '09:00', end: '12:00', title: '第16回', topic: '2023 地理 本试＋追试', status: 'normal' },
+    { id: 'geo-17', subject: 'geography', date: '2026-12-20', start: '09:00', end: '12:00', title: '第17回', topic: '2024 地理 本试＋追试', status: 'normal' },
+    { id: 'geo-18', subject: 'geography', date: '2026-12-27', start: '09:00', end: '12:00', title: '第18回', topic: '2025 旧地理B 本试＋追试', status: 'normal' },
+    { id: 'geo-19', subject: 'geography', date: '2027-01-03', start: '09:00', end: '12:00', title: '第19回', topic: '2025 地理 本试＋追试', status: 'normal' },
+    { id: 'geo-20', subject: 'geography', date: '2027-01-10', start: '09:00', end: '12:00', title: '第20回', topic: '2026 地理 本试＋追试', status: 'normal' },
+
+    { id: 'private-physics-01', subject: 'privatePhysics', date: '2026-08-30', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-02', subject: 'privatePhysics', date: '2026-09-06', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-03', subject: 'privatePhysics', date: '2026-09-13', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-04', subject: 'privatePhysics', date: '2026-09-20', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-05', subject: 'privatePhysics', date: '2026-09-27', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-06', subject: 'privatePhysics', date: '2026-10-04', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-07', subject: 'privatePhysics', date: '2026-10-11', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-08', subject: 'privatePhysics', date: '2026-10-18', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-09', subject: 'privatePhysics', date: '2026-10-25', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-10', subject: 'privatePhysics', date: '2026-11-01', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-11', subject: 'privatePhysics', date: '2026-11-08', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-12', subject: 'privatePhysics', date: '2026-11-15', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-13', subject: 'privatePhysics', date: '2026-11-22', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-14', subject: 'privatePhysics', date: '2026-11-29', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-15', subject: 'privatePhysics', date: '2026-12-06', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-16', subject: 'privatePhysics', date: '2026-12-13', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-17', subject: 'privatePhysics', date: '2026-12-20', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-18', subject: 'privatePhysics', date: '2026-12-27', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-19', subject: 'privatePhysics', date: '2027-01-03', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' },
+    { id: 'private-physics-20', subject: 'privatePhysics', date: '2027-01-10', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' }
   ];
 
   const pendingCourses = [
@@ -66,6 +109,8 @@
   const GRID_HEIGHT = 700;
   const weekdayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
   const shortWeekdayNames = ['一', '二', '三', '四', '五', '六', '日'];
+
+  installSubjectUI();
 
   const initial = getInitialState();
   const state = {
@@ -102,9 +147,86 @@
     dialogTitle: document.getElementById('dialogTitle'),
     dialogDate: document.getElementById('dialogDate'),
     dialogTime: document.getElementById('dialogTime'),
+    dialogTeacher: document.getElementById('dialogTeacher'),
+    dialogMode: document.getElementById('dialogMode'),
     dialogStatus: document.getElementById('dialogStatus'),
     dialogNote: document.getElementById('dialogNote')
   };
+
+  function installSubjectUI() {
+    const filter = document.getElementById('subjectFilter');
+    if (filter) {
+      [
+        ['geography', '共通考试地理'],
+        ['privatePhysics', '魏思远物理一对一']
+      ].forEach(([value, label]) => {
+        if (!filter.querySelector(`option[value="${value}"]`)) {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = label;
+          filter.append(option);
+        }
+      });
+    }
+
+    const divider = document.querySelector('.legend-divider');
+    if (divider) {
+      [
+        ['geography', '共通考试地理'],
+        ['privatePhysics', '魏思远物理一对一']
+      ].forEach(([cls, label]) => {
+        if (!document.querySelector(`.subject-legend.${cls}`)) {
+          const span = document.createElement('span');
+          span.className = `legend-item subject-legend ${cls}`;
+          span.innerHTML = `<i></i>${label}`;
+          divider.before(span);
+        }
+      });
+    }
+
+    if (!document.getElementById('scheduleSubjectPatch')) {
+      const style = document.createElement('style');
+      style.id = 'scheduleSubjectPatch';
+      style.textContent = `
+        :root {
+          --geography: #8a6a3f;
+          --geography-bg: #f7f1e8;
+          --private-physics: #695f8d;
+          --private-physics-bg: #f1eff7;
+        }
+        .subject-legend.geography i { background: var(--geography); }
+        .subject-legend.privatePhysics i { background: var(--private-physics); }
+        .event.geography { border-color: #d9c8af; border-left-color: var(--geography); background: var(--geography-bg); }
+        .event.privatePhysics { border-color: #cbc4df; border-left-color: var(--private-physics); background: var(--private-physics-bg); }
+        .month-event.geography { border-left-color: var(--geography); background: var(--geography-bg); }
+        .month-event.privatePhysics { border-left-color: var(--private-physics); background: var(--private-physics-bg); }
+        .event-meta, .month-event-meta, .mobile-event-meta {
+          color: rgba(24,34,48,.58);
+          font-weight: 650;
+        }
+        .event-meta {
+          display: block;
+          margin-top: 2px;
+          font-size: 9px;
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .month-event-meta {
+          display: block;
+          margin-top: 2px;
+          font-size: 8.5px;
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .mobile-event-meta { display: block; margin-top: 2px; font-size: 11px; }
+      `;
+      document.head.append(style);
+    }
+  }
 
   function parseDate(value) {
     const [y, m, d] = value.split('-').map(Number);
@@ -173,6 +295,18 @@
     return Math.max(0, minutes(event.end) - minutes(event.start)) / 60;
   }
 
+  function eventTeacher(event) {
+    return event.teacher || subjects[event.subject]?.teacher || '';
+  }
+
+  function eventMode(event) {
+    return event.mode || subjects[event.subject]?.mode || '';
+  }
+
+  function eventMeta(event) {
+    return [eventTeacher(event), eventMode(event)].filter(Boolean).join(' · ');
+  }
+
   function subjectMatches(event) {
     return state.subject === 'all' || event.subject === state.subject;
   }
@@ -217,16 +351,14 @@
 
   function renderHeader() {
     const dates = visibleDates();
-    const columns = dates.length;
-    els.calendarHead.style.gridTemplateColumns = `68px repeat(${columns}, minmax(0, 1fr))`;
-    const today = new Date();
-    const todayKey = formatDate(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
+    els.calendarHead.style.gridTemplateColumns = `68px repeat(${dates.length}, minmax(0, 1fr))`;
+    const now = new Date();
+    const todayKey = formatDate(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())));
 
     els.calendarHead.innerHTML = [
       '<div class="corner" aria-hidden="true"></div>',
       ...dates.map((date, index) => {
-        const key = formatDate(date);
-        const isToday = key === todayKey ? ' today' : '';
+        const isToday = formatDate(date) === todayKey ? ' today' : '';
         return `<div class="day-head${isToday}"><span class="weekday">${weekdayNames[index]}</span><span class="date">${date.getUTCMonth() + 1}/${date.getUTCDate()}</span></div>`;
       })
     ].join('');
@@ -244,14 +376,60 @@
     return '正常授课';
   }
 
-  function eventButton(event) {
+  function eventsOverlap(a, b) {
+    return minutes(a.start) < minutes(b.end) && minutes(b.start) < minutes(a.end);
+  }
+
+  function layoutDayEvents(dayEvents) {
+    const sorted = [...dayEvents].sort((a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end));
+    const result = [];
+    let group = [];
+    let groupEnd = -1;
+
+    const flush = () => {
+      if (!group.length) return;
+      const columnEnds = [];
+      const placed = group.map(event => {
+        const start = minutes(event.start);
+        const end = minutes(event.end);
+        let column = columnEnds.findIndex(value => value <= start);
+        if (column === -1) {
+          column = columnEnds.length;
+          columnEnds.push(end);
+        } else {
+          columnEnds[column] = end;
+        }
+        return { event, column };
+      });
+      const columns = Math.max(1, columnEnds.length);
+      placed.forEach(item => result.push({ ...item, columns }));
+      group = [];
+      groupEnd = -1;
+    };
+
+    sorted.forEach(event => {
+      const start = minutes(event.start);
+      const end = minutes(event.end);
+      if (group.length && start >= groupEnd) flush();
+      group.push(event);
+      groupEnd = Math.max(groupEnd, end);
+    });
+    flush();
+    return result;
+  }
+
+  function eventButton(event, layout = { column: 0, columns: 1 }) {
     const topMinute = Math.max(START_MINUTE, minutes(event.start));
     const endMinute = Math.min(END_MINUTE, minutes(event.end));
     const top = ((topMinute - START_MINUTE) / (END_MINUTE - START_MINUTE)) * GRID_HEIGHT;
     const height = Math.max(34, ((endMinute - topMinute) / (END_MINUTE - START_MINUTE)) * GRID_HEIGHT - 5);
     const subjectName = subjects[event.subject].name;
     const name = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
-    return `<button type="button" class="event ${eventClass(event)}" data-event-id="${event.id}" style="top:${top}px;height:${height}px" aria-label="${name} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${name}</span><span class="event-topic">${event.topic}</span></button>`;
+    const width = 100 / layout.columns;
+    const left = layout.column * width;
+    const style = `top:${top}px;height:${height}px;left:calc(${left}% + 4px);right:auto;width:calc(${width}% - 8px)`;
+    const meta = eventMeta(event);
+    return `<button type="button" class="event ${eventClass(event)}" data-event-id="${event.id}" style="${style}" aria-label="${name} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${name}</span><span class="event-topic">${event.topic}</span>${meta ? `<span class="event-meta">${meta}</span>` : ''}</button>`;
   }
 
   function renderGrid() {
@@ -261,7 +439,8 @@
     els.dayGrid.innerHTML = dates.map(date => {
       const key = formatDate(date);
       const dayEvents = events.filter(event => event.date === key);
-      return `<div class="day-column" data-date="${key}">${dayEvents.map(eventButton).join('')}</div>`;
+      const laidOut = layoutDayEvents(dayEvents);
+      return `<div class="day-column" data-date="${key}">${laidOut.map(item => eventButton(item.event, item)).join('')}</div>`;
     }).join('');
   }
 
@@ -275,7 +454,8 @@
         ? dayEvents.map(event => {
             const subjectName = subjects[event.subject].name;
             const line = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
-            return `<button type="button" class="mobile-event" data-event-id="${event.id}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${line}</strong><p>${event.topic}</p></span></button>`;
+            const meta = eventMeta(event);
+            return `<button type="button" class="mobile-event" data-event-id="${event.id}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${line}</strong><p>${event.topic}</p>${meta ? `<span class="mobile-event-meta">${meta}</span>` : ''}</span></button>`;
           }).join('')
         : '<p class="mobile-empty">无课程</p>';
       return `<section class="mobile-day"><div class="mobile-day-head"><strong>周${shortWeekdayNames[index]} · ${date.getUTCMonth() + 1}月${date.getUTCDate()}日</strong><span>${dayEvents.length ? `${dayEvents.length} 项` : ''}</span></div><div class="mobile-events">${body}</div></section>`;
@@ -295,15 +475,16 @@
   function monthEventButton(event) {
     const subjectName = subjects[event.subject].name;
     const name = event.status === 'cancelled' ? `休讲 · ${subjectName}` : `${subjectName} · ${event.title}`;
-    return `<button type="button" class="month-event ${eventClass(event)}" data-event-id="${event.id}" aria-label="${name} ${event.start}至${event.end}"><span class="month-event-top"><time>${event.start}</time><strong>${name}</strong></span><p>${event.topic}</p></button>`;
+    const meta = eventMeta(event);
+    return `<button type="button" class="month-event ${eventClass(event)}" data-event-id="${event.id}" aria-label="${name} ${event.start}至${event.end}"><span class="month-event-top"><time>${event.start}</time><strong>${name}</strong></span><p>${event.topic}</p>${meta ? `<span class="month-event-meta">${meta}</span>` : ''}</button>`;
   }
 
   function renderMonth() {
     const dates = monthGridDates();
     const events = eventsBetween(dates[0], dates[dates.length - 1]);
     const currentMonth = state.monthStart.getUTCMonth();
-    const today = new Date();
-    const todayKey = formatDate(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
+    const now = new Date();
+    const todayKey = formatDate(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())));
 
     els.monthGrid.innerHTML = dates.map(date => {
       const key = formatDate(date);
@@ -332,7 +513,6 @@
       els.weekTitle.textContent = `${state.monthStart.getUTCFullYear()}年${state.monthStart.getUTCMonth() + 1}月`;
       return;
     }
-
     const end = addDays(state.weekStart, state.range === 'fullweek' ? 6 : 4);
     const sameMonth = state.weekStart.getUTCMonth() === end.getUTCMonth();
     els.weekTitle.textContent = sameMonth
@@ -347,7 +527,7 @@
       els.pendingList.innerHTML = '<p class="pending-more">当前筛选科目没有时间未定课程。</p>';
       return;
     }
-    const preview = pendingCourses.slice(0, 5).map(item => `<div class="pending-item"><strong>共通英语阅读</strong><span>${item}</span></div>`).join('');
+    const preview = pendingCourses.slice(0, 5).map(item => `<div class="pending-item"><strong>共通英语阅读 · 刘淼</strong><span>${item}</span></div>`).join('');
     els.pendingList.innerHTML = `${preview}<p class="pending-more">另有 ${pendingCourses.length - 5} 回，日期与时间确定后将自动加入日历。</p>`;
   }
 
@@ -389,6 +569,8 @@
       url.searchParams.set('week', formatDate(state.weekStart));
       url.searchParams.delete('month');
     }
+    if (state.subject === 'all') url.searchParams.delete('subject');
+    else url.searchParams.set('subject', state.subject);
     history.replaceState(null, '', url);
   }
 
@@ -397,10 +579,14 @@
     if (!event) return;
     const date = parseDate(event.date);
     const dayIndex = (date.getUTCDay() + 6) % 7;
+    const teacher = eventTeacher(event);
+    const mode = eventMode(event);
     els.dialogSubject.textContent = subjects[event.subject].name;
     els.dialogTitle.textContent = event.status === 'cancelled' ? '休讲' : event.topic;
     els.dialogDate.textContent = `${date.getUTCFullYear()}年${date.getUTCMonth() + 1}月${date.getUTCDate()}日（${weekdayNames[dayIndex]}）`;
     els.dialogTime.textContent = `${event.start}–${event.end}`;
+    if (els.dialogTeacher) els.dialogTeacher.textContent = teacher || '—';
+    if (els.dialogMode) els.dialogMode.textContent = mode || '—';
     els.dialogStatus.textContent = eventStatusLabel(event);
     els.dialogNote.textContent = event.status === 'cancelled' ? '本次课程休讲。' : `${event.title}｜${event.topic}`;
     els.dialog.hidden = false;
@@ -466,6 +652,13 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !els.dialog.hidden) closeDialog();
   });
+
+  const params = new URLSearchParams(location.search);
+  const requestedSubject = params.get('subject');
+  if (requestedSubject && subjects[requestedSubject]) {
+    state.subject = requestedSubject;
+    els.subjectFilter.value = requestedSubject;
+  }
 
   renderTimeAxis();
   render();
