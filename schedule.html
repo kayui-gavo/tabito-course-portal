@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>旅人教育｜2026 冬学期课程表</title>
+  <meta name="description" content="旅人教育 2026 冬学期课程排课表。按周查看周一至周五各时间段课程，并可切换显示周末课程。">
+  <meta name="theme-color" content="#244f7a">
+  <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="assets/schedule.css?v=20260829a">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="主要导航">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/images/tabito-logo.jpg" alt="旅人教育">
+        <span class="brand-copy"><strong>旅人教育</strong><span>课程资料库</span></span>
+      </a>
+      <div class="nav-links">
+        <a class="active" href="schedule.html">课程表</a>
+        <a href="index.html#subjects">科目入口</a>
+        <a href="index.html">返回首页</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-head" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow">2026 冬学期</p>
+        <h1 id="pageTitle">课程排课表</h1>
+        <p class="lead">按周查看上课时间。默认显示周一至周五；需要查看周末课程时，可切换为“含周末”。</p>
+      </div>
+      <div class="head-meta" aria-label="课程表说明">
+        <span>日本时间 JST</span>
+        <span>课程安排以最新通知为准</span>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="课程表操作">
+      <div class="week-controls">
+        <button type="button" class="text-btn" id="prevWeek">← 上一周</button>
+        <button type="button" class="primary-btn" id="todayWeek">本周</button>
+        <button type="button" class="text-btn" id="nextWeek">下一周 →</button>
+      </div>
+      <div class="week-title-wrap">
+        <strong id="weekTitle">—</strong>
+        <span id="weekCount">—</span>
+      </div>
+      <div class="toolbar-right">
+        <label class="select-wrap">
+          <span>科目</span>
+          <select id="subjectFilter" aria-label="筛选科目">
+            <option value="all">全部科目</option>
+            <option value="politics">公共政治经济</option>
+            <option value="japanese">国语</option>
+            <option value="english">共通英语阅读</option>
+          </select>
+        </label>
+        <div class="segment" role="group" aria-label="显示范围">
+          <button type="button" class="segment-btn active" data-range="workdays">工作日</button>
+          <button type="button" class="segment-btn" data-range="fullweek">含周末</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="legend" aria-label="课程状态说明">
+      <span class="legend-item"><i class="legend-swatch normal"></i>正常授课</span>
+      <span class="legend-item"><i class="legend-swatch tentative"></i>暂定线上</span>
+      <span class="legend-item"><i class="legend-swatch cancelled"></i>休讲</span>
+      <span class="legend-item"><i class="legend-swatch pending"></i>时间未定</span>
+    </section>
+
+    <div class="content-layout">
+      <section class="calendar-panel" aria-label="周课程表">
+        <div class="calendar-desktop" id="calendarDesktop">
+          <div class="calendar-head" id="calendarHead"></div>
+          <div class="calendar-body">
+            <div class="time-axis" id="timeAxis"></div>
+            <div class="day-grid" id="dayGrid"></div>
+          </div>
+        </div>
+        <div class="calendar-mobile" id="calendarMobile" aria-live="polite"></div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="summary-card">
+          <p class="side-kicker">本周</p>
+          <h2>课程概览</h2>
+          <dl class="summary-list">
+            <div><dt>授课</dt><dd id="summarySessions">0 节</dd></div>
+            <div><dt>总时长</dt><dd id="summaryHours">0 h</dd></div>
+            <div><dt>休讲</dt><dd id="summaryCancelled">0</dd></div>
+          </dl>
+        </section>
+
+        <section class="pending-card">
+          <div class="pending-head">
+            <div>
+              <p class="side-kicker">待定安排</p>
+              <h2>尚未确定时间</h2>
+            </div>
+            <span class="pending-count" id="pendingCount">15</span>
+          </div>
+          <div id="pendingList" class="pending-list"></div>
+        </section>
+
+        <section class="note-card">
+          <strong>查看方式</strong>
+          <p>课程块按实际起止时间放置。点击课程可查看本次授课内容；灰色课程表示休讲。</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>中国旅人教育集团株式会社</span>
+      <span>2026 冬学期课程表</span>
+    </div>
+  </footer>
+
+  <div class="event-dialog" id="eventDialog" hidden>
+    <div class="dialog-backdrop" data-close-dialog></div>
+    <section class="dialog-card" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <button type="button" class="dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <p class="dialog-subject" id="dialogSubject"></p>
+      <h2 id="dialogTitle"></h2>
+      <dl class="dialog-meta">
+        <div><dt>日期</dt><dd id="dialogDate"></dd></div>
+        <div><dt>时间</dt><dd id="dialogTime"></dd></div>
+        <div><dt>状态</dt><dd id="dialogStatus"></dd></div>
+      </dl>
+      <p class="dialog-note" id="dialogNote"></p>
+    </section>
+  </div>
+
+  <script src="assets/schedule.js?v=20260829a"></script>
+</body>
+</html>
