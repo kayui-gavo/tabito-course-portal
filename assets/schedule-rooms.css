@@ -1,0 +1,149 @@
+:root {
+  --room-common: #315f86;
+  --room-common-bg: #f1f6fa;
+  --room-art: #7b6749;
+  --room-art-bg: #f8f4ed;
+}
+
+.room-resources {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.room-resources-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #edf1f4;
+  background: #fbfcfd;
+}
+
+.room-resources-head strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.room-resources-head span {
+  color: var(--soft);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.room-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.room-resource {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  min-width: 0;
+  padding: 12px 14px;
+}
+
+.room-resource + .room-resource {
+  border-left: 1px solid #edf1f4;
+}
+
+.room-resource-mark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.room-resource.common .room-resource-mark {
+  color: var(--room-common);
+  background: var(--room-common-bg);
+  border: 1px solid #cddde9;
+}
+
+.room-resource.art .room-resource-mark {
+  color: var(--room-art);
+  background: var(--room-art-bg);
+  border: 1px solid #dfd1bd;
+}
+
+.room-resource-copy { min-width: 0; }
+.room-resource-copy strong {
+  display: block;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.room-resource-copy span {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.room-resource-copy em {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--soft);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.room-rule {
+  padding: 8px 14px 9px;
+  border-top: 1px solid #edf1f4;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.room-rule strong { color: var(--ink); }
+
+.office-legend .room-dot.common-room {
+  border-color: #8ba8bf;
+  background: var(--room-common-bg);
+}
+
+.office-legend .room-dot.art-room {
+  border-color: #b9a587;
+  background: var(--room-art-bg);
+}
+
+.followup-room::after {
+  content: "共通 / 美术";
+  display: block;
+  margin-top: 1px;
+  color: var(--soft);
+  font-size: 8px;
+  font-weight: 650;
+}
+
+.dialog-room-pending::after {
+  content: "  ·  共通教室 / 美术教室";
+  color: var(--soft);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+@media (max-width: 760px) {
+  .room-resources-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .room-resource-grid { grid-template-columns: 1fr; }
+  .room-resource + .room-resource {
+    border-left: 0;
+    border-top: 1px solid #edf1f4;
+  }
+}
