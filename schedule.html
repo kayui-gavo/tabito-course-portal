@@ -7,7 +7,8 @@
   <meta name="description" content="旅人教育 2026 冬学期课程排课表。可按周或按月查看课程，并按科目筛选。">
   <meta name="theme-color" content="#244f7a">
   <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/schedule.css?v=20260829b">
+  <link rel="stylesheet" href="assets/schedule.css?v=20260829c">
+  <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829a">
 </head>
 <body>
   <header class="site-header">
@@ -131,6 +132,39 @@
         </section>
       </aside>
     </div>
+
+    <section class="course-overview-section" aria-labelledby="courseOverviewTitle">
+      <div class="course-overview-head">
+        <div>
+          <p class="eyebrow">开课情况</p>
+          <h2 id="courseOverviewTitle">班课与一对一授课统计</h2>
+          <p>按课表计划统计，休讲不计入授课时数；累计时数统计至当前查看月份月底。</p>
+        </div>
+        <div class="course-overview-month"><span>查看月份</span><strong id="courseOverviewMonth">—</strong></div>
+      </div>
+
+      <div class="course-overview-table-wrap">
+        <table class="course-overview-table">
+          <thead>
+            <tr>
+              <th scope="col">类型</th>
+              <th scope="col">课程</th>
+              <th scope="col">授课老师</th>
+              <th scope="col">当月授课</th>
+              <th scope="col">累计授课</th>
+            </tr>
+          </thead>
+          <tbody id="courseOverviewBody"></tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" scope="row">合计</th>
+              <td id="courseOverviewMonthTotal">—</td>
+              <td id="courseOverviewCumulativeTotal">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -158,5 +192,6 @@
   </div>
 
   <script src="assets/schedule.js?v=20260829c"></script>
+  <script src="assets/schedule-overview.js?v=20260829a"></script>
 </body>
 </html>
