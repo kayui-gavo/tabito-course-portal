@@ -50,6 +50,11 @@
   };
   if (!els.month || !els.body || !els.monthTotal || !els.cumulativeTotal) return;
 
+  const headRow = document.querySelector('.course-overview-table thead tr');
+  if (headRow) headRow.innerHTML = '<th scope="col">类型</th><th scope="col">课程</th><th scope="col">授课老师</th><th scope="col">方式 / 教室</th><th scope="col">当月授课</th><th scope="col">累计授课</th>';
+  const footLabel = document.querySelector('.course-overview-table tfoot th');
+  if (footLabel) footLabel.colSpan = 4;
+
   function selectedMonth() {
     const params = new URLSearchParams(location.search);
     const month = params.get('month');
