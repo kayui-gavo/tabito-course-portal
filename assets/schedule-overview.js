@@ -55,6 +55,25 @@
   const footLabel = document.querySelector('.course-overview-table tfoot th');
   if (footLabel) footLabel.colSpan = 4;
 
+  if (!document.getElementById('courseLedgerDeliveryStyle')) {
+    const style = document.createElement('style');
+    style.id = 'courseLedgerDeliveryStyle';
+    style.textContent = `
+      .course-overview-table thead th:nth-child(1){width:92px}
+      .course-overview-table thead th:nth-child(3){width:130px}
+      .course-overview-table thead th:nth-child(4){width:132px;text-align:left}
+      .course-overview-table thead th:nth-child(5),
+      .course-overview-table thead th:nth-child(6){width:132px;text-align:right}
+      .course-overview-delivery{font-size:12px;line-height:1.3}
+      .course-overview-mode{display:block;color:var(--ink);font-weight:750}
+      .course-overview-room{display:block;margin-top:2px;font-size:9px;font-weight:750}
+      .course-overview-room.pending{color:#9a641f}
+      .course-overview-room.online{color:var(--soft)}
+      @media(max-width:760px){.course-overview-delivery{text-align:left}}
+    `;
+    document.head.append(style);
+  }
+
   function selectedMonth() {
     const params = new URLSearchParams(location.search);
     const month = params.get('month');
