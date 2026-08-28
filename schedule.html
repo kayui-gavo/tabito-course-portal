@@ -3,57 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>旅人教育｜2026 冬学期课程表</title>
-  <meta name="description" content="旅人教育 2026 冬学期课程排课表。可按周或按月查看课程，并按科目筛选。">
+  <title>旅人教育｜2026 冬学期教务排课</title>
+  <meta name="description" content="旅人教育 2026 冬学期教务排课页面。用于核对授课时间、教师、授课方式与教室分配。">
   <meta name="theme-color" content="#244f7a">
   <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/schedule.css?v=20260829c">
-  <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829b">
+  <link rel="stylesheet" href="assets/schedule.css?v=20260829e">
+  <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829c">
+  <link rel="stylesheet" href="assets/schedule-office.css?v=20260829a">
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="主要导航">
       <a class="brand" href="index.html">
         <img class="brand-logo" src="assets/images/tabito-logo.jpg" alt="旅人教育">
-        <span class="brand-copy"><strong>旅人教育</strong><span>课程资料库</span></span>
+        <span class="brand-copy"><strong>旅人教育</strong><span>教务排课</span></span>
       </a>
       <div class="nav-links">
-        <a class="active" href="schedule.html">课程表</a>
-        <a href="index.html#subjects">科目入口</a>
-        <a href="index.html">返回首页</a>
+        <a class="active" href="schedule.html">排课</a>
+        <a href="#courseOverviewTitle">课时统计</a>
+        <a href="#coursePlanTitle">待排课程</a>
+        <a href="index.html">课程资料库</a>
       </div>
     </nav>
   </header>
 
   <main class="page-shell">
-    <section class="page-head" aria-labelledby="pageTitle">
+    <section class="page-head office-page-head" aria-labelledby="pageTitle">
       <div>
-        <p class="eyebrow">2026 冬学期</p>
+        <p class="eyebrow">2026 冬学期 · 教务用</p>
         <h1 id="pageTitle">课程排课表</h1>
-        <p class="lead">可以按周查看每天的具体时间，也可以切换到月历，一眼确认整个月的上课与休讲安排。</p>
+        <p class="lead">核对授课时间、授课老师和教室安排。线下课程尚未确定教室时统一标记为“待分配”。</p>
       </div>
       <div class="head-meta" aria-label="课程表说明">
         <span>日本时间 JST</span>
-        <span>课程安排以最新通知为准</span>
+        <span>最后排课以教务通知为准</span>
       </div>
     </section>
 
-    <section class="toolbar" aria-label="课程表操作">
-      <div class="week-controls">
-        <button type="button" class="text-btn" id="prevWeek">← <span id="prevLabel">上一周</span></button>
-        <button type="button" class="primary-btn" id="todayWeek"><span id="todayLabel">本周</span></button>
-        <button type="button" class="text-btn" id="nextWeek"><span id="nextLabel">下一周</span> →</button>
-      </div>
-      <div class="week-title-wrap">
-        <strong id="weekTitle">—</strong>
-        <span id="weekCount">—</span>
-      </div>
-      <div class="toolbar-right">
-        <div class="segment view-segment" role="group" aria-label="日历视图">
-          <button type="button" class="segment-btn active" data-view="week">周</button>
-          <button type="button" class="segment-btn" data-view="month">月</button>
+    <section class="toolbar office-toolbar" aria-label="课程表操作">
+      <div class="toolbar-primary">
+        <div class="week-controls">
+          <button type="button" class="text-btn" id="prevWeek">← <span id="prevLabel">上一周</span></button>
+          <button type="button" class="primary-btn" id="todayWeek"><span id="todayLabel">本周</span></button>
+          <button type="button" class="text-btn" id="nextWeek"><span id="nextLabel">下一周</span> →</button>
         </div>
-        <label class="select-wrap">
+
+        <div class="week-title-wrap">
+          <strong id="weekTitle">—</strong>
+          <span id="weekCount">—</span>
+        </div>
+
+        <div class="view-controls">
+          <div class="segment view-segment" role="group" aria-label="日历视图">
+            <button type="button" class="segment-btn active" data-view="week">周</button>
+            <button type="button" class="segment-btn" data-view="month">月</button>
+          </div>
+          <div class="segment" id="rangeSegment" role="group" aria-label="周视图显示范围">
+            <button type="button" class="segment-btn" data-range="workdays">工作日</button>
+            <button type="button" class="segment-btn active" data-range="fullweek">全周</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar-filters" aria-label="排课筛选">
+        <label class="filter-field">
           <span>科目</span>
           <select id="subjectFilter" aria-label="筛选科目">
             <option value="all">全部科目</option>
@@ -65,60 +78,114 @@
             <option value="privatePhysics">魏思远物理一对一</option>
           </select>
         </label>
-        <div class="segment" id="rangeSegment" role="group" aria-label="周视图显示范围">
-          <button type="button" class="segment-btn active" data-range="workdays">工作日</button>
-          <button type="button" class="segment-btn" data-range="fullweek">含周末</button>
-        </div>
+        <label class="filter-field">
+          <span>老师</span>
+          <select id="teacherFilter" aria-label="筛选授课老师">
+            <option value="all">全部老师</option>
+            <option value="刘淼">刘淼</option>
+            <option value="坂野健晟">坂野健晟</option>
+            <option value="丁玺">丁玺</option>
+            <option value="刘可惟">刘可惟</option>
+          </select>
+        </label>
+        <label class="filter-field">
+          <span>方式</span>
+          <select id="modeFilter" aria-label="筛选授课方式">
+            <option value="all">全部方式</option>
+            <option value="offline">线下</option>
+            <option value="online">网课 / 线上</option>
+            <option value="tentative">暂定线上</option>
+          </select>
+        </label>
+        <label class="filter-field">
+          <span>教室</span>
+          <select id="roomFilter" aria-label="筛选教室状态">
+            <option value="all">全部状态</option>
+            <option value="pending">待分配</option>
+            <option value="online">无需教室</option>
+          </select>
+        </label>
+        <button type="button" class="reset-btn" id="resetOfficeFilters">清除筛选</button>
       </div>
     </section>
 
-    <section class="legend" aria-label="课程状态说明">
+    <section class="ops-summary" aria-label="教务概览">
+      <div class="ops-summary-item">
+        <span id="summaryPeriodLabel">本周</span>
+        <strong id="summaryHours">0 h</strong>
+        <small><b id="summarySessions">0 节</b> 已排定授课</small>
+      </div>
+      <div class="ops-summary-item attention">
+        <span>教室待分配</span>
+        <strong id="officeRoomPending">0</strong>
+        <small>当前范围内的线下课</small>
+      </div>
+      <div class="ops-summary-item">
+        <span>时间未定</span>
+        <strong id="officeTimePending">0</strong>
+        <small>尚未进入日历的课次</small>
+      </div>
+      <div class="ops-summary-item" id="officeConflictCard">
+        <span>老师冲突</span>
+        <strong id="officeConflictCount">0</strong>
+        <small>同一老师的重叠时段</small>
+      </div>
+      <div class="ops-summary-hidden" aria-hidden="true"><span id="summaryCancelled">0</span></div>
+    </section>
+
+    <section class="legend office-legend" aria-label="课程颜色与状态说明">
+      <span class="legend-label">科目</span>
       <span class="legend-item subject-legend politics"><i></i>公共政治经济</span>
       <span class="legend-item subject-legend japanese"><i></i>国语</span>
-      <span class="legend-item subject-legend english"><i></i>共通英语阅读</span>
-      <span class="legend-item subject-legend mathIIBC"><i></i>共通考试数学IIBC</span>
-      <span class="legend-item subject-legend geography"><i></i>共通考试地理</span>
-      <span class="legend-item subject-legend privatePhysics"><i></i>魏思远物理一对一</span>
+      <span class="legend-item subject-legend english"><i></i>英语阅读</span>
+      <span class="legend-item subject-legend mathIIBC"><i></i>数学IIBC</span>
+      <span class="legend-item subject-legend geography"><i></i>地理</span>
+      <span class="legend-item subject-legend privatePhysics"><i></i>一对一物理</span>
       <span class="legend-divider" aria-hidden="true"></span>
       <span class="legend-item"><i class="legend-swatch tentative"></i>暂定线上</span>
       <span class="legend-item"><i class="legend-swatch cancelled"></i>休讲</span>
-      <span class="legend-item"><i class="legend-swatch pending"></i>时间未定</span>
+      <span class="legend-item"><i class="room-dot"></i>教室待分配</span>
     </section>
 
-    <div class="content-layout">
-      <section class="calendar-panel" aria-label="课程日历">
-        <div id="weekView">
-          <div class="calendar-desktop" id="calendarDesktop">
-            <div class="calendar-head" id="calendarHead"></div>
-            <div class="calendar-body">
-              <div class="time-axis" id="timeAxis"></div>
-              <div class="day-grid" id="dayGrid"></div>
-            </div>
+    <section class="calendar-panel office-calendar" aria-label="课程日历">
+      <div id="weekView">
+        <div class="calendar-desktop" id="calendarDesktop">
+          <div class="calendar-head" id="calendarHead"></div>
+          <div class="calendar-body">
+            <div class="time-axis" id="timeAxis"></div>
+            <div class="day-grid" id="dayGrid"></div>
           </div>
-          <div class="calendar-mobile" id="calendarMobile" aria-live="polite"></div>
         </div>
-        <div class="month-view" id="monthView" hidden>
-          <div class="month-weekdays" aria-hidden="true"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div>
-          <div class="month-grid" id="monthGrid" aria-live="polite"></div>
+        <div class="calendar-mobile" id="calendarMobile" aria-live="polite"></div>
+      </div>
+      <div class="month-view" id="monthView" hidden>
+        <div class="month-weekdays" aria-hidden="true"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div>
+        <div class="month-grid" id="monthGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="office-followups" aria-label="教务待确认事项">
+      <article class="office-followup-block room-followup">
+        <div class="followup-head">
+          <div><p class="side-kicker">教室分配</p><h2>当前范围待分配</h2></div>
+          <span class="followup-count" id="officeRoomPendingBadge">0</span>
         </div>
-      </section>
-      <aside class="side-panel">
-        <section class="summary-card">
-          <p class="side-kicker" id="summaryPeriodLabel">本周</p><h2>课程概览</h2>
-          <dl class="summary-list"><div><dt>授课</dt><dd id="summarySessions">0 节</dd></div><div><dt>总时长</dt><dd id="summaryHours">0 h</dd></div><div><dt>休讲</dt><dd id="summaryCancelled">0</dd></div></dl>
-        </section>
-        <section class="pending-card">
-          <div class="pending-head"><div><p class="side-kicker">待定安排</p><h2>尚未确定时间</h2></div><span class="pending-count" id="pendingCount">15</span></div>
-          <div id="pendingList" class="pending-list"></div>
-        </section>
-        <section class="note-card"><strong>查看方式</strong><p>周视图按实际起止时间排布，适合确认一天中的时间安排；月视图适合快速查看整月课程与休讲。点击课程可查看授课老师、授课方式和本次内容。</p></section>
-      </aside>
-    </div>
+        <div id="officeRoomPendingList" class="followup-list"><p class="followup-empty">当前范围没有待分配教室的课程。</p></div>
+      </article>
+
+      <article class="office-followup-block pending-followup">
+        <div class="followup-head">
+          <div><p class="side-kicker">时间待定</p><h2>尚未进入日历</h2></div>
+          <span class="followup-count" id="pendingCount">15</span>
+        </div>
+        <div id="pendingList" class="pending-list"></div>
+      </article>
+    </section>
 
     <section class="course-overview-section" aria-labelledby="courseOverviewTitle">
       <div class="course-overview-head">
-        <div><p class="eyebrow">开课情况</p><h2 id="courseOverviewTitle">班课与一对一授课统计</h2><p>按已排定课表统计，休讲不计入授课时数；累计时数统计至当前查看月份月底。</p></div>
-        <div class="course-overview-month"><span>查看月份</span><strong id="courseOverviewMonth">—</strong></div>
+        <div><p class="eyebrow">授课台账</p><h2 id="courseOverviewTitle">已开课班课 / 一对一</h2><p>休讲不计入授课时数；累计统计至当前查看月份月底。</p></div>
+        <div class="course-overview-month"><span>统计月份</span><strong id="courseOverviewMonth">—</strong></div>
       </div>
       <div class="course-overview-table-wrap">
         <table class="course-overview-table">
@@ -130,31 +197,42 @@
     </section>
 
     <section class="course-plan-section" aria-labelledby="coursePlanTitle">
-      <div class="course-plan-head"><div><p class="eyebrow">后续排课</p><h2 id="coursePlanTitle">待录入课程与刷题班计划</h2><p>以下课程尚未进入日历；具体开课时间、授课老师及授课方式以之后排课为准。</p></div></div>
+      <div class="course-plan-head"><div><p class="eyebrow">后续排课</p><h2 id="coursePlanTitle">待录入课程与刷题班</h2><p>具体时间、授课老师和授课方式确定后再进入日历。</p></div></div>
       <div class="course-plan-grid">
         <article class="course-plan-card">
-          <div class="course-plan-title"><span>大课</span><strong>尚未录入课表</strong></div>
+          <div class="course-plan-title"><span>大课</span><strong>尚未录入</strong></div>
           <div class="course-plan-tags" aria-label="尚未录入的大课"><span>数学IA</span><span>物理</span><span>化学</span><span>生物</span><span>地学</span><span>物理基础</span><span>化学基础</span><span>生物基础</span><span>地学基础</span><span>中国语</span><span>历史探究世界史</span><span>历史探究日本史</span><span>情报I</span></div>
         </article>
         <article class="course-plan-card">
           <div class="course-plan-title"><span>刷题班</span><strong>计划开设</strong></div>
           <div class="course-plan-tags" aria-label="计划开设的刷题班"><span>国语</span><span>公民政治经济</span><span>物理</span><span>数学IA</span><span>数学2BC</span></div>
-          <p class="course-plan-note"><strong>地理</strong>：讲义课与刷题班一体化，已按当前地理课程表安排。</p>
+          <p class="course-plan-note"><strong>地理</strong>：讲义课与刷题班一体化，已按当前地理课表安排。</p>
         </article>
       </div>
     </section>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><span>中国旅人教育集团株式会社</span><span>2026 冬学期课程表</span></div></footer>
+  <footer class="footer"><div class="footer-inner"><span>中国旅人教育集团株式会社</span><span>2026 冬学期 · 教务排课</span></div></footer>
+
   <div class="event-dialog" id="eventDialog" hidden>
     <div class="dialog-backdrop" data-close-dialog></div>
     <section class="dialog-card" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-      <button type="button" class="dialog-close" data-close-dialog aria-label="关闭">×</button><p class="dialog-subject" id="dialogSubject"></p><h2 id="dialogTitle"></h2>
-      <dl class="dialog-meta"><div><dt>日期</dt><dd id="dialogDate"></dd></div><div><dt>时间</dt><dd id="dialogTime"></dd></div><div><dt>老师</dt><dd id="dialogTeacher"></dd></div><div><dt>方式</dt><dd id="dialogMode"></dd></div><div><dt>状态</dt><dd id="dialogStatus"></dd></div></dl>
+      <button type="button" class="dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <p class="dialog-subject" id="dialogSubject"></p><h2 id="dialogTitle"></h2>
+      <dl class="dialog-meta">
+        <div><dt>日期</dt><dd id="dialogDate"></dd></div>
+        <div><dt>时间</dt><dd id="dialogTime"></dd></div>
+        <div><dt>老师</dt><dd id="dialogTeacher"></dd></div>
+        <div><dt>方式</dt><dd id="dialogMode"></dd></div>
+        <div><dt>教室</dt><dd id="dialogRoom">—</dd></div>
+        <div><dt>状态</dt><dd id="dialogStatus"></dd></div>
+      </dl>
       <p class="dialog-note" id="dialogNote"></p>
     </section>
   </div>
+
   <script src="assets/schedule.js?v=20260829d"></script>
   <script src="assets/schedule-overview.js?v=20260829b"></script>
+  <script src="assets/schedule-office.js?v=20260829a"></script>
 </body>
 </html>
