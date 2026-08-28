@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#244f7a">
   <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/schedule.css?v=20260829c">
-  <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829a">
+  <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829b">
 </head>
 <body>
   <header class="site-header">
@@ -60,6 +60,7 @@
             <option value="politics">公共政治经济</option>
             <option value="japanese">国语</option>
             <option value="english">共通英语阅读</option>
+            <option value="mathIIBC">共通考试数学IIBC</option>
             <option value="geography">共通考试地理</option>
             <option value="privatePhysics">魏思远物理一对一</option>
           </select>
@@ -75,6 +76,7 @@
       <span class="legend-item subject-legend politics"><i></i>公共政治经济</span>
       <span class="legend-item subject-legend japanese"><i></i>国语</span>
       <span class="legend-item subject-legend english"><i></i>共通英语阅读</span>
+      <span class="legend-item subject-legend mathIIBC"><i></i>共通考试数学IIBC</span>
       <span class="legend-item subject-legend geography"><i></i>共通考试地理</span>
       <span class="legend-item subject-legend privatePhysics"><i></i>魏思远物理一对一</span>
       <span class="legend-divider" aria-hidden="true"></span>
@@ -95,103 +97,64 @@
           </div>
           <div class="calendar-mobile" id="calendarMobile" aria-live="polite"></div>
         </div>
-
         <div class="month-view" id="monthView" hidden>
-          <div class="month-weekdays" aria-hidden="true">
-            <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
-          </div>
+          <div class="month-weekdays" aria-hidden="true"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div>
           <div class="month-grid" id="monthGrid" aria-live="polite"></div>
         </div>
       </section>
-
       <aside class="side-panel">
         <section class="summary-card">
-          <p class="side-kicker" id="summaryPeriodLabel">本周</p>
-          <h2>课程概览</h2>
-          <dl class="summary-list">
-            <div><dt>授课</dt><dd id="summarySessions">0 节</dd></div>
-            <div><dt>总时长</dt><dd id="summaryHours">0 h</dd></div>
-            <div><dt>休讲</dt><dd id="summaryCancelled">0</dd></div>
-          </dl>
+          <p class="side-kicker" id="summaryPeriodLabel">本周</p><h2>课程概览</h2>
+          <dl class="summary-list"><div><dt>授课</dt><dd id="summarySessions">0 节</dd></div><div><dt>总时长</dt><dd id="summaryHours">0 h</dd></div><div><dt>休讲</dt><dd id="summaryCancelled">0</dd></div></dl>
         </section>
-
         <section class="pending-card">
-          <div class="pending-head">
-            <div>
-              <p class="side-kicker">待定安排</p>
-              <h2>尚未确定时间</h2>
-            </div>
-            <span class="pending-count" id="pendingCount">15</span>
-          </div>
+          <div class="pending-head"><div><p class="side-kicker">待定安排</p><h2>尚未确定时间</h2></div><span class="pending-count" id="pendingCount">15</span></div>
           <div id="pendingList" class="pending-list"></div>
         </section>
-
-        <section class="note-card">
-          <strong>查看方式</strong>
-          <p>周视图按实际起止时间排布，适合确认一天中的时间安排；月视图适合快速查看整月课程与休讲。点击课程可查看授课老师、授课方式和本次内容。</p>
-        </section>
+        <section class="note-card"><strong>查看方式</strong><p>周视图按实际起止时间排布，适合确认一天中的时间安排；月视图适合快速查看整月课程与休讲。点击课程可查看授课老师、授课方式和本次内容。</p></section>
       </aside>
     </div>
 
     <section class="course-overview-section" aria-labelledby="courseOverviewTitle">
       <div class="course-overview-head">
-        <div>
-          <p class="eyebrow">开课情况</p>
-          <h2 id="courseOverviewTitle">班课与一对一授课统计</h2>
-          <p>按课表计划统计，休讲不计入授课时数；累计时数统计至当前查看月份月底。</p>
-        </div>
+        <div><p class="eyebrow">开课情况</p><h2 id="courseOverviewTitle">班课与一对一授课统计</h2><p>按已排定课表统计，休讲不计入授课时数；累计时数统计至当前查看月份月底。</p></div>
         <div class="course-overview-month"><span>查看月份</span><strong id="courseOverviewMonth">—</strong></div>
       </div>
-
       <div class="course-overview-table-wrap">
         <table class="course-overview-table">
-          <thead>
-            <tr>
-              <th scope="col">类型</th>
-              <th scope="col">课程</th>
-              <th scope="col">授课老师</th>
-              <th scope="col">当月授课</th>
-              <th scope="col">累计授课</th>
-            </tr>
-          </thead>
+          <thead><tr><th scope="col">类型</th><th scope="col">课程</th><th scope="col">授课老师</th><th scope="col">当月授课</th><th scope="col">累计授课</th></tr></thead>
           <tbody id="courseOverviewBody"></tbody>
-          <tfoot>
-            <tr>
-              <th colspan="3" scope="row">合计</th>
-              <td id="courseOverviewMonthTotal">—</td>
-              <td id="courseOverviewCumulativeTotal">—</td>
-            </tr>
-          </tfoot>
+          <tfoot><tr><th colspan="3" scope="row">合计</th><td id="courseOverviewMonthTotal">—</td><td id="courseOverviewCumulativeTotal">—</td></tr></tfoot>
         </table>
+      </div>
+    </section>
+
+    <section class="course-plan-section" aria-labelledby="coursePlanTitle">
+      <div class="course-plan-head"><div><p class="eyebrow">后续排课</p><h2 id="coursePlanTitle">待录入课程与刷题班计划</h2><p>以下课程尚未进入日历；具体开课时间、授课老师及授课方式以之后排课为准。</p></div></div>
+      <div class="course-plan-grid">
+        <article class="course-plan-card">
+          <div class="course-plan-title"><span>大课</span><strong>尚未录入课表</strong></div>
+          <div class="course-plan-tags" aria-label="尚未录入的大课"><span>数学IA</span><span>物理</span><span>化学</span><span>生物</span><span>地学</span><span>物理基础</span><span>化学基础</span><span>生物基础</span><span>地学基础</span><span>中国语</span><span>历史探究世界史</span><span>历史探究日本史</span><span>情报I</span></div>
+        </article>
+        <article class="course-plan-card">
+          <div class="course-plan-title"><span>刷题班</span><strong>计划开设</strong></div>
+          <div class="course-plan-tags" aria-label="计划开设的刷题班"><span>国语</span><span>公民政治经济</span><span>物理</span><span>数学IA</span><span>数学2BC</span></div>
+          <p class="course-plan-note"><strong>地理</strong>：讲义课与刷题班一体化，已按当前地理课程表安排。</p>
+        </article>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <span>中国旅人教育集团株式会社</span>
-      <span>2026 冬学期课程表</span>
-    </div>
-  </footer>
-
+  <footer class="footer"><div class="footer-inner"><span>中国旅人教育集团株式会社</span><span>2026 冬学期课程表</span></div></footer>
   <div class="event-dialog" id="eventDialog" hidden>
     <div class="dialog-backdrop" data-close-dialog></div>
     <section class="dialog-card" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-      <button type="button" class="dialog-close" data-close-dialog aria-label="关闭">×</button>
-      <p class="dialog-subject" id="dialogSubject"></p>
-      <h2 id="dialogTitle"></h2>
-      <dl class="dialog-meta">
-        <div><dt>日期</dt><dd id="dialogDate"></dd></div>
-        <div><dt>时间</dt><dd id="dialogTime"></dd></div>
-        <div><dt>老师</dt><dd id="dialogTeacher"></dd></div>
-        <div><dt>方式</dt><dd id="dialogMode"></dd></div>
-        <div><dt>状态</dt><dd id="dialogStatus"></dd></div>
-      </dl>
+      <button type="button" class="dialog-close" data-close-dialog aria-label="关闭">×</button><p class="dialog-subject" id="dialogSubject"></p><h2 id="dialogTitle"></h2>
+      <dl class="dialog-meta"><div><dt>日期</dt><dd id="dialogDate"></dd></div><div><dt>时间</dt><dd id="dialogTime"></dd></div><div><dt>老师</dt><dd id="dialogTeacher"></dd></div><div><dt>方式</dt><dd id="dialogMode"></dd></div><div><dt>状态</dt><dd id="dialogStatus"></dd></div></dl>
       <p class="dialog-note" id="dialogNote"></p>
     </section>
   </div>
-
-  <script src="assets/schedule.js?v=20260829c"></script>
-  <script src="assets/schedule-overview.js?v=20260829a"></script>
+  <script src="assets/schedule.js?v=20260829d"></script>
+  <script src="assets/schedule-overview.js?v=20260829b"></script>
 </body>
 </html>
