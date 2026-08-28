@@ -191,7 +191,8 @@
     monthGrid.querySelectorAll('.month-day').forEach(day => {
       const visible = [...day.querySelectorAll('.month-event[data-event-id]')].filter(node => !node.classList.contains('office-filtered'));
       const count = day.querySelector('.month-day-count');
-      if (count) count.textContent = visible.length ? `${visible.length} 项` : '';
+      const next = visible.length ? `${visible.length} 项` : '';
+      if (count && count.textContent !== next) count.textContent = next;
       day.classList.toggle('office-empty-day', visible.length === 0);
     });
   }
