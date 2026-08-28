@@ -3,8 +3,8 @@
 
   const courses = [
     {
-      key: 'politics', type: '班课', name: '公共政治经济', teacher: '刘淼',
-      meta: '线下｜周日 14:00–17:00',
+      key: 'politics', type: '班课', name: '公共政治经济', teacher: '刘淼', mode: '线下', room: '待分配',
+      meta: '周日 14:00–17:00',
       events: [
         ['2026-08-30',3,0],['2026-09-06',3,1],['2026-09-13',3,0],['2026-09-20',3,0],['2026-09-27',3,0],
         ['2026-10-04',3,1],['2026-10-11',3,0],['2026-10-18',3,0],['2026-10-25',3,0],
@@ -12,8 +12,8 @@
       ]
     },
     {
-      key: 'japanese', type: '班课', name: '国语', teacher: '刘淼',
-      meta: '线下为主｜9/4暂定线上｜11月为止安排暂定',
+      key: 'japanese', type: '班课', name: '国语', teacher: '刘淼', mode: '线下为主', room: '待分配',
+      meta: '9/4暂定线上｜11月为止安排暂定',
       events: [
         ['2026-08-28',2,0],['2026-08-30',2,0],['2026-09-04',2,0],['2026-09-06',2,1],['2026-09-11',2,0],
         ['2026-09-13',2,0],['2026-09-18',2,0],['2026-09-20',2,0],['2026-10-02',2,1],['2026-10-04',2,1],
@@ -21,10 +21,10 @@
         ['2026-10-25',2,0],['2026-10-30',2,0]
       ]
     },
-    { key: 'english', type: '班课', name: '共通英语阅读', teacher: '刘淼', meta: '线下｜授课时间未定', events: null },
+    { key: 'english', type: '班课', name: '共通英语阅读', teacher: '刘淼', mode: '线下', room: '待分配', meta: '授课时间未定', events: null },
     {
-      key: 'mathIIBC', type: '班课', name: '共通考试数学IIBC', teacher: '坂野健晟',
-      meta: '网课｜月曜 19:00–21:00／土曜 17:30–19:30',
+      key: 'mathIIBC', type: '班课', name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课', room: '无需教室',
+      meta: '周一 19:00–21:00／周六 17:30–19:30',
       events: [
         ['2026-09-26',2,0],['2026-09-28',2,0],['2026-10-05',2,0],['2026-10-10',2,0],['2026-10-12',2,0],
         ['2026-10-17',2,0],['2026-10-19',2,0],['2026-10-24',2,0],['2026-10-26',2,0],['2026-10-31',2,0],
@@ -33,14 +33,14 @@
       ]
     },
     {
-      key: 'geography', type: '班课', name: '共通考试地理', teacher: '丁玺',
-      meta: '线下｜周日 09:00–12:00｜讲义・刷题一体',
+      key: 'geography', type: '班课', name: '共通考试地理', teacher: '丁玺', mode: '线下', room: '待分配',
+      meta: '周日 09:00–12:00｜讲义・刷题一体',
       events: Array.from({length:20}, (_,i) => {
         const d = new Date(Date.UTC(2026,7,30) + i * 7 * 86400000);
         return [`${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`,3,0];
       })
     },
-    { key: 'privatePhysics', type: '一对一', name: '魏思远物理一对一', teacher: '刘可惟', meta: '网课｜8/30 15:00–17:00｜后续待定', events: [['2026-08-30',2,0]] }
+    { key: 'privatePhysics', type: '一对一', name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课', room: '无需教室', meta: '8/30 15:00–17:00｜后续待定', events: [['2026-08-30',2,0]] }
   ];
 
   const els = {
@@ -77,6 +77,11 @@
     return `${hours} h<small>${sessions} 回</small>`;
   }
 
+  function deliveryCell(course) {
+    const roomClass = course.room === '待分配' ? 'pending' : 'online';
+    return `<span class="course-overview-mode">${course.mode}</span><small class="course-overview-room ${roomClass}">${course.room}</small>`;
+  }
+
   function render() {
     const month = selectedMonth();
     const [year, number] = month.split('-');
@@ -89,6 +94,7 @@
         <td data-label="类型"><span class="course-overview-type">${course.type}</span></td>
         <td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot ${course.key}" aria-hidden="true"></i><div class="course-overview-name"><strong>${course.name}</strong><span>${course.meta}</span></div></div></td>
         <td data-label="授课老师"><span class="course-overview-teacher">${course.teacher}</span></td>
+        <td data-label="方式 / 教室" class="course-overview-delivery">${deliveryCell(course)}</td>
         <td data-label="当月授课" class="course-overview-hours">${stats ? hoursCell(stats.monthlyHours,stats.monthlySessions) : hoursCell(0,0,true)}</td>
         <td data-label="累计授课" class="course-overview-hours">${stats ? hoursCell(stats.cumulativeHours,stats.cumulativeSessions) : hoursCell(0,0,true)}</td>
       </tr>`;
