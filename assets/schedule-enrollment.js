@@ -65,7 +65,9 @@
   function cleanRecord(row) {
     const name = String(row.name ?? row['姓名'] ?? '').trim();
     const courseValue = row.courses ?? row['报名课程'] ?? row['课程'] ?? '';
-    const courses = Array.isArray(courseValue) ? courseValue.map(String).map(item => item.trim()).filter(Boolean) : splitCourses(courseValue);
+    const courses = Array.isArray(courseValue)
+      ? courseValue.map(String).map(item => item.trim()).filter(Boolean)
+      : splitCourses(courseValue);
     const requirement = String(row.requirement ?? row['线下要求'] ?? row['上课方式'] ?? '').trim() || '未填写';
     const status = String(row.status ?? row['报名状态'] ?? row['状态'] ?? '').trim() || '已报名';
     const note = String(row.note ?? row['备注'] ?? '').trim();
@@ -188,10 +190,12 @@
 
     const courseButtons = entries.map(([course, records]) => {
       const offlineCount = records.filter(isOfflineRequired).length;
+      const scheduled = COURSE_KEY_BY_NAME.has(normalize(course));
       const active = course === state.selectedCourse ? ' active' : '';
+      const detail = [offlineCount ? `${offlineCount} 人必须线下` : '无明确必须线下', scheduled ? '' : '未排入日历'].filter(Boolean).join(' · ');
       return `<button type="button" class="enrollment-course-btn${active}" data-enrollment-course="${escapeHtml(course)}">
         <strong>${escapeHtml(course)}</strong><span>${records.length}</span>
-        <small>${offlineCount ? `${offlineCount} 人必须线下` : '无明确必须线下'}</small>
+        <small>${detail}</small>
       </button>`;
     }).join('');
 
@@ -248,11 +252,11 @@
   function render() {
     updateMetrics();
     tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.enrollmentView === state.view));
+    decorateCalendarCounts();
+    updateDialogEnrollmentCount();
     if (!state.records.length) return renderEmpty();
     if (state.view === 'student') renderStudentView();
     else renderCourseView();
-    decorateCalendarCounts();
-    updateDialogEnrollmentCount();
   }
 
   function openDrawer(course = '') {
@@ -369,18 +373,28 @@
   }
 
   function decorateCalendarCounts() {
-    document.querySelectorAll('.enrollment-count-badge').forEach(node => node.remove());
-    if (!state.records.length) return;
-    document.querySelectorAll('.event[data-event-id], .month-event[data-event-id], .mobile-event[data-event-id]').forEach(node => {
-      if (node.classList.contains('cancelled')) return;
+    const nodes = document.querySelectorAll('.event[data-event-id], .month-event[data-event-id], .mobile-event[data-event-id]');
+    nodes.forEach(node => {
+      const existing = node.querySelector('.enrollment-count-badge');
+      if (!state.records.length || node.classList.contains('cancelled')) {
+        if (existing) existing.remove();
+        return;
+      }
       const key = subjectKeyFromNode(node);
       const course = COURSE_NAME_BY_KEY.get(key);
-      if (!course) return;
-      const count = studentCountForCourseName(course);
-      if (!count) return;
+      const count = course ? studentCountForCourseName(course) : 0;
+      if (!count) {
+        if (existing) existing.remove();
+        return;
+      }
+      const label = `${count}人`;
+      if (existing) {
+        if (existing.textContent !== label) existing.textContent = label;
+        return;
+      }
       const badge = document.createElement('span');
       badge.className = 'enrollment-count-badge';
-      badge.textContent = `${count}人`;
+      badge.textContent = label;
       const target = node.querySelector('.event-name, .month-event-top strong, strong') || node;
       target.append(badge);
     });
@@ -414,8 +428,8 @@
     const node = document.getElementById('dialogEnrollmentCount');
     if (!node) return;
     const subject = document.getElementById('dialogSubject')?.textContent?.trim() || '';
-    if (!state.records.length) node.textContent = '未载入';
-    else node.textContent = `${studentCountForCourseName(subject)} 人`;
+    const label = state.records.length ? `${studentCountForCourseName(subject)} 人` : '未载入';
+    if (node.textContent !== label) node.textContent = label;
   }
 
   openButton.addEventListener('click', () => openDrawer());
@@ -441,15 +455,20 @@
   document.addEventListener('click', event => {
     const eventNode = event.target.closest('[data-event-id]');
     if (!eventNode) return;
-    const key = subjectKeyFromNode(eventNode);
-    state.activeCourseKey = key;
+    state.activeCourseKey = subjectKeyFromNode(eventNode);
     window.setTimeout(updateDialogEnrollmentCount, 0);
   });
 
+  let observerQueued = false;
   const calendarObserver = new MutationObserver(() => {
-    decorateCalendarCounts();
-    installDialogEnrollmentButton();
-    updateDialogEnrollmentCount();
+    if (observerQueued) return;
+    observerQueued = true;
+    requestAnimationFrame(() => {
+      observerQueued = false;
+      decorateCalendarCounts();
+      installDialogEnrollmentButton();
+      updateDialogEnrollmentCount();
+    });
   });
   const calendarPanel = document.querySelector('.office-calendar');
   if (calendarPanel) calendarObserver.observe(calendarPanel, { childList: true, subtree: true });
