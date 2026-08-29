@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>旅人教育｜2026 冬学期教务排课</title>
-  <meta name="description" content="旅人教育 2026 冬学期教务排课页面。用于核对课程时间、教师与教室分配。">
+  <meta name="description" content="旅人教育 2026 冬学期教务排课页面。用于核对课程时间、教师、教室与报名信息。">
   <meta name="theme-color" content="#244f7a">
   <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/schedule.css?v=20260829e">
   <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829c">
   <link rel="stylesheet" href="assets/schedule-office.css?v=20260829b">
+  <link rel="stylesheet" href="assets/schedule-enrollment.css?v=20260830a">
 </head>
 <body class="schedule-workspace">
   <header class="site-header compact-header">
@@ -101,6 +102,7 @@
             </select>
           </label>
           <button type="button" class="reset-btn" id="resetOfficeFilters">重置</button>
+          <button type="button" class="reset-btn enrollment-open-btn" id="openEnrollment">报名查询</button>
         </div>
 
         <div class="ops-summary" aria-label="当前范围概览">
@@ -213,9 +215,58 @@
     </section>
   </div>
 
+  <div class="enrollment-drawer" id="enrollmentDrawer" hidden>
+    <div class="enrollment-backdrop" data-close-enrollment></div>
+    <aside class="enrollment-panel" role="dialog" aria-modal="true" aria-labelledby="enrollmentTitle">
+      <header class="enrollment-head">
+        <div>
+          <h2 id="enrollmentTitle">报名信息</h2>
+          <p>按课程查看报名学生，或按学生查看选科组合与线下要求。</p>
+        </div>
+        <button type="button" class="enrollment-close" data-close-enrollment aria-label="关闭">×</button>
+      </header>
+
+      <p class="enrollment-privacy"><strong>内部信息：</strong>当前课程日历部署在公开 GitHub Pages。学生姓名与选科不会写入公开仓库；此版本只把导入数据保存在当前浏览器。跨部门共享时应接入受权限控制的私有数据源。</p>
+
+      <div class="enrollment-data-bar">
+        <span class="enrollment-source" id="enrollmentSource"><strong>尚未载入报名数据</strong> · 可导入 CSV</span>
+        <input class="enrollment-file" id="enrollmentFile" type="file" accept=".csv,text/csv">
+        <button type="button" class="enrollment-data-btn primary" id="enrollmentImport">导入 CSV</button>
+        <button type="button" class="enrollment-data-btn" id="enrollmentTemplate">下载模板</button>
+        <button type="button" class="enrollment-data-btn" id="enrollmentExport">导出</button>
+        <button type="button" class="enrollment-data-btn danger" id="enrollmentClear">清除</button>
+      </div>
+
+      <div class="enrollment-metrics" aria-label="报名概览">
+        <div class="enrollment-metric"><span>学生</span><strong id="enrollmentStudentCount">0</strong></div>
+        <div class="enrollment-metric"><span>报名关系</span><strong id="enrollmentLinkCount">0</strong></div>
+        <div class="enrollment-metric attention"><span>必须线下</span><strong id="enrollmentOfflineCount">0</strong></div>
+        <div class="enrollment-metric"><span>待确认</span><strong id="enrollmentPendingCount">0</strong></div>
+      </div>
+
+      <div class="enrollment-toolbar">
+        <div class="enrollment-tabs" role="group" aria-label="报名信息视图">
+          <button type="button" class="enrollment-tab active" data-enrollment-view="course">按课程</button>
+          <button type="button" class="enrollment-tab" data-enrollment-view="student">按学生</button>
+        </div>
+        <input class="enrollment-search" id="enrollmentSearch" type="search" placeholder="搜索姓名 / 课程 / 备注" aria-label="搜索报名信息">
+        <select class="enrollment-requirement" id="enrollmentRequirement" aria-label="筛选线下要求">
+          <option value="all">全部线下要求</option>
+          <option value="offline-required">必须线下</option>
+          <option value="offline-preferred">优先线下</option>
+          <option value="online-ok">可线上 / 同步</option>
+          <option value="unspecified">未填写</option>
+        </select>
+      </div>
+
+      <div class="enrollment-content" id="enrollmentContent"></div>
+    </aside>
+  </div>
+
   <script src="assets/schedule.js?v=20260830a"></script>
   <script src="assets/schedule-overview.js?v=20260830a"></script>
   <script src="assets/schedule-office.js?v=20260830a"></script>
   <script src="assets/schedule-rooms.js?v=20260829b"></script>
+  <script src="assets/schedule-enrollment.js?v=20260830a"></script>
 </body>
 </html>
