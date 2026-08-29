@@ -13,7 +13,7 @@
     },
     {
       key: 'japanese', type: '班课', name: '国语', teacher: '刘淼', mode: '线下为主', room: '待分配',
-      meta: '9/4暂定线上｜11月为止安排暂定',
+      meta: '9/4暂定线上｜按课表安排',
       events: [
         ['2026-08-28',2,0],['2026-08-30',2,0],['2026-09-04',2,0],['2026-09-06',2,1],['2026-09-11',2,0],
         ['2026-09-13',2,0],['2026-09-18',2,0],['2026-09-20',2,0],['2026-10-02',2,1],['2026-10-04',2,1],
@@ -40,6 +40,21 @@
         return [`${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`,3,0];
       })
     },
+    {
+      key: 'commonPhysics', type: '班课', name: '物理共通考试冲刺课程', teacher: '刘可惟／金老师',
+      mode: '线下＋线上同步（暂定）', room: '待分配',
+      meta: '讲座44h＋实战25h｜周四・周六',
+      events: [
+        ['2026-09-12',3,0],['2026-09-17',2,0],['2026-09-19',3,1],['2026-09-24',2,1],['2026-09-26',3,1],
+        ['2026-10-01',2,0],['2026-10-03',3,0],['2026-10-08',2,0],['2026-10-10',2,0],['2026-10-15',2,0],
+        ['2026-10-17',2,0],['2026-10-22',2,0],['2026-10-24',3,0],['2026-10-29',2,0],['2026-10-31',3,0],
+        ['2026-11-05',2,0],['2026-11-07',3,0],['2026-11-12',2,0],['2026-11-14',3,0],['2026-11-19',2,0],
+        ['2026-11-21',2,0],['2026-11-26',2,0],['2026-11-28',3,0],
+        ['2026-12-03',2,0],['2026-12-05',2,0],['2026-12-12',3,0],['2026-12-17',2,0],['2026-12-19',3,0],
+        ['2026-12-24',2,0],['2026-12-26',2,0],['2026-12-31',2,1],
+        ['2027-01-02',2,0],['2027-01-07',2,0],['2027-01-09',2,0]
+      ]
+    },
     { key: 'privatePhysics', type: '一对一', name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课', room: '无需教室', meta: '8/30 15:00–17:00｜后续待定', events: [['2026-08-30',2,0]] }
   ];
 
@@ -60,8 +75,8 @@
     style.id = 'courseLedgerDeliveryStyle';
     style.textContent = `
       .course-overview-table thead th:nth-child(1){width:92px}
-      .course-overview-table thead th:nth-child(3){width:130px}
-      .course-overview-table thead th:nth-child(4){width:132px;text-align:left}
+      .course-overview-table thead th:nth-child(3){width:150px}
+      .course-overview-table thead th:nth-child(4){width:150px;text-align:left}
       .course-overview-table thead th:nth-child(5),
       .course-overview-table thead th:nth-child(6){width:132px;text-align:right}
       .course-overview-delivery{font-size:12px;line-height:1.3}
@@ -69,6 +84,7 @@
       .course-overview-room{display:block;margin-top:2px;font-size:9px;font-weight:750}
       .course-overview-room.pending{color:#9a641f}
       .course-overview-room.online{color:var(--soft)}
+      .course-overview-dot.commonPhysics{background:#496d8b}
       @media(max-width:760px){.course-overview-delivery{text-align:left}}
     `;
     document.head.append(style);
