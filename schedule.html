@@ -67,6 +67,7 @@
               <option value="english">共通英语阅读</option>
               <option value="mathIIBC">共通考试数学IIBC</option>
               <option value="geography">共通考试地理</option>
+              <option value="commonPhysics">物理共通考试冲刺课程</option>
               <option value="privatePhysics">魏思远物理一对一</option>
             </select>
           </label>
@@ -78,6 +79,7 @@
               <option value="坂野健晟">坂野健晟</option>
               <option value="丁玺">丁玺</option>
               <option value="刘可惟">刘可惟</option>
+              <option value="金老师">金老师</option>
             </select>
           </label>
           <label class="filter-field">
@@ -85,6 +87,7 @@
             <select id="modeFilter" aria-label="筛选授课方式">
               <option value="all">全部</option>
               <option value="offline">线下</option>
+              <option value="hybrid">线下＋线上同步</option>
               <option value="online">线上</option>
               <option value="tentative">暂定线上</option>
             </select>
@@ -118,6 +121,7 @@
         <span class="legend-item subject-legend english"><i></i>英语阅读</span>
         <span class="legend-item subject-legend mathIIBC"><i></i>数学IIBC</span>
         <span class="legend-item subject-legend geography"><i></i>地理</span>
+        <span class="legend-item subject-legend commonPhysics"><i></i>物理冲刺</span>
         <span class="legend-item subject-legend privatePhysics"><i></i>一对一物理</span>
         <span class="legend-divider" aria-hidden="true"></span>
         <span class="legend-item"><i class="legend-swatch tentative"></i>暂定线上</span>
@@ -168,9 +172,9 @@
           <h2 id="courseOverviewTitle" class="visually-hidden">已开课班课 / 一对一</h2>
           <div class="course-overview-table-wrap">
             <table class="course-overview-table">
-              <thead><tr><th scope="col">类型</th><th scope="col">课程</th><th scope="col">授课老师</th><th scope="col">当月授课</th><th scope="col">累计授课</th></tr></thead>
+              <thead><tr><th scope="col">类型</th><th scope="col">课程</th><th scope="col">授课老师</th><th scope="col">方式 / 教室</th><th scope="col">当月授课</th><th scope="col">累计授课</th></tr></thead>
               <tbody id="courseOverviewBody"></tbody>
-              <tfoot><tr><th colspan="3" scope="row">合计</th><td id="courseOverviewMonthTotal">—</td><td id="courseOverviewCumulativeTotal">—</td></tr></tfoot>
+              <tfoot><tr><th colspan="4" scope="row">合计</th><td id="courseOverviewMonthTotal">—</td><td id="courseOverviewCumulativeTotal">—</td></tr></tfoot>
             </table>
           </div>
         </section>
@@ -181,8 +185,8 @@
         <section class="course-plan-section" aria-labelledby="coursePlanTitle">
           <h2 id="coursePlanTitle" class="visually-hidden">待录入课程与刷题班</h2>
           <div class="plan-lines">
-            <div><strong>大课</strong><p>数学IA、物理、化学、生物、地学、物理基础、化学基础、生物基础、地学基础、中国语、历史探究世界史、历史探究日本史、情报I</p></div>
-            <div><strong>刷题班</strong><p>国语、公民政治经济、物理、数学IA、数学2BC</p></div>
+            <div><strong>大课</strong><p>数学IA、化学、生物、地学、物理基础、化学基础、生物基础、地学基础、中国语、历史探究世界史、历史探究日本史、情报I</p></div>
+            <div><strong>刷题班</strong><p>国语、公民政治经济、数学IA、数学2BC</p></div>
             <div><strong>地理</strong><p>讲义课与刷题班一体化。</p></div>
           </div>
         </section>
@@ -209,9 +213,9 @@
     </section>
   </div>
 
-  <script src="assets/schedule.js?v=20260829d"></script>
-  <script src="assets/schedule-overview.js?v=20260829b"></script>
-  <script src="assets/schedule-office.js?v=20260829a"></script>
+  <script src="assets/schedule.js?v=20260830a"></script>
+  <script src="assets/schedule-overview.js?v=20260830a"></script>
+  <script src="assets/schedule-office.js?v=20260830a"></script>
   <script src="assets/schedule-rooms.js?v=20260829b"></script>
 </body>
 </html>
