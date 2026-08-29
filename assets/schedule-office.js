@@ -7,6 +7,7 @@
     english: { name: '共通英语阅读', teacher: '刘淼', mode: '线下' },
     mathIIBC: { name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课' },
     geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
+    commonPhysics: { name: '物理共通考试冲刺课程', teacher: '刘可惟', mode: '暂定线下＋线上同步' },
     privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
   };
 
@@ -43,19 +44,30 @@
   }
 
   function teacherFor(node) {
+    if (node.dataset.teacher !== undefined) return node.dataset.teacher;
     const key = subjectKey(node);
     return subjectMeta[key]?.teacher || '';
   }
 
   function modeFor(node) {
+    if (node.dataset.mode !== undefined) return node.dataset.mode;
     if (node.classList.contains('tentative')) return '暂定线上';
     const key = subjectKey(node);
     return subjectMeta[key]?.mode || '';
   }
 
+  function isOnlineMode(mode) {
+    return mode === '网课' || mode === '仅线上' || mode === '暂定线上';
+  }
+
+  function isHybridMode(mode) {
+    return mode.includes('同步');
+  }
+
   function roomFor(node) {
     const mode = modeFor(node);
-    if (mode === '网课' || mode.includes('线上')) return '无需教室';
+    if (!mode) return '—';
+    if (isOnlineMode(mode)) return '无需教室';
     return '待分配';
   }
 
@@ -70,8 +82,9 @@
 
     if (teacherFilter.value !== 'all' && teacher !== teacherFilter.value) return false;
     if (modeFilter.value === 'offline' && mode !== '线下') return false;
-    if (modeFilter.value === 'online' && mode !== '网课') return false;
+    if (modeFilter.value === 'online' && !['网课','仅线上'].includes(mode)) return false;
     if (modeFilter.value === 'tentative' && mode !== '暂定线上') return false;
+    if (modeFilter.value === 'hybrid' && !isHybridMode(mode)) return false;
     if (roomFilter.value === 'pending' && room !== '待分配') return false;
     if (roomFilter.value === 'online' && room !== '无需教室') return false;
     return true;
@@ -227,7 +240,7 @@
         <span class="followup-main"><strong>${courseFor(node)}</strong><span>${teacherFor(node)}${topicFor(node) ? ` · ${topicFor(node)}` : ''}</span></span>
         <span class="followup-room">待分配</span>
       </div>`;
-    }).join('') + (pending.length > 8 ? `<p class="followup-empty">另有 ${pending.length - 8} 节线下课待分配教室。</p>` : '');
+    }).join('') + (pending.length > 8 ? `<p class="followup-empty">另有 ${pending.length - 8} 节线下/同步课程待分配教室。</p>` : '');
   }
 
   function updateMetrics(nodes) {
@@ -265,7 +278,9 @@
   function updateDialogRoom() {
     if (!dialog || dialog.hidden || !dialogRoom) return;
     const mode = document.getElementById('dialogMode')?.textContent || '';
-    const room = mode === '线下' ? '待分配' : (mode.includes('线上') || mode === '网课' ? '无需教室' : '—');
+    const room = !mode || mode === '—'
+      ? '—'
+      : (isOnlineMode(mode) ? '无需教室' : '待分配');
     dialogRoom.textContent = room;
     dialogRoom.classList.toggle('dialog-room-pending', room === '待分配');
     dialogRoom.classList.toggle('dialog-room-online', room === '无需教室');
@@ -307,7 +322,6 @@
     if (event.target.closest('[data-view], [data-range], #prevWeek, #nextWeek, #todayWeek')) scheduleApply();
   });
 
-  /* 教务页默认展示全周。现有课程大量安排在周末，默认只看工作日容易漏课。 */
   const fullWeekButton = document.querySelector('[data-range="fullweek"]');
   if (fullWeekButton) fullWeekButton.click();
   else scheduleApply();
