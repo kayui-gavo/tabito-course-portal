@@ -7,6 +7,7 @@
     english: { name: '共通英语阅读', teacher: '刘淼', mode: '线下' },
     mathIIBC: { name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课' },
     geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
+    commonPhysics: { name: '物理共通考试冲刺课程', teacher: '刘可惟', mode: '暂定线下＋线上同步' },
     privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
   };
 
@@ -20,7 +21,7 @@
     { id: 'pol-05', subject: 'politics', date: '2026-10-11', start: '14:00', end: '17:00', title: '第5回', topic: '经济思想入门', status: 'normal' },
     { id: 'pol-06', subject: 'politics', date: '2026-10-18', start: '14:00', end: '17:00', title: '第6回', topic: '宏观经济基础', status: 'normal' },
     { id: 'pol-07', subject: 'politics', date: '2026-10-25', start: '14:00', end: '17:00', title: '第7回', topic: '市场与金融', status: 'normal' },
-    { id: 'pol-08', subject: 'politics', date: '2026-11-01', start: '14:00', end: '17:00', title: '第8回', topic: '日本经济与国际经济局势', status: 'normal' },
+    { id: 'pol-08', subject: 'politics', date: '2026-11-01', start: '14:00', end: '17:00', title: '第8回', topic: '日本经济与国际经济局式', status: 'normal' },
     { id: 'pol-09', subject: 'politics', date: '2026-11-08', start: '14:00', end: '17:00', title: '第9回', topic: '战后日本政党史和战后国际关系史', status: 'normal' },
     { id: 'pol-10', subject: 'politics', date: '2026-11-15', start: '14:00', end: '17:00', title: '第10回', topic: '国际法基础', status: 'normal' },
     { id: 'pol-11', subject: 'politics', date: '2026-11-22', start: '14:00', end: '17:00', title: '第11回', topic: '国际关系基础', status: 'normal' },
@@ -85,6 +86,41 @@
     { id: 'geo-19', subject: 'geography', date: '2027-01-03', start: '09:00', end: '12:00', title: '第19回', topic: '2025 地理 本试＋追试', status: 'normal' },
     { id: 'geo-20', subject: 'geography', date: '2027-01-10', start: '09:00', end: '12:00', title: '第20回', topic: '2026 地理 本试＋追试', status: 'normal' },
 
+    { id: 'phys-lecture-01', subject: 'commonPhysics', date: '2026-09-12', start: '14:00', end: '17:00', title: '讲座1', topic: '平面运动、力与刚体', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-02', subject: 'commonPhysics', date: '2026-09-17', start: '18:30', end: '20:30', title: '讲座2', topic: '能量与动量', status: 'normal', teacher: '刘可惟', mode: '仅线上' },
+    { id: 'phys-off-01', subject: 'commonPhysics', date: '2026-09-19', start: '14:00', end: '17:00', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
+    { id: 'phys-off-02', subject: 'commonPhysics', date: '2026-09-24', start: '18:30', end: '20:30', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
+    { id: 'phys-off-03', subject: 'commonPhysics', date: '2026-09-26', start: '14:00', end: '17:00', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
+    { id: 'phys-lecture-03', subject: 'commonPhysics', date: '2026-10-01', start: '18:30', end: '20:30', title: '讲座3', topic: '力学实验、综合专题1', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-04', subject: 'commonPhysics', date: '2026-10-03', start: '14:00', end: '17:00', title: '讲座4', topic: '圆周运动、简谐振动 / 万有引力、天体运动', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-05', subject: 'commonPhysics', date: '2026-10-08', start: '18:30', end: '20:30', title: '讲座5', topic: '力学实验、综合专题2', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-01', subject: 'commonPhysics', date: '2026-10-10', start: '15:00', end: '17:00', title: '实战1', topic: '力学｜抛体运动、刚体平衡、动量与冲量', status: 'normal', teacher: '金老师' },
+    { id: 'phys-lecture-06', subject: 'commonPhysics', date: '2026-10-15', start: '18:30', end: '20:30', title: '讲座6', topic: '波的基本性质、波面与射线', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-02', subject: 'commonPhysics', date: '2026-10-17', start: '15:00', end: '17:00', title: '实战2', topic: '力学｜圆周运动、简谐振动、万有引力', status: 'normal', teacher: '金老师' },
+    { id: 'phys-lecture-07', subject: 'commonPhysics', date: '2026-10-22', start: '18:30', end: '20:30', title: '讲座7', topic: '波的干涉与衍射', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-08', subject: 'commonPhysics', date: '2026-10-24', start: '14:00', end: '17:00', title: '讲座8', topic: '声音与光', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-09', subject: 'commonPhysics', date: '2026-10-29', start: '18:30', end: '20:30', title: '讲座9', topic: '波动实验、综合专题', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-10', subject: 'commonPhysics', date: '2026-10-31', start: '14:00', end: '17:00', title: '讲座10', topic: '理想气体的状态变化', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-11', subject: 'commonPhysics', date: '2026-11-05', start: '18:30', end: '20:30', title: '讲座11', topic: '分子运动论', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-12', subject: 'commonPhysics', date: '2026-11-07', start: '14:00', end: '17:00', title: '讲座12', topic: '热力学第一定律', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-03', subject: 'commonPhysics', date: '2026-11-12', start: '18:30', end: '20:30', title: '实战3', topic: '波动｜正弦波、声音与光', status: 'normal', teacher: '金老师' },
+    { id: 'phys-lecture-13', subject: 'commonPhysics', date: '2026-11-14', start: '14:00', end: '17:00', title: '讲座13', topic: '热力学实验、综合专题', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-14', subject: 'commonPhysics', date: '2026-11-19', start: '18:30', end: '20:30', title: '讲座14', topic: '电场、电势与电容器', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-04', subject: 'commonPhysics', date: '2026-11-21', start: '15:00', end: '17:00', title: '实战4', topic: '热力学｜状态变化、分子运动论、热力学第一定律', status: 'normal', teacher: '金老师' },
+    { id: 'phys-lecture-15', subject: 'commonPhysics', date: '2026-11-26', start: '18:30', end: '20:30', title: '讲座15', topic: '直流电路', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-16', subject: 'commonPhysics', date: '2026-11-28', start: '14:00', end: '17:00', title: '讲座16', topic: '电流与磁场 / 电磁学实验、综合专题1', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-lecture-17', subject: 'commonPhysics', date: '2026-12-03', start: '18:30', end: '20:30', title: '讲座17', topic: '电磁感应', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-05', subject: 'commonPhysics', date: '2026-12-05', start: '15:00', end: '17:00', title: '实战5', topic: '电磁学｜点电荷、电容器、电路', status: 'normal', teacher: '金老师' },
+    { id: 'phys-lecture-18', subject: 'commonPhysics', date: '2026-12-12', start: '14:00', end: '17:00', title: '讲座18', topic: '电磁学实验、综合专题2', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-06', subject: 'commonPhysics', date: '2026-12-17', start: '18:30', end: '20:30', title: '实战6', topic: '电磁学｜电流与磁场、电磁感应', status: 'normal', teacher: '金老师' },
+    { id: 'phys-practice-07', subject: 'commonPhysics', date: '2026-12-19', start: '14:00', end: '17:00', title: '实战7', topic: '原子与交流电｜真题、模拟题', status: 'normal', teacher: '刘可惟' },
+    { id: 'phys-practice-08', subject: 'commonPhysics', date: '2026-12-24', start: '18:30', end: '20:30', title: '实战8', topic: '模拟考试1', status: 'normal', teacher: '金老师' },
+    { id: 'phys-practice-09', subject: 'commonPhysics', date: '2026-12-26', start: '15:00', end: '17:00', title: '实战9', topic: '模拟考试2', status: 'normal', teacher: '金老师' },
+    { id: 'phys-off-04', subject: 'commonPhysics', date: '2026-12-31', start: '18:30', end: '20:30', title: '休讲', topic: '年末休讲', status: 'cancelled', teacher: '', mode: '' },
+    { id: 'phys-practice-10', subject: 'commonPhysics', date: '2027-01-02', start: '15:00', end: '17:00', title: '实战10', topic: '模拟考试3', status: 'normal', teacher: '金老师' },
+    { id: 'phys-practice-11', subject: 'commonPhysics', date: '2027-01-07', start: '18:30', end: '20:30', title: '实战11', topic: '模拟考试4', status: 'normal', teacher: '金老师' },
+    { id: 'phys-practice-12', subject: 'commonPhysics', date: '2027-01-09', start: '15:00', end: '17:00', title: '实战12', topic: '模拟考试5', status: 'normal', teacher: '金老师' },
+
     { id: 'private-physics-01', subject: 'privatePhysics', date: '2026-08-30', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' }
   ];
 
@@ -128,13 +164,23 @@
     const style = document.createElement('style');
     style.id = 'scheduleSubjectPatch';
     style.textContent = `
-      :root { --math-iibc:#3d7790; --math-iibc-bg:#edf5f7; --geography:#8a6a3f; --geography-bg:#f7f1e8; --private-physics:#695f8d; --private-physics-bg:#f1eff7; }
-      .subject-legend.mathIIBC i{background:var(--math-iibc)} .subject-legend.geography i{background:var(--geography)} .subject-legend.privatePhysics i{background:var(--private-physics)}
+      :root {
+        --math-iibc:#3d7790; --math-iibc-bg:#edf5f7;
+        --geography:#8a6a3f; --geography-bg:#f7f1e8;
+        --common-physics:#496d8b; --common-physics-bg:#eef4f8;
+        --private-physics:#695f8d; --private-physics-bg:#f1eff7;
+      }
+      .subject-legend.mathIIBC i{background:var(--math-iibc)}
+      .subject-legend.geography i{background:var(--geography)}
+      .subject-legend.commonPhysics i{background:var(--common-physics)}
+      .subject-legend.privatePhysics i{background:var(--private-physics)}
       .event.mathIIBC{border-color:#b9d1da;border-left-color:var(--math-iibc);background:var(--math-iibc-bg)}
       .event.geography{border-color:#d9c8af;border-left-color:var(--geography);background:var(--geography-bg)}
+      .event.commonPhysics{border-color:#bfd0de;border-left-color:var(--common-physics);background:var(--common-physics-bg)}
       .event.privatePhysics{border-color:#cbc4df;border-left-color:var(--private-physics);background:var(--private-physics-bg)}
       .month-event.mathIIBC{border-left-color:var(--math-iibc);background:var(--math-iibc-bg)}
       .month-event.geography{border-left-color:var(--geography);background:var(--geography-bg)}
+      .month-event.commonPhysics{border-left-color:var(--common-physics);background:var(--common-physics-bg)}
       .month-event.privatePhysics{border-left-color:var(--private-physics);background:var(--private-physics-bg)}
       .event-meta,.month-event-meta,.mobile-event-meta{color:rgba(24,34,48,.58);font-weight:650}
       .event-meta{display:block;margin-top:2px;font-size:9px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -165,8 +211,8 @@
     return {view:requestedView,weekStart,monthStart};
   }
 
-  function eventTeacher(event){ return event.teacher||subjects[event.subject]?.teacher||''; }
-  function eventMode(event){ return event.mode||subjects[event.subject]?.mode||''; }
+  function eventTeacher(event){ return event.teacher ?? subjects[event.subject]?.teacher ?? ''; }
+  function eventMode(event){ return event.mode ?? subjects[event.subject]?.mode ?? ''; }
   function eventMeta(event){ return [eventTeacher(event),eventMode(event)].filter(Boolean).join(' · '); }
   function subjectMatches(event){ return state.subject==='all'||event.subject===state.subject; }
   function eventsBetween(start,end){ const a=formatDate(start),b=formatDate(end); return scheduleEvents.filter(e=>e.date>=a&&e.date<=b).filter(subjectMatches).sort((x,y)=>x.date.localeCompare(y.date)||x.start.localeCompare(y.start)); }
@@ -174,6 +220,12 @@
   function visibleWeekEvents(){ const dates=visibleDates(); return eventsBetween(dates[0],dates[dates.length-1]); }
   function visibleMonthEvents(){ return eventsBetween(state.monthStart,lastOfMonth(state.monthStart)); }
   function currentPeriodEvents(){ return state.view==='month'?visibleMonthEvents():visibleWeekEvents(); }
+
+  function dataAttrs(event){
+    const teacher=eventTeacher(event).replace(/"/g,'&quot;');
+    const mode=eventMode(event).replace(/"/g,'&quot;');
+    return `data-teacher="${teacher}" data-mode="${mode}"`;
+  }
 
   function renderTimeAxis(){ const rows=[]; for(let minute=START_MINUTE;minute<=END_MINUTE;minute+=60){ const top=((minute-START_MINUTE)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT; const hour=String(Math.floor(minute/60)).padStart(2,'0'); rows.push(`<span class="${minute===START_MINUTE?'time-label start':'time-label'}" style="top:${top}px">${hour}:00</span>`); } els.timeAxis.innerHTML=rows.join(''); }
   function renderHeader(){ const dates=visibleDates(); els.calendarHead.style.gridTemplateColumns=`68px repeat(${dates.length},minmax(0,1fr))`; const now=new Date(); const todayKey=formatDate(new Date(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate()))); els.calendarHead.innerHTML=['<div class="corner" aria-hidden="true"></div>',...dates.map((date,index)=>`<div class="day-head${formatDate(date)===todayKey?' today':''}"><span class="weekday">${weekdayNames[index]}</span><span class="date">${date.getUTCMonth()+1}/${date.getUTCDate()}</span></div>`)].join(''); }
@@ -186,12 +238,12 @@
     sorted.forEach(event=>{ const start=minutes(event.start),end=minutes(event.end); if(group.length&&start>=groupEnd)flush(); group.push(event); groupEnd=Math.max(groupEnd,end); }); flush(); return result;
   }
 
-  function eventButton(event,layout={column:0,columns:1}){ const topMinute=Math.max(START_MINUTE,minutes(event.start)),endMinute=Math.min(END_MINUTE,minutes(event.end)); const top=((topMinute-START_MINUTE)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT; const height=Math.max(34,((endMinute-topMinute)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT-5); const subjectName=subjects[event.subject].name; const name=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`; const width=100/layout.columns,left=layout.column*width,meta=eventMeta(event); const style=`top:${top}px;height:${height}px;left:calc(${left}% + 4px);right:auto;width:calc(${width}% - 8px)`; return `<button type="button" class="event ${eventClass(event)}" data-event-id="${event.id}" style="${style}" aria-label="${name} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${name}</span><span class="event-topic">${event.topic}</span>${meta?`<span class="event-meta">${meta}</span>`:''}</button>`; }
+  function eventButton(event,layout={column:0,columns:1}){ const topMinute=Math.max(START_MINUTE,minutes(event.start)),endMinute=Math.min(END_MINUTE,minutes(event.end)); const top=((topMinute-START_MINUTE)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT; const height=Math.max(34,((endMinute-topMinute)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT-5); const subjectName=subjects[event.subject].name; const name=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`; const width=100/layout.columns,left=layout.column*width,meta=eventMeta(event); const style=`top:${top}px;height:${height}px;left:calc(${left}% + 4px);right:auto;width:calc(${width}% - 8px)`; return `<button type="button" class="event ${eventClass(event)}" data-event-id="${event.id}" ${dataAttrs(event)} style="${style}" aria-label="${name} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${name}</span><span class="event-topic">${event.topic}</span>${meta?`<span class="event-meta">${meta}</span>`:''}</button>`; }
   function renderGrid(){ const dates=visibleDates(),events=visibleWeekEvents(); els.dayGrid.style.gridTemplateColumns=`repeat(${dates.length},minmax(0,1fr))`; els.dayGrid.innerHTML=dates.map(date=>{ const key=formatDate(date),laidOut=layoutDayEvents(events.filter(e=>e.date===key)); return `<div class="day-column" data-date="${key}">${laidOut.map(item=>eventButton(item.event,item)).join('')}</div>`; }).join(''); }
-  function renderMobile(){ const dates=visibleDates(),events=visibleWeekEvents(); els.calendarMobile.innerHTML=dates.map((date,index)=>{ const key=formatDate(date),dayEvents=events.filter(e=>e.date===key); const body=dayEvents.length?dayEvents.map(event=>{ const subjectName=subjects[event.subject].name,line=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`,meta=eventMeta(event); return `<button type="button" class="mobile-event" data-event-id="${event.id}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${line}</strong><p>${event.topic}</p>${meta?`<span class="mobile-event-meta">${meta}</span>`:''}</span></button>`; }).join(''):'<p class="mobile-empty">无课程</p>'; return `<section class="mobile-day"><div class="mobile-day-head"><strong>周${shortWeekdayNames[index]} · ${date.getUTCMonth()+1}月${date.getUTCDate()}日</strong><span>${dayEvents.length?`${dayEvents.length} 项`:''}</span></div><div class="mobile-events">${body}</div></section>`; }).join(''); }
+  function renderMobile(){ const dates=visibleDates(),events=visibleWeekEvents(); els.calendarMobile.innerHTML=dates.map((date,index)=>{ const key=formatDate(date),dayEvents=events.filter(e=>e.date===key); const body=dayEvents.length?dayEvents.map(event=>{ const subjectName=subjects[event.subject].name,line=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`,meta=eventMeta(event); return `<button type="button" class="mobile-event ${eventClass(event)}" data-event-id="${event.id}" ${dataAttrs(event)}><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${line}</strong><p>${event.topic}</p>${meta?`<span class="mobile-event-meta">${meta}</span>`:''}</span></button>`; }).join(''):'<p class="mobile-empty">无课程</p>'; return `<section class="mobile-day"><div class="mobile-day-head"><strong>周${shortWeekdayNames[index]} · ${date.getUTCMonth()+1}月${date.getUTCDate()}日</strong><span>${dayEvents.length?`${dayEvents.length} 项`:''}</span></div><div class="mobile-events">${body}</div></section>`; }).join(''); }
 
   function monthGridDates(){ const first=state.monthStart,last=lastOfMonth(first),gridStart=startOfWeek(first),lastDayIndex=(last.getUTCDay()+6)%7,gridEnd=addDays(last,6-lastDayIndex),count=Math.round((gridEnd-gridStart)/DAY_MS)+1; return Array.from({length:count},(_,i)=>addDays(gridStart,i)); }
-  function monthEventButton(event){ const subjectName=subjects[event.subject].name,name=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`,meta=eventMeta(event); return `<button type="button" class="month-event ${eventClass(event)}" data-event-id="${event.id}"><span class="month-event-top"><time>${event.start}</time><strong>${name}</strong></span><p>${event.topic}</p>${meta?`<span class="month-event-meta">${meta}</span>`:''}</button>`; }
+  function monthEventButton(event){ const subjectName=subjects[event.subject].name,name=event.status==='cancelled'?`休讲 · ${subjectName}`:`${subjectName} · ${event.title}`,meta=eventMeta(event); return `<button type="button" class="month-event ${eventClass(event)}" data-event-id="${event.id}" ${dataAttrs(event)}><span class="month-event-top"><time>${event.start}</time><strong>${name}</strong></span><p>${event.topic}</p>${meta?`<span class="month-event-meta">${meta}</span>`:''}</button>`; }
   function renderMonth(){ const dates=monthGridDates(),events=eventsBetween(dates[0],dates[dates.length-1]),currentMonth=state.monthStart.getUTCMonth(),now=new Date(),todayKey=formatDate(new Date(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate()))); els.monthGrid.innerHTML=dates.map(date=>{ const key=formatDate(date),dayEvents=events.filter(e=>e.date===key),outside=date.getUTCMonth()!==currentMonth?' outside':'',isToday=key===todayKey?' today':'',countLabel=dayEvents.length?`<span class="month-day-count">${dayEvents.length} 项</span>`:''; return `<section class="month-day${outside}${isToday}" data-date="${key}"><div class="month-date-row"><span class="month-date">${date.getUTCDate()}</span>${countLabel}</div><div class="month-events">${dayEvents.map(monthEventButton).join('')}</div></section>`; }).join(''); }
 
   function renderSummary(){ const events=currentPeriodEvents(),teaching=events.filter(e=>e.status!=='cancelled'),cancelled=events.filter(e=>e.status==='cancelled'),hours=teaching.reduce((sum,e)=>sum+durationHours(e),0); els.summarySessions.textContent=`${teaching.length} 节`; els.summaryHours.textContent=`${Number.isInteger(hours)?hours:hours.toFixed(1)} h`; els.summaryCancelled.textContent=String(cancelled.length); els.weekCount.textContent=`${teaching.length} 节授课${cancelled.length?` · ${cancelled.length} 项休讲`:''}`; els.summaryPeriodLabel.textContent=state.view==='month'?'本月':'本周'; }
