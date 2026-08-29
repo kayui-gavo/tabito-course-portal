@@ -1,0 +1,391 @@
+:root {
+  --enroll-ink: #182330;
+  --enroll-muted: #6f7883;
+  --enroll-line: #dfe4ea;
+  --enroll-line-soft: #edf0f3;
+  --enroll-blue: #244f7a;
+  --enroll-blue-soft: #eef4f8;
+  --enroll-amber: #9a671f;
+  --enroll-red: #a54848;
+  --enroll-bg: #fff;
+}
+
+.enrollment-open-btn {
+  min-height: 26px;
+  padding: 0 9px !important;
+  border: 1px solid #ccd6df !important;
+  background: #f8fafc !important;
+  color: var(--office-blue) !important;
+  font-weight: 750 !important;
+}
+.enrollment-open-btn:hover { background: #eef4f8 !important; }
+
+.enrollment-drawer[hidden] { display: none; }
+.enrollment-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 96;
+  display: grid;
+  grid-template-columns: 1fr minmax(560px, 720px);
+}
+.enrollment-backdrop {
+  background: rgba(13, 22, 33, .28);
+  backdrop-filter: blur(1.5px);
+}
+.enrollment-panel {
+  min-width: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid #d6dde4;
+  box-shadow: -12px 0 32px rgba(18, 31, 44, .08);
+  overflow: hidden;
+}
+.enrollment-head {
+  min-height: 60px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--enroll-line);
+}
+.enrollment-head h2 {
+  margin: 1px 0 0;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -.015em;
+}
+.enrollment-head p {
+  margin: 3px 0 0;
+  color: var(--enroll-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+.enrollment-close {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #66717c;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.enrollment-close:hover { background: #f3f5f7; color: #1e2a36; }
+
+.enrollment-privacy {
+  margin: 0;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--enroll-line-soft);
+  background: #fffaf0;
+  color: #775520;
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+.enrollment-privacy strong { font-weight: 800; }
+
+.enrollment-data-bar {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--enroll-line);
+}
+.enrollment-source {
+  min-width: 0;
+  margin-right: auto;
+  color: var(--enroll-muted);
+  font-size: 9.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.enrollment-source strong { color: var(--enroll-ink); font-weight: 750; }
+.enrollment-data-btn,
+.enrollment-tab,
+.enrollment-course-btn,
+.dialog-enrollment-btn {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.enrollment-data-btn {
+  min-height: 27px;
+  padding: 0 8px;
+  border: 1px solid var(--enroll-line);
+  border-radius: 4px;
+  background: #fff;
+  color: #46515d;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.enrollment-data-btn:hover { background: #f7f9fa; color: var(--enroll-ink); }
+.enrollment-data-btn.primary {
+  border-color: var(--enroll-blue);
+  background: var(--enroll-blue);
+  color: #fff;
+}
+.enrollment-data-btn.danger { color: #9a4545; }
+.enrollment-file { display: none; }
+
+.enrollment-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--enroll-line);
+}
+.enrollment-metric {
+  min-height: 55px;
+  padding: 8px 12px;
+  border-right: 1px solid var(--enroll-line-soft);
+}
+.enrollment-metric:last-child { border-right: 0; }
+.enrollment-metric span {
+  display: block;
+  color: var(--enroll-muted);
+  font-size: 8.5px;
+  font-weight: 650;
+}
+.enrollment-metric strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--enroll-ink);
+  font-size: 19px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.enrollment-metric.attention strong { color: var(--enroll-amber); }
+
+.enrollment-toolbar {
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) minmax(120px, 160px);
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--enroll-line);
+}
+.enrollment-tabs {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--enroll-line);
+  border-radius: 5px;
+  background: #f7f9fa;
+}
+.enrollment-tab {
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 3px;
+  background: transparent;
+  color: #65707b;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.enrollment-tab.active { background: #fff; color: var(--enroll-ink); box-shadow: 0 0 0 1px rgba(35, 58, 80, .05); }
+.enrollment-search,
+.enrollment-requirement {
+  height: 29px;
+  min-width: 0;
+  border: 1px solid var(--enroll-line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--enroll-ink);
+  font: inherit;
+  font-size: 9.5px;
+  outline: 0;
+}
+.enrollment-search { padding: 0 9px; }
+.enrollment-requirement { padding: 0 6px; }
+.enrollment-search:focus,
+.enrollment-requirement:focus { border-color: #9fb7cc; box-shadow: 0 0 0 2px rgba(36,79,122,.06); }
+
+.enrollment-content {
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.enrollment-empty {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 36px;
+  text-align: center;
+  color: var(--enroll-muted);
+}
+.enrollment-empty strong { display: block; margin-bottom: 5px; color: var(--enroll-ink); font-size: 13px; }
+.enrollment-empty p { max-width: 440px; margin: 0; font-size: 10px; line-height: 1.65; }
+
+.enrollment-course-view {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 218px minmax(0, 1fr);
+}
+.enrollment-course-list {
+  min-width: 0;
+  overflow: auto;
+  border-right: 1px solid var(--enroll-line);
+  background: #fbfcfd;
+}
+.enrollment-course-list-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 8px 10px 6px;
+  border-bottom: 1px solid var(--enroll-line-soft);
+  background: rgba(251,252,253,.96);
+  color: var(--enroll-muted);
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.enrollment-course-btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--enroll-line-soft);
+  background: transparent;
+  text-align: left;
+}
+.enrollment-course-btn:hover { background: #f3f6f8; }
+.enrollment-course-btn.active { background: var(--enroll-blue-soft); box-shadow: inset 3px 0 0 var(--enroll-blue); }
+.enrollment-course-btn strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--enroll-ink);
+  font-size: 9.5px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.enrollment-course-btn span {
+  min-width: 23px;
+  padding: 2px 5px;
+  border-radius: 10px;
+  background: #edf0f3;
+  color: #55616d;
+  font-size: 8px;
+  font-weight: 800;
+  text-align: center;
+}
+.enrollment-course-btn small {
+  grid-column: 1/-1;
+  margin-top: -3px;
+  color: var(--enroll-muted);
+  font-size: 7.8px;
+}
+
+.enrollment-detail,
+.enrollment-student-view {
+  min-width: 0;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+}
+.enrollment-detail-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 9px 12px 7px;
+  border-bottom: 1px solid var(--enroll-line);
+  background: rgba(255,255,255,.97);
+}
+.enrollment-detail-head h3 { margin: 0; font-size: 13px; line-height: 1.25; }
+.enrollment-detail-head span { color: var(--enroll-muted); font-size: 8.5px; white-space: nowrap; }
+.enrollment-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.enrollment-table th,
+.enrollment-table td {
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--enroll-line-soft);
+  text-align: left;
+  vertical-align: top;
+}
+.enrollment-table th {
+  position: sticky;
+  top: 42px;
+  z-index: 2;
+  background: #fafbfc;
+  color: #69737e;
+  font-size: 8px;
+  font-weight: 750;
+}
+.enrollment-student-view .enrollment-table th { top: 0; }
+.enrollment-table td { color: #35414d; font-size: 9.2px; line-height: 1.45; }
+.enrollment-table td strong { color: var(--enroll-ink); font-weight: 750; }
+.enrollment-table .course-cell { color: #455361; }
+.enrollment-chip {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 10px;
+  background: #f0f3f5;
+  color: #596571;
+  font-size: 7.8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.enrollment-chip.offline { background: #fff3df; color: #835414; }
+.enrollment-chip.pending { background: #fff1f1; color: #914747; }
+.enrollment-no-results { padding: 18px 12px; color: var(--enroll-muted); font-size: 9.5px; text-align: center; }
+
+.dialog-enrollment-btn {
+  width: 100%;
+  min-height: 34px;
+  margin-top: 10px;
+  border: 1px solid #c9d6e1;
+  border-radius: 5px;
+  background: #f7fafc;
+  color: #244f7a;
+  font-size: 10px;
+  font-weight: 750;
+}
+.dialog-enrollment-btn:hover { background: #eef4f8; }
+.dialog-enrollment-btn span { margin-left: 5px; color: #687684; font-size: 9px; font-weight: 650; }
+
+.enrollment-count-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 4px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.74);
+  color: rgba(24,34,48,.62);
+  font-size: 7px;
+  font-weight: 750;
+  vertical-align: 1px;
+}
+
+@media (max-width: 920px) {
+  .enrollment-drawer { grid-template-columns: 0 1fr; }
+  .enrollment-panel { width: 100vw; }
+  .enrollment-course-view { grid-template-columns: 190px minmax(0,1fr); }
+}
+
+@media (max-width: 640px) {
+  .enrollment-head { padding-inline: 12px; }
+  .enrollment-privacy,
+  .enrollment-data-bar,
+  .enrollment-toolbar { padding-left: 12px; padding-right: 12px; }
+  .enrollment-data-bar { flex-wrap: wrap; }
+  .enrollment-source { width: 100%; flex-basis: 100%; }
+  .enrollment-metrics { grid-template-columns: 1fr 1fr; }
+  .enrollment-metric:nth-child(2) { border-right: 0; }
+  .enrollment-metric:nth-child(-n+2) { border-bottom: 1px solid var(--enroll-line-soft); }
+  .enrollment-toolbar { grid-template-columns: 1fr 1fr; }
+  .enrollment-tabs { grid-column: 1/-1; }
+  .enrollment-course-view { grid-template-columns: 1fr; }
+  .enrollment-course-list { max-height: 210px; border-right: 0; border-bottom: 1px solid var(--enroll-line); }
+  .enrollment-detail { min-height: 0; }
+}
