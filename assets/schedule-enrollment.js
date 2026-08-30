@@ -4,11 +4,36 @@
   const STORAGE_KEY = 'tabitoEnrollmentV2';
   const LEGACY_STORAGE_KEY = 'tabitoEnrollmentV1';
 
+  function installPlanningUi() {
+    if (!document.querySelector('link[href*="schedule-enrollment-planning.css"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'assets/schedule-enrollment-planning.css?v=20260830b';
+      document.head.append(link);
+    }
+    const metrics = document.querySelector('.enrollment-metrics');
+    if (metrics && !document.getElementById('enrollmentUnscheduledCount')) {
+      const item = document.createElement('div');
+      item.className = 'enrollment-metric unscheduled';
+      item.innerHTML = '<span>时间未定科目</span><strong id="enrollmentUnscheduledCount">0</strong>';
+      metrics.append(item);
+    }
+    const tabs = document.querySelector('.enrollment-tabs');
+    if (tabs && !tabs.querySelector('[data-enrollment-view="planning"]')) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'enrollment-tab';
+      button.dataset.enrollmentView = 'planning';
+      button.textContent = '排课参考';
+      tabs.append(button);
+    }
+    const subtitle = document.querySelector('.enrollment-head p');
+    if (subtitle) subtitle.textContent = '报名名单、选科组合、线下需求与排课冲突放在同一处核对。';
+  }
+  installPlanningUi();
+
   function normalize(value) {
-    return String(value ?? '')
-      .trim()
-      .toLowerCase()
-      .replace(/[\s・·_／/（）()【】\[\]《》<>「」『』\-–—]+/g, '');
+    return String(value ?? '').trim().toLowerCase().replace(/[\s・·_／/（）()【】\[\]《》<>「」『』\-–—]+/g, '');
   }
 
   const COURSE_NAME_BY_KEY = new Map(
@@ -27,7 +52,7 @@
   ]);
 
   const COURSE_ALIAS = new Map();
-  const aliases = [
+  [
     ['公共政治经济', ['公共政治经济', '政治经济', '政经', '公民政治经济']],
     ['国语', ['国语', '国语现代文', '现代文', '共通国语']],
     ['共通英语阅读', ['共通英语阅读', '英语阅读', '共通英语', '英语']],
@@ -39,8 +64,7 @@
     ['物理基础', ['物理基础']], ['化学基础', ['化学基础']], ['生物基础', ['生物基础']], ['地学基础', ['地学基础']],
     ['中国语', ['中国语', '中文']], ['世界史', ['世界史', '历史探究世界史']], ['日本史', ['日本史', '历史探究日本史']],
     ['情报I', ['情报I', '情报1', '信息I', '信息1']]
-  ];
-  aliases.forEach(([canonical, values]) => values.forEach(value => COURSE_ALIAS.set(normalize(value), canonical)));
+  ].forEach(([canonical, values]) => values.forEach(value => COURSE_ALIAS.set(normalize(value), canonical)));
   COURSE_NAME_BY_KEY.forEach(name => COURSE_ALIAS.set(normalize(name), name));
 
   const drawer = document.getElementById('enrollmentDrawer');
@@ -52,6 +76,10 @@
   const exportButton = document.getElementById('enrollmentExport');
   const clearButton = document.getElementById('enrollmentClear');
   const sourceLabel = document.getElementById('enrollmentSource');
+  const searchInput = document.getElementById('enrollmentSearch');
+  const requirementFilter = document.getElementById('enrollmentRequirement');
+  const content = document.getElementById('enrollmentContent');
+  const tabs = [...document.querySelectorAll('[data-enrollment-view]')];
   const metrics = {
     students: document.getElementById('enrollmentStudentCount'),
     links: document.getElementById('enrollmentLinkCount'),
@@ -59,10 +87,6 @@
     pending: document.getElementById('enrollmentPendingCount'),
     unscheduled: document.getElementById('enrollmentUnscheduledCount')
   };
-  const searchInput = document.getElementById('enrollmentSearch');
-  const requirementFilter = document.getElementById('enrollmentRequirement');
-  const content = document.getElementById('enrollmentContent');
-  const tabs = [...document.querySelectorAll('[data-enrollment-view]')];
 
   if (!drawer || !panel || !openButton || !content) return;
 
@@ -72,32 +96,21 @@
   }
 
   function escapeHtml(value) {
-    return String(value ?? '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#39;');
+    return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
   }
 
   function splitCourses(value) {
-    return [...new Set(String(value ?? '')
-      .split(/[、，,;；|]+/)
-      .map(item => canonicalCourseName(item))
-      .filter(Boolean))];
+    return [...new Set(String(value ?? '').split(/[、，,;；|]+/).map(canonicalCourseName).filter(Boolean))];
   }
 
   function cleanRecord(row) {
     const name = String(row.name ?? row['姓名'] ?? '').trim();
     const courseValue = row.courses ?? row['报名课程'] ?? row['课程'] ?? '';
-    const courses = Array.isArray(courseValue)
-      ? [...new Set(courseValue.map(canonicalCourseName).filter(Boolean))]
-      : splitCourses(courseValue);
+    const courses = Array.isArray(courseValue) ? [...new Set(courseValue.map(canonicalCourseName).filter(Boolean))] : splitCourses(courseValue);
     const requirement = String(row.requirement ?? row['线下要求'] ?? row['上课方式'] ?? '').trim() || '未填写';
     const status = String(row.status ?? row['报名状态'] ?? row['状态'] ?? '').trim() || '已报名';
     const note = String(row.note ?? row['备注'] ?? '').trim();
-    if (!name || !courses.length) return null;
-    return { name, courses, requirement, status, note };
+    return name && courses.length ? { name, courses, requirement, status, note } : null;
   }
 
   function loadRecords() {
@@ -109,46 +122,27 @@
       }
       if (!raw) return [];
       const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed)) return [];
-      return parsed.map(cleanRecord).filter(Boolean);
-    } catch (_) {
-      return [];
-    }
+      return Array.isArray(parsed) ? parsed.map(cleanRecord).filter(Boolean) : [];
+    } catch (_) { return []; }
   }
 
-  function saveRecords() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.records)); } catch (_) {}
-  }
+  const state = { records: loadRecords(), view: 'course', selectedCourse: '', query: '', requirement: 'all', activeCourseKey: '' };
 
+  function saveRecords() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.records)); } catch (_) {} }
   function isInactive(record) { return /退课|取消|无效/.test(record.status); }
   function isPending(record) { return /待|暂定|未确认/.test(record.status); }
   function isOfflineRequired(record) { return /必须.*线下|仅.*线下|只.*线下/.test(record.requirement); }
-
   function requirementGroup(record) {
     if (isOfflineRequired(record)) return 'offline-required';
     if (/优先.*线下|线下.*优先/.test(record.requirement)) return 'offline-preferred';
     if (/线上|同步|均可|都可|无所谓|不限/.test(record.requirement)) return 'online-ok';
     return 'unspecified';
   }
-
-  function requirementRank(record) {
-    return { 'offline-required': 4, 'offline-preferred': 3, 'online-ok': 2, 'unspecified': 1 }[requirementGroup(record)] || 0;
-  }
-
-  const state = {
-    records: loadRecords(),
-    view: 'course',
-    selectedCourse: '',
-    query: '',
-    requirement: 'all',
-    activeCourseKey: ''
-  };
-
-  function activeRawRecords() { return state.records.filter(record => !isInactive(record)); }
+  function requirementRank(record) { return { 'offline-required': 4, 'offline-preferred': 3, 'online-ok': 2, 'unspecified': 1 }[requirementGroup(record)] || 0; }
 
   function studentProfiles() {
     const grouped = new Map();
-    activeRawRecords().forEach(record => {
+    state.records.filter(record => !isInactive(record)).forEach(record => {
       const key = normalize(record.name);
       if (!grouped.has(key)) grouped.set(key, { name: record.name, courses: [], rows: [], notes: [] });
       const profile = grouped.get(key);
@@ -156,7 +150,6 @@
       profile.rows.push(record);
       if (record.note) profile.notes.push(record.note);
     });
-
     return [...grouped.values()].map(profile => {
       const strongest = [...profile.rows].sort((a, b) => requirementRank(b) - requirementRank(a))[0];
       return {
@@ -171,12 +164,10 @@
 
   function courseMap() {
     const map = new Map();
-    studentProfiles().forEach(profile => {
-      profile.courses.forEach(course => {
-        if (!map.has(course)) map.set(course, []);
-        map.get(course).push(profile);
-      });
-    });
+    studentProfiles().forEach(profile => profile.courses.forEach(course => {
+      if (!map.has(course)) map.set(course, []);
+      map.get(course).push(profile);
+    }));
     return map;
   }
 
@@ -187,98 +178,68 @@
 
   function matchesSearch(record, course = '') {
     const query = normalize(state.query);
-    if (!query) return true;
-    return [record.name, record.requirement, record.status, record.note, ...record.courses, course]
-      .some(value => normalize(value).includes(query));
+    return !query || [record.name, record.requirement, record.status, record.note, ...record.courses, course].some(value => normalize(value).includes(query));
   }
-
-  function matchesRequirement(record) {
-    if (state.requirement === 'all') return true;
-    return requirementGroup(record) === state.requirement;
-  }
-
-  function filteredRecords(records, course = '') {
-    return records.filter(record => matchesSearch(record, course) && matchesRequirement(record));
-  }
+  function matchesRequirement(record) { return state.requirement === 'all' || requirementGroup(record) === state.requirement; }
+  function filteredRecords(records, course = '') { return records.filter(record => matchesSearch(record, course) && matchesRequirement(record)); }
 
   function updateMetrics() {
     const profiles = studentProfiles();
-    const links = profiles.reduce((sum, profile) => sum + profile.courses.length, 0);
     metrics.students.textContent = String(profiles.length);
-    metrics.links.textContent = String(links);
+    metrics.links.textContent = String(profiles.reduce((sum, profile) => sum + profile.courses.length, 0));
     metrics.offline.textContent = String(profiles.filter(isOfflineRequired).length);
     metrics.pending.textContent = String(profiles.filter(isPending).length);
-    if (metrics.unscheduled) metrics.unscheduled.textContent = String([...courseMap().keys()].filter(course => !isScheduledCourse(course)).length);
-    sourceLabel.innerHTML = state.records.length
-      ? `<strong>本地报名数据</strong> · ${profiles.length} 名学生 · ${state.records.length} 行源数据 · 仅保存在当前浏览器`
-      : '<strong>尚未载入报名数据</strong> · 可导入 CSV';
+    metrics.unscheduled.textContent = String([...courseMap().keys()].filter(course => !isScheduledCourse(course)).length);
+    sourceLabel.innerHTML = state.records.length ? `<strong>本地报名数据</strong> · ${profiles.length} 名学生 · ${state.records.length} 行源数据 · 仅保存在当前浏览器` : '<strong>尚未载入报名数据</strong> · 可导入 CSV';
     exportButton.disabled = !state.records.length;
     clearButton.disabled = !state.records.length;
   }
 
   function renderEmpty() {
-    content.innerHTML = `<div class="enrollment-empty"><div><strong>还没有报名数据</strong><p>先下载 CSV 模板，填入姓名、报名课程、线下要求、报名状态与备注后导入。系统会自动统一常见课程名称，并生成选科重合与排课参考。</p></div></div>`;
-  }
-
-  function courseSort(a, b) {
-    const scheduledA = isScheduledCourse(a[0]) ? 0 : 1;
-    const scheduledB = isScheduledCourse(b[0]) ? 0 : 1;
-    if (scheduledA !== scheduledB) return scheduledA - scheduledB;
-    if (b[1].length !== a[1].length) return b[1].length - a[1].length;
-    return a[0].localeCompare(b[0], 'zh-CN');
+    content.innerHTML = '<div class="enrollment-empty"><div><strong>还没有报名数据</strong><p>先下载 CSV 模板，填入姓名、报名课程、线下要求、报名状态与备注后导入。系统会自动统一常见课程名称，并生成选科重合与排课参考。</p></div></div>';
   }
 
   function renderCourseView() {
     const map = courseMap();
-    const entries = [...map.entries()].sort(courseSort);
+    const entries = [...map.entries()].sort((a, b) => Number(isScheduledCourse(b[0])) - Number(isScheduledCourse(a[0])) || b[1].length - a[1].length || a[0].localeCompare(b[0], 'zh-CN'));
     if (!entries.length) return renderEmpty();
-
     if (!state.selectedCourse || !map.has(state.selectedCourse)) {
-      const preferredName = state.activeCourseKey ? COURSE_NAME_BY_KEY.get(state.activeCourseKey) : '';
-      state.selectedCourse = preferredName && map.has(preferredName) ? preferredName : entries[0][0];
+      const preferred = state.activeCourseKey ? COURSE_NAME_BY_KEY.get(state.activeCourseKey) : '';
+      state.selectedCourse = preferred && map.has(preferred) ? preferred : entries[0][0];
     }
-
-    const courseButtons = entries.map(([course, records]) => {
-      const offlineCount = records.filter(isOfflineRequired).length;
-      const preferredCount = records.filter(record => requirementGroup(record) === 'offline-preferred').length;
-      const active = course === state.selectedCourse ? ' active' : '';
-      const pressure = offlineCount ? `${offlineCount} 人必须线下` : preferredCount ? `${preferredCount} 人优先线下` : '无线下硬性要求';
-      return `<button type="button" class="enrollment-course-btn${active}" data-enrollment-course="${escapeHtml(course)}"><strong>${escapeHtml(course)}</strong><span>${records.length}</span><small>${pressure} · ${isScheduledCourse(course) ? '已排入日历' : '时间未定'}</small></button>`;
+    const buttons = entries.map(([course, records]) => {
+      const required = records.filter(isOfflineRequired).length;
+      const preferred = records.filter(record => requirementGroup(record) === 'offline-preferred').length;
+      const pressure = required ? `${required} 人必须线下` : preferred ? `${preferred} 人优先线下` : '无线下硬性要求';
+      return `<button type="button" class="enrollment-course-btn${course === state.selectedCourse ? ' active' : ''}" data-enrollment-course="${escapeHtml(course)}"><strong>${escapeHtml(course)}</strong><span>${records.length}</span><small>${pressure} · ${isScheduledCourse(course) ? '已排入日历' : '时间未定'}</small></button>`;
     }).join('');
-
-    const allRecords = map.get(state.selectedCourse) || [];
-    const records = filteredRecords(allRecords, state.selectedCourse);
-    const offlineCount = allRecords.filter(isOfflineRequired).length;
+    const all = map.get(state.selectedCourse) || [];
+    const records = filteredRecords(all, state.selectedCourse);
     const rows = records.length ? records.map(record => `<tr><td><strong>${escapeHtml(record.name)}</strong></td><td><span class="enrollment-chip${isOfflineRequired(record) ? ' offline' : ''}">${escapeHtml(record.requirement)}</span></td><td><span class="enrollment-chip${isPending(record) ? ' pending' : ''}">${escapeHtml(record.status)}</span></td><td>${escapeHtml(record.note || '—')}</td></tr>`).join('') : '<tr><td colspan="4" class="enrollment-no-results">当前筛选条件下没有学生。</td></tr>';
-
-    content.innerHTML = `<div class="enrollment-course-view"><aside class="enrollment-course-list"><div class="enrollment-course-list-head">课程 · 报名人数</div>${courseButtons}</aside><section class="enrollment-detail"><header class="enrollment-detail-head"><div><h3>${escapeHtml(state.selectedCourse)}</h3><small>${isScheduledCourse(state.selectedCourse) ? '已排入课程日历' : '尚未排入课程日历'}</small></div><span>${allRecords.length} 人${offlineCount ? ` · ${offlineCount} 人必须线下` : ''}</span></header><table class="enrollment-table"><thead><tr><th style="width:22%">姓名</th><th style="width:24%">线下要求</th><th style="width:18%">状态</th><th>备注</th></tr></thead><tbody>${rows}</tbody></table></section></div>`;
+    content.innerHTML = `<div class="enrollment-course-view"><aside class="enrollment-course-list"><div class="enrollment-course-list-head">课程 · 报名人数</div>${buttons}</aside><section class="enrollment-detail"><header class="enrollment-detail-head"><div><h3>${escapeHtml(state.selectedCourse)}</h3><small>${isScheduledCourse(state.selectedCourse) ? '已排入课程日历' : '尚未排入课程日历'}</small></div><span>${all.length} 人${all.filter(isOfflineRequired).length ? ` · ${all.filter(isOfflineRequired).length} 人必须线下` : ''}</span></header><table class="enrollment-table"><thead><tr><th style="width:22%">姓名</th><th style="width:24%">线下要求</th><th style="width:18%">状态</th><th>备注</th></tr></thead><tbody>${rows}</tbody></table></section></div>`;
   }
 
   function renderStudentView() {
-    const records = filteredRecords(studentProfiles());
-    const rows = records.length ? records.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN')).map(record => `<tr><td><strong>${escapeHtml(record.name)}</strong></td><td class="course-cell">${record.courses.map(course => `<span class="course-pill">${escapeHtml(course)}</span>`).join('')}</td><td><span class="enrollment-chip${isOfflineRequired(record) ? ' offline' : ''}">${escapeHtml(record.requirement)}</span></td><td><span class="enrollment-chip${isPending(record) ? ' pending' : ''}">${escapeHtml(record.status)}</span></td><td>${escapeHtml(record.note || '—')}</td></tr>`).join('') : '<tr><td colspan="5" class="enrollment-no-results">当前筛选条件下没有学生。</td></tr>';
+    const records = filteredRecords(studentProfiles()).sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+    const rows = records.length ? records.map(record => `<tr><td><strong>${escapeHtml(record.name)}</strong></td><td class="course-cell">${record.courses.map(course => `<span class="course-pill">${escapeHtml(course)}</span>`).join('')}</td><td><span class="enrollment-chip${isOfflineRequired(record) ? ' offline' : ''}">${escapeHtml(record.requirement)}</span></td><td><span class="enrollment-chip${isPending(record) ? ' pending' : ''}">${escapeHtml(record.status)}</span></td><td>${escapeHtml(record.note || '—')}</td></tr>`).join('') : '<tr><td colspan="5" class="enrollment-no-results">当前筛选条件下没有学生。</td></tr>';
     content.innerHTML = `<div class="enrollment-student-view"><table class="enrollment-table"><thead><tr><th style="width:15%">姓名</th><th style="width:37%">报名课程</th><th style="width:17%">线下要求</th><th style="width:13%">状态</th><th>备注</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
 
   function groupFor(course) { return COURSE_GROUPS.get(course) || '其他'; }
 
   function overlapPairs() {
-    const counts = new Map();
-    const names = new Map();
+    const counts = new Map(), names = new Map();
     studentProfiles().forEach(profile => {
       const courses = [...new Set(profile.courses)].sort((a, b) => a.localeCompare(b, 'zh-CN'));
-      for (let i = 0; i < courses.length; i++) {
-        for (let j = i + 1; j < courses.length; j++) {
-          const key = `${courses[i]}|||${courses[j]}`;
-          counts.set(key, (counts.get(key) || 0) + 1);
-          if (!names.has(key)) names.set(key, []);
-          names.get(key).push(profile.name);
-        }
+      for (let i = 0; i < courses.length; i++) for (let j = i + 1; j < courses.length; j++) {
+        const key = `${courses[i]}|||${courses[j]}`;
+        counts.set(key, (counts.get(key) || 0) + 1);
+        if (!names.has(key)) names.set(key, []);
+        names.get(key).push(profile.name);
       }
     });
     return [...counts.entries()].map(([key, count]) => {
-      const [a, b] = key.split('|||');
-      const ga = groupFor(a), gb = groupFor(b);
+      const [a, b] = key.split('|||'), ga = groupFor(a), gb = groupFor(b);
       const level = ga === gb && ['理科', '文科', '数学'].includes(ga) ? 'high' : (ga === '数学' || gb === '数学') ? 'medium' : 'normal';
       return { a, b, count, level, students: names.get(key) || [] };
     }).sort((x, y) => y.count - x.count || ({ high: 2, medium: 1, normal: 0 }[y.level] - ({ high: 2, medium: 1, normal: 0 }[x.level])));
@@ -286,9 +247,7 @@
 
   function planningRows() {
     return [...courseMap().entries()].map(([course, profiles]) => ({
-      course,
-      group: groupFor(course),
-      total: profiles.length,
+      course, group: groupFor(course), total: profiles.length,
       required: profiles.filter(isOfflineRequired).length,
       preferred: profiles.filter(profile => requirementGroup(profile) === 'offline-preferred').length,
       flexible: profiles.filter(profile => requirementGroup(profile) === 'online-ok').length,
@@ -302,24 +261,20 @@
     const unscheduled = demand.filter(item => !item.scheduled);
     const onlineCandidates = demand.filter(item => !item.required && !item.preferred && item.total > 0);
     const pressure = [...demand].filter(item => item.required || item.preferred).sort((a, b) => b.required - a.required || b.preferred - a.preferred || b.total - a.total).slice(0, 6);
-    const overlaps = overlapPairs();
-
     const demandRows = demand.map(item => `<tr><td><strong>${escapeHtml(item.course)}</strong><small class="course-group">${escapeHtml(item.group)}</small></td><td class="number-cell">${item.total}</td><td class="number-cell${item.required ? ' danger-number' : ''}">${item.required}</td><td class="number-cell">${item.preferred}</td><td class="number-cell">${item.flexible}</td><td><span class="schedule-state ${item.scheduled ? 'scheduled' : 'unscheduled'}">${item.scheduled ? '已排' : '时间未定'}</span></td></tr>`).join('');
-
+    const overlaps = overlapPairs();
     const conflictRows = overlaps.length ? overlaps.slice(0, 12).map(pair => `<tr><td><strong>${escapeHtml(pair.a)}</strong><span class="pair-arrow">×</span><strong>${escapeHtml(pair.b)}</strong></td><td class="number-cell"><b>${pair.count}</b> 人</td><td><span class="conflict-level ${pair.level}">${pair.level === 'high' ? `${escapeHtml(groupFor(pair.a))}原则上错开` : pair.level === 'medium' ? '涉及数学，优先错开' : '有实际重合'}</span></td><td class="student-sample">${escapeHtml(pair.students.slice(0, 4).join('、'))}${pair.students.length > 4 ? ` 等${pair.students.length}人` : ''}</td></tr>`).join('') : '<tr><td colspan="4" class="enrollment-no-results">当前没有学生同时报名两门以上课程。</td></tr>';
-
     const unscheduledCards = unscheduled.length ? unscheduled.map(item => `<div class="planning-card-row"><strong>${escapeHtml(item.course)}</strong><span>${item.total} 人报名${item.required ? ` · ${item.required} 人必须线下` : ''}</span></div>`).join('') : '<p class="planning-empty-line">当前报名课程都已经进入日历。</p>';
     const pressureChips = pressure.length ? pressure.map(item => `<span class="planning-inline-chip pressure">${escapeHtml(item.course)} · ${item.required ? `${item.required}必须` : `${item.preferred}优先`}</span>`).join('') : '<span class="planning-muted">尚无明确线下要求。</span>';
     const onlineChips = onlineCandidates.length ? onlineCandidates.map(item => `<span class="planning-inline-chip">${escapeHtml(item.course)} · ${item.total}人</span>`).join('') : '<span class="planning-muted">暂无明确候选。</span>';
-
-    content.innerHTML = `<div class="enrollment-planning-view"><section class="planning-callouts"><article><span class="planning-kicker">时间未定</span><strong>${unscheduled.length} 门</strong><div>${unscheduledCards}</div></article><article><span class="planning-kicker">线下压力</span><strong>${demand.reduce((sum, item) => sum + item.required, 0)} 人次</strong><div class="planning-chip-wrap">${pressureChips}</div></article><article><span class="planning-kicker">可评估线上</span><strong>${onlineCandidates.length} 门</strong><div class="planning-chip-wrap">${onlineChips}</div></article></section><section class="planning-section"><header><div><h3>课程需求</h3><p>先看报名人数与线下压力，再决定是否开班以及占用哪类教室。</p></div></header><div class="planning-table-wrap"><table class="enrollment-table planning-table"><thead><tr><th>课程</th><th>报名</th><th>必须线下</th><th>优先线下</th><th>可线上/同步</th><th>排课状态</th></tr></thead><tbody>${demandRows}</tbody></table></div></section><section class="planning-section"><header><div><h3>学生选科重合</h3><p>同时报名人数直接来自导入数据；理科与理科、文科与文科默认标为高优先级错开，数学与其他科目也优先避免冲突。</p></div></header><div class="planning-table-wrap"><table class="enrollment-table planning-table conflict-table"><thead><tr><th>课程组合</th><th>重合</th><th>排课提示</th><th>学生</th></tr></thead><tbody>${conflictRows}</tbody></table></div></section></div>`;
+    content.innerHTML = `<div class="enrollment-planning-view"><section class="planning-callouts"><article><span class="planning-kicker">时间未定</span><strong>${unscheduled.length} 门</strong><div>${unscheduledCards}</div></article><article><span class="planning-kicker">必须线下</span><strong>${demand.reduce((sum, item) => sum + item.required, 0)} 人次</strong><div class="planning-chip-wrap">${pressureChips}</div></article><article><span class="planning-kicker">可评估线上</span><strong>${onlineCandidates.length} 门</strong><div class="planning-chip-wrap">${onlineChips}</div></article></section><section class="planning-section"><header><div><h3>课程需求</h3><p>报名人数、线下需求与当前排课状态放在一起看，方便决定是否开班和占用哪类教室。</p></div></header><div class="planning-table-wrap"><table class="enrollment-table planning-table"><thead><tr><th>课程</th><th>报名</th><th>必须线下</th><th>优先线下</th><th>可线上/同步</th><th>排课状态</th></tr></thead><tbody>${demandRows}</tbody></table></div></section><section class="planning-section"><header><div><h3>学生选科重合</h3><p>同时报名人数来自真实导入数据；理科与理科、文科与文科默认标为高优先级错开，数学与其他科目也优先避免冲突。</p></div></header><div class="planning-table-wrap"><table class="enrollment-table planning-table conflict-table"><thead><tr><th>课程组合</th><th>重合</th><th>排课提示</th><th>学生</th></tr></thead><tbody>${conflictRows}</tbody></table></div></section></div>`;
   }
 
   function render() {
     updateMetrics();
     tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.enrollmentView === state.view));
-    if (searchInput) searchInput.disabled = state.view === 'planning';
-    if (requirementFilter) requirementFilter.disabled = state.view === 'planning';
+    searchInput.disabled = state.view === 'planning';
+    requirementFilter.disabled = state.view === 'planning';
     decorateCalendarCounts();
     updateDialogEnrollmentCount();
     if (!state.records.length) return renderEmpty();
@@ -339,7 +294,6 @@
     render();
     if (state.view !== 'planning') window.setTimeout(() => searchInput?.focus(), 40);
   }
-
   function closeDrawer() { drawer.hidden = true; document.body.style.overflow = ''; }
 
   function parseCsv(text) {
@@ -367,17 +321,14 @@
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const rows = parseCsv(String(reader.result || ''));
-        const records = rows.map(cleanRecord).filter(Boolean);
+        const records = parseCsv(String(reader.result || '')).map(cleanRecord).filter(Boolean);
         if (!records.length) { alert('没有读取到有效报名数据。请确认至少包含“姓名”和“报名课程”两列。'); return; }
         state.records = records;
         saveRecords();
         state.selectedCourse = '';
         state.view = 'course';
         render();
-      } catch (_) {
-        alert('CSV 解析失败，请使用模板列名后重试。');
-      }
+      } catch (_) { alert('CSV 解析失败，请使用模板列名后重试。'); }
       fileInput.value = '';
     };
     reader.readAsText(file, 'utf-8');
@@ -387,59 +338,38 @@
     const text = String(value ?? '');
     return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
   }
-
-  function downloadText(filename, text, type = 'text/csv;charset=utf-8') {
-    const blob = new Blob(['\ufeff', text], { type });
+  function downloadText(filename, text) {
+    const blob = new Blob(['\ufeff', text], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    document.body.append(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+    link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove(); URL.revokeObjectURL(url);
   }
-
   function downloadTemplate() {
     downloadText('旅人教育_共通考试报名信息模板.csv', ['姓名,报名课程,线下要求,报名状态,备注', '示例学生,"物理、数学2BC",必须线下,已报名,', '示例学生2,"政经、国语、地理",均可,待确认,'].join('\n'));
   }
-
   function exportCsv() {
     if (!state.records.length) return;
     const lines = ['姓名,报名课程,线下要求,报名状态,备注'];
     state.records.forEach(record => lines.push([record.name, record.courses.join('、'), record.requirement, record.status, record.note].map(csvEscape).join(',')));
     downloadText('旅人教育_共通考试报名信息_导出.csv', lines.join('\n'));
   }
-
   function clearData() {
-    if (!state.records.length) return;
-    if (!confirm('清除当前浏览器中保存的报名数据？此操作不会影响任何外部文件。')) return;
-    state.records = [];
-    state.selectedCourse = '';
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(LEGACY_STORAGE_KEY);
-    render();
+    if (!state.records.length || !confirm('清除当前浏览器中保存的报名数据？此操作不会影响任何外部文件。')) return;
+    state.records = []; state.selectedCourse = ''; localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(LEGACY_STORAGE_KEY); render();
   }
 
   function subjectKeyFromNode(node) { return [...COURSE_NAME_BY_KEY.keys()].find(key => node.classList.contains(key)) || ''; }
   function studentCountForCourseName(course) { return courseMap().get(canonicalCourseName(course))?.length || 0; }
-
   function decorateCalendarCounts() {
-    const nodes = document.querySelectorAll('.event[data-event-id], .month-event[data-event-id], .mobile-event[data-event-id]');
-    nodes.forEach(node => {
+    document.querySelectorAll('.event[data-event-id], .month-event[data-event-id], .mobile-event[data-event-id]').forEach(node => {
       const existing = node.querySelector('.enrollment-count-badge');
       if (!state.records.length || node.classList.contains('cancelled')) { if (existing) existing.remove(); return; }
-      const key = subjectKeyFromNode(node);
-      const course = COURSE_NAME_BY_KEY.get(key);
+      const course = COURSE_NAME_BY_KEY.get(subjectKeyFromNode(node));
       const count = course ? studentCountForCourseName(course) : 0;
       if (!count) { if (existing) existing.remove(); return; }
-      const label = `${count}人`;
-      if (existing) { if (existing.textContent !== label) existing.textContent = label; return; }
-      const badge = document.createElement('span');
-      badge.className = 'enrollment-count-badge';
-      badge.textContent = label;
-      const target = node.querySelector('.event-name, .month-event-top strong, strong') || node;
-      target.append(badge);
+      if (existing) { existing.textContent = `${count}人`; return; }
+      const badge = document.createElement('span'); badge.className = 'enrollment-count-badge'; badge.textContent = `${count}人`;
+      (node.querySelector('.event-name, .month-event-top strong, strong') || node).append(badge);
     });
   }
 
@@ -447,29 +377,20 @@
     const card = document.querySelector('#eventDialog .dialog-card');
     if (!card || document.getElementById('dialogEnrollmentButton')) return;
     const button = document.createElement('button');
-    button.type = 'button';
-    button.id = 'dialogEnrollmentButton';
-    button.className = 'dialog-enrollment-btn';
+    button.type = 'button'; button.id = 'dialogEnrollmentButton'; button.className = 'dialog-enrollment-btn';
     button.innerHTML = '查看报名学生 <span id="dialogEnrollmentCount">未载入</span>';
     button.addEventListener('click', () => {
       const subject = document.getElementById('dialogSubject')?.textContent?.trim() || '';
-      closeEventDialogIfOpen();
+      const dialog = document.getElementById('eventDialog'); if (dialog) dialog.hidden = true;
       openDrawer(subject);
     });
     card.append(button);
   }
-
-  function closeEventDialogIfOpen() {
-    const dialog = document.getElementById('eventDialog');
-    if (dialog && !dialog.hidden) { dialog.hidden = true; document.body.style.overflow = ''; }
-  }
-
   function updateDialogEnrollmentCount() {
     const node = document.getElementById('dialogEnrollmentCount');
     if (!node) return;
     const subject = document.getElementById('dialogSubject')?.textContent?.trim() || '';
-    const label = state.records.length ? `${studentCountForCourseName(subject)} 人` : '未载入';
-    if (node.textContent !== label) node.textContent = label;
+    node.textContent = state.records.length ? `${studentCountForCourseName(subject)} 人` : '未载入';
   }
 
   openButton.addEventListener('click', () => openDrawer());
@@ -487,7 +408,6 @@
   requirementFilter.addEventListener('change', event => { state.requirement = event.target.value; render(); });
   tabs.forEach(tab => tab.addEventListener('click', () => { state.view = tab.dataset.enrollmentView; render(); }));
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && !drawer.hidden) closeDrawer(); });
-
   document.addEventListener('click', event => {
     const eventNode = event.target.closest('[data-event-id]');
     if (!eventNode) return;
@@ -496,20 +416,15 @@
   });
 
   let observerQueued = false;
-  const calendarObserver = new MutationObserver(() => {
+  const observer = new MutationObserver(() => {
     if (observerQueued) return;
     observerQueued = true;
-    requestAnimationFrame(() => {
-      observerQueued = false;
-      decorateCalendarCounts();
-      installDialogEnrollmentButton();
-      updateDialogEnrollmentCount();
-    });
+    requestAnimationFrame(() => { observerQueued = false; decorateCalendarCounts(); installDialogEnrollmentButton(); updateDialogEnrollmentCount(); });
   });
-  const calendarPanel = document.querySelector('.office-calendar');
-  if (calendarPanel) calendarObserver.observe(calendarPanel, { childList: true, subtree: true });
+  const calendar = document.querySelector('.office-calendar');
+  if (calendar) observer.observe(calendar, { childList: true, subtree: true });
   const dialog = document.getElementById('eventDialog');
-  if (dialog) calendarObserver.observe(dialog, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+  if (dialog) observer.observe(dialog, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
 
   installDialogEnrollmentButton();
   render();
