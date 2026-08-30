@@ -1,183 +1,86 @@
-:root {
+:root{
   --plan-green:#42765b;
-  --plan-green-soft:#edf6f0;
-  --plan-orange:#9a671f;
-  --plan-orange-soft:#fff6e7;
+  --plan-orange:#8b5d1d;
   --plan-red:#a54848;
-  --plan-red-soft:#fff0f0;
 }
 
-.enrollment-metrics { grid-template-columns: repeat(5,minmax(0,1fr)); }
-.enrollment-metric.unscheduled strong { color: var(--plan-orange); }
+.enrollment-metric.unscheduled strong{color:var(--plan-orange);}
+.enrollment-detail-head>div{min-width:0;}
+.enrollment-detail-head small{display:block;margin-top:3px;color:var(--enroll-muted);font-size:8.2px;font-weight:650;}
 
-.enrollment-detail-head > div { min-width:0; }
-.enrollment-detail-head small {
-  display:block;
-  margin-top:2px;
-  color:var(--enroll-muted);
-  font-size:8px;
-  font-weight:650;
+.course-pill{
+  display:inline-block;margin:0 7px 2px 0;padding:0;border:0;border-bottom:1px solid #cfd6dc;
+  border-radius:0;background:transparent;color:#43505d;font-size:8.5px;line-height:1.45;font-weight:700;
 }
 
-.course-pill {
-  display:inline-block;
-  margin:0 4px 3px 0;
-  padding:2px 6px;
-  border:1px solid #dfe5ea;
-  border-radius:10px;
-  background:#f8fafb;
-  color:#43505d;
-  font-size:7.8px;
-  line-height:1.25;
-  font-weight:700;
+.enrollment-planning-view{height:100%;overflow:auto;padding:18px 20px 28px;background:#fff;}
+.planning-callouts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 0 24px;
+  border-top:1px solid var(--enroll-line);border-bottom:1px solid var(--enroll-line);
 }
+.planning-callouts article{
+  min-width:0;min-height:118px;padding:13px 18px 12px;border:0;border-right:1px solid var(--enroll-line);
+  border-radius:0;background:#fff;
+}
+.planning-callouts article:first-child{padding-left:0;}
+.planning-callouts article:last-child{border-right:0;padding-right:0;}
+.planning-kicker{display:block;color:var(--enroll-muted);font-size:8.3px;font-weight:750;letter-spacing:.04em;}
+.planning-callouts article>strong{
+  display:block;margin:4px 0 9px;color:var(--enroll-ink);font-size:20px;line-height:1;font-variant-numeric:tabular-nums;
+}
+.planning-card-row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:9px;padding:4px 0;border-top:1px solid #f0f2f4;
+}
+.planning-card-row:first-child{border-top:0;}
+.planning-card-row strong{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#33404c;font-size:8.7px;
+}
+.planning-card-row span{flex:none;color:var(--enroll-muted);font-size:8px;font-variant-numeric:tabular-nums;}
+.planning-chip-wrap{display:block;}
+.planning-inline-chip{
+  display:inline-block;min-height:0;margin:0 10px 4px 0;padding:0;border:0;border-radius:0;background:transparent;
+  color:#51606e;font-size:8.3px;font-weight:700;
+}
+.planning-inline-chip::before{content:"— ";color:#a1a9b0;}
+.planning-inline-chip.pressure{border:0;background:transparent;color:#795019;}
+.planning-inline-chip.pressure::before{color:#b47a27;}
+.planning-muted,.planning-empty-line{margin:0;color:var(--enroll-muted);font-size:8.4px;line-height:1.6;}
 
-.enrollment-planning-view {
-  height:100%;
-  overflow:auto;
-  padding:14px 16px 22px;
-  background:#fbfcfd;
+.planning-section{
+  margin-top:22px;padding-top:0;border:0;border-top:1px solid var(--enroll-line);border-radius:0;background:#fff;overflow:visible;
 }
+.planning-section>header{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:12px 0 9px;
+  border-bottom:1px solid var(--enroll-line-soft);background:#fff;
+}
+.planning-section h3{margin:0;color:var(--enroll-ink);font-size:12.5px;}
+.planning-section p{margin:4px 0 0;color:var(--enroll-muted);font-size:8.5px;line-height:1.5;}
+.planning-table-wrap{overflow:auto;}
+.planning-table{min-width:660px;}
+.planning-table th{top:0!important;}
+.planning-table td{vertical-align:middle;}
+.planning-table td:first-child strong{display:inline;}
+.course-group{display:inline-block;margin-left:7px;color:#8b949e;font-size:7.5px;font-weight:650;}
+.number-cell{text-align:center!important;font-variant-numeric:tabular-nums;}
+.danger-number{color:var(--plan-red)!important;font-weight:800;}
+.schedule-state,.conflict-level{
+  display:inline-block;padding:0;border:0;border-radius:0;background:transparent!important;font-size:8px;font-weight:760;white-space:nowrap;
+}
+.schedule-state.scheduled{color:var(--plan-green);}
+.schedule-state.unscheduled{color:var(--plan-orange);}
+.conflict-level.high{color:var(--plan-red);}
+.conflict-level.medium{color:var(--plan-orange);}
+.conflict-level.normal{color:#66717c;}
+.schedule-state::before,.conflict-level::before{content:"●";font-size:5px;margin-right:5px;vertical-align:1px;}
+.pair-arrow{margin:0 7px;color:#a3abb2;font-size:8px;}
+.student-sample{color:#69747f!important;font-size:8.4px!important;}
+.enrollment-search:disabled,.enrollment-requirement:disabled{opacity:.42;background:#f7f8f9;cursor:not-allowed;}
 
-.planning-callouts {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:9px;
-  margin-bottom:14px;
+@media(max-width:920px){
+  .planning-callouts{grid-template-columns:1fr;}
+  .planning-callouts article{min-height:0;padding:12px 0;border-right:0;border-bottom:1px solid var(--enroll-line-soft);}
+  .planning-callouts article:last-child{border-bottom:0;}
 }
-.planning-callouts article {
-  min-width:0;
-  min-height:112px;
-  padding:11px 12px;
-  border:1px solid var(--enroll-line);
-  border-radius:7px;
-  background:#fff;
-}
-.planning-kicker {
-  display:block;
-  color:var(--enroll-muted);
-  font-size:8.2px;
-  font-weight:750;
-  letter-spacing:.02em;
-}
-.planning-callouts article > strong {
-  display:block;
-  margin:3px 0 8px;
-  color:var(--enroll-ink);
-  font-size:19px;
-  line-height:1;
-  font-variant-numeric:tabular-nums;
-}
-.planning-card-row {
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:8px;
-  padding:4px 0;
-  border-top:1px solid #f0f2f4;
-}
-.planning-card-row:first-child { border-top:0; }
-.planning-card-row strong {
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  color:#33404c;
-  font-size:8.5px;
-}
-.planning-card-row span {
-  flex:none;
-  color:var(--enroll-muted);
-  font-size:7.7px;
-}
-.planning-chip-wrap { display:flex; flex-wrap:wrap; gap:4px; }
-.planning-inline-chip {
-  display:inline-flex;
-  align-items:center;
-  min-height:21px;
-  padding:2px 6px;
-  border:1px solid #d8e1e8;
-  border-radius:10px;
-  background:#f7fafc;
-  color:#51606e;
-  font-size:7.7px;
-  font-weight:700;
-}
-.planning-inline-chip.pressure {
-  border-color:#ead4ae;
-  background:var(--plan-orange-soft);
-  color:#795019;
-}
-.planning-muted,
-.planning-empty-line { margin:0; color:var(--enroll-muted); font-size:8px; line-height:1.5; }
-
-.planning-section {
-  margin-top:10px;
-  border:1px solid var(--enroll-line);
-  border-radius:7px;
-  background:#fff;
-  overflow:hidden;
-}
-.planning-section > header {
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:16px;
-  padding:10px 12px 9px;
-  border-bottom:1px solid var(--enroll-line-soft);
-  background:#fff;
-}
-.planning-section h3 { margin:0; color:var(--enroll-ink); font-size:11.5px; }
-.planning-section p { margin:3px 0 0; color:var(--enroll-muted); font-size:8.3px; line-height:1.45; }
-.planning-table-wrap { overflow:auto; }
-.planning-table { min-width:620px; }
-.planning-table th { top:0 !important; }
-.planning-table td { vertical-align:middle; }
-.planning-table td:first-child strong { display:inline; }
-.course-group {
-  display:inline-block;
-  margin-left:6px;
-  color:#8b949e;
-  font-size:7.2px;
-  font-weight:650;
-}
-.number-cell {
-  text-align:center !important;
-  font-variant-numeric:tabular-nums;
-}
-.danger-number { color:var(--plan-red) !important; font-weight:800; }
-.schedule-state,
-.conflict-level {
-  display:inline-block;
-  padding:2px 6px;
-  border-radius:10px;
-  font-size:7.6px;
-  font-weight:750;
-  white-space:nowrap;
-}
-.schedule-state.scheduled { background:var(--plan-green-soft); color:var(--plan-green); }
-.schedule-state.unscheduled { background:var(--plan-orange-soft); color:#82571c; }
-.conflict-level.high { background:var(--plan-red-soft); color:#934848; }
-.conflict-level.medium { background:var(--plan-orange-soft); color:#80541c; }
-.conflict-level.normal { background:#f1f4f6; color:#66717c; }
-.pair-arrow { margin:0 5px; color:#9ca5ae; font-size:8px; }
-.student-sample { color:#69747f !important; font-size:8.2px !important; }
-
-.enrollment-search:disabled,
-.enrollment-requirement:disabled {
-  opacity:.42;
-  background:#f5f6f7;
-  cursor:not-allowed;
-}
-
-@media (max-width:920px) {
-  .planning-callouts { grid-template-columns:1fr; }
-  .planning-callouts article { min-height:0; }
-}
-
-@media (max-width:640px) {
-  .enrollment-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .enrollment-metric:nth-child(2) { border-right:0; }
-  .enrollment-metric:nth-child(5) { grid-column:1/-1; border-top:1px solid var(--enroll-line-soft); }
-  .enrollment-planning-view { padding:10px 12px 18px; }
+@media(max-width:640px){
+  .enrollment-planning-view{padding:14px 14px 22px;}
 }
