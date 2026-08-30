@@ -1,86 +1,138 @@
 :root{
-  --plan-green:#42765b;
+  --plan-green:#3f7457;
   --plan-orange:#8b5d1d;
-  --plan-red:#a54848;
+  --plan-red:#9b4a4a;
+  --plan-line:#d8dee4;
 }
 
-.enrollment-metric.unscheduled strong{color:var(--plan-orange);}
-.enrollment-detail-head>div{min-width:0;}
-.enrollment-detail-head small{display:block;margin-top:3px;color:var(--enroll-muted);font-size:8.2px;font-weight:650;}
-
-.course-pill{
-  display:inline-block;margin:0 7px 2px 0;padding:0;border:0;border-bottom:1px solid #cfd6dc;
-  border-radius:0;background:transparent;color:#43505d;font-size:8.5px;line-height:1.45;font-weight:700;
+.enrollment-planning-view{
+  height:100%;
+  overflow:auto;
+  padding:20px 24px 32px;
+  background:#fff;
 }
 
-.enrollment-planning-view{height:100%;overflow:auto;padding:18px 20px 28px;background:#fff;}
-.planning-callouts{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 0 24px;
-  border-top:1px solid var(--enroll-line);border-bottom:1px solid var(--enroll-line);
+.planning-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  border-top:1px solid var(--plan-line);
+  border-bottom:1px solid var(--plan-line);
+  margin-bottom:22px;
 }
-.planning-callouts article{
-  min-width:0;min-height:118px;padding:13px 18px 12px;border:0;border-right:1px solid var(--enroll-line);
-  border-radius:0;background:#fff;
+.planning-summary>div{
+  min-width:0;
+  padding:11px 18px 10px;
+  border-right:1px solid var(--enroll-line-soft);
 }
-.planning-callouts article:first-child{padding-left:0;}
-.planning-callouts article:last-child{border-right:0;padding-right:0;}
-.planning-kicker{display:block;color:var(--enroll-muted);font-size:8.3px;font-weight:750;letter-spacing:.04em;}
-.planning-callouts article>strong{
-  display:block;margin:4px 0 9px;color:var(--enroll-ink);font-size:20px;line-height:1;font-variant-numeric:tabular-nums;
+.planning-summary>div:first-child{padding-left:0;}
+.planning-summary>div:last-child{border-right:0;padding-right:0;}
+.planning-summary span{display:block;color:var(--enroll-muted);font-size:8.2px;font-weight:670;}
+.planning-summary strong{display:block;margin-top:4px;color:var(--enroll-ink);font-size:19px;line-height:1;font-variant-numeric:tabular-nums;}
+
+.planning-lead-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1.15fr) minmax(180px,.7fr);
+  gap:22px;
+  align-items:start;
+  margin-bottom:24px;
 }
-.planning-card-row{
-  display:flex;align-items:baseline;justify-content:space-between;gap:9px;padding:4px 0;border-top:1px solid #f0f2f4;
+.planning-plain-section{
+  min-width:0;
+  border-top:2px solid #bfc9d1;
+  padding-top:10px;
 }
-.planning-card-row:first-child{border-top:0;}
-.planning-card-row strong{
-  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#33404c;font-size:8.7px;
+.planning-plain-section>header{margin-bottom:8px;}
+.planning-plain-section h3{margin:0;color:var(--enroll-ink);font-size:11.5px;}
+.planning-plain-section p{margin:3px 0 0;color:var(--enroll-muted);font-size:8.2px;line-height:1.5;}
+
+.planning-issues,.planning-lines{border-bottom:1px solid var(--enroll-line-soft);}
+.planning-issue,.planning-line{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);
+  gap:12px;
+  align-items:baseline;
+  padding:7px 0;
+  border-top:1px solid var(--enroll-line-soft);
 }
-.planning-card-row span{flex:none;color:var(--enroll-muted);font-size:8px;font-variant-numeric:tabular-nums;}
-.planning-chip-wrap{display:block;}
-.planning-inline-chip{
-  display:inline-block;min-height:0;margin:0 10px 4px 0;padding:0;border:0;border-radius:0;background:transparent;
-  color:#51606e;font-size:8.3px;font-weight:700;
+.planning-issue strong,.planning-line strong{color:#35414d;font-size:8.7px;font-weight:760;}
+.planning-issue span,.planning-line span{color:var(--enroll-muted);font-size:8.2px;line-height:1.45;}
+.planning-issue.high strong{color:var(--plan-red);}
+.planning-issue.medium strong{color:var(--plan-orange);}
+.planning-issue.normal strong{color:#66717c;}
+
+.planning-mini-table{
+  width:100%;
+  border-collapse:collapse;
 }
-.planning-inline-chip::before{content:"— ";color:#a1a9b0;}
-.planning-inline-chip.pressure{border:0;background:transparent;color:#795019;}
-.planning-inline-chip.pressure::before{color:#b47a27;}
-.planning-muted,.planning-empty-line{margin:0;color:var(--enroll-muted);font-size:8.4px;line-height:1.6;}
+.planning-mini-table th,.planning-mini-table td{
+  padding:6px 0;
+  border-bottom:1px solid var(--enroll-line-soft);
+  text-align:left;
+  font-size:8.3px;
+}
+.planning-mini-table th{color:var(--enroll-muted);font-weight:700;}
+.planning-mini-table td{color:#44515d;}
+.planning-mini-table th:last-child,.planning-mini-table td:last-child{text-align:right;}
 
 .planning-section{
-  margin-top:22px;padding-top:0;border:0;border-top:1px solid var(--enroll-line);border-radius:0;background:#fff;overflow:visible;
+  margin-top:24px;
+  border-top:1px solid var(--plan-line);
+  background:#fff;
 }
 .planning-section>header{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:12px 0 9px;
-  border-bottom:1px solid var(--enroll-line-soft);background:#fff;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:12px 0 10px;
+  border-bottom:1px solid var(--enroll-line-soft);
 }
-.planning-section h3{margin:0;color:var(--enroll-ink);font-size:12.5px;}
-.planning-section p{margin:4px 0 0;color:var(--enroll-muted);font-size:8.5px;line-height:1.5;}
+.planning-section h3{margin:0;color:var(--enroll-ink);font-size:12.3px;}
+.planning-section p{margin:4px 0 0;color:var(--enroll-muted);font-size:8.4px;line-height:1.5;}
 .planning-table-wrap{overflow:auto;}
-.planning-table{min-width:660px;}
+.planning-table{min-width:720px;}
 .planning-table th{top:0!important;}
 .planning-table td{vertical-align:middle;}
 .planning-table td:first-child strong{display:inline;}
-.course-group{display:inline-block;margin-left:7px;color:#8b949e;font-size:7.5px;font-weight:650;}
+.course-group{
+  display:inline-block;
+  margin-left:7px;
+  color:#8b949e;
+  font-size:7.4px;
+  font-weight:650;
+}
 .number-cell{text-align:center!important;font-variant-numeric:tabular-nums;}
 .danger-number{color:var(--plan-red)!important;font-weight:800;}
+.warn-number{color:var(--plan-orange)!important;font-weight:760;}
 .schedule-state,.conflict-level{
-  display:inline-block;padding:0;border:0;border-radius:0;background:transparent!important;font-size:8px;font-weight:760;white-space:nowrap;
+  display:inline-block;
+  color:#66717c;
+  font-size:8px;
+  font-weight:760;
+  white-space:nowrap;
 }
+.schedule-state::before,.conflict-level::before{content:"●";font-size:5px;margin-right:5px;vertical-align:1px;}
 .schedule-state.scheduled{color:var(--plan-green);}
 .schedule-state.unscheduled{color:var(--plan-orange);}
 .conflict-level.high{color:var(--plan-red);}
 .conflict-level.medium{color:var(--plan-orange);}
 .conflict-level.normal{color:#66717c;}
-.schedule-state::before,.conflict-level::before{content:"●";font-size:5px;margin-right:5px;vertical-align:1px;}
 .pair-arrow{margin:0 7px;color:#a3abb2;font-size:8px;}
-.student-sample{color:#69747f!important;font-size:8.4px!important;}
-.enrollment-search:disabled,.enrollment-requirement:disabled{opacity:.42;background:#f7f8f9;cursor:not-allowed;}
+.student-sample{color:#69747f!important;font-size:8.3px!important;}
+.planning-muted{margin:0;color:var(--enroll-muted);font-size:8.3px;line-height:1.6;}
 
-@media(max-width:920px){
-  .planning-callouts{grid-template-columns:1fr;}
-  .planning-callouts article{min-height:0;padding:12px 0;border-right:0;border-bottom:1px solid var(--enroll-line-soft);}
-  .planning-callouts article:last-child{border-bottom:0;}
+@media(max-width:980px){
+  .planning-lead-grid{grid-template-columns:1fr 1fr;}
+  .timeline-section{grid-column:1/-1;}
+  .planning-summary{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .planning-summary>div:nth-child(2){border-right:0;}
+  .planning-summary>div:nth-child(-n+2){border-bottom:1px solid var(--enroll-line-soft);}
 }
+
 @media(max-width:640px){
-  .enrollment-planning-view{padding:14px 14px 22px;}
+  .enrollment-planning-view{padding:16px 14px 24px;}
+  .planning-lead-grid{grid-template-columns:1fr;gap:16px;}
+  .timeline-section{grid-column:auto;}
+  .planning-summary{grid-template-columns:1fr 1fr;}
+  .planning-summary>div{padding-left:0;padding-right:10px;}
 }
