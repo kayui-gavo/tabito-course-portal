@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="assets/schedule.css?v=20260829e">
   <link rel="stylesheet" href="assets/schedule-overview.css?v=20260829c">
   <link rel="stylesheet" href="assets/schedule-office.css?v=20260829b">
-  <link rel="stylesheet" href="assets/schedule-enrollment.css?v=20260830a">
+  <link rel="stylesheet" href="assets/schedule-enrollment.css?v=20260830c">
+  <link rel="stylesheet" href="assets/schedule-enrollment-planning.css?v=20260830c">
 </head>
 <body class="schedule-workspace">
   <header class="site-header compact-header">
@@ -80,7 +81,7 @@
               <option value="坂野健晟">坂野健晟</option>
               <option value="丁玺">丁玺</option>
               <option value="刘可惟">刘可惟</option>
-              <option value="金老师">金老师</option>
+              <option value="金龙熙">金龙熙</option>
             </select>
           </label>
           <label class="filter-field">
@@ -221,12 +222,12 @@
       <header class="enrollment-head">
         <div>
           <h2 id="enrollmentTitle">报名信息</h2>
-          <p>按课程查看报名学生，或按学生查看选科组合与线下要求。</p>
+          <p>报名名单、选科组合、线下需求与排课冲突统一核对。</p>
         </div>
         <button type="button" class="enrollment-close" data-close-enrollment aria-label="关闭">×</button>
       </header>
 
-      <p class="enrollment-privacy"><strong>内部信息：</strong>当前课程日历部署在公开 GitHub Pages。学生姓名与选科不会写入公开仓库；此版本只把导入数据保存在当前浏览器。跨部门共享时应接入受权限控制的私有数据源。</p>
+      <p class="enrollment-privacy"><strong>内部信息：</strong>学生姓名与选科不写入公开仓库；当前导入数据只保存在本浏览器。跨部门共享时应接入受权限控制的私有数据源。</p>
 
       <div class="enrollment-data-bar">
         <span class="enrollment-source" id="enrollmentSource"><strong>尚未载入报名数据</strong> · 可导入 CSV</span>
@@ -267,6 +268,7 @@
   <script src="assets/schedule-overview.js?v=20260830a"></script>
   <script src="assets/schedule-office.js?v=20260830a"></script>
   <script src="assets/schedule-rooms.js?v=20260829b"></script>
-  <script src="assets/schedule-enrollment.js?v=20260830a"></script>
+  <script src="assets/schedule-enrollment.js?v=20260830b"></script>
+  <script src="assets/schedule-runtime-polish.js?v=20260830a"></script>
 </body>
 </html>
