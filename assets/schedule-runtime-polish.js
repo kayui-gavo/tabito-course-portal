@@ -1,16 +1,17 @@
 (() => {
   'use strict';
 
-  const OLD_NAME = '金老师';
-  const NEW_NAME = '金龙熙';
   const DAY_MS = 86400000;
   const TIMELINE_START = 9 * 60;
   const DEFAULT_TIMELINE_END = 22 * 60;
   const LATE_TIMELINE_END = 24 * 60;
   const PX_PER_HOUR = 58.3077;
 
+  const OLD_NAME = '金老师';
+  const NEW_NAME = '金龙熙';
+
   const MATHIA = {
-    key: 'mathIA', name: '数学IA', teacher: '脇村 剛', mode: '网课',
+    key: 'mathIA', name: '数学IA', enrollmentName: '数学IA', teacher: '脇村 剛', mode: '网课',
     color: '#7a5d8e', bg: '#f4f0f7', border: '#d6cbe0',
     ledgerName: '数学IA', ledgerMeta: '周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试',
     events: [
@@ -42,7 +43,7 @@
   };
 
   const CHEMISTRY = {
-    key: 'chemCurrent', name: '化学（上半期）', teacher: '孫', mode: '网课',
+    key: 'chemCurrent', name: '化学（上半期）', enrollmentName: '化学', teacher: '孫', mode: '网课',
     color: '#9a6048', bg: '#f8f1ed', border: '#dfc8bd',
     ledgerName: '共通考试化学', ledgerMeta: '2026上半期入门讲座｜全20回・40h',
     events: [
@@ -70,7 +71,7 @@
   };
 
   const BIOLOGY = {
-    key: 'biologySummer', name: '生物（夏期集中）', teacher: '周梓杰', mode: '网课',
+    key: 'biologySummer', name: '生物（夏期集中）', enrollmentName: '生物', teacher: '周梓杰', mode: '网课',
     color: '#4f776c', bg: '#eef5f2', border: '#c4d8d1',
     ledgerName: '生物', ledgerMeta: '2026前期夏期集中讲座｜全20回・40h',
     events: [
@@ -123,7 +124,6 @@
   const formatDate = date => `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}-${String(date.getUTCDate()).padStart(2,'0')}`;
   const addDays = (date,days) => new Date(date.getTime()+days*DAY_MS);
   const escapeHtml = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
-  const setText = (node,text) => { if (node && node.textContent !== text) node.textContent = text; };
   const todayKey = () => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
@@ -136,30 +136,13 @@
     return currentSubject() === 'all' || currentSubject() === course.key;
   }
 
-  function visibleWeekDates() {
-    return [...document.querySelectorAll('#dayGrid .day-column[data-date]')].map(node => node.dataset.date);
-  }
-  function timelineEnd() {
-    const dates = new Set(visibleWeekDates());
-    const hasLate = EXTRA_COURSES.some(course => shouldShow(course) && course.events.some(event => dates.has(event.date) && minutes(event.end) > DEFAULT_TIMELINE_END));
-    return hasLate ? LATE_TIMELINE_END : DEFAULT_TIMELINE_END;
-  }
-  function timelineHeight() {
-    return ((timelineEnd()-TIMELINE_START)/60)*PX_PER_HOUR;
-  }
-  function timelineTop(start) {
-    return ((minutes(start)-TIMELINE_START)/(timelineEnd()-TIMELINE_START))*timelineHeight();
-  }
-  function eventHeight(start,end) {
-    return Math.max(34,((minutes(end)-minutes(start))/(timelineEnd()-TIMELINE_START))*timelineHeight()-5);
-  }
-
   function installStyle() {
     if (document.getElementById('scheduleRuntimePolishV8')) return;
     ['scheduleRuntimePolishV7','scheduleRuntimePolishV6','scheduleRuntimePolishV5','scheduleRuntimePolishV4'].forEach(id => document.getElementById(id)?.remove());
     const style = document.createElement('style');
     style.id = 'scheduleRuntimePolishV8';
     style.textContent = `
+      html{scrollbar-gutter:stable}
       :root{
         --math-ia:${MATHIA.color};--math-ia-bg:${MATHIA.bg};
         --chem-current:${CHEMISTRY.color};--chem-current-bg:${CHEMISTRY.bg};
@@ -184,6 +167,29 @@
       .course-overview-dot.mathIA{background:var(--math-ia)}
       .course-overview-dot.chemCurrent{background:var(--chem-current)}
       .course-overview-dot.biologySummer{background:var(--bio-summer)}
+      .enrollment-drawer,.enrollment-panel,.enrollment-content,.enrollment-course-view,.enrollment-detail,.enrollment-student-view{animation:none!important;transition:none!important}
+      .enrollment-drawer{grid-template-columns:minmax(0,1fr) min(1180px,86vw)!important}
+      .enrollment-panel{background:#fbfaf7!important;overscroll-behavior:contain;contain:layout paint}
+      .enrollment-head{min-height:76px!important;padding:17px 28px 13px!important}
+      .enrollment-head h2{font-size:22px!important}
+      .enrollment-privacy{margin:0 28px!important;padding:9px 0 9px 12px!important}
+      .enrollment-data-bar{min-height:44px!important;padding:6px 28px!important}
+      .enrollment-metrics{min-height:54px!important;padding:0 28px!important;background:#fcfcfa!important}
+      .enrollment-metric{min-width:118px!important;padding:10px 18px 9px 0!important;margin-right:18px!important}
+      .enrollment-toolbar{min-height:54px!important;padding:0 28px!important;gap:11px!important}
+      .enrollment-content{background:#fff!important;contain:strict;min-height:360px}
+      .enrollment-course-view{grid-template-columns:286px minmax(0,1fr)!important}
+      .enrollment-course-list,.enrollment-detail,.enrollment-student-view{scrollbar-gutter:stable;overscroll-behavior:contain}
+      .enrollment-course-list{background:#f7f7f3!important}
+      .enrollment-course-btn{padding:10px 15px 9px!important}
+      .enrollment-course-btn.active{box-shadow:inset 3px 0 0 #244f7a!important;background:#fff!important}
+      .enrollment-detail-head{min-height:49px!important;padding:12px 16px 9px!important}
+      .enrollment-table th,.enrollment-table td{padding:9px 11px!important}
+      .enrollment-table td{font-size:10px!important;line-height:1.5!important}
+      .enrollment-table th{font-size:8.5px!important}
+      .enrollment-count-badge{white-space:nowrap}
+      @media(max-width:1180px){.enrollment-drawer{grid-template-columns:0 1fr!important}.enrollment-panel{width:100vw!important}}
+      @media(max-width:640px){.enrollment-content{contain:layout paint}.enrollment-course-view{grid-template-columns:1fr!important}}
     `;
     document.head.append(style);
   }
@@ -191,10 +197,9 @@
   function ensureUiOptions() {
     const subject = document.getElementById('subjectFilter');
     if (subject) {
-      const before = subject.querySelector('option[value="mathIIBC"]');
+      const anchor = subject.querySelector('option[value="mathIIBC"]');
       EXTRA_COURSES.forEach(course => {
-        if (subject.querySelector(`option[value="${course.key}"]`)) return;
-        subject.insertBefore(new Option(course.name,course.key),before||null);
+        if (!subject.querySelector(`option[value="${course.key}"]`)) subject.insertBefore(new Option(course.name,course.key),anchor||null);
       });
       const requested = new URL(location.href).searchParams.get('subject');
       if (EXTRA_COURSES.some(course => course.key === requested) && subject.value !== requested) {
@@ -202,375 +207,91 @@
         subject.dispatchEvent(new Event('change',{bubbles:true}));
       }
     }
-
     const teacher = document.getElementById('teacherFilter');
-    if (teacher) {
-      EXTRA_COURSES.map(course => course.teacher).forEach(name => {
-        if (name && ![...teacher.options].some(option => option.value === name)) teacher.add(new Option(name,name));
-      });
-    }
-
+    if (teacher) EXTRA_COURSES.map(course=>course.teacher).forEach(name => {if (name && ![...teacher.options].some(option=>option.value===name)) teacher.add(new Option(name,name));});
     const legend = document.querySelector('.office-legend');
-    if (legend) {
-      EXTRA_COURSES.forEach(course => {
-        if (legend.querySelector(`.subject-legend.${course.key}`)) return;
-        const item = document.createElement('span');
-        item.className = `legend-item subject-legend ${course.key}`;
-        item.innerHTML = `<i></i>${escapeHtml(course.name)}`;
-        legend.insertBefore(item,legend.querySelector('.legend-divider'));
-      });
-    }
+    if (legend) EXTRA_COURSES.forEach(course => {
+      if (legend.querySelector(`.subject-legend.${course.key}`)) return;
+      const item=document.createElement('span');item.className=`legend-item subject-legend ${course.key}`;item.innerHTML=`<i></i>${escapeHtml(course.name)}`;legend.insertBefore(item,legend.querySelector('.legend-divider'));
+    });
   }
 
   function replaceTeacherNames() {
-    document.querySelectorAll('[data-teacher]').forEach(node => {
-      if (node.dataset.teacher === OLD_NAME) node.dataset.teacher = NEW_NAME;
-    });
-    ['#dialogTeacher','.event-meta','.month-event-meta','.mobile-event-meta','.course-overview-teacher','.followup-main span']
-      .forEach(selector => document.querySelectorAll(selector).forEach(node => {
-        if (node.textContent.includes(OLD_NAME)) setText(node,node.textContent.replaceAll(OLD_NAME,NEW_NAME));
-      }));
+    document.querySelectorAll('[data-teacher]').forEach(node => {if (node.dataset.teacher === OLD_NAME) node.dataset.teacher = NEW_NAME;});
+    ['#dialogTeacher','.event-meta','.month-event-meta','.mobile-event-meta','.course-overview-teacher','.followup-main span'].forEach(selector => document.querySelectorAll(selector).forEach(node => {if (node.textContent.includes(OLD_NAME)) node.textContent=node.textContent.replaceAll(OLD_NAME,NEW_NAME);}));
   }
 
   function applyExistingScheduleOverrides() {
-    REMOVED_EVENTS.forEach(id => document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => node.remove()));
-    EVENT_OVERRIDES.forEach((override,id) => {
-      document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => {
-        const timeNode = node.querySelector('.event-time,.mobile-event-time,.month-event-top time');
-        if (timeNode && override.start && override.end) setText(timeNode,`${override.start}–${override.end}`);
-        if (override.title) {
-          const name = node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');
-          if (name && !name.textContent.endsWith(override.title)) {
-            const subject = name.textContent.includes('·') ? name.textContent.split('·')[0].trim() : '国语';
-            setText(name,`${subject} · ${override.title}`);
-          }
-        }
-        if (override.topic) {
-          const topic = node.querySelector('.event-topic,.month-event p,.mobile-event p');
-          if (topic) setText(topic,override.topic);
-        }
-        if (override.start && override.end) {
-          const aria = node.getAttribute('aria-label') || '';
-          const next = aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/,`${override.start}至${override.end}`);
-          if (next !== aria) node.setAttribute('aria-label',next);
-        }
-      });
-    });
+    REMOVED_EVENTS.forEach(id => document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node=>node.remove()));
+    EVENT_OVERRIDES.forEach((override,id) => document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => {
+      const timeNode=node.querySelector('.event-time,.mobile-event-time,.month-event-top time');const nextTime=override.start&&override.end?`${override.start}–${override.end}`:'';if(timeNode&&nextTime&&timeNode.textContent!==nextTime)timeNode.textContent=nextTime;
+      if(override.title){const name=node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');if(name&&!name.textContent.endsWith(override.title)){const subject=name.textContent.includes('·')?name.textContent.split('·')[0].trim():'国语';name.textContent=`${subject} · ${override.title}`;}}
+      if(override.topic){const topic=node.querySelector('.event-topic,.month-event p,.mobile-event p');if(topic&&topic.textContent!==override.topic)topic.textContent=override.topic;}
+      if(override.start&&override.end){const aria=node.getAttribute('aria-label')||'';const next=aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/,`${override.start}至${override.end}`);if(next!==aria)node.setAttribute('aria-label',next);}
+    }));
   }
 
-  const roomLabel = course => course.mode === '网课' ? '无需教室' : '待确认';
-  const eventMeta = course => `${course.teacher} · ${course.mode || '方式待确认'}`;
+  function visibleWeekDates(){return [...document.querySelectorAll('#dayGrid .day-column[data-date]')].map(node=>node.dataset.date);}
+  function timelineEnd(){const dates=new Set(visibleWeekDates());return EXTRA_COURSES.some(course=>shouldShow(course)&&course.events.some(event=>dates.has(event.date)&&minutes(event.end)>DEFAULT_TIMELINE_END))?LATE_TIMELINE_END:DEFAULT_TIMELINE_END;}
+  function timelineHeight(){return ((timelineEnd()-TIMELINE_START)/60)*PX_PER_HOUR;}
+  function timelineTop(start){return ((minutes(start)-TIMELINE_START)/(timelineEnd()-TIMELINE_START))*timelineHeight();}
+  function eventHeight(start,end){return Math.max(34,((minutes(end)-minutes(start))/(timelineEnd()-TIMELINE_START))*timelineHeight()-5);}
 
-  function weekButton(event) {
-    const c = event.course;
-    return `<button type="button" class="event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}" aria-label="${escapeHtml(c.name)} ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${escapeHtml(c.name)} · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(eventMeta(c))}</span></button>`;
-  }
-  function monthButton(event) {
-    const c = event.course;
-    return `<button type="button" class="month-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}"><span class="month-event-top"><time>${event.start}</time><strong>${escapeHtml(c.name)} · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(eventMeta(c))}</span></button>`;
-  }
-  function mobileButton(event) {
-    const c = event.course;
-    return `<button type="button" class="mobile-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${escapeHtml(c.name)} · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(eventMeta(c))}</span></span></button>`;
-  }
+  function eventMeta(course){return `${course.teacher} · ${course.mode}`;}
+  function weekButton(event){const c=event.course;return `<button type="button" class="event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${c.mode}" aria-label="${escapeHtml(c.name)} ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${escapeHtml(c.name)} · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(eventMeta(c))}</span></button>`;}
+  function monthButton(event){const c=event.course;return `<button type="button" class="month-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${c.mode}"><span class="month-event-top"><time>${event.start}</time><strong>${escapeHtml(c.name)} · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(eventMeta(c))}</span></button>`;}
+  function mobileButton(event){const c=event.course;return `<button type="button" class="mobile-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${c.mode}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${escapeHtml(c.name)} · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(eventMeta(c))}</span></span></button>`;}
 
-  function injectExtraCourses() {
-    const monthVisible = document.getElementById('monthView')?.hidden === false;
-    const visibleCourses = EXTRA_COURSES.filter(shouldShow);
-    if (monthVisible) {
-      document.querySelectorAll('#monthGrid .month-day[data-date]').forEach(day => {
-        visibleCourses.forEach(course => {
-          course.events.filter(event => event.date === day.dataset.date).forEach(event => {
-            if (!day.querySelector(`[data-event-id="${event.id}"]`)) day.querySelector('.month-events')?.insertAdjacentHTML('beforeend',monthButton(event));
-          });
-        });
-        const total = day.querySelectorAll('.month-event[data-event-id]').length;
-        const count = day.querySelector('.month-day-count');
-        if (count) setText(count,total ? `${total} 项` : '');
-        else if (total) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend',`<span class="month-day-count">${total} 项</span>`);
-      });
-      return;
+  function injectExtraCourses(){
+    const visibleCourses=EXTRA_COURSES.filter(shouldShow);
+    if(document.getElementById('monthView')?.hidden===false){
+      document.querySelectorAll('#monthGrid .month-day[data-date]').forEach(day=>{
+        visibleCourses.forEach(course=>course.events.filter(event=>event.date===day.dataset.date).forEach(event=>{if(!day.querySelector(`[data-event-id="${event.id}"]`))day.querySelector('.month-events')?.insertAdjacentHTML('beforeend',monthButton(event));}));
+        const total=day.querySelectorAll('.month-event[data-event-id]').length,count=day.querySelector('.month-day-count');if(count){const next=total?`${total} 项`:'';if(count.textContent!==next)count.textContent=next;}else if(total)day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend',`<span class="month-day-count">${total} 项</span>`);
+      });return;
     }
-
-    document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column => {
-      visibleCourses.forEach(course => {
-        course.events.filter(event => event.date === column.dataset.date).forEach(event => {
-          if (!column.querySelector(`[data-event-id="${event.id}"]`)) column.insertAdjacentHTML('beforeend',weekButton(event));
-        });
-      });
-    });
-
-    const days = [...document.querySelectorAll('#calendarMobile .mobile-day')];
-    const week = new URLSearchParams(location.search).get('week');
-    if (!days.length || !/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return;
-    const start = parseDate(week);
-    days.forEach((day,index) => {
-      const date = formatDate(addDays(start,index));
-      const events = day.querySelector('.mobile-events');
-      visibleCourses.forEach(course => {
-        course.events.filter(event => event.date === date).forEach(event => {
-          if (!day.querySelector(`[data-event-id="${event.id}"]`)) events?.insertAdjacentHTML('beforeend',mobileButton(event));
-        });
-      });
-      if (events?.querySelector('.mobile-event[data-event-id]')) events.querySelector('.mobile-empty')?.remove();
-      const total = events?.querySelectorAll('.mobile-event[data-event-id]').length || 0;
-      const count = day.querySelector('.mobile-day-head span');
-      if (count) setText(count,total ? `${total} 项` : '');
-    });
+    document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column=>visibleCourses.forEach(course=>course.events.filter(event=>event.date===column.dataset.date).forEach(event=>{if(!column.querySelector(`[data-event-id="${event.id}"]`))column.insertAdjacentHTML('beforeend',weekButton(event));})));
+    const days=[...document.querySelectorAll('#calendarMobile .mobile-day')],week=new URLSearchParams(location.search).get('week');if(!days.length||!/^\d{4}-\d{2}-\d{2}$/.test(week||''))return;const start=parseDate(week);
+    days.forEach((day,index)=>{const date=formatDate(addDays(start,index)),list=day.querySelector('.mobile-events');visibleCourses.forEach(course=>course.events.filter(event=>event.date===date).forEach(event=>{if(!day.querySelector(`[data-event-id="${event.id}"]`))list?.insertAdjacentHTML('beforeend',mobileButton(event));}));if(list?.querySelector('.mobile-event[data-event-id]'))list.querySelector('.mobile-empty')?.remove();const total=list?.querySelectorAll('.mobile-event[data-event-id]').length||0,count=day.querySelector('.mobile-day-head span');if(count){const next=total?`${total} 项`:'';if(count.textContent!==next)count.textContent=next;}});
   }
 
-  function ensureTimelineLabels(axis) {
-    if (!axis) return;
-    for (const hour of [22,23,24]) {
-      const labelText = `${String(hour).padStart(2,'0')}:00`;
-      if ([...axis.querySelectorAll('.time-label')].some(label => label.textContent.trim() === labelText)) continue;
-      const label = document.createElement('span');
-      label.className = 'time-label';
-      label.dataset.runtimeManagedLabel = String(hour);
-      label.textContent = labelText;
-      axis.append(label);
+  function rescaleWeekTimeline(){
+    const end=timelineEnd(),height=timelineHeight(),root=document.documentElement;if(root.style.getPropertyValue('--runtime-grid-height')!==`${height}px`)root.style.setProperty('--runtime-grid-height',`${height}px`);
+    const axis=document.getElementById('timeAxis');if(axis){
+      axis.querySelectorAll('.time-label').forEach(label=>{const match=label.textContent.match(/(\d{1,2}):00/);if(!match)return;const minute=Number(match[1])*60,display=minute>end?'none':'';if(label.style.display!==display)label.style.display=display;if(minute<=end){const top=`${((minute-TIMELINE_START)/(end-TIMELINE_START))*height}px`;if(label.style.top!==top)label.style.top=top;}});
+      for(let hour=22;hour<=end/60;hour++){const labelText=`${String(hour).padStart(2,'0')}:00`;if([...axis.querySelectorAll('.time-label')].some(label=>label.textContent.trim()===labelText))continue;const label=document.createElement('span');label.className='time-label';label.dataset.runtimeExtraLabel='1';label.style.top=`${((hour*60-TIMELINE_START)/(end-TIMELINE_START))*height}px`;label.textContent=labelText;axis.append(label);}axis.querySelectorAll('[data-runtime-extra-label]').forEach(label=>{const hour=Number(label.textContent.slice(0,2));if(hour*60>end)label.remove();});
     }
+    document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node=>{const match=(node.querySelector('.event-time')?.textContent||'').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);if(!match)return;const top=`${timelineTop(match[1])}px`,h=`${eventHeight(match[1],match[2])}px`;if(node.style.top!==top)node.style.top=top;if(node.style.height!==h)node.style.height=h;});
   }
 
-  function rescaleWeekTimeline() {
-    const end = timelineEnd();
-    const height = timelineHeight();
-    const rootStyle = document.documentElement.style;
-    if (rootStyle.getPropertyValue('--runtime-grid-height') !== `${height}px`) rootStyle.setProperty('--runtime-grid-height',`${height}px`);
-    if (rootStyle.getPropertyValue('--runtime-hour') !== `${PX_PER_HOUR}px`) rootStyle.setProperty('--runtime-hour',`${PX_PER_HOUR}px`);
-    if (rootStyle.getPropertyValue('--runtime-two-hour') !== `${PX_PER_HOUR*2}px`) rootStyle.setProperty('--runtime-two-hour',`${PX_PER_HOUR*2}px`);
+  function relayoutWeekColumns(){document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column=>{const nodes=[...column.querySelectorAll('.event[data-event-id]')].map(node=>{const match=(node.querySelector('.event-time')?.textContent||'').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);return match?{node,start:minutes(match[1]),end:minutes(match[2])}:null;}).filter(Boolean).sort((a,b)=>a.start-b.start||a.end-b.end);let group=[],groupEnd=-1;const flush=()=>{if(!group.length)return;const ends=[];const placed=group.map(item=>{let col=ends.findIndex(v=>v<=item.start);if(col===-1){col=ends.length;ends.push(item.end);}else ends[col]=item.end;return {...item,col};});const cols=Math.max(1,ends.length);placed.forEach(item=>{const width=100/cols,left=item.col*width,a=`calc(${left}% + 4px)`,w=`calc(${width}% - 8px)`;if(item.node.style.left!==a)item.node.style.left=a;if(item.node.style.right!=='auto')item.node.style.right='auto';if(item.node.style.width!==w)item.node.style.width=w;});group=[];groupEnd=-1;};nodes.forEach(item=>{if(group.length&&item.start>=groupEnd)flush();group.push(item);groupEnd=Math.max(groupEnd,item.end);});flush();});}
 
-    const axis = document.getElementById('timeAxis');
-    ensureTimelineLabels(axis);
-    if (axis) {
-      axis.querySelectorAll('.time-label').forEach(label => {
-        const match = label.textContent.match(/(\d{1,2}):00/);
-        if (!match) return;
-        const minute = Number(match[1])*60;
-        const display = minute > end ? 'none' : '';
-        if (label.style.display !== display) label.style.display = display;
-        if (minute <= end) {
-          const top = `${((minute-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
-          if (label.style.top !== top) label.style.top = top;
-        }
-      });
-    }
+  function openExtraDialog(event){const dialog=document.getElementById('eventDialog');if(!dialog)return;const date=parseDate(event.date),weekdays=['周日','周一','周二','周三','周四','周五','周六'];const set=(id,text)=>{const node=document.getElementById(id);if(node&&node.textContent!==text)node.textContent=text;};set('dialogSubject',event.course.enrollmentName||event.course.name);set('dialogTitle',event.topic);set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);set('dialogTime',`${event.start}–${event.end}`);set('dialogTeacher',event.course.teacher);set('dialogMode','网课');set('dialogRoom','无需教室');set('dialogStatus','正常授课');const status=event.course===CHEMISTRY?'｜2026上半期课程':event.course===BIOLOGY?'｜2026前期夏期集中讲座':'';set('dialogNote',`${event.title}｜${event.topic}${status}`);dialog.hidden=false;document.body.style.overflow='hidden';}
 
-    document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node => {
-      const match=(node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
-      if (!match) return;
-      const top = `${timelineTop(match[1])}px`;
-      const h = `${eventHeight(match[1],match[2])}px`;
-      if (node.style.top !== top) node.style.top = top;
-      if (node.style.height !== h) node.style.height = h;
-    });
-  }
+  function selectedMonth(){const params=new URLSearchParams(location.search),month=params.get('month'),week=params.get('week');if(/^\d{4}-\d{2}$/.test(month||''))return month;if(/^\d{4}-\d{2}-\d{2}$/.test(week||''))return week.slice(0,7);const now=new Date();return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;}
+  function statusMeta(course){if(course===MATHIA)return course.ledgerMeta;const today=todayKey(),remaining=course.events.filter(event=>event.date>=today),last=course.events[course.events.length-1];if(!remaining.length)return `${course.ledgerMeta}｜已结课`;const next=remaining[0],[m,d]=next.date.slice(5).split('-').map(Number),[lm,ld]=last.date.slice(5).split('-').map(Number);return `${course.ledgerMeta}｜${course===CHEMISTRY?'上半期未结课・':''}剩余${remaining.length}回（下回 ${m}/${d}，至 ${lm}/${ld}）`;}
+  function patchCourseLedger(){const body=document.getElementById('courseOverviewBody');if(!body)return;const month=selectedMonth();EXTRA_COURSES.forEach(course=>{const monthly=course.events.filter(event=>event.date.startsWith(`${month}-`)),cumulative=course.events.filter(event=>event.date<=`${month}-99`),html=`<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot ${course.key}" aria-hidden="true"></i><div class="course-overview-name"><strong>${escapeHtml(course.ledgerName)}</strong><span>${escapeHtml(statusMeta(course))}</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(course.teacher)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;let row=body.querySelector(`tr[data-runtime-ledger="${course.key}"]`);if(!row){row=document.createElement('tr');row.dataset.runtimeLedger=course.key;const anchor=[...body.rows].find(item=>item.textContent.includes('数学IIBC'));course===MATHIA?body.insertBefore(row,anchor||null):body.append(row);}if(row.innerHTML!==html)row.innerHTML=html;});const sum=index=>[...body.rows].reduce((total,item)=>{const match=item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);return total+(match?Number(match[1]):0);},0),mt=document.getElementById('courseOverviewMonthTotal'),ct=document.getElementById('courseOverviewCumulativeTotal'),m=`${sum(4)} h`,c=`${sum(5)} h`;if(mt&&mt.textContent!==m)mt.textContent=m;if(ct&&ct.textContent!==c)ct.textContent=c;[...body.rows].forEach(row=>{if(row.textContent.includes('共通考试地理')){const meta=row.querySelector('.course-overview-name span');if(meta&&meta.textContent!=='9/6 09:00–12:00｜9/13起周日 18:00–21:00｜讲义・刷题一体')meta.textContent='9/6 09:00–12:00｜9/13起周日 18:00–21:00｜讲义・刷题一体';}if(row.textContent.includes('国语')){const meta=row.querySelector('.course-overview-name span');if(meta&&meta.textContent!=='10/9起周五 13:40–16:40')meta.textContent='10/9起周五 13:40–16:40';}});}
+  function patchPendingCourseList(){document.querySelectorAll('#coursePlanDetails .plan-lines > div').forEach(row=>{if(row.querySelector('strong')?.textContent.trim()!=='大课')return;const p=row.querySelector('p');if(!p)return;const next=p.textContent.split('、').map(v=>v.trim()).filter(Boolean).map(v=>v==='数学IA'?'':v==='化学'?'化学（下半期方案待定）':v==='生物'?'生物（下半期方案待定）':v).filter(Boolean).join('、');if(p.textContent!==next)p.textContent=next;});}
 
-  function relayoutWeekColumns() {
-    document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column => {
-      const nodes=[...column.querySelectorAll('.event[data-event-id]')]
-        .map(node => {
-          const match=(node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
-          return match ? {node,start:minutes(match[1]),end:minutes(match[2])} : null;
-        }).filter(Boolean).sort((a,b)=>a.start-b.start||a.end-b.end);
-      let group=[]; let groupEnd=-1;
-      const flush=()=>{
-        if(!group.length)return;
-        const columnEnds=[];
-        const placed=group.map(item=>{
-          let c=columnEnds.findIndex(value=>value<=item.start);
-          if(c===-1){c=columnEnds.length;columnEnds.push(item.end);}else columnEnds[c]=item.end;
-          return {...item,column:c};
-        });
-        const cols=Math.max(1,columnEnds.length);
-        placed.forEach(item=>{
-          const width=100/cols,left=item.column*width;
-          const leftStyle=`calc(${left}% + 4px)`;
-          const widthStyle=`calc(${width}% - 8px)`;
-          if (item.node.style.left !== leftStyle) item.node.style.left=leftStyle;
-          if (item.node.style.right !== 'auto') item.node.style.right='auto';
-          if (item.node.style.width !== widthStyle) item.node.style.width=widthStyle;
-        });
-        group=[];groupEnd=-1;
-      };
-      nodes.forEach(item=>{
-        if(group.length && item.start>=groupEnd) flush();
-        group.push(item);groupEnd=Math.max(groupEnd,item.end);
-      });
-      flush();
-    });
-  }
+  function activeEnrollmentRows(){try{for(const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']){const raw=localStorage.getItem(key);if(!raw)continue;const rows=JSON.parse(raw);if(Array.isArray(rows))return rows.filter(row=>!/退课|取消|无效|已结课|结课/.test(String(row?.status??row?.['报名状态']??row?.['状态']??'')));}}catch(_){}return [];}
+  function enrollmentCourses(row){return (Array.isArray(row?.courses)?row.courses:String(row?.['报名课程']??row?.['课程']??'').split(/[、，,;；|]+/)).map(v=>String(v).trim()).filter(Boolean);}
+  const normalizeCourse=value=>String(value).trim().replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II').toLowerCase();
+  function matchesEnrollmentCourse(value,course){const text=normalizeCourse(value);if(course===MATHIA)return text==='数学ia'||/数学\s*(?:1a|1)$/i.test(text);if(course===CHEMISTRY)return text==='化学';if(course===BIOLOGY)return text==='生物';return false;}
+  function scheduledEnrollmentCourse(value){const text=normalizeCourse(value);return [/^公共政治经济$|^公共$|^政经$|^政治经济$/,/^国语$|^国语现代文$|^现代文$/,/^共通考试地理$|^地理$/,/^物理共通考试冲刺课程$|^共通物理$|^物理$/,/^魏思远物理一对一$|^物理1对1$/,/^数学ia$|^数学1a$|^数学1$/,/^共通考试数学iibc$|^数学iibc$|^数学2bc$|^数学2$/,/^化学$/,/^生物$/].some(pattern=>pattern.test(text));}
+  function patchEnrollment(){const drawer=document.getElementById('enrollmentDrawer');if(!drawer)return;const scheduledNames=new Set(['数学IA','化学','生物']);drawer.querySelectorAll('[data-enrollment-course]').forEach(button=>{const course=(button.dataset.enrollmentCourse||'').trim();if(!scheduledNames.has(course))return;const small=button.querySelector('small');if(small&&small.textContent.includes('时间未定'))small.textContent=small.textContent.replace('时间未定','已排入日历');});const detail=drawer.querySelector('.enrollment-detail-head');if(detail&&scheduledNames.has(detail.querySelector('h3')?.textContent.trim())){const small=detail.querySelector('small');if(small&&small.textContent!=='已排入课程日历')small.textContent='已排入课程日历';}drawer.querySelectorAll('.planning-table tbody tr').forEach(row=>{const name=row.cells?.[0]?.textContent?.trim()||'';if(!scheduledNames.has(name))return;const state=row.querySelector('.schedule-state');if(state&&state.textContent!=='已排')state.textContent='已排';state?.classList.remove('unscheduled');state?.classList.add('scheduled');});const rows=activeEnrollmentRows(),allCourses=new Set();rows.forEach(row=>enrollmentCourses(row).forEach(course=>allCourses.add(course)));const pending=[...allCourses].filter(course=>!scheduledEnrollmentCourse(course)),metric=document.getElementById('enrollmentUnscheduledCount');if(metric&&metric.textContent!==String(pending.length))metric.textContent=String(pending.length);EXTRA_COURSES.forEach(course=>{const names=new Set();rows.forEach(row=>{if(enrollmentCourses(row).some(value=>matchesEnrollmentCourse(value,course)))names.add(String(row?.name??row?.['姓名']??'').trim());});const prefix=course===MATHIA?'mathia':course===CHEMISTRY?'chem':'bio';document.querySelectorAll(`[data-event-id^="${prefix}-"]`).forEach(node=>{const existing=node.querySelector('.enrollment-count-badge');if(!names.size){existing?.remove();return;}if(existing){const next=`${names.size}人`;if(existing.textContent!==next)existing.textContent=next;return;}const badge=document.createElement('span');badge.className='enrollment-count-badge';badge.textContent=`${names.size}人`;(node.querySelector('.event-name,.month-event-top strong,strong')||node).append(badge);});});}
 
-  function openExtraDialog(event) {
-    const dialog=document.getElementById('eventDialog');
-    if(!dialog)return;
-    const date=parseDate(event.date);
-    const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
-    const set=(id,text)=>setText(document.getElementById(id),text);
-    set('dialogSubject',event.course.name);
-    set('dialogTitle',event.topic);
-    set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
-    set('dialogTime',`${event.start}–${event.end}`);
-    set('dialogTeacher',event.course.teacher);
-    set('dialogMode',event.course.mode || '待确认');
-    set('dialogRoom',roomLabel(event.course));
-    set('dialogStatus','正常授课');
-    const status = event.course === CHEMISTRY ? '｜2026上半期课程' : event.course === BIOLOGY ? '｜2026前期夏期集中讲座' : '';
-    set('dialogNote',`${event.title}｜${event.topic}${status}`);
-    if (dialog.hidden) dialog.hidden=false;
-    document.body.style.overflow='hidden';
-  }
+  let polishing=false;function polish(){if(polishing)return;polishing=true;try{installStyle();ensureUiOptions();replaceTeacherNames();applyExistingScheduleOverrides();injectExtraCourses();rescaleWeekTimeline();relayoutWeekColumns();patchCourseLedger();patchPendingCourseList();patchEnrollment();}finally{polishing=false;}}
+  let queued=false;function queuePolish(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;polish();});}
 
-  function selectedMonth() {
-    const params=new URLSearchParams(location.search);
-    const month=params.get('month');
-    if(/^\d{4}-\d{2}$/.test(month||''))return month;
-    const week=params.get('week');
-    if(/^\d{4}-\d{2}-\d{2}$/.test(week||''))return week.slice(0,7);
-    const now=new Date();
-    return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  }
-
-  function statusMeta(course) {
-    if (course === MATHIA) return course.ledgerMeta;
-    const today=todayKey();
-    const remaining=course.events.filter(event=>event.date>=today);
-    const last=course.events[course.events.length-1];
-    if(!remaining.length) return `${course.ledgerMeta}｜已结课`;
-    const next=remaining[0];
-    const [m,d]=next.date.slice(5).split('-').map(Number);
-    const [lm,ld]=last.date.slice(5).split('-').map(Number);
-    if(course===CHEMISTRY) return `${course.ledgerMeta}｜上半期未结课・剩余${remaining.length}回（下回 ${m}/${d}，至 ${lm}/${ld}）`;
-    return `${course.ledgerMeta}｜剩余${remaining.length}回（下回 ${m}/${d}，至 ${lm}/${ld}）`;
-  }
-
-  function patchCourseLedger() {
-    const body=document.getElementById('courseOverviewBody');
-    if(!body)return;
-    const month=selectedMonth();
-    EXTRA_COURSES.forEach(course=>{
-      const monthly=course.events.filter(event=>event.date.startsWith(`${month}-`));
-      const cumulative=course.events.filter(event=>event.date<=`${month}-99`);
-      const delivery=course.mode==='网课'
-        ? '<span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small>'
-        : '<span class="course-overview-mode">方式待确认</span><small class="course-overview-room unknown">教室待确认</small>';
-      const name=course.ledgerName || course.name;
-      const html=`<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot ${course.key}" aria-hidden="true"></i><div class="course-overview-name"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(statusMeta(course))}</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(course.teacher)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery">${delivery}</td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
-      let row=body.querySelector(`tr[data-runtime-ledger="${course.key}"]`);
-      if(!row){
-        row=document.createElement('tr');
-        row.dataset.runtimeLedger=course.key;
-        const anchor=[...body.rows].find(item=>item.textContent.includes('数学IIBC'));
-        if(course===MATHIA) body.insertBefore(row,anchor||null); else body.append(row);
-      }
-      if(row.innerHTML!==html)row.innerHTML=html;
-    });
-
-    const sum=index=>[...body.rows].reduce((total,item)=>{
-      const match=item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);
-      return total+(match?Number(match[1]):0);
-    },0);
-    setText(document.getElementById('courseOverviewMonthTotal'),`${sum(4)} h`);
-    setText(document.getElementById('courseOverviewCumulativeTotal'),`${sum(5)} h`);
-  }
-
-  function patchPendingCourseList() {
-    document.querySelectorAll('#coursePlanDetails .plan-lines > div').forEach(row=>{
-      if(row.querySelector('strong')?.textContent.trim()!=='大课')return;
-      const p=row.querySelector('p');if(!p)return;
-      const next=p.textContent.split('、').map(v=>v.trim()).filter(Boolean).map(v=>{
-        if(v==='数学IA')return '';
-        if(v==='化学')return '化学（下半期方案待定）';
-        if(v==='生物')return '生物（下半期方案待定）';
-        return v;
-      }).filter(Boolean).join('、');
-      setText(p,next);
-    });
-  }
-
-  function activeEnrollmentRows() {
-    try{
-      for(const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']){
-        const raw=localStorage.getItem(key);if(!raw)continue;
-        const rows=JSON.parse(raw);
-        if(Array.isArray(rows))return rows.filter(row=>!/退课|取消|无效|已结课|结课/.test(String(row?.status??row?.['报名状态']??row?.['状态']??'')));
-      }
-    }catch(_){}
-    return [];
-  }
-  function isMathIA(value){
-    const text=String(value).trim().replace(/Ⅰ/g,'I');
-    return text==='数学IA'||/数学\s*(?:i?a|1a|1)$/i.test(text);
-  }
-  function patchEnrollment() {
-    document.querySelectorAll('#enrollmentContent [data-enrollment-course]').forEach(button=>{
-      if((button.dataset.enrollmentCourse||'').trim()!=='数学IA')return;
-      const small=button.querySelector('small');
-      if(small?.textContent.includes('时间未定'))setText(small,small.textContent.replace('时间未定','已排入日历'));
-    });
-    const detail=document.querySelector('#enrollmentContent .enrollment-detail-head');
-    if(detail?.querySelector('h3')?.textContent.trim()==='数学IA') setText(detail.querySelector('small'),'已排入课程日历');
-    document.querySelectorAll('#enrollmentContent .planning-table tbody tr').forEach(row=>{
-      if(!(row.cells?.[0]?.textContent||'').includes('数学IA'))return;
-      const state=row.querySelector('.schedule-state');
-      if(state){setText(state,'已排');state.classList.remove('unscheduled');state.classList.add('scheduled');}
-    });
-
-    const rows=activeEnrollmentRows();
-    const names=new Set();
-    const courses=new Set();
-    rows.forEach(row=>{
-      const list=Array.isArray(row?.courses)?row.courses:String(row?.['报名课程']??row?.['课程']??'').split(/[、，,;；|]+/);
-      list.map(v=>String(v).trim()).filter(Boolean).forEach(course=>{
-        courses.add(course);if(isMathIA(course))names.add(String(row?.name??row?.['姓名']??'').trim());
-      });
-    });
-    if(names.size){
-      const scheduledPatterns=[/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i,/化学/,/生物/];
-      const pending=[...courses].filter(course=>!isMathIA(course)&&!scheduledPatterns.some(pattern=>pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II'))));
-      setText(document.getElementById('enrollmentUnscheduledCount'),String(pending.length));
-      document.querySelectorAll('[data-event-id^="mathia-"]').forEach(node=>{
-        if(node.querySelector('.enrollment-count-badge'))return;
-        const badge=document.createElement('span');badge.className='enrollment-count-badge';badge.textContent=`${names.size}人`;
-        (node.querySelector('.event-name,.month-event-top strong,strong')||node).append(badge);
-      });
-    }
-  }
-
-  function polish() {
-    installStyle();
-    ensureUiOptions();
-    replaceTeacherNames();
-    applyExistingScheduleOverrides();
-    injectExtraCourses();
-    rescaleWeekTimeline();
-    relayoutWeekColumns();
-    patchCourseLedger();
-    patchPendingCourseList();
-    patchEnrollment();
-  }
-
-  document.addEventListener('click',event=>{
-    const node=event.target.closest('[data-event-id]');
-    if(!node)return;
-    const extra=EXTRA_EVENT_BY_ID.get(node.dataset.eventId);
-    if(extra)setTimeout(()=>openExtraDialog(extra),0);
-  },true);
-
-  let queued=false;
-  const queuePolish=()=>{
-    if(queued)return;
-    queued=true;
-    requestAnimationFrame(()=>{queued=false;polish();});
-  };
-
-  polish();
-  const calendar=document.querySelector('.office-calendar');
-  if(calendar)new MutationObserver(queuePolish).observe(calendar,{childList:true,subtree:true});
-  const enrollment=document.getElementById('enrollmentContent');
-  if(enrollment)new MutationObserver(()=>requestAnimationFrame(patchEnrollment)).observe(enrollment,{childList:true,subtree:true});
-  const periodTitle=document.getElementById('weekTitle');
-  if(periodTitle)new MutationObserver(()=>requestAnimationFrame(()=>{patchCourseLedger();patchPendingCourseList();})).observe(periodTitle,{childList:true,subtree:true,characterData:true});
+  document.addEventListener('click',event=>{const extraNode=event.target.closest('[data-event-id]');if(extraNode){const extra=EXTRA_EVENT_BY_ID.get(extraNode.dataset.eventId);if(extra)setTimeout(()=>openExtraDialog(extra),0);}if(event.target.closest('[data-view],[data-range],#prevWeek,#nextWeek,#todayWeek,#openEnrollment,#dialogEnrollmentButton,[data-enrollment-view],[data-enrollment-course],[data-close-enrollment]'))queuePolish();},true);
+  document.getElementById('subjectFilter')?.addEventListener('change',queuePolish);
+  document.getElementById('teacherFilter')?.addEventListener('change',queuePolish);
+  document.getElementById('modeFilter')?.addEventListener('change',queuePolish);
+  document.getElementById('roomFilter')?.addEventListener('change',queuePolish);
+  document.getElementById('enrollmentDrawer')?.addEventListener('input',queuePolish,true);
+  document.getElementById('enrollmentDrawer')?.addEventListener('change',queuePolish,true);
   window.addEventListener('popstate',queuePolish);
   window.addEventListener('resize',queuePolish);
+
+  polish();
 })();
