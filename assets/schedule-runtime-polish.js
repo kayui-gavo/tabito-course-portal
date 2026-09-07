@@ -48,85 +48,61 @@
     ...Array.from({length:18}, (_,i) => [`geo-${String(i + 3).padStart(2,'0')}`, { start: '18:00', end: '21:00' }])
   ]);
 
-  function minutes(value) {
-    const [hour, minute] = String(value).split(':').map(Number);
-    return hour * 60 + minute;
-  }
-
-  function formatDate(date) {
-    return `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}-${String(date.getUTCDate()).padStart(2,'0')}`;
-  }
-
-  function addDays(date, days) {
-    return new Date(date.getTime() + days * DAY_MS);
-  }
-
-  function parseDate(value) {
-    const [year, month, day] = value.split('-').map(Number);
-    return new Date(Date.UTC(year, month - 1, day));
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#39;');
-  }
+  const minutes = value => {
+    const [h,m] = String(value).split(':').map(Number);
+    return h * 60 + m;
+  };
+  const parseDate = value => {
+    const [y,m,d] = value.split('-').map(Number);
+    return new Date(Date.UTC(y,m-1,d));
+  };
+  const formatDate = date => `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}-${String(date.getUTCDate()).padStart(2,'0')}`;
+  const addDays = (date, days) => new Date(date.getTime() + days * DAY_MS);
+  const escapeHtml = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 
   function installStyle() {
-    if (document.getElementById('scheduleRuntimePolishV4')) return;
+    if (document.getElementById('scheduleRuntimePolishV5')) return;
+    document.getElementById('scheduleRuntimePolishV4')?.remove();
     const style = document.createElement('style');
-    style.id = 'scheduleRuntimePolishV4';
+    style.id = 'scheduleRuntimePolishV5';
     style.textContent = `
       :root{--math-ia:#7a5d8e;--math-ia-bg:#f4f0f7}
       .subject-legend.mathIA i{background:var(--math-ia)}
       .event.mathIA{border-color:#d6cbe0;border-left-color:var(--math-ia);background:var(--math-ia-bg)}
       .month-event.mathIA{border-left-color:var(--math-ia);background:var(--math-ia-bg)}
-      .mobile-event.mathIA{border-left:3px solid var(--math-ia)}
+      .mobile-event.mathIA{border-left:3px solid var(--math-ia);padding-left:8px}
       .time-axis,.day-grid{height:${TIMELINE_HEIGHT}px!important}
       .day-column{background-size:100% 58.3077px!important}
       .day-column::after{background-size:100% 116.6154px!important}
-      .mathia-source-note{color:#7a6a83;font-size:8.5px;font-weight:650}
       .course-overview-dot.mathIA{background:var(--math-ia)}
       .course-overview-room.unknown{color:#7b8490}
-      .legend-item.mathIA{white-space:nowrap}
     `;
     document.head.append(style);
   }
 
   function ensureUiOptions() {
-    const subjectFilter = document.getElementById('subjectFilter');
-    if (subjectFilter && !subjectFilter.querySelector(`option[value="${MATHIA_KEY}"]`)) {
+    const subject = document.getElementById('subjectFilter');
+    if (subject && !subject.querySelector(`option[value="${MATHIA_KEY}"]`)) {
       const option = document.createElement('option');
       option.value = MATHIA_KEY;
       option.textContent = MATHIA_NAME;
-      const mathIIBC = subjectFilter.querySelector('option[value="mathIIBC"]');
-      subjectFilter.insertBefore(option, mathIIBC || null);
+      subject.insertBefore(option, subject.querySelector('option[value="mathIIBC"]') || null);
     }
-
-    const teacherFilter = document.getElementById('teacherFilter');
-    if (teacherFilter && ![...teacherFilter.options].some(option => option.value === MATHIA_TEACHER)) {
-      const option = document.createElement('option');
-      option.value = MATHIA_TEACHER;
-      option.textContent = MATHIA_TEACHER;
-      teacherFilter.append(option);
+    const teacher = document.getElementById('teacherFilter');
+    if (teacher && ![...teacher.options].some(option => option.value === MATHIA_TEACHER)) {
+      teacher.add(new Option(MATHIA_TEACHER, MATHIA_TEACHER));
     }
-
     const legend = document.querySelector('.office-legend');
     if (legend && !legend.querySelector('.subject-legend.mathIA')) {
       const item = document.createElement('span');
       item.className = 'legend-item subject-legend mathIA';
       item.innerHTML = '<i></i>数学IA';
-      const mathIIBC = legend.querySelector('.subject-legend.mathIIBC');
-      legend.insertBefore(item, mathIIBC || legend.querySelector('.legend-divider'));
+      legend.insertBefore(item, legend.querySelector('.subject-legend.mathIIBC') || legend.querySelector('.legend-divider'));
     }
-
-    const url = new URL(location.href);
-    if (url.searchParams.get('subject') === MATHIA_KEY && subjectFilter && subjectFilter.value !== MATHIA_KEY) {
-      subjectFilter.value = MATHIA_KEY;
-      subjectFilter.dispatchEvent(new Event('change', { bubbles: true }));
+    const requested = new URL(location.href).searchParams.get('subject');
+    if (requested === MATHIA_KEY && subject && subject.value !== MATHIA_KEY) {
+      subject.value = MATHIA_KEY;
+      subject.dispatchEvent(new Event('change', {bubbles:true}));
     }
   }
 
@@ -142,43 +118,42 @@
 
   function applyExistingScheduleOverrides() {
     REMOVED_EVENTS.forEach(id => document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => node.remove()));
-
-    EVENT_OVERRIDES.forEach((override, id) => {
+    EVENT_OVERRIDES.forEach((override,id) => {
       document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => {
         const timeNode = node.querySelector('.event-time,.mobile-event-time,.month-event-top time');
-        if (timeNode && override.start && override.end) timeNode.textContent = `${override.start}–${override.end}`;
+        const nextTime = override.start && override.end ? `${override.start}–${override.end}` : '';
+        if (timeNode && nextTime && timeNode.textContent !== nextTime) timeNode.textContent = nextTime;
         if (override.title) {
-          const nameNode = node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');
-          if (nameNode) {
-            const subject = nameNode.textContent.includes('·') ? nameNode.textContent.split('·')[0].trim() : '国语';
-            nameNode.textContent = `${subject} · ${override.title}`;
+          const name = node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');
+          if (name && !name.textContent.endsWith(override.title)) {
+            const subject = name.textContent.includes('·') ? name.textContent.split('·')[0].trim() : '国语';
+            name.textContent = `${subject} · ${override.title}`;
           }
         }
-        const topicNode = node.querySelector('.event-topic,.month-event p,.mobile-event p');
-        if (topicNode && override.topic) topicNode.textContent = override.topic;
+        if (override.topic) {
+          const topic = node.querySelector('.event-topic,.month-event p,.mobile-event p');
+          if (topic && topic.textContent !== override.topic) topic.textContent = override.topic;
+        }
         if (override.start && override.end) {
-          node.setAttribute('aria-label', `${node.getAttribute('aria-label') || ''}`.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/, `${override.start}至${override.end}`));
+          const aria = node.getAttribute('aria-label') || '';
+          const next = aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/, `${override.start}至${override.end}`);
+          if (next !== aria) node.setAttribute('aria-label', next);
         }
       });
     });
   }
 
-  function timelineTop(start) {
-    return ((minutes(start) - TIMELINE_START) / (TIMELINE_END - TIMELINE_START)) * TIMELINE_HEIGHT;
-  }
-
-  function timelineHeight(start, end) {
-    return Math.max(34, ((minutes(end) - minutes(start)) / (TIMELINE_END - TIMELINE_START)) * TIMELINE_HEIGHT - 5);
-  }
+  const timelineTop = start => ((minutes(start)-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT;
+  const timelineHeight = (start,end) => Math.max(34,((minutes(end)-minutes(start))/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT-5);
 
   function rescaleWeekTimeline() {
     const axis = document.getElementById('timeAxis');
     if (axis) {
-      [...axis.querySelectorAll('.time-label')].forEach(label => {
+      axis.querySelectorAll('.time-label').forEach(label => {
         const match = label.textContent.match(/(\d{1,2}):00/);
         if (!match) return;
-        const minute = Number(match[1]) * 60;
-        label.style.top = `${((minute - TIMELINE_START) / (TIMELINE_END - TIMELINE_START)) * TIMELINE_HEIGHT}px`;
+        const top = ((Number(match[1])*60-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT;
+        if (label.style.top !== `${top}px`) label.style.top = `${top}px`;
       });
       if (!axis.querySelector('[data-runtime-22]')) {
         const label = document.createElement('span');
@@ -189,80 +164,64 @@
         axis.append(label);
       }
     }
-
     document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node => {
-      const timeText = node.querySelector('.event-time')?.textContent || '';
-      const match = timeText.match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
+      const match = (node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
       if (!match) return;
-      node.style.top = `${timelineTop(match[1])}px`;
-      node.style.height = `${timelineHeight(match[1], match[2])}px`;
+      const top = `${timelineTop(match[1])}px`;
+      const height = `${timelineHeight(match[1],match[2])}px`;
+      if (node.style.top !== top) node.style.top = top;
+      if (node.style.height !== height) node.style.height = height;
     });
   }
 
-  function shouldShowMathIA() {
-    const subject = document.getElementById('subjectFilter')?.value || 'all';
-    return subject === 'all' || subject === MATHIA_KEY;
-  }
+  const shouldShowMathIA = () => ['all',MATHIA_KEY].includes(document.getElementById('subjectFilter')?.value || 'all');
 
   function mathWeekButton(event) {
-    const top = timelineTop(event.start);
-    const height = timelineHeight(event.start, event.end);
-    return `<button type="button" class="event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="" style="top:${top}px;height:${height}px;left:4px;right:auto;width:calc(100% - 8px)" aria-label="数学IA ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">数学IA · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></button>`;
+    return `<button type="button" class="event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="" style="top:${timelineTop(event.start)}px;height:${timelineHeight(event.start,event.end)}px;left:4px;right:auto;width:calc(100% - 8px)" aria-label="数学IA ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">数学IA · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></button>`;
   }
-
   function mathMonthButton(event) {
     return `<button type="button" class="month-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode=""><span class="month-event-top"><time>${event.start}</time><strong>数学IA · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></button>`;
   }
-
   function mathMobileButton(event) {
     return `<button type="button" class="mobile-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode=""><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>数学IA · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></span></button>`;
   }
 
-  function injectMathIAWeek() {
+  function injectMathIA() {
     if (!shouldShowMathIA()) return;
+    const monthVisible = document.getElementById('monthView')?.hidden === false;
+    if (monthVisible) {
+      document.querySelectorAll('#monthGrid .month-day[data-date]').forEach(day => {
+        const event = MATHIA_EVENTS.find(item => item.date === day.dataset.date);
+        if (!event || day.querySelector(`[data-event-id="${event.id}"]`)) return;
+        day.querySelector('.month-events')?.insertAdjacentHTML('beforeend', mathMonthButton(event));
+        const total = day.querySelectorAll('.month-event[data-event-id]').length;
+        const count = day.querySelector('.month-day-count');
+        if (count && count.textContent !== `${total} 项`) count.textContent = `${total} 项`;
+        if (!count) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend', `<span class="month-day-count">${total} 项</span>`);
+      });
+      return;
+    }
+
     document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column => {
       const event = MATHIA_EVENTS.find(item => item.date === column.dataset.date);
       if (!event || column.querySelector(`[data-event-id="${event.id}"]`)) return;
       column.insertAdjacentHTML('beforeend', mathWeekButton(event));
     });
 
-    const mobileDays = [...document.querySelectorAll('#calendarMobile .mobile-day')];
-    if (!mobileDays.length) return;
-    const params = new URLSearchParams(location.search);
-    const week = params.get('week');
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return;
+    const days = [...document.querySelectorAll('#calendarMobile .mobile-day')];
+    const week = new URLSearchParams(location.search).get('week');
+    if (!days.length || !/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return;
     const start = parseDate(week);
-    mobileDays.forEach((day, index) => {
-      const date = formatDate(addDays(start, index));
-      const event = MATHIA_EVENTS.find(item => item.date === date);
+    days.forEach((day,index) => {
+      const event = MATHIA_EVENTS.find(item => item.date === formatDate(addDays(start,index)));
       if (!event || day.querySelector(`[data-event-id="${event.id}"]`)) return;
       const events = day.querySelector('.mobile-events');
-      const empty = events?.querySelector('.mobile-empty');
-      if (empty) empty.remove();
+      events?.querySelector('.mobile-empty')?.remove();
       events?.insertAdjacentHTML('beforeend', mathMobileButton(event));
       const count = day.querySelector('.mobile-day-head span');
-      if (count) count.textContent = `${events.querySelectorAll('.mobile-event[data-event-id]').length} 项`;
+      const total = events?.querySelectorAll('.mobile-event[data-event-id]').length || 0;
+      if (count && count.textContent !== `${total} 项`) count.textContent = `${total} 项`;
     });
-  }
-
-  function injectMathIAMonth() {
-    if (!shouldShowMathIA()) return;
-    document.querySelectorAll('#monthGrid .month-day[data-date]').forEach(day => {
-      const event = MATHIA_EVENTS.find(item => item.date === day.dataset.date);
-      if (!event || day.querySelector(`[data-event-id="${event.id}"]`)) return;
-      const events = day.querySelector('.month-events');
-      events?.insertAdjacentHTML('beforeend', mathMonthButton(event));
-      const count = day.querySelector('.month-day-count');
-      const total = day.querySelectorAll('.month-event[data-event-id]').length;
-      if (count) count.textContent = `${total} 项`;
-      else if (total) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend', `<span class="month-day-count">${total} 项</span>`);
-    });
-  }
-
-  function injectMathIA() {
-    if (!shouldShowMathIA()) return;
-    if (document.getElementById('monthView')?.hidden === false) injectMathIAMonth();
-    else injectMathIAWeek();
   }
 
   function openMathIADialog(event) {
@@ -270,26 +229,26 @@
     if (!dialog) return;
     const date = parseDate(event.date);
     const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
-    const set = (id, text) => { const node = document.getElementById(id); if (node) node.textContent = text; };
-    set('dialogSubject', MATHIA_NAME);
-    set('dialogTitle', event.topic);
-    set('dialogDate', `${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
-    set('dialogTime', `${event.start}–${event.end}`);
-    set('dialogTeacher', MATHIA_TEACHER);
-    set('dialogMode', '—');
-    set('dialogRoom', '—');
-    set('dialogStatus', '正常授课');
-    set('dialogNote', `${event.title}｜${event.topic}｜原课表未注明授课方式与教室`);
-    dialog.hidden = false;
-    document.body.style.overflow = 'hidden';
+    const set = (id,text) => { const node=document.getElementById(id); if(node) node.textContent=text; };
+    set('dialogSubject',MATHIA_NAME);
+    set('dialogTitle',event.topic);
+    set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
+    set('dialogTime',`${event.start}–${event.end}`);
+    set('dialogTeacher',MATHIA_TEACHER);
+    set('dialogMode','—');
+    set('dialogRoom','—');
+    set('dialogStatus','正常授课');
+    set('dialogNote',`${event.title}｜${event.topic}｜原课表未注明授课方式与教室`);
+    dialog.hidden=false;
+    document.body.style.overflow='hidden';
   }
 
-  function selectedLedgerMonth() {
+  function selectedMonth() {
     const params = new URLSearchParams(location.search);
     const month = params.get('month');
     if (/^\d{4}-\d{2}$/.test(month || '')) return month;
     const week = params.get('week');
-    if (/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return week.slice(0, 7);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return week.slice(0,7);
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
   }
@@ -297,152 +256,101 @@
   function patchCourseLedger() {
     const body = document.getElementById('courseOverviewBody');
     if (!body) return;
-    const month = selectedLedgerMonth();
+    const month = selectedMonth();
     const monthly = MATHIA_EVENTS.filter(event => event.date.startsWith(`${month}-`));
-    const cutoff = `${month}-99`;
-    const cumulative = MATHIA_EVENTS.filter(event => event.date <= cutoff);
+    const cumulative = MATHIA_EVENTS.filter(event => event.date <= `${month}-99`);
+    const html = `<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot mathIA" aria-hidden="true"></i><div class="course-overview-name"><strong>数学IA</strong><span>周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(MATHIA_TEACHER)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">课表未注明</span><small class="course-overview-room unknown">待确认</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
     let row = body.querySelector('tr[data-mathia-ledger]');
-    const html = `<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot mathIA" aria-hidden="true"></i><div class="course-overview-name"><strong>数学IA</strong><span>周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(MATHIA_TEACHER)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">课表未注明</span><small class="course-overview-room unknown">待确认</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length * 2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length * 2} h<small>${cumulative.length} 回</small></td>`;
     if (!row) {
       row = document.createElement('tr');
-      row.dataset.mathiaLedger = '1';
+      row.dataset.mathiaLedger='1';
       const mathIIBC = [...body.rows].find(item => item.textContent.includes('数学IIBC'));
-      body.insertBefore(row, mathIIBC || null);
+      body.insertBefore(row,mathIIBC||null);
     }
-    row.innerHTML = html;
+    if (row.innerHTML !== html) row.innerHTML = html;
 
-    const sumColumn = index => [...body.rows].reduce((sum, item) => {
-      const cell = item.cells[index];
-      const match = cell?.textContent.match(/([0-9.]+)\s*h/);
-      return sum + (match ? Number(match[1]) : 0);
-    }, 0);
+    const sum = index => [...body.rows].reduce((total,item) => {
+      const match = item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);
+      return total + (match ? Number(match[1]) : 0);
+    },0);
     const monthTotal = document.getElementById('courseOverviewMonthTotal');
     const cumulativeTotal = document.getElementById('courseOverviewCumulativeTotal');
-    if (monthTotal) monthTotal.textContent = `${sumColumn(4)} h`;
-    if (cumulativeTotal) cumulativeTotal.textContent = `${sumColumn(5)} h`;
+    const nextMonth = `${sum(4)} h`, nextCumulative = `${sum(5)} h`;
+    if (monthTotal && monthTotal.textContent !== nextMonth) monthTotal.textContent = nextMonth;
+    if (cumulativeTotal && cumulativeTotal.textContent !== nextCumulative) cumulativeTotal.textContent = nextCumulative;
   }
 
   function patchPendingCourseList() {
     document.querySelectorAll('#coursePlanDetails .plan-lines > div').forEach(row => {
-      const title = row.querySelector('strong')?.textContent.trim();
+      if (row.querySelector('strong')?.textContent.trim() !== '大课') return;
       const p = row.querySelector('p');
-      if (title !== '大课' || !p || !p.textContent.includes('数学IA')) return;
-      p.textContent = p.textContent
-        .split('、')
-        .map(value => value.trim())
-        .filter(value => value && value !== '数学IA')
-        .join('、');
+      if (!p || !p.textContent.includes('数学IA')) return;
+      const next = p.textContent.split('、').map(v=>v.trim()).filter(v=>v&&v!=='数学IA').join('、');
+      if (p.textContent !== next) p.textContent = next;
     });
   }
 
-  function enrollmentHasMathIA() {
+  function activeEnrollmentRows() {
     try {
       for (const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']) {
         const raw = localStorage.getItem(key);
         if (!raw) continue;
         const rows = JSON.parse(raw);
-        if (!Array.isArray(rows)) continue;
-        if (rows.some(row => {
-          const courses = Array.isArray(row?.courses) ? row.courses : String(row?.['报名课程'] ?? row?.['课程'] ?? '').split(/[、，,;；|]+/);
-          return courses.some(course => /数学\s*(?:i?a|1a|1)$/i.test(String(course).replace(/Ⅰ/g,'I')) || String(course).trim() === '数学IA');
-        })) return true;
+        if (Array.isArray(rows)) return rows.filter(row => !/退课|取消|无效|已结课|结课/.test(String(row?.status ?? row?.['报名状态'] ?? row?.['状态'] ?? '')));
       }
     } catch (_) {}
-    return false;
+    return [];
   }
 
-  function mathIAEnrollmentCount() {
-    try {
-      for (const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']) {
-        const raw = localStorage.getItem(key);
-        if (!raw) continue;
-        const rows = JSON.parse(raw);
-        if (!Array.isArray(rows)) continue;
-        const names = new Set();
-        rows.forEach(row => {
-          const status = String(row?.status ?? row?.['报名状态'] ?? row?.['状态'] ?? '');
-          if (/退课|取消|无效|已结课|结课/.test(status)) return;
-          const courses = Array.isArray(row?.courses) ? row.courses : String(row?.['报名课程'] ?? row?.['课程'] ?? '').split(/[、，,;；|]+/);
-          if (courses.some(course => /数学\s*(?:i?a|1a|1)$/i.test(String(course).replace(/Ⅰ/g,'I')) || String(course).trim() === '数学IA')) {
-            names.add(String(row?.name ?? row?.['姓名'] ?? '').trim());
-          }
-        });
-        if (names.size) return names.size;
-      }
-    } catch (_) {}
-    return 0;
+  function isMathIA(value) {
+    const text = String(value).trim().replace(/Ⅰ/g,'I');
+    return text === '数学IA' || /数学\s*(?:i?a|1a|1)$/i.test(text);
   }
 
   function patchEnrollment() {
     document.querySelectorAll('#enrollmentContent [data-enrollment-course]').forEach(button => {
       if ((button.dataset.enrollmentCourse || '').trim() !== '数学IA') return;
       const small = button.querySelector('small');
-      if (small) small.textContent = small.textContent.replace('时间未定', '已排入日历');
+      if (small?.textContent.includes('时间未定')) small.textContent = small.textContent.replace('时间未定','已排入日历');
     });
-
     const detail = document.querySelector('#enrollmentContent .enrollment-detail-head');
     if (detail?.querySelector('h3')?.textContent.trim() === '数学IA') {
       const small = detail.querySelector('small');
-      if (small) small.textContent = '已排入课程日历';
+      if (small && small.textContent !== '已排入课程日历') small.textContent='已排入课程日历';
     }
-
     document.querySelectorAll('#enrollmentContent .planning-table tbody tr').forEach(row => {
-      const first = row.cells?.[0]?.textContent || '';
-      if (!first.includes('数学IA')) return;
+      if (!(row.cells?.[0]?.textContent || '').includes('数学IA')) return;
       const state = row.querySelector('.schedule-state');
       if (state) {
-        state.textContent = '已排';
+        if (state.textContent !== '已排') state.textContent='已排';
         state.classList.remove('unscheduled');
         state.classList.add('scheduled');
       }
     });
 
-    if (enrollmentHasMathIA()) {
+    const rows = activeEnrollmentRows();
+    const names = new Set();
+    const courses = new Set();
+    rows.forEach(row => {
+      const list = Array.isArray(row?.courses) ? row.courses : String(row?.['报名课程'] ?? row?.['课程'] ?? '').split(/[、，,;；|]+/);
+      list.map(v=>String(v).trim()).filter(Boolean).forEach(course => {
+        courses.add(course);
+        if (isMathIA(course)) names.add(String(row?.name ?? row?.['姓名'] ?? '').trim());
+      });
+    });
+    if (names.size) {
       const metric = document.getElementById('enrollmentUnscheduledCount');
-      if (metric) {
-        const candidates = new Set();
-        try {
-          const raw = localStorage.getItem('tabitoEnrollmentV3') || localStorage.getItem('tabitoEnrollmentV2') || localStorage.getItem('tabitoEnrollmentV1');
-          const rows = raw ? JSON.parse(raw) : [];
-          (Array.isArray(rows) ? rows : []).forEach(row => {
-            const status = String(row?.status ?? row?.['报名状态'] ?? row?.['状态'] ?? '');
-            if (/退课|取消|无效|已结课|结课/.test(status)) return;
-            const courses = Array.isArray(row?.courses) ? row.courses : String(row?.['报名课程'] ?? row?.['课程'] ?? '').split(/[、，,;；|]+/);
-            courses.map(course => String(course).trim()).filter(Boolean).forEach(course => candidates.add(course));
-          });
-        } catch (_) {}
-        const scheduledPatterns = [/公共|政经|政治经济/,/国语|现代文/,/数学\s*(?:i?a|1a|1)$/i,/数学.*(?:iibc|2bc|2)$/i,/地理/,/物理/,/共通考试数学IA/];
-        metric.textContent = String([...candidates].filter(course => !scheduledPatterns.some(pattern => pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II')))).length);
-      }
-    }
-
-    const count = mathIAEnrollmentCount();
-    if (count) {
+      const scheduledPatterns = [/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i];
+      const pending = [...courses].filter(course => !isMathIA(course) && !scheduledPatterns.some(pattern => pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II'))));
+      if (metric && metric.textContent !== String(pending.length)) metric.textContent=String(pending.length);
       document.querySelectorAll('[data-event-id^="mathia-"]').forEach(node => {
         if (node.querySelector('.enrollment-count-badge')) return;
-        const badge = document.createElement('span');
-        badge.className = 'enrollment-count-badge';
-        badge.textContent = `${count}人`;
-        (node.querySelector('.event-name,.month-event-top strong,strong') || node).append(badge);
+        const badge=document.createElement('span');
+        badge.className='enrollment-count-badge';
+        badge.textContent=`${names.size}人`;
+        (node.querySelector('.event-name,.month-event-top strong,strong')||node).append(badge);
       });
     }
-  }
-
-  function updateWeekCountsAfterMathIA() {
-    const weekView = document.getElementById('weekView');
-    if (!weekView || weekView.hidden) return;
-    const active = [...document.querySelectorAll('#dayGrid .event[data-event-id]')].filter(node => !node.classList.contains('office-filtered') && !node.classList.contains('cancelled'));
-    const cancelled = [...document.querySelectorAll('#dayGrid .event.cancelled[data-event-id]')].filter(node => !node.classList.contains('office-filtered'));
-    const hours = active.reduce((sum, node) => {
-      const match = node.querySelector('.event-time')?.textContent.match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
-      return sum + (match ? (minutes(match[2]) - minutes(match[1])) / 60 : 0);
-    }, 0);
-    const sessions = document.getElementById('summarySessions');
-    const hourNode = document.getElementById('summaryHours');
-    const weekCount = document.getElementById('weekCount');
-    if (sessions) sessions.textContent = `${active.length} 节`;
-    if (hourNode) hourNode.textContent = `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
-    if (weekCount) weekCount.textContent = `${active.length} 节授课${cancelled.length ? ` · ${cancelled.length} 项休讲` : ''}`;
   }
 
   function polish() {
@@ -455,34 +363,30 @@
     patchCourseLedger();
     patchPendingCourseList();
     patchEnrollment();
-    updateWeekCountsAfterMathIA();
   }
 
-  document.addEventListener('click', event => {
-    const node = event.target.closest('[data-event-id^="mathia-"]');
-    if (node) {
-      const item = MATHIA_BY_ID.get(node.dataset.eventId);
-      if (item) window.setTimeout(() => openMathIADialog(item), 0);
-    }
-  }, true);
+  document.addEventListener('click',event => {
+    const node=event.target.closest('[data-event-id^="mathia-"]');
+    if (!node) return;
+    const item=MATHIA_BY_ID.get(node.dataset.eventId);
+    if (item) setTimeout(()=>openMathIADialog(item),0);
+  },true);
 
-  let queued = false;
-  const queuePolish = () => {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      polish();
-    });
+  let calendarQueued=false;
+  const queueCalendar=()=>{
+    if(calendarQueued)return;
+    calendarQueued=true;
+    requestAnimationFrame(()=>{calendarQueued=false;polish();});
   };
 
   polish();
-  new MutationObserver(queuePolish).observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['hidden']
-  });
-  window.addEventListener('popstate', queuePolish);
-  window.addEventListener('resize', queuePolish);
+
+  const calendar=document.querySelector('.office-calendar');
+  if(calendar)new MutationObserver(queueCalendar).observe(calendar,{childList:true,subtree:true});
+  const enrollment=document.getElementById('enrollmentContent');
+  if(enrollment)new MutationObserver(()=>requestAnimationFrame(patchEnrollment)).observe(enrollment,{childList:true,subtree:true});
+  const periodTitle=document.getElementById('weekTitle');
+  if(periodTitle)new MutationObserver(()=>requestAnimationFrame(()=>{patchCourseLedger();patchPendingCourseList();})).observe(periodTitle,{childList:true,subtree:true,characterData:true});
+  window.addEventListener('popstate',queueCalendar);
+  window.addEventListener('resize',queueCalendar);
 })();
