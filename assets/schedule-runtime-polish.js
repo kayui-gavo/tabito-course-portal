@@ -3,50 +3,113 @@
 
   const OLD_NAME = '金老师';
   const NEW_NAME = '金龙熙';
-  const MATHIA_KEY = 'mathIA';
-  const MATHIA_NAME = '数学IA';
-  const MATHIA_TEACHER = '脇村 剛';
-  const MATHIA_MODE = '网课';
   const DAY_MS = 86400000;
   const TIMELINE_START = 9 * 60;
-  const TIMELINE_END = 22 * 60;
-  const TIMELINE_HEIGHT = 758;
+  const DEFAULT_TIMELINE_END = 22 * 60;
+  const LATE_TIMELINE_END = 24 * 60;
+  const PX_PER_HOUR = 58.3077;
 
-  const MATHIA_EVENTS = [
-    ['mathia-01','2026-09-23','20:00','22:00','第1回','式的结构与高次式变形'],
-    ['mathia-02','2026-09-25','20:00','22:00','第2回','不等式、绝对值与取值范围'],
-    ['mathia-03','2026-09-30','20:00','22:00','第3回','集合与命题综合'],
-    ['mathia-04','2026-10-02','20:00','22:00','第4回','图像与参数'],
-    ['mathia-05','2026-10-07','20:00','22:00','第5回','最大值、最小值与定义域'],
-    ['mathia-06','2026-10-09','20:00','22:00','第6回','方程、不等式与图像'],
-    ['mathia-07','2026-10-14','20:00','22:00','第7回','根的分布、参数问题'],
-    ['mathia-08','2026-10-16','20:00','22:00','第8回','二次函数综合练习'],
-    ['mathia-09','2026-10-21','20:00','22:00','第9回','代表值、方差的应用'],
-    ['mathia-10','2026-10-23','20:00','22:00','第10回','箱线图、散点图与相关'],
-    ['mathia-11','2026-10-28','20:00','22:00','第11回','数据分析综合练习'],
-    ['mathia-12','2026-10-30','20:00','22:00','第12回','三角比复习'],
-    ['mathia-13','2026-11-04','20:00','22:00','第13回','正弦定理、余弦定理与面积'],
-    ['mathia-14','2026-11-06','20:00','22:00','第14回','复合图形的度量'],
-    ['mathia-15','2026-11-11','20:00','22:00','第15回','图形与测量综合练习'],
-    ['mathia-16','2026-11-13','20:00','22:00','第16回','三角形的性质与比例'],
-    ['mathia-17','2026-11-18','20:00','22:00','第17回','圆的性质'],
-    ['mathia-18','2026-11-20','20:00','22:00','第18回','图形性质综合练习'],
-    ['mathia-19','2026-11-25','20:00','22:00','第19回','计数、排列'],
-    ['mathia-20','2026-11-27','20:00','22:00','第20回','组合与选取'],
-    ['mathia-21','2026-12-02','20:00','22:00','第21回','概率、条件概率'],
-    ['mathia-22','2026-12-04','20:00','22:00','第22回','概率综合练习'],
-    ['mathia-23','2026-12-09','20:00','22:00','第23回','跨领域综合练习'],
-    ['mathia-24','2026-12-11','20:00','22:00','第24回','跨领域综合练习']
-  ].map(([id,date,start,end,title,topic]) => ({id,date,start,end,title,topic}));
-  const MATHIA_BY_ID = new Map(MATHIA_EVENTS.map(event => [event.id, event]));
+  const MATHIA = {
+    key: 'mathIA', name: '数学IA', teacher: '脇村 剛', mode: '网课',
+    color: '#7a5d8e', bg: '#f4f0f7', border: '#d6cbe0',
+    ledgerMeta: '周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试',
+    events: [
+      ['mathia-01','2026-09-23','20:00','22:00','第1回','式的结构与高次式变形'],
+      ['mathia-02','2026-09-25','20:00','22:00','第2回','不等式、绝对值与取值范围'],
+      ['mathia-03','2026-09-30','20:00','22:00','第3回','集合与命题综合'],
+      ['mathia-04','2026-10-02','20:00','22:00','第4回','图像与参数'],
+      ['mathia-05','2026-10-07','20:00','22:00','第5回','最大值、最小值与定义域'],
+      ['mathia-06','2026-10-09','20:00','22:00','第6回','方程、不等式与图像'],
+      ['mathia-07','2026-10-14','20:00','22:00','第7回','根的分布、参数问题'],
+      ['mathia-08','2026-10-16','20:00','22:00','第8回','二次函数综合练习'],
+      ['mathia-09','2026-10-21','20:00','22:00','第9回','代表值、方差的应用'],
+      ['mathia-10','2026-10-23','20:00','22:00','第10回','箱线图、散点图与相关'],
+      ['mathia-11','2026-10-28','20:00','22:00','第11回','数据分析综合练习'],
+      ['mathia-12','2026-10-30','20:00','22:00','第12回','三角比复习'],
+      ['mathia-13','2026-11-04','20:00','22:00','第13回','正弦定理、余弦定理与面积'],
+      ['mathia-14','2026-11-06','20:00','22:00','第14回','复合图形的度量'],
+      ['mathia-15','2026-11-11','20:00','22:00','第15回','图形与测量综合练习'],
+      ['mathia-16','2026-11-13','20:00','22:00','第16回','三角形的性质与比例'],
+      ['mathia-17','2026-11-18','20:00','22:00','第17回','圆的性质'],
+      ['mathia-18','2026-11-20','20:00','22:00','第18回','图形性质综合练习'],
+      ['mathia-19','2026-11-25','20:00','22:00','第19回','计数、排列'],
+      ['mathia-20','2026-11-27','20:00','22:00','第20回','组合与选取'],
+      ['mathia-21','2026-12-02','20:00','22:00','第21回','概率、条件概率'],
+      ['mathia-22','2026-12-04','20:00','22:00','第22回','概率综合练习'],
+      ['mathia-23','2026-12-09','20:00','22:00','第23回','跨领域综合练习'],
+      ['mathia-24','2026-12-11','20:00','22:00','第24回','跨领域综合练习']
+    ]
+  };
 
-  const REMOVED_EVENTS = new Set(['jp-09', 'jp-11', 'jp-13']);
+  const CHEMISTRY = {
+    key: 'chemCurrent', name: '化学（上半期）', teacher: '孫', mode: '',
+    color: '#9a6048', bg: '#f8f1ed', border: '#dfc8bd',
+    ledgerName: '共通考试化学', ledgerMeta: '2026上半期入门讲座｜全20回・40h',
+    events: [
+      ['chem-01','2026-04-25','13:00','15:00','第1回','化学基础总复习、基础能力诊断测试'],
+      ['chem-02','2026-05-12','22:00','24:00','第2回','脂肪族烃、含氧化合物与异构体'],
+      ['chem-03','2026-05-19','22:00','24:00','第3回','芳香族化合物、官能团检验'],
+      ['chem-04','2026-05-26','22:00','24:00','第4回','结构推断、元素分析与分子式确定'],
+      ['chem-05','2026-06-02','22:00','24:00','第5回','高分子化合物、糖与蛋白质'],
+      ['chem-06','2026-06-09','22:00','24:00','第6回','物质构成、原子结构、化学键与晶体'],
+      ['chem-07','2026-06-16','22:00','24:00','第7回','物质的量、化学方程式与浓度计算'],
+      ['chem-08','2026-06-23','22:00','24:00','第8回','气体性质、状态方程、分压与蒸气压'],
+      ['chem-09','2026-06-30','22:00','24:00','第9回','溶液性质、亨利定律与稀溶液'],
+      ['chem-10','2026-07-08','09:00','11:00','第10回','化学反应与能量、焓'],
+      ['chem-11','2026-07-14','22:00','24:00','第11回','反应速率、活化能与催化剂'],
+      ['chem-12','2026-07-21','22:00','24:00','第12回','化学平衡、平衡常数与勒夏特列原理'],
+      ['chem-13','2026-07-29','09:00','11:00','第13回','酸碱反应、pH、缓冲溶液与滴定曲线'],
+      ['chem-14','2026-08-12','09:00','11:00','第14回','氧化还原反应与各类电池'],
+      ['chem-15','2026-08-19','09:00','11:00','第15回','电解、法拉第定律与电解工业'],
+      ['chem-16','2026-08-26','09:00','11:00','第16回','非金属元素'],
+      ['chem-17','2026-08-31','09:00','11:00','第17回','典型金属元素'],
+      ['chem-18','2026-09-09','09:00','11:00','第18回','过渡元素与配合离子分析'],
+      ['chem-19','2026-09-16','09:00','11:00','第19回','实验考察、图表读取与综合问题'],
+      ['chem-20','2026-09-23','09:00','11:00','第20回','真题、模拟题练习与时间分配']
+    ]
+  };
+
+  const BIOLOGY = {
+    key: 'biologySummer', name: '生物（夏期集中）', teacher: '周梓杰', mode: '',
+    color: '#4f776c', bg: '#eef5f2', border: '#c4d8d1',
+    ledgerName: '生物', ledgerMeta: '2026前期夏期集中讲座｜全20回・40h',
+    events: [
+      ['bio-01','2026-07-20','19:00','21:00','第1回','微观领域问题练习 I'],
+      ['bio-02','2026-07-24','13:00','15:00','第2回','微观领域问题练习 II'],
+      ['bio-03','2026-07-27','19:00','21:00','第3回','微观领域问题练习 III'],
+      ['bio-04','2026-07-31','13:00','15:00','第4回','微观领域知识整理'],
+      ['bio-05','2026-08-03','19:00','21:00','第5回','宏观领域问题练习 I'],
+      ['bio-06','2026-08-07','13:00','15:00','第6回','宏观领域问题练习 II'],
+      ['bio-07','2026-08-10','19:00','21:00','第7回','宏观领域问题练习 III'],
+      ['bio-08','2026-08-14','13:00','15:00','第8回','宏观领域知识整理'],
+      ['bio-09','2026-08-17','19:00','21:00','第9回','考试・讲评 I'],
+      ['bio-10','2026-08-21','13:00','15:00','第10回','考试・讲评 II'],
+      ['bio-11','2026-08-24','19:00','21:00','第11回','综合问题练习 I'],
+      ['bio-12','2026-08-28','13:00','15:00','第12回','进阶学习 I'],
+      ['bio-13','2026-08-31','19:00','21:00','第13回','综合问题练习 II'],
+      ['bio-14','2026-09-04','13:00','15:00','第14回','进阶学习 II'],
+      ['bio-15','2026-09-07','19:00','21:00','第15回','综合问题练习 III'],
+      ['bio-16','2026-09-11','13:00','15:00','第16回','进阶学习 III'],
+      ['bio-17','2026-09-14','19:00','21:00','第17回','综合问题练习 IV'],
+      ['bio-18','2026-09-18','13:00','15:00','第18回','进阶学习 IV'],
+      ['bio-19','2026-09-21','19:00','21:00','第19回','综合问题练习 V'],
+      ['bio-20','2026-09-25','13:00','15:00','第20回','进阶学习 V']
+    ]
+  };
+
+  const EXTRA_COURSES = [MATHIA, CHEMISTRY, BIOLOGY];
+  EXTRA_COURSES.forEach(course => {
+    course.events = course.events.map(([id,date,start,end,title,topic]) => ({id,date,start,end,title,topic,course}));
+  });
+  const EXTRA_EVENT_BY_ID = new Map(EXTRA_COURSES.flatMap(course => course.events.map(event => [event.id,event])));
+
+  const REMOVED_EVENTS = new Set(['jp-09','jp-11','jp-13']);
   const EVENT_OVERRIDES = new Map([
-    ['jp-08', { start: '13:40', end: '16:40', title: '第8回', topic: '小说读解技巧，基础现代文练习5・6' }],
-    ['jp-10', { start: '13:40', end: '16:40', title: '第9回', topic: '2020年评论・小说' }],
-    ['jp-12', { start: '13:40', end: '16:40', title: '第10回', topic: '2021年评论・小说' }],
-    ['jp-14', { start: '13:40', end: '16:40', title: '第11回', topic: '2022年评论' }],
-    ...Array.from({length:18}, (_,i) => [`geo-${String(i + 3).padStart(2,'0')}`, { start: '18:00', end: '21:00' }])
+    ['jp-08',{start:'13:40',end:'16:40',title:'第8回',topic:'小说读解技巧，基础现代文练习5・6'}],
+    ['jp-10',{start:'13:40',end:'16:40',title:'第9回',topic:'2020年评论・小说'}],
+    ['jp-12',{start:'13:40',end:'16:40',title:'第10回',topic:'2021年评论・小说'}],
+    ['jp-14',{start:'13:40',end:'16:40',title:'第11回',topic:'2022年评论'}],
+    ...Array.from({length:18},(_,i)=>[`geo-${String(i+3).padStart(2,'0')}`,{start:'18:00',end:'21:00'}])
   ]);
 
   const minutes = value => {
@@ -58,52 +121,105 @@
     return new Date(Date.UTC(y,m-1,d));
   };
   const formatDate = date => `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}-${String(date.getUTCDate()).padStart(2,'0')}`;
-  const addDays = (date, days) => new Date(date.getTime() + days * DAY_MS);
+  const addDays = (date,days) => new Date(date.getTime()+days*DAY_MS);
   const escapeHtml = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  const todayKey = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  };
+
+  function currentSubject() {
+    return document.getElementById('subjectFilter')?.value || 'all';
+  }
+  function shouldShow(course) {
+    return currentSubject() === 'all' || currentSubject() === course.key;
+  }
+
+  function visibleWeekDates() {
+    return [...document.querySelectorAll('#dayGrid .day-column[data-date]')].map(node => node.dataset.date);
+  }
+  function timelineEnd() {
+    const dates = new Set(visibleWeekDates());
+    const hasLate = EXTRA_COURSES.some(course => shouldShow(course) && course.events.some(event => dates.has(event.date) && minutes(event.end) > DEFAULT_TIMELINE_END));
+    return hasLate ? LATE_TIMELINE_END : DEFAULT_TIMELINE_END;
+  }
+  function timelineHeight() {
+    return ((timelineEnd()-TIMELINE_START)/60)*PX_PER_HOUR;
+  }
+  function timelineTop(start) {
+    return ((minutes(start)-TIMELINE_START)/(timelineEnd()-TIMELINE_START))*timelineHeight();
+  }
+  function eventHeight(start,end) {
+    return Math.max(34,((minutes(end)-minutes(start))/(timelineEnd()-TIMELINE_START))*timelineHeight()-5);
+  }
 
   function installStyle() {
-    if (document.getElementById('scheduleRuntimePolishV6')) return;
-    document.getElementById('scheduleRuntimePolishV5')?.remove();
-    document.getElementById('scheduleRuntimePolishV4')?.remove();
+    if (document.getElementById('scheduleRuntimePolishV7')) return;
+    ['scheduleRuntimePolishV6','scheduleRuntimePolishV5','scheduleRuntimePolishV4'].forEach(id => document.getElementById(id)?.remove());
     const style = document.createElement('style');
-    style.id = 'scheduleRuntimePolishV6';
+    style.id = 'scheduleRuntimePolishV7';
     style.textContent = `
-      :root{--math-ia:#7a5d8e;--math-ia-bg:#f4f0f7}
+      :root{
+        --math-ia:${MATHIA.color};--math-ia-bg:${MATHIA.bg};
+        --chem-current:${CHEMISTRY.color};--chem-current-bg:${CHEMISTRY.bg};
+        --bio-summer:${BIOLOGY.color};--bio-summer-bg:${BIOLOGY.bg};
+        --runtime-grid-height:758px;--runtime-hour:${PX_PER_HOUR}px;--runtime-two-hour:${PX_PER_HOUR*2}px;
+      }
+      .time-axis,.day-grid{height:var(--runtime-grid-height)!important}
+      .day-column{background-size:100% var(--runtime-hour)!important}
+      .day-column::after{background-size:100% var(--runtime-two-hour)!important}
       .subject-legend.mathIA i{background:var(--math-ia)}
-      .event.mathIA{border-color:#d6cbe0;border-left-color:var(--math-ia);background:var(--math-ia-bg)}
+      .subject-legend.chemCurrent i{background:var(--chem-current)}
+      .subject-legend.biologySummer i{background:var(--bio-summer)}
+      .event.mathIA{border-color:${MATHIA.border};border-left-color:var(--math-ia);background:var(--math-ia-bg)}
+      .event.chemCurrent{border-color:${CHEMISTRY.border};border-left-color:var(--chem-current);background:var(--chem-current-bg)}
+      .event.biologySummer{border-color:${BIOLOGY.border};border-left-color:var(--bio-summer);background:var(--bio-summer-bg)}
       .month-event.mathIA{border-left-color:var(--math-ia);background:var(--math-ia-bg)}
+      .month-event.chemCurrent{border-left-color:var(--chem-current);background:var(--chem-current-bg)}
+      .month-event.biologySummer{border-left-color:var(--bio-summer);background:var(--bio-summer-bg)}
       .mobile-event.mathIA{border-left:3px solid var(--math-ia);padding-left:8px}
-      .time-axis,.day-grid{height:${TIMELINE_HEIGHT}px!important}
-      .day-column{background-size:100% 58.3077px!important}
-      .day-column::after{background-size:100% 116.6154px!important}
+      .mobile-event.chemCurrent{border-left:3px solid var(--chem-current);padding-left:8px}
+      .mobile-event.biologySummer{border-left:3px solid var(--bio-summer);padding-left:8px}
       .course-overview-dot.mathIA{background:var(--math-ia)}
+      .course-overview-dot.chemCurrent{background:var(--chem-current)}
+      .course-overview-dot.biologySummer{background:var(--bio-summer)}
+      .course-overview-room.unknown{color:#7b8490}
     `;
     document.head.append(style);
   }
 
   function ensureUiOptions() {
     const subject = document.getElementById('subjectFilter');
-    if (subject && !subject.querySelector(`option[value="${MATHIA_KEY}"]`)) {
-      const option = document.createElement('option');
-      option.value = MATHIA_KEY;
-      option.textContent = MATHIA_NAME;
-      subject.insertBefore(option, subject.querySelector('option[value="mathIIBC"]') || null);
+    if (subject) {
+      const before = subject.querySelector('option[value="mathIIBC"]');
+      [MATHIA,CHEMISTRY,BIOLOGY].forEach(course => {
+        if (subject.querySelector(`option[value="${course.key}"]`)) return;
+        const option = new Option(course.name,course.key);
+        subject.insertBefore(option,before||null);
+      });
+      const requested = new URL(location.href).searchParams.get('subject');
+      if (EXTRA_COURSES.some(course => course.key === requested) && subject.value !== requested) {
+        subject.value = requested;
+        subject.dispatchEvent(new Event('change',{bubbles:true}));
+      }
     }
+
     const teacher = document.getElementById('teacherFilter');
-    if (teacher && ![...teacher.options].some(option => option.value === MATHIA_TEACHER)) {
-      teacher.add(new Option(MATHIA_TEACHER, MATHIA_TEACHER));
+    if (teacher) {
+      [MATHIA.teacher,CHEMISTRY.teacher,BIOLOGY.teacher].forEach(name => {
+        if (name && ![...teacher.options].some(option => option.value === name)) teacher.add(new Option(name,name));
+      });
     }
+
     const legend = document.querySelector('.office-legend');
-    if (legend && !legend.querySelector('.subject-legend.mathIA')) {
-      const item = document.createElement('span');
-      item.className = 'legend-item subject-legend mathIA';
-      item.innerHTML = '<i></i>数学IA';
-      legend.insertBefore(item, legend.querySelector('.subject-legend.mathIIBC') || legend.querySelector('.legend-divider'));
-    }
-    const requested = new URL(location.href).searchParams.get('subject');
-    if (requested === MATHIA_KEY && subject && subject.value !== MATHIA_KEY) {
-      subject.value = MATHIA_KEY;
-      subject.dispatchEvent(new Event('change', {bubbles:true}));
+    if (legend) {
+      [MATHIA,CHEMISTRY,BIOLOGY].forEach(course => {
+        if (legend.querySelector(`.subject-legend.${course.key}`)) return;
+        const item = document.createElement('span');
+        item.className = `legend-item subject-legend ${course.key}`;
+        item.innerHTML = `<i></i>${escapeHtml(course.name)}`;
+        legend.insertBefore(item,legend.querySelector('.legend-divider'));
+      });
     }
   }
 
@@ -113,7 +229,7 @@
     });
     ['#dialogTeacher','.event-meta','.month-event-meta','.mobile-event-meta','.course-overview-teacher','.followup-main span']
       .forEach(selector => document.querySelectorAll(selector).forEach(node => {
-        if (node.textContent.includes(OLD_NAME)) node.textContent = node.textContent.replaceAll(OLD_NAME, NEW_NAME);
+        if (node.textContent.includes(OLD_NAME)) node.textContent = node.textContent.replaceAll(OLD_NAME,NEW_NAME);
       }));
   }
 
@@ -122,8 +238,7 @@
     EVENT_OVERRIDES.forEach((override,id) => {
       document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => {
         const timeNode = node.querySelector('.event-time,.mobile-event-time,.month-event-top time');
-        const nextTime = override.start && override.end ? `${override.start}–${override.end}` : '';
-        if (timeNode && nextTime && timeNode.textContent !== nextTime) timeNode.textContent = nextTime;
+        if (timeNode && override.start && override.end) timeNode.textContent = `${override.start}–${override.end}`;
         if (override.title) {
           const name = node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');
           if (name && !name.textContent.endsWith(override.title)) {
@@ -133,80 +248,63 @@
         }
         if (override.topic) {
           const topic = node.querySelector('.event-topic,.month-event p,.mobile-event p');
-          if (topic && topic.textContent !== override.topic) topic.textContent = override.topic;
+          if (topic) topic.textContent = override.topic;
         }
         if (override.start && override.end) {
           const aria = node.getAttribute('aria-label') || '';
-          const next = aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/, `${override.start}至${override.end}`);
-          if (next !== aria) node.setAttribute('aria-label', next);
+          node.setAttribute('aria-label',aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/,`${override.start}至${override.end}`));
         }
       });
     });
   }
 
-  const timelineTop = start => ((minutes(start)-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT;
-  const timelineHeight = (start,end) => Math.max(34,((minutes(end)-minutes(start))/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT-5);
-
-  function rescaleWeekTimeline() {
-    const axis = document.getElementById('timeAxis');
-    if (axis) {
-      axis.querySelectorAll('.time-label').forEach(label => {
-        const match = label.textContent.match(/(\d{1,2}):00/);
-        if (!match) return;
-        const top = ((Number(match[1])*60-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TIMELINE_HEIGHT;
-        if (label.style.top !== `${top}px`) label.style.top = `${top}px`;
-      });
-      if (!axis.querySelector('[data-runtime-22]')) {
-        const label = document.createElement('span');
-        label.className = 'time-label';
-        label.dataset.runtime22 = '1';
-        label.style.top = `${TIMELINE_HEIGHT}px`;
-        label.textContent = '22:00';
-        axis.append(label);
-      }
-    }
-    document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node => {
-      const match = (node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
-      if (!match) return;
-      const top = `${timelineTop(match[1])}px`;
-      const height = `${timelineHeight(match[1],match[2])}px`;
-      if (node.style.top !== top) node.style.top = top;
-      if (node.style.height !== height) node.style.height = height;
-    });
+  function modeLabel(course) {
+    return course.mode || '方式待确认';
+  }
+  function roomLabel(course) {
+    return course.mode === '网课' ? '无需教室' : '待确认';
+  }
+  function eventMeta(course) {
+    return `${course.teacher} · ${modeLabel(course)}`;
   }
 
-  const shouldShowMathIA = () => ['all',MATHIA_KEY].includes(document.getElementById('subjectFilter')?.value || 'all');
+  function weekButton(event) {
+    const c = event.course;
+    return `<button type="button" class="event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}" aria-label="${escapeHtml(c.name)} ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">${escapeHtml(c.name)} · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(eventMeta(c))}</span></button>`;
+  }
+  function monthButton(event) {
+    const c = event.course;
+    return `<button type="button" class="month-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}"><span class="month-event-top"><time>${event.start}</time><strong>${escapeHtml(c.name)} · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(eventMeta(c))}</span></button>`;
+  }
+  function mobileButton(event) {
+    const c = event.course;
+    return `<button type="button" class="mobile-event ${c.key}" data-event-id="${event.id}" data-teacher="${escapeHtml(c.teacher)}" data-mode="${escapeHtml(c.mode)}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>${escapeHtml(c.name)} · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(eventMeta(c))}</span></span></button>`;
+  }
 
-  function mathWeekButton(event) {
-    return `<button type="button" class="event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}" style="top:${timelineTop(event.start)}px;height:${timelineHeight(event.start,event.end)}px;left:4px;right:auto;width:calc(100% - 8px)" aria-label="数学IA ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">数学IA · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></button>`;
-  }
-  function mathMonthButton(event) {
-    return `<button type="button" class="month-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}"><span class="month-event-top"><time>${event.start}</time><strong>数学IA · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></button>`;
-  }
-  function mathMobileButton(event) {
-    return `<button type="button" class="mobile-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>数学IA · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></span></button>`;
-  }
-
-  function injectMathIA() {
-    if (!shouldShowMathIA()) return;
+  function injectExtraCourses() {
     const monthVisible = document.getElementById('monthView')?.hidden === false;
+    const visibleCourses = EXTRA_COURSES.filter(shouldShow);
     if (monthVisible) {
       document.querySelectorAll('#monthGrid .month-day[data-date]').forEach(day => {
-        const event = MATHIA_EVENTS.find(item => item.date === day.dataset.date);
-        if (!event || day.querySelector(`[data-event-id="${event.id}"]`)) return;
-        day.querySelector('.month-events')?.insertAdjacentHTML('beforeend', mathMonthButton(event));
+        visibleCourses.forEach(course => {
+          course.events.filter(event => event.date === day.dataset.date).forEach(event => {
+            if (!day.querySelector(`[data-event-id="${event.id}"]`)) day.querySelector('.month-events')?.insertAdjacentHTML('beforeend',monthButton(event));
+          });
+        });
         const total = day.querySelectorAll('.month-event[data-event-id]').length;
         const count = day.querySelector('.month-day-count');
-        if (count && count.textContent !== `${total} 项`) count.textContent = `${total} 项`;
-        if (!count) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend', `<span class="month-day-count">${total} 项</span>`);
+        if (count) count.textContent = total ? `${total} 项` : '';
+        else if (total) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend',`<span class="month-day-count">${total} 项</span>`);
       });
       return;
     }
 
     document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column => {
-      const event = MATHIA_EVENTS.find(item => item.date === column.dataset.date);
-      if (!event || column.querySelector(`[data-event-id="${event.id}"]`)) return;
-      column.insertAdjacentHTML('beforeend', mathWeekButton(event));
+      visibleCourses.forEach(course => {
+        course.events.filter(event => event.date === column.dataset.date).forEach(event => {
+          if (!column.querySelector(`[data-event-id="${event.id}"]`)) column.insertAdjacentHTML('beforeend',weekButton(event));
+        });
+      });
     });
 
     const days = [...document.querySelectorAll('#calendarMobile .mobile-day')];
@@ -214,141 +312,224 @@
     if (!days.length || !/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return;
     const start = parseDate(week);
     days.forEach((day,index) => {
-      const event = MATHIA_EVENTS.find(item => item.date === formatDate(addDays(start,index)));
-      if (!event || day.querySelector(`[data-event-id="${event.id}"]`)) return;
+      const date = formatDate(addDays(start,index));
       const events = day.querySelector('.mobile-events');
-      events?.querySelector('.mobile-empty')?.remove();
-      events?.insertAdjacentHTML('beforeend', mathMobileButton(event));
-      const count = day.querySelector('.mobile-day-head span');
+      visibleCourses.forEach(course => {
+        course.events.filter(event => event.date === date).forEach(event => {
+          if (!day.querySelector(`[data-event-id="${event.id}"]`)) events?.insertAdjacentHTML('beforeend',mobileButton(event));
+        });
+      });
+      if (events?.querySelector('.mobile-event[data-event-id]')) events.querySelector('.mobile-empty')?.remove();
       const total = events?.querySelectorAll('.mobile-event[data-event-id]').length || 0;
-      if (count && count.textContent !== `${total} 项`) count.textContent = `${total} 项`;
+      const count = day.querySelector('.mobile-day-head span');
+      if (count) count.textContent = total ? `${total} 项` : '';
     });
   }
 
-  function openMathIADialog(event) {
-    const dialog = document.getElementById('eventDialog');
-    if (!dialog) return;
-    const date = parseDate(event.date);
-    const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
-    const set = (id,text) => { const node=document.getElementById(id); if(node) node.textContent=text; };
-    set('dialogSubject',MATHIA_NAME);
+  function rescaleWeekTimeline() {
+    const end = timelineEnd();
+    const height = timelineHeight();
+    document.documentElement.style.setProperty('--runtime-grid-height',`${height}px`);
+    document.documentElement.style.setProperty('--runtime-hour',`${PX_PER_HOUR}px`);
+    document.documentElement.style.setProperty('--runtime-two-hour',`${PX_PER_HOUR*2}px`);
+
+    const axis = document.getElementById('timeAxis');
+    if (axis) {
+      axis.querySelectorAll('[data-runtime-extra-label]').forEach(node => node.remove());
+      axis.querySelectorAll('.time-label').forEach(label => {
+        const match = label.textContent.match(/(\d{1,2}):00/);
+        if (!match) return;
+        const minute = Number(match[1])*60;
+        if (minute > end) { label.style.display='none'; return; }
+        label.style.display='';
+        label.style.top = `${((minute-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
+      });
+      for (let hour=22; hour<=end/60; hour++) {
+        if ([...axis.querySelectorAll('.time-label')].some(label => label.textContent.trim() === `${String(hour).padStart(2,'0')}:00`)) continue;
+        const label = document.createElement('span');
+        label.className='time-label';
+        label.dataset.runtimeExtraLabel='1';
+        label.style.top=`${((hour*60-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
+        label.textContent=`${String(hour).padStart(2,'0')}:00`;
+        axis.append(label);
+      }
+    }
+
+    document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node => {
+      const match=(node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
+      if (!match) return;
+      node.style.top=`${timelineTop(match[1])}px`;
+      node.style.height=`${eventHeight(match[1],match[2])}px`;
+    });
+  }
+
+  function relayoutWeekColumns() {
+    document.querySelectorAll('#dayGrid .day-column[data-date]').forEach(column => {
+      const nodes=[...column.querySelectorAll('.event[data-event-id]')]
+        .map(node => {
+          const match=(node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
+          return match ? {node,start:minutes(match[1]),end:minutes(match[2])} : null;
+        }).filter(Boolean).sort((a,b)=>a.start-b.start||a.end-b.end);
+      let group=[]; let groupEnd=-1;
+      const flush=()=>{
+        if(!group.length)return;
+        const columnEnds=[];
+        const placed=group.map(item=>{
+          let c=columnEnds.findIndex(value=>value<=item.start);
+          if(c===-1){c=columnEnds.length;columnEnds.push(item.end);}else columnEnds[c]=item.end;
+          return {...item,column:c};
+        });
+        const cols=Math.max(1,columnEnds.length);
+        placed.forEach(item=>{
+          const width=100/cols,left=item.column*width;
+          item.node.style.left=`calc(${left}% + 4px)`;
+          item.node.style.right='auto';
+          item.node.style.width=`calc(${width}% - 8px)`;
+        });
+        group=[];groupEnd=-1;
+      };
+      nodes.forEach(item=>{
+        if(group.length && item.start>=groupEnd) flush();
+        group.push(item);groupEnd=Math.max(groupEnd,item.end);
+      });
+      flush();
+    });
+  }
+
+  function openExtraDialog(event) {
+    const dialog=document.getElementById('eventDialog');
+    if(!dialog)return;
+    const date=parseDate(event.date);
+    const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
+    const set=(id,text)=>{const node=document.getElementById(id);if(node)node.textContent=text;};
+    set('dialogSubject',event.course.name);
     set('dialogTitle',event.topic);
     set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
     set('dialogTime',`${event.start}–${event.end}`);
-    set('dialogTeacher',MATHIA_TEACHER);
-    set('dialogMode',MATHIA_MODE);
-    set('dialogRoom','无需教室');
+    set('dialogTeacher',event.course.teacher);
+    set('dialogMode',event.course.mode || '待确认');
+    set('dialogRoom',roomLabel(event.course));
     set('dialogStatus','正常授课');
-    set('dialogNote',`${event.title}｜${event.topic}`);
+    const status = event.course === CHEMISTRY ? '｜2026上半期课程' : event.course === BIOLOGY ? '｜2026前期夏期集中讲座' : '';
+    set('dialogNote',`${event.title}｜${event.topic}${status}`);
     dialog.hidden=false;
     document.body.style.overflow='hidden';
+    if(!event.course.mode) requestAnimationFrame(()=>set('dialogRoom','待确认'));
   }
 
   function selectedMonth() {
-    const params = new URLSearchParams(location.search);
-    const month = params.get('month');
-    if (/^\d{4}-\d{2}$/.test(month || '')) return month;
-    const week = params.get('week');
-    if (/^\d{4}-\d{2}-\d{2}$/.test(week || '')) return week.slice(0,7);
-    const now = new Date();
+    const params=new URLSearchParams(location.search);
+    const month=params.get('month');
+    if(/^\d{4}-\d{2}$/.test(month||''))return month;
+    const week=params.get('week');
+    if(/^\d{4}-\d{2}-\d{2}$/.test(week||''))return week.slice(0,7);
+    const now=new Date();
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
   }
 
-  function patchCourseLedger() {
-    const body = document.getElementById('courseOverviewBody');
-    if (!body) return;
-    const month = selectedMonth();
-    const monthly = MATHIA_EVENTS.filter(event => event.date.startsWith(`${month}-`));
-    const cumulative = MATHIA_EVENTS.filter(event => event.date <= `${month}-99`);
-    const html = `<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot mathIA" aria-hidden="true"></i><div class="course-overview-name"><strong>数学IA</strong><span>周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(MATHIA_TEACHER)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
-    let row = body.querySelector('tr[data-mathia-ledger]');
-    if (!row) {
-      row = document.createElement('tr');
-      row.dataset.mathiaLedger='1';
-      const mathIIBC = [...body.rows].find(item => item.textContent.includes('数学IIBC'));
-      body.insertBefore(row,mathIIBC||null);
-    }
-    if (row.innerHTML !== html) row.innerHTML = html;
+  function statusMeta(course) {
+    if (course === MATHIA) return course.ledgerMeta;
+    const today=todayKey();
+    const remaining=course.events.filter(event=>event.date>=today);
+    const last=course.events[course.events.length-1];
+    if(!remaining.length) return `${course.ledgerMeta}｜已结课`;
+    const next=remaining[0];
+    const [m,d]=next.date.slice(5).split('-').map(Number);
+    const [lm,ld]=last.date.slice(5).split('-').map(Number);
+    if(course===CHEMISTRY) return `${course.ledgerMeta}｜上半期未结课・剩余${remaining.length}回（下回 ${m}/${d}，至 ${lm}/${ld}）`;
+    return `${course.ledgerMeta}｜剩余${remaining.length}回（下回 ${m}/${d}，至 ${lm}/${ld}）`;
+  }
 
-    const sum = index => [...body.rows].reduce((total,item) => {
-      const match = item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);
-      return total + (match ? Number(match[1]) : 0);
+  function patchCourseLedger() {
+    const body=document.getElementById('courseOverviewBody');
+    if(!body)return;
+    const month=selectedMonth();
+    EXTRA_COURSES.forEach(course=>{
+      const monthly=course.events.filter(event=>event.date.startsWith(`${month}-`));
+      const cumulative=course.events.filter(event=>event.date<=`${month}-99`);
+      const delivery=course.mode==='网课' ? '<span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small>' : '<span class="course-overview-mode">方式待确认</span><small class="course-overview-room unknown">教室待确认</small>';
+      const name=course.ledgerName || course.name;
+      const html=`<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot ${course.key}" aria-hidden="true"></i><div class="course-overview-name"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(statusMeta(course))}</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(course.teacher)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery">${delivery}</td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
+      let row=body.querySelector(`tr[data-runtime-ledger="${course.key}"]`);
+      if(!row){
+        row=document.createElement('tr');row.dataset.runtimeLedger=course.key;
+        const anchor=[...body.rows].find(item=>item.textContent.includes('数学IIBC'));
+        if(course===MATHIA) body.insertBefore(row,anchor||null); else body.append(row);
+      }
+      if(row.innerHTML!==html)row.innerHTML=html;
+    });
+
+    const sum=index=>[...body.rows].reduce((total,item)=>{
+      const match=item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);
+      return total+(match?Number(match[1]):0);
     },0);
-    const monthTotal = document.getElementById('courseOverviewMonthTotal');
-    const cumulativeTotal = document.getElementById('courseOverviewCumulativeTotal');
-    const nextMonth = `${sum(4)} h`, nextCumulative = `${sum(5)} h`;
-    if (monthTotal && monthTotal.textContent !== nextMonth) monthTotal.textContent = nextMonth;
-    if (cumulativeTotal && cumulativeTotal.textContent !== nextCumulative) cumulativeTotal.textContent = nextCumulative;
+    const monthTotal=document.getElementById('courseOverviewMonthTotal');
+    const cumulativeTotal=document.getElementById('courseOverviewCumulativeTotal');
+    if(monthTotal)monthTotal.textContent=`${sum(4)} h`;
+    if(cumulativeTotal)cumulativeTotal.textContent=`${sum(5)} h`;
   }
 
   function patchPendingCourseList() {
-    document.querySelectorAll('#coursePlanDetails .plan-lines > div').forEach(row => {
-      if (row.querySelector('strong')?.textContent.trim() !== '大课') return;
-      const p = row.querySelector('p');
-      if (!p || !p.textContent.includes('数学IA')) return;
-      const next = p.textContent.split('、').map(v=>v.trim()).filter(v=>v&&v!=='数学IA').join('、');
-      if (p.textContent !== next) p.textContent = next;
+    document.querySelectorAll('#coursePlanDetails .plan-lines > div').forEach(row=>{
+      if(row.querySelector('strong')?.textContent.trim()!=='大课')return;
+      const p=row.querySelector('p');if(!p)return;
+      const next=p.textContent.split('、').map(v=>v.trim()).filter(Boolean).map(v=>{
+        if(v==='数学IA')return '';
+        if(v==='化学')return '化学（下半期方案待定）';
+        if(v==='生物')return '生物（下半期方案待定）';
+        return v;
+      }).filter(Boolean).join('、');
+      if(p.textContent!==next)p.textContent=next;
     });
   }
 
   function activeEnrollmentRows() {
-    try {
-      for (const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']) {
-        const raw = localStorage.getItem(key);
-        if (!raw) continue;
-        const rows = JSON.parse(raw);
-        if (Array.isArray(rows)) return rows.filter(row => !/退课|取消|无效|已结课|结课/.test(String(row?.status ?? row?.['报名状态'] ?? row?.['状态'] ?? '')));
+    try{
+      for(const key of ['tabitoEnrollmentV3','tabitoEnrollmentV2','tabitoEnrollmentV1']){
+        const raw=localStorage.getItem(key);if(!raw)continue;
+        const rows=JSON.parse(raw);
+        if(Array.isArray(rows))return rows.filter(row=>!/退课|取消|无效|已结课|结课/.test(String(row?.status??row?.['报名状态']??row?.['状态']??'')));
       }
-    } catch (_) {}
+    }catch(_){}
     return [];
   }
-
-  function isMathIA(value) {
-    const text = String(value).trim().replace(/Ⅰ/g,'I');
-    return text === '数学IA' || /数学\s*(?:i?a|1a|1)$/i.test(text);
+  function isMathIA(value){
+    const text=String(value).trim().replace(/Ⅰ/g,'I');
+    return text==='数学IA'||/数学\s*(?:i?a|1a|1)$/i.test(text);
   }
-
   function patchEnrollment() {
-    document.querySelectorAll('#enrollmentContent [data-enrollment-course]').forEach(button => {
-      if ((button.dataset.enrollmentCourse || '').trim() !== '数学IA') return;
-      const small = button.querySelector('small');
-      if (small?.textContent.includes('时间未定')) small.textContent = small.textContent.replace('时间未定','已排入日历');
+    document.querySelectorAll('#enrollmentContent [data-enrollment-course]').forEach(button=>{
+      if((button.dataset.enrollmentCourse||'').trim()!=='数学IA')return;
+      const small=button.querySelector('small');
+      if(small?.textContent.includes('时间未定'))small.textContent=small.textContent.replace('时间未定','已排入日历');
     });
-    const detail = document.querySelector('#enrollmentContent .enrollment-detail-head');
-    if (detail?.querySelector('h3')?.textContent.trim() === '数学IA') {
-      const small = detail.querySelector('small');
-      if (small && small.textContent !== '已排入课程日历') small.textContent='已排入课程日历';
+    const detail=document.querySelector('#enrollmentContent .enrollment-detail-head');
+    if(detail?.querySelector('h3')?.textContent.trim()==='数学IA'){
+      const small=detail.querySelector('small');if(small)small.textContent='已排入课程日历';
     }
-    document.querySelectorAll('#enrollmentContent .planning-table tbody tr').forEach(row => {
-      if (!(row.cells?.[0]?.textContent || '').includes('数学IA')) return;
-      const state = row.querySelector('.schedule-state');
-      if (state) {
-        if (state.textContent !== '已排') state.textContent='已排';
-        state.classList.remove('unscheduled');
-        state.classList.add('scheduled');
-      }
+    document.querySelectorAll('#enrollmentContent .planning-table tbody tr').forEach(row=>{
+      if(!(row.cells?.[0]?.textContent||'').includes('数学IA'))return;
+      const state=row.querySelector('.schedule-state');
+      if(state){state.textContent='已排';state.classList.remove('unscheduled');state.classList.add('scheduled');}
     });
 
-    const rows = activeEnrollmentRows();
-    const names = new Set();
-    const courses = new Set();
-    rows.forEach(row => {
-      const list = Array.isArray(row?.courses) ? row.courses : String(row?.['报名课程'] ?? row?.['课程'] ?? '').split(/[、，,;；|]+/);
-      list.map(v=>String(v).trim()).filter(Boolean).forEach(course => {
-        courses.add(course);
-        if (isMathIA(course)) names.add(String(row?.name ?? row?.['姓名'] ?? '').trim());
+    const rows=activeEnrollmentRows();
+    const names=new Set();
+    const courses=new Set();
+    rows.forEach(row=>{
+      const list=Array.isArray(row?.courses)?row.courses:String(row?.['报名课程']??row?.['课程']??'').split(/[、，,;；|]+/);
+      list.map(v=>String(v).trim()).filter(Boolean).forEach(course=>{
+        courses.add(course);if(isMathIA(course))names.add(String(row?.name??row?.['姓名']??'').trim());
       });
     });
-    if (names.size) {
-      const metric = document.getElementById('enrollmentUnscheduledCount');
-      const scheduledPatterns = [/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i];
-      const pending = [...courses].filter(course => !isMathIA(course) && !scheduledPatterns.some(pattern => pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II'))));
-      if (metric && metric.textContent !== String(pending.length)) metric.textContent=String(pending.length);
-      document.querySelectorAll('[data-event-id^="mathia-"]').forEach(node => {
-        if (node.querySelector('.enrollment-count-badge')) return;
-        const badge=document.createElement('span');
-        badge.className='enrollment-count-badge';
-        badge.textContent=`${names.size}人`;
+    if(names.size){
+      const metric=document.getElementById('enrollmentUnscheduledCount');
+      const scheduledPatterns=[/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i];
+      const pending=[...courses].filter(course=>!isMathIA(course)&&!scheduledPatterns.some(pattern=>pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II'))));
+      if(metric)metric.textContent=String(pending.length);
+      document.querySelectorAll('[data-event-id^="mathia-"]').forEach(node=>{
+        if(node.querySelector('.enrollment-count-badge'))return;
+        const badge=document.createElement('span');badge.className='enrollment-count-badge';badge.textContent=`${names.size}人`;
         (node.querySelector('.event-name,.month-event-top strong,strong')||node).append(badge);
       });
     }
@@ -359,35 +540,34 @@
     ensureUiOptions();
     replaceTeacherNames();
     applyExistingScheduleOverrides();
-    injectMathIA();
+    injectExtraCourses();
     rescaleWeekTimeline();
+    relayoutWeekColumns();
     patchCourseLedger();
     patchPendingCourseList();
     patchEnrollment();
   }
 
-  document.addEventListener('click',event => {
-    const node=event.target.closest('[data-event-id^="mathia-"]');
-    if (!node) return;
-    const item=MATHIA_BY_ID.get(node.dataset.eventId);
-    if (item) setTimeout(()=>openMathIADialog(item),0);
+  document.addEventListener('click',event=>{
+    const node=event.target.closest('[data-event-id]');
+    if(!node)return;
+    const extra=EXTRA_EVENT_BY_ID.get(node.dataset.eventId);
+    if(extra)setTimeout(()=>openExtraDialog(extra),0);
   },true);
 
-  let calendarQueued=false;
-  const queueCalendar=()=>{
-    if(calendarQueued)return;
-    calendarQueued=true;
-    requestAnimationFrame(()=>{calendarQueued=false;polish();});
+  let queued=false;
+  const queuePolish=()=>{
+    if(queued)return;queued=true;
+    requestAnimationFrame(()=>{queued=false;polish();});
   };
 
   polish();
-
   const calendar=document.querySelector('.office-calendar');
-  if(calendar)new MutationObserver(queueCalendar).observe(calendar,{childList:true,subtree:true});
+  if(calendar)new MutationObserver(queuePolish).observe(calendar,{childList:true,subtree:true});
   const enrollment=document.getElementById('enrollmentContent');
   if(enrollment)new MutationObserver(()=>requestAnimationFrame(patchEnrollment)).observe(enrollment,{childList:true,subtree:true});
   const periodTitle=document.getElementById('weekTitle');
   if(periodTitle)new MutationObserver(()=>requestAnimationFrame(()=>{patchCourseLedger();patchPendingCourseList();})).observe(periodTitle,{childList:true,subtree:true,characterData:true});
-  window.addEventListener('popstate',queueCalendar);
-  window.addEventListener('resize',queueCalendar);
+  window.addEventListener('popstate',queuePolish);
+  window.addEventListener('resize',queuePolish);
 })();
