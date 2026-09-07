@@ -6,6 +6,7 @@
   const MATHIA_KEY = 'mathIA';
   const MATHIA_NAME = '数学IA';
   const MATHIA_TEACHER = '脇村 剛';
+  const MATHIA_MODE = '网课';
   const DAY_MS = 86400000;
   const TIMELINE_START = 9 * 60;
   const TIMELINE_END = 22 * 60;
@@ -61,10 +62,11 @@
   const escapeHtml = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 
   function installStyle() {
-    if (document.getElementById('scheduleRuntimePolishV5')) return;
+    if (document.getElementById('scheduleRuntimePolishV6')) return;
+    document.getElementById('scheduleRuntimePolishV5')?.remove();
     document.getElementById('scheduleRuntimePolishV4')?.remove();
     const style = document.createElement('style');
-    style.id = 'scheduleRuntimePolishV5';
+    style.id = 'scheduleRuntimePolishV6';
     style.textContent = `
       :root{--math-ia:#7a5d8e;--math-ia-bg:#f4f0f7}
       .subject-legend.mathIA i{background:var(--math-ia)}
@@ -75,7 +77,6 @@
       .day-column{background-size:100% 58.3077px!important}
       .day-column::after{background-size:100% 116.6154px!important}
       .course-overview-dot.mathIA{background:var(--math-ia)}
-      .course-overview-room.unknown{color:#7b8490}
     `;
     document.head.append(style);
   }
@@ -177,13 +178,13 @@
   const shouldShowMathIA = () => ['all',MATHIA_KEY].includes(document.getElementById('subjectFilter')?.value || 'all');
 
   function mathWeekButton(event) {
-    return `<button type="button" class="event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="" style="top:${timelineTop(event.start)}px;height:${timelineHeight(event.start,event.end)}px;left:4px;right:auto;width:calc(100% - 8px)" aria-label="数学IA ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">数学IA · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></button>`;
+    return `<button type="button" class="event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}" style="top:${timelineTop(event.start)}px;height:${timelineHeight(event.start,event.end)}px;left:4px;right:auto;width:calc(100% - 8px)" aria-label="数学IA ${event.title} ${event.start}至${event.end}"><span class="event-time">${event.start}–${event.end}</span><span class="event-name">数学IA · ${event.title}</span><span class="event-topic">${escapeHtml(event.topic)}</span><span class="event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></button>`;
   }
   function mathMonthButton(event) {
-    return `<button type="button" class="month-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode=""><span class="month-event-top"><time>${event.start}</time><strong>数学IA · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></button>`;
+    return `<button type="button" class="month-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}"><span class="month-event-top"><time>${event.start}</time><strong>数学IA · ${event.title}</strong></span><p>${escapeHtml(event.topic)}</p><span class="month-event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></button>`;
   }
   function mathMobileButton(event) {
-    return `<button type="button" class="mobile-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode=""><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>数学IA · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(MATHIA_TEACHER)} · 授课方式未注明</span></span></button>`;
+    return `<button type="button" class="mobile-event mathIA" data-event-id="${event.id}" data-teacher="${escapeHtml(MATHIA_TEACHER)}" data-mode="${MATHIA_MODE}"><span class="mobile-event-time">${event.start}–${event.end}</span><span><strong>数学IA · ${event.title}</strong><p>${escapeHtml(event.topic)}</p><span class="mobile-event-meta">${escapeHtml(MATHIA_TEACHER)} · ${MATHIA_MODE}</span></span></button>`;
   }
 
   function injectMathIA() {
@@ -235,10 +236,10 @@
     set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
     set('dialogTime',`${event.start}–${event.end}`);
     set('dialogTeacher',MATHIA_TEACHER);
-    set('dialogMode','—');
-    set('dialogRoom','—');
+    set('dialogMode',MATHIA_MODE);
+    set('dialogRoom','无需教室');
     set('dialogStatus','正常授课');
-    set('dialogNote',`${event.title}｜${event.topic}｜原课表未注明授课方式与教室`);
+    set('dialogNote',`${event.title}｜${event.topic}`);
     dialog.hidden=false;
     document.body.style.overflow='hidden';
   }
@@ -259,7 +260,7 @@
     const month = selectedMonth();
     const monthly = MATHIA_EVENTS.filter(event => event.date.startsWith(`${month}-`));
     const cumulative = MATHIA_EVENTS.filter(event => event.date <= `${month}-99`);
-    const html = `<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot mathIA" aria-hidden="true"></i><div class="course-overview-name"><strong>数学IA</strong><span>周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(MATHIA_TEACHER)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">课表未注明</span><small class="course-overview-room unknown">待确认</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
+    const html = `<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot mathIA" aria-hidden="true"></i><div class="course-overview-name"><strong>数学IA</strong><span>周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(MATHIA_TEACHER)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery"><span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small></td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
     let row = body.querySelector('tr[data-mathia-ledger]');
     if (!row) {
       row = document.createElement('tr');
