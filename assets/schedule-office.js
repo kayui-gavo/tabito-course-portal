@@ -5,7 +5,10 @@
     politics: { name: '公共政治经济', teacher: '刘淼', mode: '线下' },
     japanese: { name: '国语', teacher: '刘淼', mode: '线下' },
     english: { name: '共通英语阅读', teacher: '刘淼', mode: '线下' },
+    mathIA: { name: '数学IA', teacher: '脇村 剛', mode: '网课' },
     mathIIBC: { name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课' },
+    chemCurrent: { name: '化学（上半期）', teacher: '孫', mode: '网课' },
+    biologySummer: { name: '生物（夏期集中）', teacher: '周梓杰', mode: '网课' },
     geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
     commonPhysics: { name: '物理共通考试冲刺课程', teacher: '刘可惟', mode: '暂定线下＋线上同步' },
     privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
@@ -44,13 +47,22 @@
   }
 
   function teacherFor(node) {
-    if (node.dataset.teacher !== undefined) return node.dataset.teacher;
+    if (node.dataset.teacher !== undefined && node.dataset.teacher !== '') return node.dataset.teacher;
     const key = subjectKey(node);
     return subjectMeta[key]?.teacher || '';
   }
 
+  function normalizeMode(value) {
+    const mode = String(value || '').trim();
+    if (mode === 'online') return '网课';
+    if (mode === 'offline') return '线下';
+    if (mode === 'hybrid') return '线下＋线上同步';
+    if (mode === 'tentative') return '暂定线上';
+    return mode;
+  }
+
   function modeFor(node) {
-    if (node.dataset.mode !== undefined) return node.dataset.mode;
+    if (node.dataset.mode !== undefined && node.dataset.mode !== '') return normalizeMode(node.dataset.mode);
     if (node.classList.contains('tentative')) return '暂定线上';
     const key = subjectKey(node);
     return subjectMeta[key]?.mode || '';
@@ -224,15 +236,16 @@
       .filter(node => !isCancelled(node) && roomFor(node) === '待分配')
       .sort((a, b) => `${dateFor(a)}${parseTimes(a)?.start || ''}`.localeCompare(`${dateFor(b)}${parseTimes(b)?.start || ''}`));
 
-    roomPendingMetric.textContent = String(pending.length);
-    roomPendingBadge.textContent = String(pending.length);
+    if (roomPendingMetric.textContent !== String(pending.length)) roomPendingMetric.textContent = String(pending.length);
+    if (roomPendingBadge.textContent !== String(pending.length)) roomPendingBadge.textContent = String(pending.length);
 
     if (!pending.length) {
-      roomPendingList.innerHTML = '<p class="followup-empty">当前范围没有待分配教室的课程。</p>';
+      const empty = '<p class="followup-empty">当前范围没有待分配教室的课程。</p>';
+      if (roomPendingList.innerHTML !== empty) roomPendingList.innerHTML = empty;
       return;
     }
 
-    roomPendingList.innerHTML = pending.slice(0, 8).map(node => {
+    const html = pending.slice(0, 8).map(node => {
       const times = parseTimes(node);
       const time = times ? `${times.start}–${times.end}` : '';
       return `<div class="followup-item">
@@ -241,24 +254,29 @@
         <span class="followup-room">待分配</span>
       </div>`;
     }).join('') + (pending.length > 8 ? `<p class="followup-empty">另有 ${pending.length - 8} 节线下/同步课程待分配教室。</p>` : '');
+    if (roomPendingList.innerHTML !== html) roomPendingList.innerHTML = html;
   }
 
   function updateMetrics(nodes) {
     const teaching = nodes.filter(node => !isCancelled(node));
     const cancelled = nodes.filter(isCancelled);
     const hours = teaching.reduce((sum, node) => sum + durationHours(node), 0);
-    summaryHours.textContent = `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
-    summarySessions.textContent = `${teaching.length} 节`;
-    summaryCancelled.textContent = String(cancelled.length);
-    if (weekCount) weekCount.textContent = `${teaching.length} 节授课${cancelled.length ? ` · ${cancelled.length} 项休讲` : ''}`;
+    const hoursText = `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
+    const sessionsText = `${teaching.length} 节`;
+    const cancelledText = String(cancelled.length);
+    const weekText = `${teaching.length} 节授课${cancelled.length ? ` · ${cancelled.length} 项休讲` : ''}`;
+    if (summaryHours.textContent !== hoursText) summaryHours.textContent = hoursText;
+    if (summarySessions.textContent !== sessionsText) summarySessions.textContent = sessionsText;
+    if (summaryCancelled.textContent !== cancelledText) summaryCancelled.textContent = cancelledText;
+    if (weekCount && weekCount.textContent !== weekText) weekCount.textContent = weekText;
 
     const conflicts = countTeacherConflicts(nodes);
-    conflictMetric.textContent = String(conflicts);
+    if (conflictMetric.textContent !== String(conflicts)) conflictMetric.textContent = String(conflicts);
     conflictCard.classList.toggle('has-conflict', conflicts > 0);
 
     const pendingTime = pendingEnglishMatchesFilters() ? 15 : 0;
-    timePendingMetric.textContent = String(pendingTime);
-    pendingCount.textContent = String(pendingTime);
+    if (timePendingMetric.textContent !== String(pendingTime)) timePendingMetric.textContent = String(pendingTime);
+    if (pendingCount.textContent !== String(pendingTime)) pendingCount.textContent = String(pendingTime);
     pendingFollowup.hidden = pendingTime === 0;
   }
 
@@ -277,11 +295,9 @@
 
   function updateDialogRoom() {
     if (!dialog || dialog.hidden || !dialogRoom) return;
-    const mode = document.getElementById('dialogMode')?.textContent || '';
-    const room = !mode || mode === '—'
-      ? '—'
-      : (isOnlineMode(mode) ? '无需教室' : '待分配');
-    dialogRoom.textContent = room;
+    const mode = normalizeMode(document.getElementById('dialogMode')?.textContent || '');
+    const room = !mode || mode === '—' ? '—' : (isOnlineMode(mode) ? '无需教室' : '待分配');
+    if (dialogRoom.textContent !== room) dialogRoom.textContent = room;
     dialogRoom.classList.toggle('dialog-room-pending', room === '待分配');
     dialogRoom.classList.toggle('dialog-room-online', room === '无需教室');
   }
@@ -312,7 +328,13 @@
   });
 
   if ('MutationObserver' in window) {
-    const observer = new MutationObserver(scheduleApply);
+    const observer = new MutationObserver(mutations => {
+      const relevant = mutations.some(mutation => [...mutation.addedNodes, ...mutation.removedNodes].some(node => {
+        if (node.nodeType !== 1) return false;
+        return !node.classList?.contains('enrollment-count-badge');
+      }));
+      if (relevant) scheduleApply();
+    });
     observer.observe(calendarPanel, { childList: true, subtree: true });
     if (dialog) new MutationObserver(updateDialogRoom).observe(dialog, { attributes: true, attributeFilter: ['hidden'] });
   }
