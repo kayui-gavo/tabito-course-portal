@@ -1,59 +1,70 @@
-# 旅人教育课程门户
+# 旅人教育｜教务排课系统（独立包）
 
-面向旅人教育内部学生的课程资料门户。网站用于集中查看各科课程入口、课程板书、录播、作业题、答案解析、通知和补充资料。
+这是从 `tabito-course-portal` 中单独抽出的教务排课前端，可直接复制到其他静态网站或工程中使用。
 
-## 登录
+## 包含功能
 
-默认账号由各科老师提供。
+- 周 / 月课程日历
+- 科目、老师、授课方式、教室状态筛选
+- 课程详情与授课台账
+- 报名学生查询（按课程 / 按学生）
+- 报名 CSV 导入、导出与模板下载
+- 当前课程需求、选科重合、线下需求等排课参考
+- 数学 IA、数学 IIBC、物理、地理、国语、公共政治经济、化学、生物等当前已录入课表
 
-## 目录结构
+## 直接使用
+
+1. 保持本目录结构不变。
+2. 浏览器打开 `schedule.html`，或把整个目录放进任意静态网站目录。
+3. 推荐通过本地静态服务器预览，例如 VS Code Live Server、`python -m http.server`、Vite / nginx / GitHub Pages 等。
+
+本系统没有 npm 依赖，也没有构建步骤，使用原生 HTML / CSS / JavaScript。
+
+## 复制进其他工程
+
+至少保留以下结构：
 
 ```text
-assets/images/       图片资源
-assignments/         作业题与答案 PDF
-course-notes/        课堂板书 PDF
-notices/             通知 PDF
-resources/           网站内资料页面
-resources/informatics-room/  情報Ⅰ 静态教材站原型
-index.html           课程门户主页
-login.html           登录页
-DEPLOYMENT.md        GitHub Pages 部署说明
+schedule.html
+assets/
+  schedule.css
+  schedule-overview.css
+  schedule-office.css
+  schedule-enrollment.css
+  schedule-enrollment-planning.css
+  schedule.js
+  schedule-overview.js
+  schedule-office.js
+  schedule-rooms.js
+  schedule-enrollment.js
+  schedule-runtime-polish.js
+  images/
+    tabito-logo.jpg
 ```
 
-## 情報Ⅰ 教材站原型
+如果目标工程已有自己的导航栏或 Logo，可以修改 `schedule.html` 顶部导航；日历核心逻辑不依赖课程资料库页面。
 
-`resources/informatics-room/` 是旅人教育的情報Ⅰ讲座资料库。它不是考试攻略站，而是帮助学生理解情報Ⅰ基础概念的教材站。
+## 报名数据
 
-- 目的：把「情報Ⅰ」拆成小知识点，用日语、图解、生活例、常见误解和确认问题帮助学生理解。
-- 官方顺序：目录按文部科学省「高等学校情報科『情報Ⅰ』教員研修用教材」本编顺序排列：第1章 情報社会の問題解決、第2章 コミュニケーションと情報デザイン、第3章 コンピュータとプログラミング、第4章 情報通信ネットワークとデータの活用。
-- 当前优先：第3章「コンピュータとプログラミング」。已经重点整理アルゴリズム、入力・処理・出力、変数、代入、条件分岐、繰り返し、配列、探索、並べ替え等页面，但首页主目录不把第3章提前。
-- 风格参考：朴素的教材目录站体验、清楚的链接、图解驱动的讲解节奏。UI 走现代旅人教育教材风，不做 SaaS / landing page，也不做考试攻略页。没有复制外部网站的 HTML/CSS/图片/文案。
-- 内容文件：`content.js` 管理官方章节 content map、lesson、状态、用语和确认问题；`figures.js` 管理自制 SVG 图解；`site.js` 负责渲染页面。
-- 增加内容：在 `content.js` 中新增 lesson 数据，再添加一个 `lessons/*.html` 壳页面调用 `renderLesson('id')`。
-- 增加图解：在 `figures.js` 里新增 SVG 函数，并在 lesson 的 `figure` 字段中引用对应名称。图解必须自制，带 `figcaption`，不要外链图片。
-- 参考资料：官方 PDF 和抽取文本保存在 `reference/mext-informatics/`，该目录被 `.gitignore` 排除，不发布到网站。官方资料只用于确认范围、顺序和知识点结构，页面正文需用自己的语言重写。
-- 著作权注意：不要直接复制外部网站或文部科学省教材的长段原文、图片、HTML、CSS。
+报名学生信息不会写入公开仓库，CSV 导入后仅存储在当前浏览器的 `localStorage` 中。
 
-### AI質問
+CSV 推荐字段：
 
-情報Ⅰ页面已经内置右下角 `AI質問` 面板。前端不会保存 AI API key，只会把学生问题、当前页面标题和有限教材片段发送到后端代理。后端优先使用 Gemini 免费 API；没有 `GEMINI_API_KEY` 时，才会尝试 OpenAI 备用配置。
-
-可选部署方式：
-
-- Vercel：部署本仓库后，`api/informatics-chat.js` 会提供同域接口 `/api/informatics-chat`。在 Vercel 环境变量中设置 `GEMINI_API_KEY`，可选设置 `GEMINI_MODEL`、`ALLOWED_ORIGIN`。如果要备用 OpenAI，再设置 `OPENAI_API_KEY` 和 `OPENAI_MODEL`。
-- GitHub Pages + Cloudflare Worker：继续用 GitHub Pages 发布静态页，把 `workers/informatics-chat-worker.mjs` 部署为 Worker。`wrangler.informatics-ai.example.toml` 是示例配置。Worker 中设置 secret `GEMINI_API_KEY`，然后用 `?aiEndpoint=https://你的Worker地址/chat` 打开一次情报页面，浏览器会记住这个接続先。
-
-不要把 `GEMINI_API_KEY`、`OPENAI_API_KEY` 写入任何前端文件或提交到 GitHub。
-
-### 开发检查
-
-```bash
-npm run build
-npm run lint
+```text
+姓名,报名课程,报名时间,线下要求,报名状态,备注
 ```
 
-当前没有引入前端框架，`build` / `lint` 会执行静态 JS 语法和内部链接校验。
+包内提供 `报名信息模板.csv`。请勿把包含真实学生姓名的 CSV 直接提交到公开仓库。
 
-## 发布到 GitHub Pages
+## 主要修改位置
 
-详见 [DEPLOYMENT.md](./DEPLOYMENT.md)。
+- 既有课程与日期：`assets/schedule.js`
+- 数学 IA / 化学 / 生物及当前运行时课表补充：`assets/schedule-runtime-polish.js`
+- 教务筛选、教室与冲突统计：`assets/schedule-office.js`
+- 报名查询与排课参考：`assets/schedule-enrollment.js`
+- 报名 UI：`assets/schedule-enrollment.css`
+- 排课参考 UI：`assets/schedule-enrollment-planning.css`
+
+## 注意
+
+这个独立包复制的是 2026-09-08 当前版本。后续主工程继续更新时，独立分支不会自动同步，需要重新打包或手动同步对应文件。
