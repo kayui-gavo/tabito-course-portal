@@ -3,7 +3,35 @@
 
   const OLD_NAME = '金老师';
   const NEW_NAME = '金龙熙';
-  const ENROLLMENT_KEYS = ['tabitoEnrollmentV2', 'tabitoEnrollmentV1'];
+  const ENROLLMENT_KEYS = ['tabitoEnrollmentV3', 'tabitoEnrollmentV2', 'tabitoEnrollmentV1'];
+
+  const REMOVED_EVENTS = new Set(['jp-09', 'jp-11', 'jp-13']);
+  const EVENT_OVERRIDES = new Map([
+    ['jp-08', { start: '13:40', end: '16:40', title: '第8回', topic: '小说读解技巧，基础现代文练习5・6' }],
+    ['jp-10', { start: '13:40', end: '16:40', title: '第9回', topic: '2020年评论・小说' }],
+    ['jp-12', { start: '13:40', end: '16:40', title: '第10回', topic: '2021年评论・小说' }],
+    ['jp-14', { start: '13:40', end: '16:40', title: '第11回', topic: '2022年评论' }],
+    ['geo-03', { start: '18:00', end: '21:00' }],
+    ['geo-04', { start: '18:00', end: '21:00' }],
+    ['geo-05', { start: '18:00', end: '21:00' }],
+    ['geo-06', { start: '18:00', end: '21:00' }],
+    ['geo-07', { start: '18:00', end: '21:00' }],
+    ['geo-08', { start: '18:00', end: '21:00' }],
+    ['geo-09', { start: '18:00', end: '21:00' }],
+    ['geo-10', { start: '18:00', end: '21:00' }],
+    ['geo-11', { start: '18:00', end: '21:00' }],
+    ['geo-12', { start: '18:00', end: '21:00' }],
+    ['geo-13', { start: '18:00', end: '21:00' }],
+    ['geo-14', { start: '18:00', end: '21:00' }],
+    ['geo-15', { start: '18:00', end: '21:00' }],
+    ['geo-16', { start: '18:00', end: '21:00' }],
+    ['geo-17', { start: '18:00', end: '21:00' }],
+    ['geo-18', { start: '18:00', end: '21:00' }],
+    ['geo-19', { start: '18:00', end: '21:00' }],
+    ['geo-20', { start: '18:00', end: '21:00' }]
+  ]);
+
+  let lastClickedEventId = '';
 
   function normalizeToken(value) {
     return String(value ?? '').trim().toLowerCase().replace(/[\s・·_／/（）()【】\[\]《》<>「」『』\-–—]+/g, '');
@@ -178,6 +206,97 @@
     });
   }
 
+  function timeToMinutes(value) {
+    const [h, m] = String(value).split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function setText(node, value) {
+    if (node && node.textContent !== value) node.textContent = value;
+  }
+
+  function updateEventLabel(node, override) {
+    if (!override?.title) return;
+    const targets = [
+      node.querySelector('.event-name'),
+      node.querySelector('.month-event-top strong'),
+      node.querySelector('.mobile-event strong')
+    ].filter(Boolean);
+    targets.forEach(target => {
+      const text = target.textContent || '';
+      const next = text.replace(/第\d+回/, override.title);
+      setText(target, next);
+    });
+  }
+
+  function updateEventTopic(node, override) {
+    if (!override?.topic) return;
+    [
+      node.querySelector('.event-topic'),
+      node.querySelector('.month-event p'),
+      node.querySelector('.mobile-event p')
+    ].forEach(target => setText(target, override.topic));
+  }
+
+  function updateEventTime(node, override) {
+    if (!override?.start || !override?.end) return;
+    const range = `${override.start}–${override.end}`;
+    setText(node.querySelector('.event-time'), range);
+    setText(node.querySelector('.mobile-event-time'), range);
+    setText(node.querySelector('.month-event-top time'), override.start);
+
+    if (node.classList.contains('event')) {
+      const startMinute = Math.max(9 * 60, timeToMinutes(override.start));
+      const endMinute = Math.min(21 * 60, timeToMinutes(override.end));
+      const top = ((startMinute - 9 * 60) / (12 * 60)) * 700;
+      const height = Math.max(34, ((endMinute - startMinute) / (12 * 60)) * 700 - 5);
+      node.style.top = `${top}px`;
+      node.style.height = `${height}px`;
+    }
+
+    const aria = node.getAttribute('aria-label');
+    if (aria) {
+      const next = aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/, `${override.start}至${override.end}`);
+      if (next !== aria) node.setAttribute('aria-label', next);
+    }
+  }
+
+  function applyScheduleCorrections(root = document) {
+    root.querySelectorAll?.('[data-event-id]').forEach(node => {
+      const id = node.dataset.eventId || '';
+      if (REMOVED_EVENTS.has(id)) {
+        node.remove();
+        return;
+      }
+      const override = EVENT_OVERRIDES.get(id);
+      if (!override) return;
+      updateEventTime(node, override);
+      updateEventLabel(node, override);
+      updateEventTopic(node, override);
+    });
+  }
+
+  function polishDialogSchedule() {
+    const dialog = document.getElementById('eventDialog');
+    if (!dialog || dialog.hidden || !lastClickedEventId) return;
+    const override = EVENT_OVERRIDES.get(lastClickedEventId);
+    if (!override) return;
+
+    if (override.start && override.end) {
+      setText(document.getElementById('dialogTime'), `${override.start}–${override.end}`);
+    }
+    if (override.topic) {
+      setText(document.getElementById('dialogTitle'), override.topic);
+      const title = override.title || '';
+      setText(document.getElementById('dialogNote'), `${title}${title ? '｜' : ''}${override.topic}`);
+    }
+  }
+
+  document.addEventListener('click', event => {
+    const node = event.target.closest?.('[data-event-id]');
+    if (node) lastClickedEventId = node.dataset.eventId || '';
+  }, true);
+
   if (normalizeEnrollmentStorage()) {
     location.reload();
     return;
@@ -193,13 +312,17 @@
         location.reload();
         return;
       }
+      applyScheduleCorrections(document);
       polishTeacherNames(document);
       polishRegistrationTables();
+      polishDialogSchedule();
     });
   }
 
+  applyScheduleCorrections(document);
   polishTeacherNames(document);
   polishRegistrationTables();
+  polishDialogSchedule();
   new MutationObserver(queuePolish).observe(document.body, {
     childList: true,
     subtree: true,
