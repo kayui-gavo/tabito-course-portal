@@ -12,7 +12,7 @@
   const MATHIA = {
     key: 'mathIA', name: '数学IA', teacher: '脇村 剛', mode: '网课',
     color: '#7a5d8e', bg: '#f4f0f7', border: '#d6cbe0',
-    ledgerMeta: '周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试',
+    ledgerName: '数学IA', ledgerMeta: '周三・周五 20:00–22:00｜全24回・48h｜不设模拟考试',
     events: [
       ['mathia-01','2026-09-23','20:00','22:00','第1回','式的结构与高次式变形'],
       ['mathia-02','2026-09-25','20:00','22:00','第2回','不等式、绝对值与取值范围'],
@@ -42,7 +42,7 @@
   };
 
   const CHEMISTRY = {
-    key: 'chemCurrent', name: '化学（上半期）', teacher: '孫', mode: '',
+    key: 'chemCurrent', name: '化学（上半期）', teacher: '孫', mode: '网课',
     color: '#9a6048', bg: '#f8f1ed', border: '#dfc8bd',
     ledgerName: '共通考试化学', ledgerMeta: '2026上半期入门讲座｜全20回・40h',
     events: [
@@ -70,7 +70,7 @@
   };
 
   const BIOLOGY = {
-    key: 'biologySummer', name: '生物（夏期集中）', teacher: '周梓杰', mode: '',
+    key: 'biologySummer', name: '生物（夏期集中）', teacher: '周梓杰', mode: '网课',
     color: '#4f776c', bg: '#eef5f2', border: '#c4d8d1',
     ledgerName: '生物', ledgerMeta: '2026前期夏期集中讲座｜全20回・40h',
     events: [
@@ -123,6 +123,7 @@
   const formatDate = date => `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}-${String(date.getUTCDate()).padStart(2,'0')}`;
   const addDays = (date,days) => new Date(date.getTime()+days*DAY_MS);
   const escapeHtml = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  const setText = (node,text) => { if (node && node.textContent !== text) node.textContent = text; };
   const todayKey = () => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
@@ -154,10 +155,10 @@
   }
 
   function installStyle() {
-    if (document.getElementById('scheduleRuntimePolishV7')) return;
-    ['scheduleRuntimePolishV6','scheduleRuntimePolishV5','scheduleRuntimePolishV4'].forEach(id => document.getElementById(id)?.remove());
+    if (document.getElementById('scheduleRuntimePolishV8')) return;
+    ['scheduleRuntimePolishV7','scheduleRuntimePolishV6','scheduleRuntimePolishV5','scheduleRuntimePolishV4'].forEach(id => document.getElementById(id)?.remove());
     const style = document.createElement('style');
-    style.id = 'scheduleRuntimePolishV7';
+    style.id = 'scheduleRuntimePolishV8';
     style.textContent = `
       :root{
         --math-ia:${MATHIA.color};--math-ia-bg:${MATHIA.bg};
@@ -183,7 +184,6 @@
       .course-overview-dot.mathIA{background:var(--math-ia)}
       .course-overview-dot.chemCurrent{background:var(--chem-current)}
       .course-overview-dot.biologySummer{background:var(--bio-summer)}
-      .course-overview-room.unknown{color:#7b8490}
     `;
     document.head.append(style);
   }
@@ -192,10 +192,9 @@
     const subject = document.getElementById('subjectFilter');
     if (subject) {
       const before = subject.querySelector('option[value="mathIIBC"]');
-      [MATHIA,CHEMISTRY,BIOLOGY].forEach(course => {
+      EXTRA_COURSES.forEach(course => {
         if (subject.querySelector(`option[value="${course.key}"]`)) return;
-        const option = new Option(course.name,course.key);
-        subject.insertBefore(option,before||null);
+        subject.insertBefore(new Option(course.name,course.key),before||null);
       });
       const requested = new URL(location.href).searchParams.get('subject');
       if (EXTRA_COURSES.some(course => course.key === requested) && subject.value !== requested) {
@@ -206,14 +205,14 @@
 
     const teacher = document.getElementById('teacherFilter');
     if (teacher) {
-      [MATHIA.teacher,CHEMISTRY.teacher,BIOLOGY.teacher].forEach(name => {
+      EXTRA_COURSES.map(course => course.teacher).forEach(name => {
         if (name && ![...teacher.options].some(option => option.value === name)) teacher.add(new Option(name,name));
       });
     }
 
     const legend = document.querySelector('.office-legend');
     if (legend) {
-      [MATHIA,CHEMISTRY,BIOLOGY].forEach(course => {
+      EXTRA_COURSES.forEach(course => {
         if (legend.querySelector(`.subject-legend.${course.key}`)) return;
         const item = document.createElement('span');
         item.className = `legend-item subject-legend ${course.key}`;
@@ -229,7 +228,7 @@
     });
     ['#dialogTeacher','.event-meta','.month-event-meta','.mobile-event-meta','.course-overview-teacher','.followup-main span']
       .forEach(selector => document.querySelectorAll(selector).forEach(node => {
-        if (node.textContent.includes(OLD_NAME)) node.textContent = node.textContent.replaceAll(OLD_NAME,NEW_NAME);
+        if (node.textContent.includes(OLD_NAME)) setText(node,node.textContent.replaceAll(OLD_NAME,NEW_NAME));
       }));
   }
 
@@ -238,35 +237,29 @@
     EVENT_OVERRIDES.forEach((override,id) => {
       document.querySelectorAll(`[data-event-id="${id}"]`).forEach(node => {
         const timeNode = node.querySelector('.event-time,.mobile-event-time,.month-event-top time');
-        if (timeNode && override.start && override.end) timeNode.textContent = `${override.start}–${override.end}`;
+        if (timeNode && override.start && override.end) setText(timeNode,`${override.start}–${override.end}`);
         if (override.title) {
           const name = node.querySelector('.event-name,.month-event-top strong,.mobile-event strong');
           if (name && !name.textContent.endsWith(override.title)) {
             const subject = name.textContent.includes('·') ? name.textContent.split('·')[0].trim() : '国语';
-            name.textContent = `${subject} · ${override.title}`;
+            setText(name,`${subject} · ${override.title}`);
           }
         }
         if (override.topic) {
           const topic = node.querySelector('.event-topic,.month-event p,.mobile-event p');
-          if (topic) topic.textContent = override.topic;
+          if (topic) setText(topic,override.topic);
         }
         if (override.start && override.end) {
           const aria = node.getAttribute('aria-label') || '';
-          node.setAttribute('aria-label',aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/,`${override.start}至${override.end}`));
+          const next = aria.replace(/\d{1,2}:\d{2}至\d{1,2}:\d{2}/,`${override.start}至${override.end}`);
+          if (next !== aria) node.setAttribute('aria-label',next);
         }
       });
     });
   }
 
-  function modeLabel(course) {
-    return course.mode || '方式待确认';
-  }
-  function roomLabel(course) {
-    return course.mode === '网课' ? '无需教室' : '待确认';
-  }
-  function eventMeta(course) {
-    return `${course.teacher} · ${modeLabel(course)}`;
-  }
+  const roomLabel = course => course.mode === '网课' ? '无需教室' : '待确认';
+  const eventMeta = course => `${course.teacher} · ${course.mode || '方式待确认'}`;
 
   function weekButton(event) {
     const c = event.course;
@@ -293,7 +286,7 @@
         });
         const total = day.querySelectorAll('.month-event[data-event-id]').length;
         const count = day.querySelector('.month-day-count');
-        if (count) count.textContent = total ? `${total} 项` : '';
+        if (count) setText(count,total ? `${total} 项` : '');
         else if (total) day.querySelector('.month-date-row')?.insertAdjacentHTML('beforeend',`<span class="month-day-count">${total} 项</span>`);
       });
       return;
@@ -322,44 +315,54 @@
       if (events?.querySelector('.mobile-event[data-event-id]')) events.querySelector('.mobile-empty')?.remove();
       const total = events?.querySelectorAll('.mobile-event[data-event-id]').length || 0;
       const count = day.querySelector('.mobile-day-head span');
-      if (count) count.textContent = total ? `${total} 项` : '';
+      if (count) setText(count,total ? `${total} 项` : '');
     });
+  }
+
+  function ensureTimelineLabels(axis) {
+    if (!axis) return;
+    for (const hour of [22,23,24]) {
+      const labelText = `${String(hour).padStart(2,'0')}:00`;
+      if ([...axis.querySelectorAll('.time-label')].some(label => label.textContent.trim() === labelText)) continue;
+      const label = document.createElement('span');
+      label.className = 'time-label';
+      label.dataset.runtimeManagedLabel = String(hour);
+      label.textContent = labelText;
+      axis.append(label);
+    }
   }
 
   function rescaleWeekTimeline() {
     const end = timelineEnd();
     const height = timelineHeight();
-    document.documentElement.style.setProperty('--runtime-grid-height',`${height}px`);
-    document.documentElement.style.setProperty('--runtime-hour',`${PX_PER_HOUR}px`);
-    document.documentElement.style.setProperty('--runtime-two-hour',`${PX_PER_HOUR*2}px`);
+    const rootStyle = document.documentElement.style;
+    if (rootStyle.getPropertyValue('--runtime-grid-height') !== `${height}px`) rootStyle.setProperty('--runtime-grid-height',`${height}px`);
+    if (rootStyle.getPropertyValue('--runtime-hour') !== `${PX_PER_HOUR}px`) rootStyle.setProperty('--runtime-hour',`${PX_PER_HOUR}px`);
+    if (rootStyle.getPropertyValue('--runtime-two-hour') !== `${PX_PER_HOUR*2}px`) rootStyle.setProperty('--runtime-two-hour',`${PX_PER_HOUR*2}px`);
 
     const axis = document.getElementById('timeAxis');
+    ensureTimelineLabels(axis);
     if (axis) {
-      axis.querySelectorAll('[data-runtime-extra-label]').forEach(node => node.remove());
       axis.querySelectorAll('.time-label').forEach(label => {
         const match = label.textContent.match(/(\d{1,2}):00/);
         if (!match) return;
         const minute = Number(match[1])*60;
-        if (minute > end) { label.style.display='none'; return; }
-        label.style.display='';
-        label.style.top = `${((minute-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
+        const display = minute > end ? 'none' : '';
+        if (label.style.display !== display) label.style.display = display;
+        if (minute <= end) {
+          const top = `${((minute-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
+          if (label.style.top !== top) label.style.top = top;
+        }
       });
-      for (let hour=22; hour<=end/60; hour++) {
-        if ([...axis.querySelectorAll('.time-label')].some(label => label.textContent.trim() === `${String(hour).padStart(2,'0')}:00`)) continue;
-        const label = document.createElement('span');
-        label.className='time-label';
-        label.dataset.runtimeExtraLabel='1';
-        label.style.top=`${((hour*60-TIMELINE_START)/(end-TIMELINE_START))*height}px`;
-        label.textContent=`${String(hour).padStart(2,'0')}:00`;
-        axis.append(label);
-      }
     }
 
     document.querySelectorAll('#dayGrid .event[data-event-id]').forEach(node => {
       const match=(node.querySelector('.event-time')?.textContent || '').match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
       if (!match) return;
-      node.style.top=`${timelineTop(match[1])}px`;
-      node.style.height=`${eventHeight(match[1],match[2])}px`;
+      const top = `${timelineTop(match[1])}px`;
+      const h = `${eventHeight(match[1],match[2])}px`;
+      if (node.style.top !== top) node.style.top = top;
+      if (node.style.height !== h) node.style.height = h;
     });
   }
 
@@ -382,9 +385,11 @@
         const cols=Math.max(1,columnEnds.length);
         placed.forEach(item=>{
           const width=100/cols,left=item.column*width;
-          item.node.style.left=`calc(${left}% + 4px)`;
-          item.node.style.right='auto';
-          item.node.style.width=`calc(${width}% - 8px)`;
+          const leftStyle=`calc(${left}% + 4px)`;
+          const widthStyle=`calc(${width}% - 8px)`;
+          if (item.node.style.left !== leftStyle) item.node.style.left=leftStyle;
+          if (item.node.style.right !== 'auto') item.node.style.right='auto';
+          if (item.node.style.width !== widthStyle) item.node.style.width=widthStyle;
         });
         group=[];groupEnd=-1;
       };
@@ -401,7 +406,7 @@
     if(!dialog)return;
     const date=parseDate(event.date);
     const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
-    const set=(id,text)=>{const node=document.getElementById(id);if(node)node.textContent=text;};
+    const set=(id,text)=>setText(document.getElementById(id),text);
     set('dialogSubject',event.course.name);
     set('dialogTitle',event.topic);
     set('dialogDate',`${date.getUTCFullYear()}年${date.getUTCMonth()+1}月${date.getUTCDate()}日（${weekdays[date.getUTCDay()]}）`);
@@ -412,9 +417,8 @@
     set('dialogStatus','正常授课');
     const status = event.course === CHEMISTRY ? '｜2026上半期课程' : event.course === BIOLOGY ? '｜2026前期夏期集中讲座' : '';
     set('dialogNote',`${event.title}｜${event.topic}${status}`);
-    dialog.hidden=false;
+    if (dialog.hidden) dialog.hidden=false;
     document.body.style.overflow='hidden';
-    if(!event.course.mode) requestAnimationFrame(()=>set('dialogRoom','待确认'));
   }
 
   function selectedMonth() {
@@ -447,12 +451,15 @@
     EXTRA_COURSES.forEach(course=>{
       const monthly=course.events.filter(event=>event.date.startsWith(`${month}-`));
       const cumulative=course.events.filter(event=>event.date<=`${month}-99`);
-      const delivery=course.mode==='网课' ? '<span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small>' : '<span class="course-overview-mode">方式待确认</span><small class="course-overview-room unknown">教室待确认</small>';
+      const delivery=course.mode==='网课'
+        ? '<span class="course-overview-mode">网课</span><small class="course-overview-room online">无需教室</small>'
+        : '<span class="course-overview-mode">方式待确认</span><small class="course-overview-room unknown">教室待确认</small>';
       const name=course.ledgerName || course.name;
       const html=`<td data-label="类型"><span class="course-overview-type">班课</span></td><td data-label="课程"><div class="course-overview-course"><i class="course-overview-dot ${course.key}" aria-hidden="true"></i><div class="course-overview-name"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(statusMeta(course))}</span></div></div></td><td data-label="授课老师"><span class="course-overview-teacher">${escapeHtml(course.teacher)}</span></td><td data-label="方式 / 教室" class="course-overview-delivery">${delivery}</td><td data-label="当月授课" class="course-overview-hours">${monthly.length*2} h<small>${monthly.length} 回</small></td><td data-label="累计授课" class="course-overview-hours">${cumulative.length*2} h<small>${cumulative.length} 回</small></td>`;
       let row=body.querySelector(`tr[data-runtime-ledger="${course.key}"]`);
       if(!row){
-        row=document.createElement('tr');row.dataset.runtimeLedger=course.key;
+        row=document.createElement('tr');
+        row.dataset.runtimeLedger=course.key;
         const anchor=[...body.rows].find(item=>item.textContent.includes('数学IIBC'));
         if(course===MATHIA) body.insertBefore(row,anchor||null); else body.append(row);
       }
@@ -463,10 +470,8 @@
       const match=item.cells[index]?.textContent.match(/([0-9.]+)\s*h/);
       return total+(match?Number(match[1]):0);
     },0);
-    const monthTotal=document.getElementById('courseOverviewMonthTotal');
-    const cumulativeTotal=document.getElementById('courseOverviewCumulativeTotal');
-    if(monthTotal)monthTotal.textContent=`${sum(4)} h`;
-    if(cumulativeTotal)cumulativeTotal.textContent=`${sum(5)} h`;
+    setText(document.getElementById('courseOverviewMonthTotal'),`${sum(4)} h`);
+    setText(document.getElementById('courseOverviewCumulativeTotal'),`${sum(5)} h`);
   }
 
   function patchPendingCourseList() {
@@ -479,7 +484,7 @@
         if(v==='生物')return '生物（下半期方案待定）';
         return v;
       }).filter(Boolean).join('、');
-      if(p.textContent!==next)p.textContent=next;
+      setText(p,next);
     });
   }
 
@@ -501,16 +506,14 @@
     document.querySelectorAll('#enrollmentContent [data-enrollment-course]').forEach(button=>{
       if((button.dataset.enrollmentCourse||'').trim()!=='数学IA')return;
       const small=button.querySelector('small');
-      if(small?.textContent.includes('时间未定'))small.textContent=small.textContent.replace('时间未定','已排入日历');
+      if(small?.textContent.includes('时间未定'))setText(small,small.textContent.replace('时间未定','已排入日历'));
     });
     const detail=document.querySelector('#enrollmentContent .enrollment-detail-head');
-    if(detail?.querySelector('h3')?.textContent.trim()==='数学IA'){
-      const small=detail.querySelector('small');if(small)small.textContent='已排入课程日历';
-    }
+    if(detail?.querySelector('h3')?.textContent.trim()==='数学IA') setText(detail.querySelector('small'),'已排入课程日历');
     document.querySelectorAll('#enrollmentContent .planning-table tbody tr').forEach(row=>{
       if(!(row.cells?.[0]?.textContent||'').includes('数学IA'))return;
       const state=row.querySelector('.schedule-state');
-      if(state){state.textContent='已排';state.classList.remove('unscheduled');state.classList.add('scheduled');}
+      if(state){setText(state,'已排');state.classList.remove('unscheduled');state.classList.add('scheduled');}
     });
 
     const rows=activeEnrollmentRows();
@@ -523,10 +526,9 @@
       });
     });
     if(names.size){
-      const metric=document.getElementById('enrollmentUnscheduledCount');
-      const scheduledPatterns=[/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i];
+      const scheduledPatterns=[/公共|政经|政治经济/,/国语|现代文/,/地理/,/物理/,/数学.*(?:iibc|2bc|2)$/i,/化学/,/生物/];
       const pending=[...courses].filter(course=>!isMathIA(course)&&!scheduledPatterns.some(pattern=>pattern.test(course.replace(/Ⅰ/g,'I').replace(/Ⅱ/g,'II'))));
-      if(metric)metric.textContent=String(pending.length);
+      setText(document.getElementById('enrollmentUnscheduledCount'),String(pending.length));
       document.querySelectorAll('[data-event-id^="mathia-"]').forEach(node=>{
         if(node.querySelector('.enrollment-count-badge'))return;
         const badge=document.createElement('span');badge.className='enrollment-count-badge';badge.textContent=`${names.size}人`;
@@ -557,7 +559,8 @@
 
   let queued=false;
   const queuePolish=()=>{
-    if(queued)return;queued=true;
+    if(queued)return;
+    queued=true;
     requestAnimationFrame(()=>{queued=false;polish();});
   };
 
