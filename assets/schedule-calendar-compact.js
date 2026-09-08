@@ -2,6 +2,7 @@
   'use strict';
 
   const grid = document.getElementById('dayGrid');
+  const head = document.getElementById('calendarHead');
   const monthView = document.getElementById('monthView');
   if (!grid) return;
 
@@ -32,54 +33,47 @@
       .filter(node => !node.classList.contains('room-filtered-v2'));
   }
 
-  function clearPlacement(node) {
-    node.style.removeProperty('--compact-day');
-    node.style.removeProperty('--compact-row');
-  }
-
-  function removeGenerated() {
-    grid.querySelectorAll(':scope > .compact-slot-label, :scope > .compact-slot-cell').forEach(node => node.remove());
-    delete grid.dataset.compactSignature;
+  function isWeekend(date) {
+    const d = new Date(`${date}T00:00:00`);
+    return d.getDay() === 0 || d.getDay() === 6;
   }
 
   function buildCompactCalendar() {
-    const compactActive = document.body.classList.contains('schedule-agenda') &&
-      window.innerWidth > 760 &&
-      monthView?.hidden !== false;
-
+    const compactActive = document.body.classList.contains('schedule-agenda') && window.innerWidth > 760 && monthView?.hidden !== false;
     if (!compactActive) return;
 
     const columns = dayColumns();
     if (!columns.length) return;
+    const dayCount = columns.length;
+    const template = `var(--compact-time-col) repeat(${dayCount}, minmax(0,1fr))`;
+    grid.style.setProperty('grid-template-columns', template, 'important');
+    head?.style.setProperty('grid-template-columns', template, 'important');
 
+    const today = localTodayKey();
     const records = [];
     columns.forEach((column, dayIndex) => {
-      column.classList.toggle('today-column', column.dataset.date === localTodayKey());
+      column.classList.toggle('today-column', column.dataset.date === today);
       visibleEvents(column).forEach(node => {
         const times = parseTimes(node);
         if (!times) return;
-        records.push({
-          node,
-          dayIndex,
-          start: times.start,
-          end: times.end,
-          startMinute: minutes(times.start),
-          endMinute: minutes(times.end)
-        });
+        records.push({ node, dayIndex, start: times.start, endMinute: minutes(times.end) });
       });
     });
 
+    const visibleSet = new Set(records.map(record => record.node));
     columns.forEach(column => {
-      [...column.querySelectorAll('.event[data-event-id]')].forEach(node => {
-        if (!records.some(record => record.node === node)) clearPlacement(node);
+      column.querySelectorAll('.event[data-event-id]').forEach(node => {
+        if (!visibleSet.has(node)) {
+          node.style.removeProperty('--compact-day');
+          node.style.removeProperty('--compact-row');
+        }
       });
     });
 
     const grouped = new Map();
     records.forEach(record => {
-      const key = record.start;
-      if (!grouped.has(key)) grouped.set(key, []);
-      grouped.get(key).push(record);
+      if (!grouped.has(record.start)) grouped.set(record.start, []);
+      grouped.get(record.start).push(record);
     });
 
     const starts = [...grouped.keys()].sort((a, b) => minutes(a) - minutes(b));
@@ -88,10 +82,10 @@
 
     starts.forEach(start => {
       const items = grouped.get(start).sort((a, b) => a.dayIndex - b.dayIndex || a.endMinute - b.endMinute || a.node.dataset.eventId.localeCompare(b.node.dataset.eventId));
-      const counts = Array(7).fill(0);
+      const counts = Array(dayCount).fill(0);
       items.forEach(item => { counts[item.dayIndex] += 1; });
       const span = Math.max(1, ...counts);
-      const laneByDay = Array(7).fill(0);
+      const laneByDay = Array(dayCount).fill(0);
       const baseRow = cursor;
 
       items.forEach(item => {
@@ -115,16 +109,12 @@
       records.map(record => record.node.dataset.eventId).sort().join(',')
     ].join('|');
 
-    const expectedLabels = slots.length;
-    const generatedIntact = grid.querySelectorAll(':scope > .compact-slot-label').length === expectedLabels &&
-      grid.querySelectorAll(':scope > .compact-slot-cell').length === (cursor - 1) * 7;
-
+    const expectedCells = (cursor - 1) * dayCount;
+    const generatedIntact = grid.querySelectorAll(':scope > .compact-slot-label').length === slots.length && grid.querySelectorAll(':scope > .compact-slot-cell').length === expectedCells;
     if (grid.dataset.compactSignature === signature && generatedIntact) return;
 
     grid.querySelectorAll(':scope > .compact-slot-label, :scope > .compact-slot-cell').forEach(node => node.remove());
-
     const fragment = document.createDocumentFragment();
-    const today = localTodayKey();
     const lastRow = cursor - 1;
 
     slots.forEach(slot => {
@@ -140,9 +130,9 @@
         columns.forEach((column, dayIndex) => {
           const cell = document.createElement('div');
           cell.className = 'compact-slot-cell';
-          if (dayIndex >= 5) cell.classList.add('is-weekend');
+          if (isWeekend(column.dataset.date)) cell.classList.add('is-weekend');
           if (column.dataset.date === today) cell.classList.add('is-today');
-          if (dayIndex === 6) cell.classList.add('last-column');
+          if (dayIndex === dayCount - 1) cell.classList.add('last-column');
           if (row === lastRow) cell.classList.add('last-row');
           cell.setAttribute('aria-hidden', 'true');
           cell.style.gridColumn = String(dayIndex + 2);
