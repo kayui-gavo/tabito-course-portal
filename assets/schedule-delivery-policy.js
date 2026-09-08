@@ -24,6 +24,15 @@
   function applyAll(root=document) {
     root.querySelectorAll?.('.event[data-event-id],.month-event[data-event-id],.mobile-event[data-event-id]').forEach(applyNode);
   }
+  function patchOverview() {
+    document.querySelectorAll('#courseOverviewBody tr').forEach(row=>{
+      const name=row.querySelector('.course-overview-name strong')?.textContent?.trim();
+      if(name==='国语'){
+        const meta=row.querySelector('.course-overview-name span');
+        if(meta&&meta.textContent!=='10/9起周五 13:40–16:40')meta.textContent='10/9起周五 13:40–16:40';
+      }
+    });
+  }
   function syncDialog(node) {
     const key=subjectClass(node);
     if(!key)return;
@@ -36,6 +45,7 @@
   }
 
   applyAll();
+  patchOverview();
 
   document.addEventListener('click',event=>{
     const node=event.target.closest('[data-event-id]');
@@ -53,5 +63,14 @@
       queued=true;
       requestAnimationFrame(()=>{queued=false;applyAll(calendar);});
     }).observe(calendar,{childList:true,subtree:true});
+  }
+  const overview=document.getElementById('courseOverviewBody');
+  if(overview&&'MutationObserver'in window){
+    let queued=false;
+    new MutationObserver(()=>{
+      if(queued)return;
+      queued=true;
+      requestAnimationFrame(()=>{queued=false;patchOverview();});
+    }).observe(overview,{childList:true,subtree:true});
   }
 })();
