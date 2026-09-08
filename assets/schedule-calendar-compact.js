@@ -23,8 +23,14 @@
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   }
 
-  function dayColumns() {
+  function allDayColumns() {
     return [...grid.children].filter(node => node.classList?.contains('day-column') && node.dataset.date);
+  }
+
+  function activeDayColumns() {
+    const all = allDayColumns();
+    const workdays = document.querySelector('[data-range="workdays"]')?.classList.contains('active');
+    return workdays ? all.slice(0, 5) : all;
   }
 
   function visibleEvents(column) {
@@ -34,17 +40,57 @@
   }
 
   function isWeekend(date) {
-    const d = new Date(`${date}T00:00:00`);
-    return d.getDay() === 0 || d.getDay() === 6;
+    const day = new Date(`${date}T12:00:00`).getDay();
+    return day === 0 || day === 6;
+  }
+
+  function clearPlacement(node) {
+    node.style.removeProperty('--compact-day');
+    node.style.removeProperty('--compact-row');
+  }
+
+  function removeGenerated() {
+    grid.querySelectorAll(':scope > .compact-slot-label, :scope > .compact-slot-cell').forEach(node => node.remove());
+    delete grid.dataset.compactSignature;
+    allDayColumns().forEach(column => column.querySelectorAll('.event[data-event-id]').forEach(clearPlacement));
+  }
+
+  function syncDayVisibility(columns) {
+    const all = allDayColumns();
+    const activeDates = new Set(columns.map(column => column.dataset.date));
+    all.forEach(column => column.classList.toggle('compact-hidden-day', !activeDates.has(column.dataset.date)));
+    const heads = [...(head?.querySelectorAll('.day-head') || [])];
+    heads.forEach((node, index) => {
+      const column = all[index];
+      node.classList.toggle('compact-hidden-day', Boolean(column) && !activeDates.has(column.dataset.date));
+    });
+  }
+
+  function addHoverText(node) {
+    ['.event-name', '.event-topic', '.event-meta'].forEach(selector => {
+      const target = node.querySelector(selector);
+      if (target?.textContent?.trim()) target.title = target.textContent.trim();
+    });
   }
 
   function buildCompactCalendar() {
-    const compactActive = document.body.classList.contains('schedule-agenda') && window.innerWidth > 760 && monthView?.hidden !== false;
-    if (!compactActive) return;
+    const compactActive = document.body.classList.contains('schedule-agenda') &&
+      window.innerWidth > 760 &&
+      monthView?.hidden !== false;
 
-    const columns = dayColumns();
+    if (!compactActive) {
+      removeGenerated();
+      allDayColumns().forEach(column => column.classList.remove('compact-hidden-day'));
+      head?.querySelectorAll('.day-head').forEach(node => node.classList.remove('compact-hidden-day'));
+      return;
+    }
+
+    const columns = activeDayColumns();
     if (!columns.length) return;
+    syncDayVisibility(columns);
+
     const dayCount = columns.length;
+    document.documentElement.style.setProperty('--compact-days', String(dayCount));
     const template = `var(--compact-time-col) repeat(${dayCount}, minmax(0,1fr))`;
     grid.style.setProperty('grid-template-columns', template, 'important');
     head?.style.setProperty('grid-template-columns', template, 'important');
@@ -52,21 +98,26 @@
     const today = localTodayKey();
     const records = [];
     columns.forEach((column, dayIndex) => {
+      const events = visibleEvents(column);
       column.classList.toggle('today-column', column.dataset.date === today);
-      visibleEvents(column).forEach(node => {
+      column.classList.toggle('empty-column', events.length === 0);
+      events.forEach(node => {
         const times = parseTimes(node);
         if (!times) return;
-        records.push({ node, dayIndex, start: times.start, endMinute: minutes(times.end) });
+        addHoverText(node);
+        records.push({
+          node,
+          dayIndex,
+          start: times.start,
+          endMinute: minutes(times.end)
+        });
       });
     });
 
     const visibleSet = new Set(records.map(record => record.node));
-    columns.forEach(column => {
+    allDayColumns().forEach(column => {
       column.querySelectorAll('.event[data-event-id]').forEach(node => {
-        if (!visibleSet.has(node)) {
-          node.style.removeProperty('--compact-day');
-          node.style.removeProperty('--compact-row');
-        }
+        if (!visibleSet.has(node)) clearPlacement(node);
       });
     });
 
@@ -110,7 +161,8 @@
     ].join('|');
 
     const expectedCells = (cursor - 1) * dayCount;
-    const generatedIntact = grid.querySelectorAll(':scope > .compact-slot-label').length === slots.length && grid.querySelectorAll(':scope > .compact-slot-cell').length === expectedCells;
+    const generatedIntact = grid.querySelectorAll(':scope > .compact-slot-label').length === slots.length &&
+      grid.querySelectorAll(':scope > .compact-slot-cell').length === expectedCells;
     if (grid.dataset.compactSignature === signature && generatedIntact) return;
 
     grid.querySelectorAll(':scope > .compact-slot-label, :scope > .compact-slot-cell').forEach(node => node.remove());
