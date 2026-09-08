@@ -16,6 +16,10 @@
     const mode=desiredMode(node);
     if(!mode)return;
     if(node.dataset.mode!==mode)node.dataset.mode=mode;
+    if(node.dataset.eventId==='jp-03'){
+      node.classList.remove('tentative');
+      if(node.dataset.status)node.dataset.status='normal';
+    }
   }
   function applyAll(root=document) {
     root.querySelectorAll?.('.event[data-event-id],.month-event[data-event-id],.mobile-event[data-event-id]').forEach(applyNode);
@@ -25,6 +29,10 @@
     if(!key)return;
     const target=document.getElementById('dialogMode');
     if(target)target.textContent=OFFLINE_CLASSES.has(key)?'线下':'网课';
+    if(node.dataset.eventId==='jp-03'){
+      const status=document.getElementById('dialogStatus');
+      if(status)status.textContent='正常';
+    }
   }
 
   applyAll();
