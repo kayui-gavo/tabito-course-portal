@@ -233,12 +233,12 @@
       <header class="enrollment-head">
         <div>
           <h2 id="enrollmentTitle">报名信息</h2>
-          <p>报名名单、选科组合、线下需求与排课冲突统一核对。</p>
+          <p>报名名单、报名日期、选科组合与排课冲突统一核对。</p>
         </div>
         <button type="button" class="enrollment-close" data-close-enrollment aria-label="关闭">×</button>
       </header>
 
-      <p class="enrollment-privacy"><strong>内部信息：</strong>学生姓名与选科不写入公开仓库；当前导入数据只保存在本浏览器。跨部门共享时应接入受权限控制的私有数据源。</p>
+      <p class="enrollment-privacy"><strong>内部信息：</strong>学生姓名与选科不写入公开仓库；报名编号前 8 位按报名日期解析，当前导入数据只保存在本浏览器。</p>
 
       <div class="enrollment-data-bar">
         <span class="enrollment-source" id="enrollmentSource"><strong>尚未载入报名数据</strong> · 可导入 CSV</span>
@@ -252,7 +252,7 @@
       <div class="enrollment-metrics" aria-label="报名概览">
         <div class="enrollment-metric"><span>学生</span><strong id="enrollmentStudentCount">0</strong></div>
         <div class="enrollment-metric"><span>报名关系</span><strong id="enrollmentLinkCount">0</strong></div>
-        <div class="enrollment-metric attention"><span>必须线下</span><strong id="enrollmentOfflineCount">0</strong></div>
+        <div class="enrollment-metric attention"><span>线下授课学生</span><strong id="enrollmentOfflineCount">0</strong></div>
         <div class="enrollment-metric"><span>待确认</span><strong id="enrollmentPendingCount">0</strong></div>
       </div>
 
@@ -261,9 +261,9 @@
           <button type="button" class="enrollment-tab active" data-enrollment-view="course">按课程</button>
           <button type="button" class="enrollment-tab" data-enrollment-view="student">按学生</button>
         </div>
-        <input class="enrollment-search" id="enrollmentSearch" type="search" placeholder="搜索姓名 / 课程 / 备注" aria-label="搜索报名信息">
-        <select class="enrollment-requirement" id="enrollmentRequirement" aria-label="筛选线下要求">
-          <option value="all">全部线下要求</option>
+        <input class="enrollment-search" id="enrollmentSearch" type="search" placeholder="搜索姓名 / 课程 / 报名编号 / 备注" aria-label="搜索报名信息">
+        <select class="enrollment-requirement" id="enrollmentRequirement" aria-label="筛选个别上课要求">
+          <option value="all">全部个别要求</option>
           <option value="offline-required">必须线下</option>
           <option value="offline-preferred">优先线下</option>
           <option value="online-ok">可线上 / 同步</option>
@@ -276,10 +276,11 @@
   </div>
 
   <script src="assets/schedule.js?v=20260830a"></script>
-  <script src="assets/schedule-overview.js?v=20260830a"></script>
+  <script src="assets/schedule-overview.js?v=20260909c"></script>
   <script src="assets/schedule-office.js?v=20260908a"></script>
   <script src="assets/schedule-runtime-polish.js?v=20260908a"></script>
-  <script src="assets/schedule-enrollment.js?v=20260908a"></script>
+  <script src="assets/schedule-delivery-policy.js?v=20260909a"></script>
+  <script src="assets/schedule-enrollment-v4.js?v=20260909a"></script>
   <script src="assets/schedule-rooms.js?v=20260909a"></script>
   <script src="assets/schedule-calendar-compact.js?v=20260909b"></script>
 </body>
