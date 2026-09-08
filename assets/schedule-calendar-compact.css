@@ -1,56 +1,266 @@
 :root{
-  --compact-time-col:48px;
-  --compact-slot-height:62px;
-  --compact-line:#e2e6e9;
-  --compact-line-soft:#eef0f2;
+  --compact-time-col:46px;
+  --compact-slot-height:54px;
+  --compact-line:#dfe4e7;
+  --compact-line-soft:#edf0f2;
   --compact-head:#fafaf8;
-  --compact-today:#f5f9fb;
+  --compact-today:#f4f8fb;
   --compact-weekend:#fcfcfa;
 }
 
 @media (min-width:761px){
+  /* A calendar should stay spatial, but it should not stretch across the whole monitor. */
   .schedule-workspace .nav,
   .schedule-workspace .page-shell,
   .schedule-workspace .footer-inner{
-    width:min(1320px,calc(100% - 24px))!important;
+    width:min(1180px,calc(100% - 24px))!important;
   }
-  .compact-header .nav{min-height:40px!important}
-  .workspace-shell{padding-top:3px!important}
-  .schedule-command{top:41px!important;padding-top:2px!important;padding-bottom:3px!important}
-  .command-main{min-height:30px!important}
-  .command-lower{min-height:27px!important}
-  .admin-module-nav{min-height:31px!important;margin:3px 0 4px!important}
-  .admin-module-nav button{min-height:31px!important;padding:0 13px!important;font-size:10px!important}
 
+  .compact-header .nav{min-height:39px!important}
+  .compact-header .brand-logo{width:23px!important;height:23px!important}
+  .workspace-shell{padding-top:2px!important;padding-bottom:16px!important}
+  .schedule-command{top:40px!important;padding:2px 0 3px!important}
+  .command-main{min-height:29px!important;gap:9px!important}
+  .command-lower{min-height:26px!important;padding-top:2px!important;gap:8px!important}
+  .text-btn,.primary-btn{min-height:24px!important;font-size:9.5px!important}
+  .segment-btn{min-height:24px!important;font-size:9px!important}
+  .week-title-wrap strong{font-size:12.5px!important}
+  .week-title-wrap span{font-size:8.5px!important}
+  .filter-field{height:23px!important;padding:0 6px!important}
+  .filter-field:first-child{min-width:142px!important}
+  .filter-field>span{font-size:8px!important}
+  .filter-field select{max-width:145px!important;font-size:9.3px!important}
+  .reset-btn,.enrollment-open-btn{min-height:23px!important;font-size:9px!important;padding:0 7px!important}
+  .ops-summary-item{padding:0 6px!important}
+  .ops-summary-item>span,.ops-summary-item>small{font-size:8px!important}
+  .ops-summary-item>strong{font-size:10px!important}
+
+  /* Avoid a full-width tab bar with a large empty middle section. */
+  .admin-module-nav{
+    display:inline-flex!important;
+    width:auto!important;
+    max-width:100%!important;
+    min-height:29px!important;
+    margin:3px 0 4px!important;
+    border:1px solid var(--compact-line)!important;
+    border-radius:2px!important;
+    background:#fff!important;
+    overflow:hidden!important;
+  }
+  .admin-module-nav button{
+    min-height:29px!important;
+    padding:0 11px!important;
+    border-right:1px solid var(--compact-line-soft)!important;
+    font-size:9.5px!important;
+  }
+  .admin-module-nav button:last-child{border-right:0!important}
+  .admin-module-nav .admin-nav-spacer{display:none!important}
+  .admin-density{margin-left:3px!important;border-left:1px solid var(--compact-line)!important}
+  .admin-density button{padding:0 9px!important;font-size:8.8px!important}
+
+  .legend-drawer{display:none!important}
+  .office-calendar{
+    margin-top:0!important;
+    border:1px solid var(--compact-line)!important;
+    border-radius:2px!important;
+    background:#fff!important;
+    box-shadow:none!important;
+    overflow:hidden!important;
+  }
+
+  /* Weekly calendar: seven day columns remain visible; unused hours are collapsed. */
   body.schedule-agenda #weekView .calendar-desktop{display:block!important}
-  body.schedule-agenda #weekView .calendar-head{display:grid!important;grid-template-columns:var(--compact-time-col) repeat(7,minmax(0,1fr))!important;min-height:35px!important;background:var(--compact-head)!important;border-bottom:1px solid var(--compact-line)!important}
-  body.schedule-agenda #weekView .calendar-head .corner{display:block!important;min-height:35px!important;border-right:1px solid var(--compact-line)!important;background:var(--compact-head)!important}
-  body.schedule-agenda #weekView .calendar-head .day-head{min-height:35px!important;padding:3px 2px!important;border-right:1px solid var(--compact-line)!important;background:var(--compact-head)!important}
+  body.schedule-agenda #weekView .calendar-head{
+    display:grid!important;
+    grid-template-columns:var(--compact-time-col) repeat(var(--compact-days,7),minmax(0,1fr))!important;
+    min-height:31px!important;
+    background:var(--compact-head)!important;
+    border-bottom:1px solid var(--compact-line)!important;
+  }
+  body.schedule-agenda #weekView .calendar-head .corner{
+    display:block!important;
+    min-height:31px!important;
+    border-right:1px solid var(--compact-line)!important;
+    background:var(--compact-head)!important;
+  }
+  body.schedule-agenda #weekView .calendar-head .day-head{
+    min-height:31px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+    padding:2px 3px!important;
+    border-right:1px solid var(--compact-line)!important;
+    background:var(--compact-head)!important;
+  }
   body.schedule-agenda #weekView .calendar-head .day-head:last-child{border-right:0!important}
-  body.schedule-agenda #weekView .day-head .weekday{font-size:8.5px!important;line-height:1.05!important;font-weight:700!important;color:#7b848d!important}
-  body.schedule-agenda #weekView .day-head .date{margin-top:1px!important;font-size:11.5px!important;line-height:1.05!important;font-weight:790!important;color:#202a34!important}
-  body.schedule-agenda #weekView .day-head.today{background:#edf4f8!important;box-shadow:inset 0 2px #2d628e!important}
-  body.schedule-agenda #weekView .day-head.today .weekday,body.schedule-agenda #weekView .day-head.today .date{color:#234d73!important}
+  body.schedule-agenda #weekView .day-head .weekday{
+    margin:0!important;
+    font-size:8.4px!important;
+    line-height:1!important;
+    font-weight:680!important;
+    color:#79838c!important;
+    letter-spacing:0!important;
+  }
+  body.schedule-agenda #weekView .day-head .date{
+    margin:0!important;
+    font-size:11px!important;
+    line-height:1!important;
+    font-weight:790!important;
+    color:#202a34!important;
+  }
+  body.schedule-agenda #weekView .day-head.today{
+    background:#edf4f8!important;
+    box-shadow:inset 0 2px #2d628e!important;
+  }
+  body.schedule-agenda #weekView .day-head.today .weekday,
+  body.schedule-agenda #weekView .day-head.today .date{color:#234d73!important}
+  body.schedule-agenda #weekView .day-head.today .date::after{display:none!important}
 
-  body.schedule-agenda #weekView .calendar-body{display:block!important;min-height:0!important;background:#fff!important}
+  body.schedule-agenda #weekView .calendar-body{
+    display:block!important;
+    min-height:0!important;
+    background:#fff!important;
+  }
   body.schedule-agenda #weekView .time-axis{display:none!important}
-  body.schedule-agenda #weekView .day-grid{position:relative!important;display:grid!important;grid-template-columns:var(--compact-time-col) repeat(7,minmax(0,1fr))!important;grid-auto-rows:var(--compact-slot-height)!important;height:auto!important;min-height:0!important;background:#fff!important;overflow:visible!important}
-  body.schedule-agenda #weekView .day-column{display:contents!important;position:static!important;height:auto!important;min-height:0!important;padding:0!important;border:0!important;background:none!important}
-  body.schedule-agenda #weekView .day-column::before,body.schedule-agenda #weekView .day-column::after{display:none!important;content:none!important}
+  body.schedule-agenda #weekView .day-grid{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:var(--compact-time-col) repeat(var(--compact-days,7),minmax(0,1fr))!important;
+    grid-auto-rows:var(--compact-slot-height)!important;
+    height:auto!important;
+    min-height:0!important;
+    background:#fff!important;
+    overflow:visible!important;
+  }
+  body.schedule-agenda #weekView .day-column{
+    display:contents!important;
+    position:static!important;
+    height:auto!important;
+    min-height:0!important;
+    padding:0!important;
+    border:0!important;
+    background:none!important;
+  }
+  body.schedule-agenda #weekView .day-column::before,
+  body.schedule-agenda #weekView .day-column::after{display:none!important;content:none!important}
 
-  .compact-slot-label{z-index:1;grid-column:1;display:flex;align-items:flex-start;justify-content:flex-end;padding:7px 7px 0 3px;border-right:1px solid var(--compact-line)!important;border-bottom:1px solid var(--compact-line-soft)!important;background:#fafaf8;color:#7e8790;font-size:8.5px;line-height:1.1;font-weight:680;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .compact-slot-cell{z-index:0;min-width:0;border-right:1px solid var(--compact-line-soft);border-bottom:1px solid var(--compact-line-soft);background:#fff}
+  .compact-slot-label{
+    z-index:1;
+    grid-column:1;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 6px 0 2px;
+    border-right:1px solid var(--compact-line)!important;
+    border-bottom:1px solid var(--compact-line-soft)!important;
+    background:#fafaf8;
+    color:#7e8790;
+    font-size:8.4px;
+    line-height:1;
+    font-weight:680;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .compact-slot-cell{
+    z-index:0;
+    min-width:0;
+    border-right:1px solid var(--compact-line-soft);
+    border-bottom:1px solid var(--compact-line-soft);
+    background:#fff;
+  }
   .compact-slot-cell.is-weekend{background:var(--compact-weekend)}
   .compact-slot-cell.is-today{background:var(--compact-today)}
   .compact-slot-cell.last-column{border-right:0}
   .compact-slot-cell.last-row,.compact-slot-label.last-row{border-bottom:0!important}
 
-  body.schedule-agenda #weekView .event{z-index:3!important;grid-column:var(--compact-day)!important;grid-row:var(--compact-row)!important;align-self:stretch!important;justify-self:stretch!important;position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:auto!important;height:auto!important;min-height:0!important;margin:3px!important;padding:4px 5px 4px 7px!important;display:block!important;border:1px solid #dfe4e8!important;border-left-width:3px!important;border-radius:2px!important;background:#fff!important;box-shadow:none!important;overflow:hidden!important;text-align:left!important;transition:none!important}
-  body.schedule-agenda #weekView .event:hover{background:#f8fafb!important;outline:1px solid rgba(35,77,115,.16)!important;outline-offset:-1px!important}
-  body.schedule-agenda #weekView .event .event-time{display:block!important;margin:0!important;color:#6e7882!important;font-size:8.2px!important;line-height:1.05!important;font-weight:720!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important}
-  body.schedule-agenda #weekView .event .event-name{display:block!important;margin:2px 0 0!important;min-width:0!important;color:#1d2731!important;font-size:10px!important;line-height:1.12!important;font-weight:790!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  body.schedule-agenda #weekView .event .event-topic{display:block!important;margin:2px 0 0!important;min-width:0!important;color:#5f6973!important;font-size:8.4px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  body.schedule-agenda #weekView .event .event-meta{display:block!important;margin:2px 0 0!important;min-width:0!important;color:#9299a0!important;font-size:7.5px!important;line-height:1.05!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  /* Course card: one strong title line, then lesson content, then quiet logistics. */
+  body.schedule-agenda #weekView .event{
+    z-index:3!important;
+    grid-column:var(--compact-day)!important;
+    grid-row:var(--compact-row)!important;
+    align-self:stretch!important;
+    justify-self:stretch!important;
+    position:relative!important;
+    top:auto!important;
+    left:auto!important;
+    right:auto!important;
+    width:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:2px!important;
+    padding:4px 6px 3px 7px!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-rows:auto auto auto!important;
+    column-gap:5px!important;
+    row-gap:1px!important;
+    align-content:center!important;
+    border:1px solid #dde3e7!important;
+    border-left-width:3px!important;
+    border-radius:2px!important;
+    background:#fff!important;
+    box-shadow:none!important;
+    overflow:hidden!important;
+    text-align:left!important;
+    transition:none!important;
+  }
+  body.schedule-agenda #weekView .event:hover{
+    background:#f8fafb!important;
+    outline:1px solid rgba(35,77,115,.15)!important;
+    outline-offset:-1px!important;
+  }
+  body.schedule-agenda #weekView .event .event-name{
+    grid-column:1!important;
+    grid-row:1!important;
+    min-width:0!important;
+    margin:0!important;
+    color:#1d2731!important;
+    font-size:10.2px!important;
+    line-height:1.08!important;
+    font-weight:790!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  body.schedule-agenda #weekView .event .event-time{
+    grid-column:2!important;
+    grid-row:1!important;
+    display:block!important;
+    margin:0!important;
+    color:#7b858e!important;
+    font-size:7.9px!important;
+    line-height:1.08!important;
+    font-weight:700!important;
+    white-space:nowrap!important;
+    font-variant-numeric:tabular-nums!important;
+  }
+  body.schedule-agenda #weekView .event .event-topic{
+    grid-column:1/-1!important;
+    grid-row:2!important;
+    min-width:0!important;
+    display:block!important;
+    margin:0!important;
+    color:#59636d!important;
+    font-size:8.5px!important;
+    line-height:1.08!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  body.schedule-agenda #weekView .event .event-meta{
+    grid-column:1/-1!important;
+    grid-row:3!important;
+    min-width:0!important;
+    display:block!important;
+    margin:0!important;
+    color:#8b939a!important;
+    font-size:7.7px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
 
   body.schedule-agenda #weekView .event.politics{border-left-color:#995f67!important}
   body.schedule-agenda #weekView .event.japanese{border-left-color:#5e8068!important}
@@ -62,20 +272,69 @@
   body.schedule-agenda #weekView .event.geography{border-left-color:#4f807c!important}
   body.schedule-agenda #weekView .event.commonPhysics{border-left-color:#4d739d!important}
   body.schedule-agenda #weekView .event.privatePhysics{border-left-color:#876d95!important}
-  body.schedule-agenda #weekView .event.cancelled{opacity:.62!important;border-style:dashed!important;border-left-style:solid!important;border-left-color:#8d969e!important;background:#fafafa!important}
+  body.schedule-agenda #weekView .event.cancelled{
+    opacity:.62!important;
+    border-style:dashed!important;
+    border-left-style:solid!important;
+    border-left-color:#8d969e!important;
+    background:#fafafa!important;
+  }
 
-  .workspace-details{margin-top:5px!important}
-  .workspace-detail>summary{min-height:29px!important}
-  .admin-workbench-head{min-height:44px!important}
-  .admin-summary-strip>div{padding-top:6px!important;padding-bottom:6px!important}
-  .admin-table td{padding-top:7px!important;padding-bottom:7px!important}
+  /* The five support sections become compact utilities instead of a 4-column grid with an orphan row. */
+  .workspace-details{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:flex-start!important;
+    gap:4px!important;
+    margin-top:5px!important;
+    border:0!important;
+    background:transparent!important;
+  }
+  .workspace-detail{
+    flex:0 0 auto!important;
+    min-width:0!important;
+    margin:0!important;
+    border:1px solid var(--compact-line)!important;
+    border-radius:2px!important;
+    background:#fff!important;
+  }
+  .workspace-detail>summary{
+    min-height:27px!important;
+    padding:0 9px!important;
+    gap:5px!important;
+    font-size:9.4px!important;
+    white-space:nowrap!important;
+  }
+  .workspace-detail>summary::before{font-size:10px!important}
+  .workspace-detail>summary b,.workspace-detail>summary em{font-size:8.5px!important}
+  .workspace-detail[open]{
+    order:20!important;
+    flex:1 0 100%!important;
+    margin-top:0!important;
+  }
+  .workspace-detail[open]>summary{border-bottom:1px solid var(--compact-line-soft)!important}
+
+  .admin-workbench-head{min-height:42px!important;padding:7px 10px!important}
+  .admin-workbench-head h2{font-size:14px!important}
+  .admin-workbench-head p{font-size:9px!important}
+  .admin-summary-strip>div{padding:5px 10px!important}
+  .admin-table th{padding:6px 8px!important}
+  .admin-table td{padding:6px 8px!important}
+
+  .schedule-workspace .footer{margin-top:6px!important}
+  .schedule-workspace .footer-inner{min-height:27px!important}
 }
 
-@media (min-width:761px) and (max-width:1080px){
-  :root{--compact-time-col:44px;--compact-slot-height:66px}
-  .schedule-workspace .nav,.schedule-workspace .page-shell,.schedule-workspace .footer-inner{width:min(100% - 18px,1320px)!important}
-  body.schedule-agenda #weekView .event{margin:2px!important;padding:4px 4px 4px 6px!important}
-  body.schedule-agenda #weekView .event .event-name{font-size:9.4px!important}
+@media (min-width:761px) and (max-width:1040px){
+  :root{--compact-time-col:42px;--compact-slot-height:58px}
+  .schedule-workspace .nav,
+  .schedule-workspace .page-shell,
+  .schedule-workspace .footer-inner{width:min(100% - 16px,1180px)!important}
+  .toolbar-filters{overflow-x:auto!important;scrollbar-width:none!important}
+  .toolbar-filters::-webkit-scrollbar{display:none!important}
+  body.schedule-agenda #weekView .event{margin:2px!important;padding:4px 4px 3px 6px!important}
+  body.schedule-agenda #weekView .event .event-name{font-size:9.5px!important}
+  body.schedule-agenda #weekView .event .event-time{font-size:7.4px!important}
   body.schedule-agenda #weekView .event .event-topic{font-size:8px!important}
-  body.schedule-agenda #weekView .event .event-meta{font-size:7.1px!important}
+  body.schedule-agenda #weekView .event .event-meta{font-size:7.2px!important}
 }
