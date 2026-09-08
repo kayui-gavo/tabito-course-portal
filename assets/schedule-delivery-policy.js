@@ -4,9 +4,9 @@
   const KNOWN_CLASSES=['politics','japanese','english','mathIA','mathIIBC','chemCurrent','biologySummer','geography','commonPhysics','privatePhysics'];
   const subjectClass=node=>KNOWN_CLASSES.find(key=>node.classList?.contains(key))||'';
   const desiredMode=node=>{const key=subjectClass(node);return key?(OFFLINE_CLASSES.has(key)?'offline':'online'):'';};
-  function applyNode(node){const mode=desiredMode(node);if(mode&&node.dataset.mode!==mode)node.dataset.mode=mode;}
+  function applyNode(node){const mode=desiredMode(node);if(!mode)return;if(node.dataset.mode!==mode)node.dataset.mode=mode;if(node.dataset.eventId==='jp-03'){node.classList.remove('tentative');if(node.dataset.status)node.dataset.status='normal';}}
   function applyAll(root=document){root.querySelectorAll?.('.event[data-event-id],.month-event[data-event-id],.mobile-event[data-event-id]').forEach(applyNode);}
-  function syncDialog(node){const key=subjectClass(node);if(!key)return;const target=document.getElementById('dialogMode');if(target)target.textContent=OFFLINE_CLASSES.has(key)?'线下':'网课';}
+  function syncDialog(node){const key=subjectClass(node);if(!key)return;const target=document.getElementById('dialogMode');if(target)target.textContent=OFFLINE_CLASSES.has(key)?'线下':'网课';if(node.dataset.eventId==='jp-03'){const status=document.getElementById('dialogStatus');if(status)status.textContent='正常';}}
   applyAll();
   document.addEventListener('click',event=>{const node=event.target.closest('[data-event-id]');if(!node)return;applyNode(node);setTimeout(()=>syncDialog(node),0);},true);
   const calendar=document.querySelector('.office-calendar');
