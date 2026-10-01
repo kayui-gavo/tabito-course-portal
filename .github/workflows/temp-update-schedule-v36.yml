@@ -1,0 +1,32 @@
+name: Temporary schedule v36 updater
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-update-schedule-v36.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download latest schedule
+        env:
+          FILE_URL: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-e58c-8209-b24b-5bbddff8782a/raw?se=2026-10-01T10%3A52%3A18Z&sp=r&sv=2026-02-06&sr=b&scid=4f07038f-5482-55b0-a96c-8cd037359d24&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-01T09%3A17%3A55Z&ske=2026-10-02T09%3A17%3A55Z&sks=b&skv=2026-02-06&sig=Ook2jJyxH%2B839b4AvOtLebrzI1U9mP%2BImgoRXGsmCtw%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p assets/images
+          curl -L --fail --retry 3 "$FILE_URL" -o assets/images/winter-physics-schedule-2026.png
+          test "$(stat -c%s assets/images/winter-physics-schedule-2026.png)" -gt 400000
+      - name: Commit schedule v36
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/images/winter-physics-schedule-2026.png
+          git commit -m "Update winter physics schedule to v36"
+          git push
