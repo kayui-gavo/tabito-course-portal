@@ -1,0 +1,32 @@
+name: Temporary rigid body solution publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-publish-rigid-solution.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download rigid body Chinese solution
+        env:
+          FILE_URL: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-74dc-8209-b91b-f682df1ad3b2/raw?se=2026-10-03T12%3A18%3A00Z&sp=r&sv=2026-02-06&sr=b&scid=23b9fc00-8f88-5425-b33d-0c792e76b388&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T00%3A21%3A27Z&ske=2026-10-04T00%3A21%3A27Z&sks=b&skv=2026-02-06&sig=8jEnLp8gWRWexVKYgFx3%2Bbf/pdwdX1yT7sQOoGmUzkY%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p course-notes/winter-2026
+          curl -L --fail --retry 3 "$FILE_URL" -o course-notes/winter-2026/rigid-body-practice-cn-solution.pdf
+          test "$(stat -c%s course-notes/winter-2026/rigid-body-practice-cn-solution.pdf)" -gt 100000
+      - name: Commit solution
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add course-notes/winter-2026/rigid-body-practice-cn-solution.pdf
+          git commit -m "Add rigid body practice Chinese solution"
+          git push
