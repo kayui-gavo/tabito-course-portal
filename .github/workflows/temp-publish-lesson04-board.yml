@@ -1,0 +1,32 @@
+name: Temporary lesson 04 PDF publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-publish-lesson04-board.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download lesson 04 PDF
+        env:
+          FILE_URL: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-63cc-8209-9fcc-9e400f3e0aba/raw?se=2026-10-03T05%3A55%3A44Z&sp=r&sv=2026-02-06&sr=b&scid=a09b36ae-bf52-5c3b-969b-32a53a936f63&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A55%3A06Z&ske=2026-10-03T19%3A55%3A06Z&sks=b&skv=2026-02-06&sig=MxSQUJ4OnSvU%2BYrGPcS/rkjYuacr8fWcoT59DabHa%2BY%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p course-notes/winter-2026
+          curl -L --fail --retry 3 "$FILE_URL" -o course-notes/winter-2026/lesson-04-board.pdf
+          test "$(stat -c%s course-notes/winter-2026/lesson-04-board.pdf)" -gt 2000000
+      - name: Commit lesson 04 PDF
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add course-notes/winter-2026/lesson-04-board.pdf
+          git commit -m "Add lesson 04 mechanics comprehensive notes"
+          git push
