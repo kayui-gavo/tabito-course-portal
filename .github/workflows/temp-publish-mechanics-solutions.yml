@@ -1,0 +1,35 @@
+name: Temporary mechanics solution publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-publish-mechanics-solutions.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Chinese solutions
+        env:
+          FILE_URL_1: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-3418-8206-8da7-c2bd7207f272/raw?se=2026-10-03T11%3A35%3A44Z&sp=r&sv=2026-02-06&sr=b&scid=d80ea682-c565-5e0b-a85e-558eed1e7e62&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A50%3A59Z&ske=2026-10-03T19%3A50%3A59Z&sks=b&skv=2026-02-06&sig=Z0N%2BZYidXeJaCjOUbY3eiJIFkaC4ezoAg7%2BUfAgZClY%3D'
+          FILE_URL_2: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-cc54-8209-8360-f9c31b69528b/raw?se=2026-10-03T11%3A35%3A44Z&sp=r&sv=2026-02-06&sr=b&scid=94579910-0840-5a4b-b074-dd31682f2957&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T07%3A16%3A52Z&ske=2026-10-04T07%3A16%3A52Z&sks=b&skv=2026-02-06&sig=aEbrBL3XnC5wx9vjh1BzsZPkBI1P/Z44F%2BypM/gvi7c%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p course-notes/winter-2026
+          curl -L --fail --retry 3 "$FILE_URL_1" -o course-notes/winter-2026/mechanics-01-cn-solution.pdf
+          curl -L --fail --retry 3 "$FILE_URL_2" -o course-notes/winter-2026/mechanics-02-cn-solution.pdf
+          test "$(stat -c%s course-notes/winter-2026/mechanics-01-cn-solution.pdf)" -gt 600000
+          test "$(stat -c%s course-notes/winter-2026/mechanics-02-cn-solution.pdf)" -gt 600000
+      - name: Commit solutions
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add course-notes/winter-2026/mechanics-01-cn-solution.pdf course-notes/winter-2026/mechanics-02-cn-solution.pdf
+          git commit -m "Add Chinese solutions for mechanics handouts"
+          git push
