@@ -364,8 +364,8 @@
                 </div>
                 <div class="resource-item">
                   <span class="resource-label">复习</span>
-                  <div><strong>课后复习</strong><small>课堂重点、作业与课程通知</small></div>
-                  <a class="resource-btn inline-review-link" href="#lesson-04-review">展开查看</a>
+                  <div><strong>课后复习</strong><small>课堂重点、作业与课程通知・6页</small></div>
+                  <a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-04-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
                 </div>
               </div>
               <details class="lesson-review" id="lesson-04-review">
@@ -450,16 +450,6 @@
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     window.addEventListener('resize', updateScrollProgress);
     updateScrollProgress();
-
-    document.querySelectorAll('a.inline-review-link').forEach((link) => {
-      link.addEventListener('click', (event) => {
-        const details = document.querySelector(link.getAttribute('href'));
-        if (!details) return;
-        event.preventDefault();
-        details.open = true;
-        details.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
 
     document.querySelectorAll('a.pending-file').forEach(async (link) => {
       const readyText = link.dataset.readyText || '打开';
