@@ -333,8 +333,6 @@
                         <li>完成“刚体与重心 共通考试题型专题训练”第一、第二大问（共 10 小问）；有余力的同学尝试第三大问。<br><a href="course-notes/winter-2026/rigid-body-practice.pdf" target="_blank" rel="noopener noreferrer">打开刚体专题训练</a></li>
                         <li>完成《能量与动量》讲义作业 1 至 5。<br><a href="course-notes/winter-2026/mechanics-02-energy-momentum.pdf" target="_blank" rel="noopener noreferrer">打开能量与动量讲义</a></li>
                       </ol>
-                      <h4>课程提醒</h4>
-                      <p>第 4 讲为 10 月 1 日（周四）18:30–20:30（日本时间）。</p>
                     </div>
                   </div>
                 </div>
@@ -367,7 +365,7 @@
                 <div class="resource-item">
                   <span class="resource-label">复习</span>
                   <div><strong>课后复习</strong><small>重点知识、作业与课程通知</small></div>
-                  <a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-04-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
+                  <a class="resource-btn inline-review-link" href="#lesson-04-review">展开查看</a>
                 </div>
               </div>
               <details class="lesson-review" id="lesson-04-review">
@@ -452,6 +450,16 @@
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     window.addEventListener('resize', updateScrollProgress);
     updateScrollProgress();
+
+    document.querySelectorAll('a.inline-review-link').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const details = document.querySelector(link.getAttribute('href'));
+        if (!details) return;
+        event.preventDefault();
+        details.open = true;
+        details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
 
     document.querySelectorAll('a.pending-file').forEach(async (link) => {
       const readyText = link.dataset.readyText || '打开';
