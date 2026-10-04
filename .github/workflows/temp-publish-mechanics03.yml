@@ -1,0 +1,35 @@
+name: Temporary mechanics 03 publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-publish-mechanics03.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download mechanics 03 materials
+        env:
+          FILE_URL_1: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-b278-8206-8fc5-28ad4072f47b/raw?se=2026-10-04T18%3A03%3A28Z&sp=r&sv=2026-02-06&sr=b&scid=2de4413a-c899-5afb-b696-a40ea0321f48&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T05%3A06%3A49Z&ske=2026-10-05T05%3A06%3A49Z&sks=b&skv=2026-02-06&sig=5c7YQzGVy5tDLYwnJS4WYeSxsuIPFck/WI0Yywu6HiI%3D'
+          FILE_URL_2: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-c704-8206-8085-7503c7d55166/raw?se=2026-10-04T18%3A03%3A28Z&sp=r&sv=2026-02-06&sr=b&scid=ecf5ae3c-d4cf-5768-90cb-6505bff01227&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T18%3A58%3A56Z&ske=2026-10-04T18%3A58%3A56Z&sks=b&skv=2026-02-06&sig=qwuodNqY7VUYkkeTBIyzVmpw4MnGWajTfHMEuAA14jI%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p course-notes/winter-2026
+          curl -L --fail --retry 3 "$FILE_URL_1" -o course-notes/winter-2026/mechanics-03-circular-gravity.pdf
+          curl -L --fail --retry 3 "$FILE_URL_2" -o course-notes/winter-2026/circular-gravity-practice.pdf
+          test "$(stat -c%s course-notes/winter-2026/mechanics-03-circular-gravity.pdf)" -gt 200000
+          test "$(stat -c%s course-notes/winter-2026/circular-gravity-practice.pdf)" -gt 150000
+      - name: Commit mechanics 03 materials
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add course-notes/winter-2026/mechanics-03-circular-gravity.pdf course-notes/winter-2026/circular-gravity-practice.pdf
+          git commit -m "Add mechanics 03 circular motion and gravitation materials"
+          git push
