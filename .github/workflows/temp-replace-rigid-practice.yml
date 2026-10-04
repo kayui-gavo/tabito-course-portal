@@ -1,0 +1,32 @@
+name: Temporary rigid practice replacer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/temp-replace-rigid-practice.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download replacement PDF
+        env:
+          FILE_URL: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-92f8-8209-83c4-20c7024b843a/raw?se=2026-10-04T10%3A51%3A06Z&sp=r&sv=2026-02-06&sr=b&scid=b58f561d-59c1-50c7-a534-2d2ed6639a93&skoid=9063adf3-a524-4acf-b70a-8731b33f2f50&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T19%3A03%3A27Z&ske=2026-10-04T19%3A03%3A27Z&sks=b&skv=2026-02-06&sig=SqRdekUh%2BQGsEnHov90U1n3m%2Bm7BT9v8CNi2jocfWeI%3D'
+        run: |
+          set -euo pipefail
+          mkdir -p course-notes/winter-2026
+          curl -L --fail --retry 3 "$FILE_URL" -o course-notes/winter-2026/rigid-body-practice.pdf
+          test "$(stat -c%s course-notes/winter-2026/rigid-body-practice.pdf)" -gt 100000
+      - name: Commit replacement
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add course-notes/winter-2026/rigid-body-practice.pdf
+          git commit -m "Replace rigid body practice set"
+          git push
