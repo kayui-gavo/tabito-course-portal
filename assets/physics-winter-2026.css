@@ -151,3 +151,5 @@ main{padding-bottom:64px}
  .lesson-no span{font-size:20px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.course-choice{transition:none}}
+
+.legacy-anchor{display:block;height:0;scroll-margin-top:92px}
