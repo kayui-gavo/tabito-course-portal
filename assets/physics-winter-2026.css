@@ -247,3 +247,77 @@ main{padding-bottom:64px}
  .supplement-collection{grid-template-columns:1fr}
  .supplement-panel[open]{grid-column:auto}
 }
+
+
+/* 2026-10: timetable, subject-specific palette and always-visible course resources */
+.schedule-section{padding-top:26px}
+.schedule-section .section-heading{max-width:860px;margin:0 auto 15px;align-items:end;gap:20px}
+.schedule-section h1{font-size:clamp(29px,4vw,39px);font-weight:770;line-height:1.3;letter-spacing:-.035em}
+.schedule-section .section-kicker{letter-spacing:.035em;color:#547991!important;font-size:11px!important}
+.schedule-caption{font-size:12px;line-height:1.6;margin:5px 0 0;color:#586a76}
+.schedule-hint{font-size:11px;color:#71818b;white-space:normal;text-align:right;max-width:190px}
+.schedule-image-link{display:block;max-width:860px;min-height:0;margin:0 auto;padding:12px;border:1px solid var(--line-strong);background:#fff;box-shadow:0 6px 22px rgba(25,46,62,.065)}
+.schedule-image-link img{display:block;width:100%;height:auto;max-width:100%;max-height:none;object-fit:contain}
+.schedule-image-link span{right:22px;bottom:22px;opacity:0;transform:translateY(4px);background:rgba(24,34,43,.82);font-weight:650;transition:opacity .18s ease,transform .18s ease}
+.schedule-image-link:hover span,.schedule-image-link:focus-visible span{opacity:1;transform:translateY(0)}
+.directory-section{padding-top:32px}
+.course-choice[data-course-filter="mechanics"]{--category-ink:#476f90;--category-wash:#edf4f8;--category-outline:#acc4d5}
+.course-choice[data-course-filter="waves"]{--category-ink:#347e76;--category-wash:#eaf5f2;--category-outline:#a5cfc5}
+.course-choice[data-course-filter="thermal"]{--category-ink:#987038;--category-wash:#faf4e8;--category-outline:#d7c39b}
+.course-choice[data-course-filter="electromagnetic"]{--category-ink:#736491;--category-wash:#f1eef8;--category-outline:#bfb4d6}
+.course-choice[data-course-filter="atomic"]{--category-ink:#627e53;--category-wash:#eff5eb;--category-outline:#b5c9a8}
+.course-choice[data-course-filter="practice"]{--category-ink:#945a68;--category-wash:#faeff2;--category-outline:#d8b1bc}
+.course-choice,.course-choice.practical-choice{background:var(--category-wash);border:1px solid var(--category-outline);border-top:3px solid var(--category-ink);box-shadow:none}
+.course-choice strong{color:#24313a}
+.course-choice>span{color:var(--category-ink)}
+.course-choice:hover,.course-choice.practical-choice:hover{background:var(--category-wash);border-color:var(--category-ink);border-top-color:var(--category-ink)}
+.course-choice[aria-pressed="true"],.course-choice.practical-choice[aria-pressed="true"]{background:var(--category-wash);border-color:var(--category-ink);border-top-color:var(--category-ink);box-shadow:inset 0 0 0 1px var(--category-ink)}
+.course-choice[aria-pressed="true"] strong{color:var(--category-ink)}
+.course-group[data-course-category="mechanics"]{--current-group:#557f9d;--current-group-wash:#edf4f8}
+.course-group[data-course-category="waves"]{--current-group:#43877e;--current-group-wash:#eaf5f2}
+.course-group[data-course-category="thermal"]{--current-group:#a37b41;--current-group-wash:#faf4e8}
+.course-group[data-course-category="electromagnetic"]{--current-group:#8071a4;--current-group-wash:#f1eef8}
+.course-group[data-course-category="atomic"]{--current-group:#6a835a;--current-group-wash:#eff5eb}
+.course-group[data-course-category="practice"]{--current-group:#ad7178;--current-group-wash:#faf0f0}
+.course-group .course-group-head{border-bottom-color:var(--current-group)}
+.course-group .course-group-type{color:var(--current-group);background:var(--current-group-wash)}
+.course-group .lesson-card{border-left-color:var(--current-group)}
+.course-group .lesson-no{background:var(--current-group-wash)}
+.course-group .lesson-no small,.course-group .lesson-no span{color:var(--current-group)}
+.lesson-detail summary.lesson-head{padding-right:22px;cursor:default}
+.lesson-detail summary.lesson-head::after{display:none}
+.lesson-detail summary.lesson-head:hover{background:transparent}
+.lesson-card-practice .lesson-detail summary.lesson-head:hover{background:transparent}
+.lesson-detail[open] summary.lesson-head{border-bottom:1px solid var(--line)}
+.lesson-head h3{font-size:16px}
+.lesson-head p{display:block;margin:5px 0 0;color:var(--muted)}
+.lesson-detail .lesson-head .lesson-status,.lesson-detail .lesson-head .lesson-status.muted{display:inline-flex;margin-top:0}
+.lesson-card .resource-item{min-width:0}
+.course-material-heading{display:flex;align-items:baseline;gap:12px;margin:12px 0 9px}
+.course-material-heading strong{font-size:13px;font-weight:750;color:#304757}
+.course-material-heading>span{font-size:11px;color:#788792}
+.course-material-heading-lessons{margin-top:25px;margin-bottom:10px}
+.supplement-collection{margin:0 0 2px}
+.supplement-panel>summary{background:#fff}
+.supplement-panel>summary:hover{background:#f8fafb}
+.supplement-panel[open]>summary{border-bottom:1px solid var(--line)}
+.supplement-panel:target{scroll-margin-top:110px}
+@media(max-width:760px){
+ .schedule-section{padding-top:18px}
+ .schedule-section .section-heading{display:flex;align-items:end;gap:10px}
+ .schedule-section h1{font-size:29px}
+ .schedule-hint{font-size:10px;max-width:125px}
+ .schedule-image-link{padding:8px}
+ .schedule-image-link img{max-height:none}
+ .lesson-detail summary.lesson-head{padding:14px 13px}
+ .lesson-head h3{font-size:15px}
+ .course-material-heading{margin-top:10px}
+ .course-choice strong{font-size:15px}
+}
+@media(max-width:480px){
+ .schedule-section .section-heading{display:block}
+ .schedule-hint{display:block;margin:7px 0 0;max-width:none;text-align:left}
+ .schedule-caption{font-size:11.5px}
+ .schedule-image-link{padding:5px}
+ .lesson-head h3{font-size:14px}
+}
