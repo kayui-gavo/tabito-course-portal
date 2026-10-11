@@ -39,7 +39,7 @@
      
      
 <section class="section-shell directory-section" id="course-directory" aria-labelledby="directory-title">
-  <div class="section-heading"><div><h2 id="directory-title">选择课程</h2></div><p class="selection-prompt" id="selection-prompt">点击一个分野，查看对应课程</p></div>
+  <div class="section-heading"><div><h2 id="directory-title">选择课程</h2></div><p class="selection-prompt" id="selection-prompt">按当前授课进度显示课程</p></div>
   <div class="course-switcher" role="group" aria-label="按科目筛选课程">
    <button type="button" class="course-choice " data-course-filter="mechanics" aria-pressed="false"><span>01</span><strong>力学</strong><small>讲座 01–06</small></button>
 <button type="button" class="course-choice " data-course-filter="waves" aria-pressed="false"><span>02</span><strong>波动</strong><small>讲座 07–10</small></button>
@@ -720,6 +720,22 @@
    if(detail)detail.open=true;
    requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
  }
+ // Select the current stage of the course from the Japan-local date.
+ function currentStudyCategory(){
+   const japanDate=new Intl.DateTimeFormat('sv-SE',{
+     timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'
+   }).format(new Date());
+   if(japanDate<'2026-10-18')return 'mechanics';
+   if(japanDate<'2026-11-05')return 'waves';
+   if(japanDate<'2026-11-26')return 'thermal';
+   if(japanDate<'2026-12-20')return 'electromagnetic';
+   if(japanDate<'2026-12-24')return 'atomic';
+   return 'practice';
+ }
+ // Default view is already open; no jump away from the timetable.
+ showCourse(currentStudyCategory());
+ document.getElementById('selection-prompt').textContent='已按当前授课进度显示，可选择其他分野';
+ // Links to an individual lecture or document override the default subject.
  openLinkedCourse();
  window.addEventListener('hashchange',openLinkedCourse);
 
