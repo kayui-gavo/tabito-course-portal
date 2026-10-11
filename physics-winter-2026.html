@@ -38,7 +38,7 @@
   <div class="section-heading"><div><h2 id="lessons-title">课程资料</h2></div><p class="course-filter-summary" id="course-filter-summary" aria-live="polite">全部课程｜讲座18节、实战12节</p></div>
   <div class="course-groups"><section class="course-group course-group-lecture" data-course-category="mechanics" aria-labelledby="group-mechanics">
   <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-mechanics">力学</h3><p>运动、圆周运动与简谐振动</p></div><span class="course-group-count">6 节</span></header>
-  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture" data-lesson-kind="lecture">
+  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture" id="lecture-01" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座01"><small>讲座</small><span>01</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -100,7 +100,7 @@
               </details>
             </div>
           </article>
-<article class="lesson-card lesson-card-lecture" data-lesson-kind="lecture">
+<article class="lesson-card lesson-card-lecture" id="lecture-02" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座02"><small>讲座</small><span>02</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -160,7 +160,7 @@
               </details>
             </div>
           </article>
-<article class="lesson-card lesson-card-lecture" data-lesson-kind="lecture">
+<article class="lesson-card lesson-card-lecture" id="lecture-03" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座03"><small>讲座</small><span>03</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -224,7 +224,7 @@
               </details>
             </div>
           </article>
-<article class="lesson-card lesson-card-lecture" data-lesson-kind="lecture" id="lesson-04">
+<article class="lesson-card lesson-card-lecture" id="lecture-04" data-lesson-kind="lecture" id="lesson-04">
             <div class="lesson-no" aria-label="讲座04"><small>讲座</small><span>04</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -296,7 +296,7 @@
               </details>
             </div>
           </article>
-<article class="lesson-card lesson-card-lecture" data-lesson-kind="lecture" id="lesson-05">
+<article class="lesson-card lesson-card-lecture" id="lecture-05" data-lesson-kind="lecture" id="lesson-05">
             <div class="lesson-no" aria-label="讲座05"><small>讲座</small><span>05</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -391,7 +391,7 @@
 <section class="course-group course-group-lecture" data-course-category="atomic" aria-labelledby="group-atomic"><header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-atomic">原子</h3><p>本期未安排独立讲座</p></div></header><div class="atomic-note"><p>原子内容安排在 12/20 的实战 07，与交流电一起进行真题、模拟题练习。</p><a href="#practice-07" data-filter-jump="practice">查看实战 07 →</a></div></section>
 <section class="course-group course-group-practice" data-course-category="practice" aria-labelledby="group-practice">
   <header class="course-group-head"><div><span class="course-group-type">实战课</span><h3 id="group-practice">实战课</h3><p>专题训练及五场模拟考试</p></div><span class="course-group-count">12 节</span></header>
-  <div class="lesson-stack"><article class="lesson-card lesson-card-practice" data-lesson-kind="practice" id="lesson-06">
+  <div class="lesson-stack"><span id="lesson-06" class="legacy-anchor" aria-hidden="true"></span><article class="lesson-card lesson-card-practice" data-lesson-kind="practice" id="practice-01">
             <div class="lesson-no" aria-label="实战01"><small>实战</small><span>01</span></div>
             <div class="lesson-main">
               <div class="lesson-head">
@@ -631,10 +631,13 @@
     window.addEventListener('resize', updateScrollProgress);
     updateScrollProgress();
 
-    document.querySelectorAll('a.pending-file').forEach(async (link) => {
-      const readyText = link.dataset.readyText || '打开';
+    const pendingResources = [...document.querySelectorAll('a.pending-file')];
+    async function checkResource(link) {
+      if (link.dataset.checked) return;
+      link.dataset.checked = 'true';
       link.classList.add('checking');
       link.setAttribute('aria-disabled', 'true');
+      const readyText = link.dataset.readyText || '打开';
       try {
         const response = await fetch(link.href, { method: 'HEAD', cache: 'no-store' });
         if (!response.ok) throw new Error(String(response.status));
@@ -646,7 +649,24 @@
         link.classList.remove('checking');
         link.classList.add('is-missing');
       }
-    });
+    }
+    // Check a resource as it approaches the viewport. Closed categories do not trigger requests.
+    if ('IntersectionObserver' in window) {
+      const resourceObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          checkResource(entry.target);
+        });
+      }, {rootMargin:'250px 0px'});
+      pendingResources.forEach(link => {
+        link.classList.add('checking');
+        link.setAttribute('aria-disabled', 'true');
+        resourceObserver.observe(link);
+      });
+    } else {
+      pendingResources.forEach(checkResource);
+    }
 
  const categoryLabels={all:'全部课程｜讲座18节、实战12节',mechanics:'力学｜讲座 01–06',waves:'波动｜讲座 07–10',thermal:'热力学｜讲座 11–13',electromagnetic:'电磁学｜讲座 14–18',atomic:'原子｜本期无独立讲座',practice:'实战课｜实战 01–12'};
  const courseFilterButtons=[...document.querySelectorAll('[data-course-filter]')];
