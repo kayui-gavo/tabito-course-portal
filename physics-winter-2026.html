@@ -7,7 +7,7 @@
   <meta name="description" content="旅人教育 2026 冬学期大学入学共通考试物理冲刺班课程资料页。集中查看讲义、每讲板书、录播与课后复习资料。">
   <meta name="theme-color" content="#5aa4cc">
   <link rel="icon" href="assets/images/tabito-logo.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/physics-winter-2026.css?v=20261011c">
+  <link rel="stylesheet" href="assets/physics-winter-2026.css?v=20261011d">
 </head>
 <body>
   <script>
@@ -18,13 +18,21 @@
 
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="page-shell">
-    <header class="site-header"><nav class="nav" aria-label="主要导航"><div class="brand"><img class="brand-logo" src="assets/images/tabito-logo.jpg" alt="旅人教育"><span class="brand-copy"><strong>旅人教育</strong><span>大学入学共通考试物理｜冬学期冲刺班</span></span></div><div class="nav-links"><a href="#course-directory">课程目录</a><a href="#handouts">讲义资料</a><a href="#training">专题训练</a><a href="#schedule">总课表</a><a class="nav-cta" href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出登录</a></div></nav>
-    <nav class="mobile-nav" aria-label="手机端导航"><a href="#course-directory">课程</a><a href="#handouts">讲义</a><a href="#training">训练</a><a href="#schedule">课表</a><a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出</a></nav></header>
+    <header class="site-header"><nav class="nav" aria-label="主要导航"><div class="brand"><img class="brand-logo" src="assets/images/tabito-logo.jpg" alt="旅人教育"><span class="brand-copy"><strong>旅人教育</strong><span>大学入学共通考试物理｜冬学期冲刺班</span></span></div><div class="nav-links"><a href="#schedule">总课表</a><a href="#course-directory">选课程</a><a href="#handouts">讲义资料</a><a href="#training">专题训练</a><a class="nav-cta" href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出登录</a></div></nav>
+    <nav class="mobile-nav" aria-label="手机端导航"><a href="#schedule">课表</a><a href="#course-directory">选课</a><a href="#handouts">讲义</a><a href="#training">训练</a><a href="login.html" onclick="localStorage.removeItem('physicsSiteAuth')">退出</a></nav></header>
     <main>
-     <section class="hero section-shell" aria-labelledby="page-title"><div class="hero-main"><p class="eyebrow">2026 冬学期　/　大学入学共通考试物理</p><h1 id="page-title">物理冲刺班</h1><p class="hero-lead">按科目查看课程板书、录播和配套练习，具体日期以总课表为准。</p><div class="hero-meta"><span>讲座 <strong>18</strong> 节</span><span>实战 <strong>12</strong> 节</span><span>模拟考试 <strong>5</strong> 场</span></div></div></section>
+<section class="section-shell schedule-section" id="schedule" aria-labelledby="schedule-title">
+        <div class="section-heading"><div><p class="section-kicker">2026 冬学期 / 共通考试物理</p><h1 id="schedule-title">物理冲刺班｜总课表</h1><p class="schedule-caption">讲座 18 节　·　实战 12 节　·　模拟考试 5 场</p></div><span class="schedule-hint">点击课表可查看大图</span></div>
+        <a class="schedule-image-link" href="assets/images/winter-physics-schedule-2026.png" target="_blank" rel="noopener noreferrer" aria-label="在新标签页查看放大的冬学期总课表">
+          <img src="assets/images/winter-physics-schedule-2026.png" alt="旅人教育 2026 冬学期大学入学共通考试物理冲刺课程总课表，包含 9 月至 1 月的讲座、实战与模拟考试安排">
+          <span>点击放大查看</span>
+        </a>
+      </section>
+
+     
      
 <section class="section-shell directory-section" id="course-directory" aria-labelledby="directory-title">
-  <div class="section-heading"><div><h2 id="directory-title">选择课程</h2></div><button type="button" class="course-reset" data-course-filter="all" aria-pressed="true">查看全部课程 <span>30 节</span></button></div>
+  <div class="section-heading"><div><h2 id="directory-title">选择课程</h2></div><p class="selection-prompt" id="selection-prompt">点击一个分野，查看对应课程</p></div>
   <div class="course-switcher" role="group" aria-label="按科目筛选课程">
    <button type="button" class="course-choice " data-course-filter="mechanics" aria-pressed="false"><span>01</span><strong>力学</strong><small>讲座 01–06</small></button>
 <button type="button" class="course-choice " data-course-filter="waves" aria-pressed="false"><span>02</span><strong>波动</strong><small>讲座 07–10</small></button>
@@ -34,21 +42,21 @@
 <button type="button" class="course-choice practical-choice" data-course-filter="practice" aria-pressed="false"><span>06</span><strong>实战课</strong><small>实战 01–12</small></button>
   </div>
 </section>
-<section class="section-shell lessons-section" id="lessons" aria-labelledby="lessons-title">
-  <div class="section-heading"><div><h2 id="lessons-title">课程资料</h2></div><p class="course-filter-summary" id="course-filter-summary" aria-live="polite">全部课程｜讲座18节、实战12节</p></div>
-  <div class="course-groups"><section class="course-group course-group-lecture" data-course-category="mechanics" aria-labelledby="group-mechanics">
+<section class="section-shell lessons-section" id="lessons" hidden aria-labelledby="lessons-title">
+  <div class="section-heading"><div><h2 id="lessons-title">课程资料</h2></div><p class="course-filter-summary" id="course-filter-summary" aria-live="polite">请选择分野</p></div>
+  <div class="course-groups"><section class="course-group course-group-lecture" data-course-category="mechanics" hidden aria-labelledby="group-mechanics">
   <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-mechanics">力学</h3><p>运动、圆周运动与简谐振动</p></div><span class="course-group-count">6 节</span></header>
   <div class="lesson-stack"><article class="lesson-card lesson-card-lecture" id="lecture-01" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座01"><small>讲座</small><span>01</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
                 <div>
                   <div class="lesson-tags"><span>讲座 01</span><time>9/13（周日）14:00–17:00</time></div>
                   <h3>物体运动</h3>
                   <p>直线运动与图像、相对速度、平面运动、水平投射与斜方投射。</p>
                 </div>
                 <span class="lesson-status">已开课</span>
-              </div>
+              </summary>
               <div class="lesson-resources">
                 <div class="resource-item">
                   <span class="resource-label">板书</span>
@@ -98,19 +106,20 @@
                   </div>
                 </div>
               </details>
+            </details>
             </div>
           </article>
 <article class="lesson-card lesson-card-lecture" id="lecture-02" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座02"><small>讲座</small><span>02</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
                 <div>
                   <div class="lesson-tags"><span>讲座 02</span><time>9/17（周四）18:30–20:30</time></div>
                   <h3>空气阻力下的落体运动、刚体与重心</h3>
                   <p>速度相关阻力、终端速度、力矩、刚体平衡与重心位置，并衔接第一讲作业讲解。</p>
                 </div>
                 <span class="lesson-status">已开课</span>
-              </div>
+              </summary>
               <div class="lesson-resources">
                 <div class="resource-item">
                   <span class="resource-label">板书</span>
@@ -158,19 +167,20 @@
                   </div>
                 </div>
               </details>
+            </details>
             </div>
           </article>
 <article class="lesson-card lesson-card-lecture" id="lecture-03" data-lesson-kind="lecture">
             <div class="lesson-no" aria-label="讲座03"><small>讲座</small><span>03</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
                 <div>
                   <div class="lesson-tags"><span>讲座 03</span><time>9/20（周日）14:30–17:30</time></div>
                   <h3>能量与动量</h3>
                   <p>功与能、机械能守恒、动量与冲量，并通过典型题巩固力学综合分析。</p>
                 </div>
                 <span class="lesson-status">已开课</span>
-              </div>
+              </summary>
               <div class="lesson-resources">
                 <div class="resource-item">
                   <span class="resource-label">板书</span>
@@ -222,19 +232,20 @@
                   </div>
                 </div>
               </details>
+            </details>
             </div>
           </article>
 <article class="lesson-card lesson-card-lecture" id="lecture-04" data-lesson-kind="lecture" id="lesson-04">
             <div class="lesson-no" aria-label="讲座04"><small>讲座</small><span>04</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
                 <div>
                   <div class="lesson-tags"><span>讲座 04</span><time>10/1（周四）18:30–20:30</time></div>
                   <h3>力学综合1</h3>
                   <p>恢复系数（反弹系数）e 的典型题与实验，以及刚体共通考试题型难题讲解。</p>
                 </div>
                 <span class="lesson-status">已开课</span>
-              </div>
+              </summary>
               <div class="lesson-resources">
                 <div class="resource-item">
                   <span class="resource-label">板书</span>
@@ -294,19 +305,20 @@
                   </div>
                 </div>
               </details>
+            </details>
             </div>
           </article>
 <article class="lesson-card lesson-card-lecture" id="lecture-05" data-lesson-kind="lecture" id="lesson-05">
             <div class="lesson-no" aria-label="讲座05"><small>讲座</small><span>05</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
                 <div>
                   <div class="lesson-tags"><span>讲座 05</span><time>10/4（周日）14:30–17:30</time></div>
                   <h3>圆周运动与万有引力</h3>
                   <p>相对运动、惯性力、圆周运动与天体运动相关内容。</p>
                 </div>
                 <span class="lesson-status">已开课</span>
-              </div>
+              </summary>
               <div class="lesson-resources">
                 <div class="resource-item">
                   <span class="resource-label">板书</span>
@@ -324,160 +336,16 @@
                   <a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/circular-gravity-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
                 </div>
               </div>
+            </details>
             </div>
           </article>
 <article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-06" data-lesson-kind="lecture">
    <div class="lesson-no"><small>讲座</small><span>06</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 06</span><time>10/11（日）14:30–17:30</time></div><h3>简谐振动、综合专题</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-06-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-06-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 06</span><time>10/11（日）14:30–17:30</time></div><h3>简谐振动、综合专题</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-06-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-06-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
  </article></div>
- </section>
-<section class="course-group course-group-lecture" data-course-category="waves" aria-labelledby="group-waves">
-  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-waves">波动</h3><p>波的传播、干涉与衍射、声音与光</p></div><span class="course-group-count">4 节</span></header>
-  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-07" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>07</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 07</span><time>10/18（日）14:30–17:30</time></div><h3>波的基本性质、波面与射线</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-07-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-07-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-08" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>08</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 08</span><time>10/22（四）18:30–20:30</time></div><h3>波的干涉与衍射</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-08-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-08-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-09" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>09</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 09</span><time>10/25（日）14:30–17:30</time></div><h3>声音与光</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-09-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-09-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-10" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>10</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 10</span><time>10/29（四）18:30–20:30</time></div><h3>波动实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-10-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-10-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article></div>
- </section>
-<section class="course-group course-group-lecture" data-course-category="thermal" aria-labelledby="group-thermal">
-  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-thermal">热力学</h3><p>气体状态变化、分子运动论与热力学第一定律</p></div><span class="course-group-count">3 节</span></header>
-  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-11" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>11</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 11</span><time>11/5（四）18:30–20:30</time></div><h3>理想气体的状态变化</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-11-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-11-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-12" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>12</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 12</span><time>11/15（日）14:30–17:30</time></div><h3>分子运动论、热力学第一定律</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-12-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-12-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-13" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>13</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 13</span><time>11/19（四）18:30–20:30</time></div><h3>热力学实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-13-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-13-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article></div>
- </section>
-<section class="course-group course-group-lecture" data-course-category="electromagnetic" aria-labelledby="group-electromagnetic">
-  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-electromagnetic">电磁学</h3><p>电场、电路、磁场与电磁感应</p></div><span class="course-group-count">5 节</span></header>
-  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-14" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>14</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 14</span><time>11/26（四）18:30–20:30</time></div><h3>电场、电势与电容器</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-14-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-14-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-15" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>15</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 15</span><time>11/29（日）14:30–17:30</time></div><h3>直流电路</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-15-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-15-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-16" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>16</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 16</span><time>12/3（四）18:30–20:30</time></div><h3>电流与磁场</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-16-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-16-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-17" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>17</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 17</span><time>12/10（四）18:30–20:30</time></div><h3>电磁感应</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-17-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-17-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-18" data-lesson-kind="lecture">
-   <div class="lesson-no"><small>讲座</small><span>18</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>讲座 18</span><time>12/17（四）18:30–20:30</time></div><h3>电磁学实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-18-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-18-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article></div>
- </section>
-<section class="course-group course-group-lecture" data-course-category="atomic" aria-labelledby="group-atomic"><header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-atomic">原子</h3><p>本期未安排独立讲座</p></div></header><div class="atomic-note"><p>原子内容安排在 12/20 的实战 07，与交流电一起进行真题、模拟题练习。</p><a href="#practice-07" data-filter-jump="practice">查看实战 07 →</a></div></section>
-<section class="course-group course-group-practice" data-course-category="practice" aria-labelledby="group-practice">
-  <header class="course-group-head"><div><span class="course-group-type">实战课</span><h3 id="group-practice">实战课</h3><p>专题训练及五场模拟考试</p></div><span class="course-group-count">12 节</span></header>
-  <div class="lesson-stack"><span id="lesson-06" class="legacy-anchor" aria-hidden="true"></span><article class="lesson-card lesson-card-practice" data-lesson-kind="practice" id="practice-01">
-            <div class="lesson-no" aria-label="实战01"><small>实战</small><span>01</span></div>
-            <div class="lesson-main">
-              <div class="lesson-head">
-                <div>
-                  <div class="lesson-tags"><span>实战 01</span><time>10/8（周四）18:30–20:30</time></div>
-                  <h3>刚体的平衡与碰撞</h3>
-                  <p>共通考试原题训练：刚体的平衡与重心、动量与碰撞，并补充力与运动。学生版题集含2021–2024年度原题20问。</p>
-                </div>
-                <span class="lesson-status">已开课</span>
-              </div>
-              <div class="lesson-resources">
-                <div class="resource-item">
-                  <span class="resource-label">题集</span>
-                  <div><strong>剛体のつり合いと衝突｜实战1学生版</strong><small>共通考试原题20问・28页・无解答</small></div>
-                  <a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-06-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
-                </div>
-                <div class="resource-item">
-                  <span class="resource-label">解答</span>
-                  <div><strong>实战1｜刚体与碰撞・中文解答</strong><small>逐题中文讲解・10页</small></div>
-                  <a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-06-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
-                </div>
-                <div class="resource-item">
-                  <span class="resource-label">录播</span>
-                  <div><strong>课堂录播</strong><small>百度网盘・提取码：yv66</small></div>
-                  <a class="resource-btn" href="https://pan.baidu.com/s/13Xy_Hnt4wqc3vV29wbLgaA" target="_blank" rel="noopener noreferrer">打开录播</a>
-                </div>
-              </div>
-            </div>
-          </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-02" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>02</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 02</span><time>10/15（四）18:30–20:30</time></div><h3>力学｜圆周运动、简谐振动与万有引力</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-02-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-02-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-03" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>03</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 03</span><time>11/1（日）14:30–16:30</time></div><h3>波动｜正弦波、干涉与衍射、声音与光</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-03-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-03-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-04" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>04</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 04</span><time>11/22（日）14:30–16:30</time></div><h3>热力学｜状态变化、分子运动论、热力学第一定律</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-04-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-04-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-05" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>05</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 05</span><time>12/6（日）14:30–16:30</time></div><h3>电磁学｜点电荷、电场、电势、电容器、直流电路</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-05-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-05-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-06" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>06</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 06</span><time>12/13（日）14:30–16:30</time></div><h3>电磁学｜电流与磁场、电磁感应</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-06-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-06-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-07" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>07</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 07</span><time>12/20（日）14:30–16:30</time></div><h3>原子与交流电｜真题、模拟题</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-07-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-07-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-08" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>08</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 08</span><time>12/24（四）18:30–20:30</time></div><h3>模拟考试 1</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-08-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-08-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-09" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>09</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 09</span><time>12/27（日）14:30–16:30</time></div><h3>模拟考试 2</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-09-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-09-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-10" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>10</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 10</span><time>1/3（日）14:30–16:30</time></div><h3>模拟考试 3</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-10-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-10-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-11" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>11</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 11</span><time>1/7（四）18:30–20:30</time></div><h3>模拟考试 4</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-11-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-11-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article>
-<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-12" data-lesson-kind="practice">
-   <div class="lesson-no"><small>实战</small><span>12</span></div>
-   <div class="lesson-main"><div class="lesson-head"><div><div class="lesson-tags"><span>实战 12</span><time>1/10（日）14:30–16:30</time></div><h3>模拟考试 5</h3></div><span class="lesson-status muted">未开课</span></div><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-12-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-12-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></div>
- </article></div>
- </section></div>
-</section>
-
-
-      <section class="section-shell handout-section" id="handouts" aria-labelledby="handout-title">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">课程资料</p>
-            <h2 id="handout-title">讲义资料</h2>
-          </div>
-        </div>
-
-        <div class="handout-list">
+ <div class="supplement-collection">
+<details class="supplement-panel" id="handouts"><summary>课堂讲义 <span>4 份 · 点击展开</span></summary>
+ <div class="supplement-panel-body"><div class="handout-list">
           <article class="handout-card is-ready">
             <div class="handout-index">力学 01</div>
             <div class="handout-copy">
@@ -523,17 +391,10 @@
               <a class="resource-btn primary pending-file" data-ready-text="打开讲义" href="course-notes/winter-2026/mechanics-04-harmonic-motion.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
             </div>
           </article>
-        </div>
-      </section>
-
-      <section class="section-shell training-section" id="training" aria-labelledby="training-title">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">专题训练</p>
-            <h2 id="training-title">专题训练</h2>
-          </div>
-        </div>
-        <article class="training-card">
+        </div></div>
+</details>
+<details class="supplement-panel" id="training"><summary>专题训练 <span>4 组 · 点击展开</span></summary>
+ <div class="supplement-panel-body"><article class="training-card">
           <div class="training-index">刚体<br>训练</div>
           <div class="training-copy">
             <h3>刚体的平衡与重心｜专题训练题集</h3>
@@ -581,34 +442,154 @@
           <div class="training-action">
             <a class="resource-btn primary pending-file" data-ready-text="打开题集" href="course-notes/winter-2026/harmonic-motion-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
           </div>
-        </article>
-        <article class="training-card">
-          <div class="training-index">实战<br>01</div>
-          <div class="training-copy">
-            <h3>实战1｜刚体的平衡与碰撞</h3>
-            <p>2021–2024年度共通考试物理原题20问：刚体平衡8问、动量与碰撞8问、力与运动补充4问。</p>
-            <div class="handout-meta"><span>实战练习・学生版</span><span>28 页</span><span class="ready-dot">已上传</span></div>
-          </div>
-          <div class="training-action">
-            <a class="resource-btn primary pending-file" data-ready-text="打开题集" href="course-notes/winter-2026/lesson-06-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
-            <a class="resource-btn pending-file" data-ready-text="中文解答" href="course-notes/winter-2026/lesson-06-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
-          </div>
-        </article>
-      </section>
+        </article></div>
+</details></div>
+ </section>
+<section class="course-group course-group-lecture" data-course-category="waves" hidden aria-labelledby="group-waves">
+  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-waves">波动</h3><p>波的传播、干涉与衍射、声音与光</p></div><span class="course-group-count">4 节</span></header>
+  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-07" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>07</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 07</span><time>10/18（日）14:30–17:30</time></div><h3>波的基本性质、波面与射线</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-07-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-07-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-08" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>08</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 08</span><time>10/22（四）18:30–20:30</time></div><h3>波的干涉与衍射</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-08-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-08-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-09" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>09</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 09</span><time>10/25（日）14:30–17:30</time></div><h3>声音与光</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-09-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-09-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-10" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>10</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 10</span><time>10/29（四）18:30–20:30</time></div><h3>波动实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-10-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-10-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article></div>
+ </section>
+<section class="course-group course-group-lecture" data-course-category="thermal" hidden aria-labelledby="group-thermal">
+  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-thermal">热力学</h3><p>气体状态变化、分子运动论与热力学第一定律</p></div><span class="course-group-count">3 节</span></header>
+  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-11" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>11</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 11</span><time>11/5（四）18:30–20:30</time></div><h3>理想气体的状态变化</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-11-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-11-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-12" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>12</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 12</span><time>11/15（日）14:30–17:30</time></div><h3>分子运动论、热力学第一定律</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-12-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-12-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-13" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>13</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 13</span><time>11/19（四）18:30–20:30</time></div><h3>热力学实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-13-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-13-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article></div>
+ </section>
+<section class="course-group course-group-lecture" data-course-category="electromagnetic" hidden aria-labelledby="group-electromagnetic">
+  <header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-electromagnetic">电磁学</h3><p>电场、电路、磁场与电磁感应</p></div><span class="course-group-count">5 节</span></header>
+  <div class="lesson-stack"><article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-14" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>14</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 14</span><time>11/26（四）18:30–20:30</time></div><h3>电场、电势与电容器</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-14-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-14-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-15" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>15</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 15</span><time>11/29（日）14:30–17:30</time></div><h3>直流电路</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-15-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-15-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-16" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>16</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 16</span><time>12/3（四）18:30–20:30</time></div><h3>电流与磁场</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-16-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-16-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-17" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>17</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 17</span><time>12/10（四）18:30–20:30</time></div><h3>电磁感应</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-17-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-17-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-lecture lesson-card-upcoming" id="lecture-18" data-lesson-kind="lecture">
+   <div class="lesson-no"><small>讲座</small><span>18</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>讲座 18</span><time>12/17（四）18:30–20:30</time></div><h3>电磁学实验、综合专题</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">板书</span><div><strong>课堂板书</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-18-board.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">复习</span><div><strong>课后复习</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lecture-18-review.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article></div>
+ </section>
+<section class="course-group course-group-lecture" data-course-category="atomic" hidden aria-labelledby="group-atomic"><header class="course-group-head"><div><span class="course-group-type">讲座课</span><h3 id="group-atomic">原子</h3><p>本期未安排独立讲座</p></div></header><div class="atomic-note"><p>原子内容安排在 12/20 的实战 07，与交流电一起进行真题、模拟题练习。</p><a href="#practice-07" data-filter-jump="practice">查看实战 07 →</a></div></section>
+<section class="course-group course-group-practice" data-course-category="practice" hidden aria-labelledby="group-practice">
+  <header class="course-group-head"><div><span class="course-group-type">实战课</span><h3 id="group-practice">实战课</h3><p>专题训练及五场模拟考试</p></div><span class="course-group-count">12 节</span></header>
+  <div class="lesson-stack"><span id="lesson-06" class="legacy-anchor" aria-hidden="true"></span><article class="lesson-card lesson-card-practice" data-lesson-kind="practice" id="practice-01">
+            <div class="lesson-no" aria-label="实战01"><small>实战</small><span>01</span></div>
+            <div class="lesson-main"><details class="lesson-detail">
+              <summary class="lesson-head">
+                <div>
+                  <div class="lesson-tags"><span>实战 01</span><time>10/8（周四）18:30–20:30</time></div>
+                  <h3>刚体的平衡与碰撞</h3>
+                  <p>共通考试原题训练：刚体的平衡与重心、动量与碰撞，并补充力与运动。学生版题集含2021–2024年度原题20问。</p>
+                </div>
+                <span class="lesson-status">已开课</span>
+              </summary>
+              <div class="lesson-resources">
+                <div class="resource-item">
+                  <span class="resource-label">题集</span>
+                  <div><strong>剛体のつり合いと衝突｜实战1学生版</strong><small>共通考试原题20问・28页・无解答</small></div>
+                  <a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-06-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
+                </div>
+                <div class="resource-item">
+                  <span class="resource-label">解答</span>
+                  <div><strong>实战1｜刚体与碰撞・中文解答</strong><small>逐题中文讲解・10页</small></div>
+                  <a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/lesson-06-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a>
+                </div>
+                <div class="resource-item">
+                  <span class="resource-label">录播</span>
+                  <div><strong>课堂录播</strong><small>百度网盘・提取码：yv66</small></div>
+                  <a class="resource-btn" href="https://pan.baidu.com/s/13Xy_Hnt4wqc3vV29wbLgaA" target="_blank" rel="noopener noreferrer">打开录播</a>
+                </div>
+              </div>
+            </details>
+            </div>
+          </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-02" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>02</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 02</span><time>10/15（四）18:30–20:30</time></div><h3>力学｜圆周运动、简谐振动与万有引力</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-02-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-02-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-03" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>03</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 03</span><time>11/1（日）14:30–16:30</time></div><h3>波动｜正弦波、干涉与衍射、声音与光</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-03-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-03-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-04" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>04</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 04</span><time>11/22（日）14:30–16:30</time></div><h3>热力学｜状态变化、分子运动论、热力学第一定律</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-04-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-04-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-05" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>05</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 05</span><time>12/6（日）14:30–16:30</time></div><h3>电磁学｜点电荷、电场、电势、电容器、直流电路</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-05-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-05-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-06" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>06</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 06</span><time>12/13（日）14:30–16:30</time></div><h3>电磁学｜电流与磁场、电磁感应</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-06-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-06-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-07" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>07</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 07</span><time>12/20（日）14:30–16:30</time></div><h3>原子与交流电｜真题、模拟题</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">题集</span><div><strong>课堂题集</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-07-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-07-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-08" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>08</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 08</span><time>12/24（四）18:30–20:30</time></div><h3>模拟考试 1</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-08-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-08-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-09" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>09</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 09</span><time>12/27（日）14:30–16:30</time></div><h3>模拟考试 2</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-09-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-09-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-10" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>10</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 10</span><time>1/3（日）14:30–16:30</time></div><h3>模拟考试 3</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-10-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-10-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-11" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>11</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 11</span><time>1/7（四）18:30–20:30</time></div><h3>模拟考试 4</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-11-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-11-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article>
+<article class="lesson-card lesson-card-practice lesson-card-upcoming" id="practice-12" data-lesson-kind="practice">
+   <div class="lesson-no"><small>实战</small><span>12</span></div>
+   <div class="lesson-main"><details class="lesson-detail"><summary class="lesson-head"><div><div class="lesson-tags"><span>实战 12</span><time>1/10（日）14:30–16:30</time></div><h3>模拟考试 5</h3></div><span class="lesson-status muted">未开课</span></summary><div class="lesson-resources"><div class="resource-item"><span class="resource-label">试卷</span><div><strong>模拟考试试卷</strong><small>尚未上传</small></div><a class="resource-btn primary pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-12-practice.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div><div class="resource-item"><span class="resource-label">录播</span><div><strong>课堂录播</strong><small>尚未上传</small></div><span class="resource-btn disabled" aria-disabled="true">待上传</span></div><div class="resource-item"><span class="resource-label">解答</span><div><strong>中文解答</strong><small>尚未上传</small></div><a class="resource-btn pending-file" data-ready-text="打开" href="course-notes/winter-2026/practice-12-cn-solution.pdf" target="_blank" rel="noopener noreferrer">检查中</a></div></div></details></div>
+ </article></div>
+ </section></div>
+</section>
 
 
-      <section class="section-shell schedule-section" id="schedule" aria-labelledby="schedule-title">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">最新课表</p>
-            <h2 id="schedule-title">冬学期总课表</h2>
-          </div>
-        </div>
-        <a class="schedule-image-link" href="assets/images/winter-physics-schedule-2026.png" target="_blank" rel="noopener noreferrer" aria-label="在新标签页查看放大的冬学期总课表">
-          <img src="assets/images/winter-physics-schedule-2026.png" alt="旅人教育 2026 冬学期大学入学共通考试物理冲刺课程总课表，包含 9 月至 1 月的讲座、实战与模拟考试安排">
-          <span>点击放大查看</span>
-        </a>
-      </section>
+      
+
+      
+
+
+      
     </main>
 
     <footer class="footer">
@@ -672,21 +653,64 @@
       pendingResources.forEach(checkResource);
     }
 
- const categoryLabels={all:'全部课程｜讲座18节、实战12节',mechanics:'力学｜讲座 01–06',waves:'波动｜讲座 07–10',thermal:'热力学｜讲座 11–13',electromagnetic:'电磁学｜讲座 14–18',atomic:'原子｜本期无独立讲座',practice:'实战课｜实战 01–12'};
+
+ const categoryLabels={
+  mechanics:'力学｜讲座 01–06',
+  waves:'波动｜讲座 07–10',
+  thermal:'热力学｜讲座 11–13',
+  electromagnetic:'电磁学｜讲座 14–18',
+  atomic:'原子｜本期无独立讲座',
+  practice:'实战课｜实战 01–12'
+ };
  const courseFilterButtons=[...document.querySelectorAll('[data-course-filter]')];
  const categoryGroups=[...document.querySelectorAll('[data-course-category]')];
- function filterCourse(category,scroll=false){
-   const selected=Object.prototype.hasOwnProperty.call(categoryLabels,category)?category:'all';
-   for(const button of courseFilterButtons)button.setAttribute('aria-pressed',String(button.dataset.courseFilter===selected));
-   for(const group of categoryGroups)group.hidden=(selected!=='all'&&group.dataset.courseCategory!==selected);
-   document.getElementById('course-filter-summary').textContent=categoryLabels[selected];
-   if(scroll)document.getElementById('lessons').scrollIntoView({behavior:'smooth',block:'start'});
+ const courseResults=document.getElementById('lessons');
+ let activeCategory=null;
+ function selectCourse(category,scroll=false){
+   const selected=Object.prototype.hasOwnProperty.call(categoryLabels,category)?category:null;
+   activeCategory=selected===activeCategory?null:selected;
+   courseResults.hidden=!activeCategory;
+   for(const btn of courseFilterButtons){
+     const active=btn.dataset.courseFilter===activeCategory;
+     btn.setAttribute('aria-pressed',String(active));
+     btn.setAttribute('aria-expanded',String(active));
+   }
+   for(const group of categoryGroups)group.hidden=group.dataset.courseCategory!==activeCategory;
+   document.getElementById('course-filter-summary').textContent=activeCategory?categoryLabels[activeCategory]:'请选择分野';
+   document.getElementById('selection-prompt').textContent=activeCategory?'再次点击所选分野可收起课程':'点击一个分野，查看对应课程';
+   if(scroll&&activeCategory)courseResults.scrollIntoView({behavior:'smooth',block:'start'});
+   requestAnimationFrame(updateScrollProgress);
  }
- for(const button of courseFilterButtons)button.addEventListener('click',()=>filterCourse(button.dataset.courseFilter,true));
- for(const link of document.querySelectorAll('[data-filter-jump]'))link.addEventListener('click',()=>filterCourse(link.dataset.filterJump));
- function openLinkedCourse(){const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));const group=target?.closest('[data-course-category]');if(group)filterCourse(group.dataset.courseCategory);}
- if(location.hash)openLinkedCourse();
+ function showCourse(category,scroll=false){
+    if(activeCategory===category){if(scroll)courseResults.scrollIntoView({behavior:'smooth',block:'start'});return}
+    selectCourse(category,scroll);
+ }
+ for(const button of courseFilterButtons)button.addEventListener('click',()=>selectCourse(button.dataset.courseFilter,true));
+ const lessonDetails=[...document.querySelectorAll('.lesson-detail')];
+ lessonDetails.forEach(detail=>detail.addEventListener('toggle',()=>{
+   if(!detail.open)return;
+   lessonDetails.forEach(other=>{if(other!==detail)other.open=false});
+ }));
+ for(const link of document.querySelectorAll('[data-filter-jump]'))link.addEventListener('click',()=>{
+   showCourse(link.dataset.filterJump);
+ });
+ function openLinkedCourse(){
+   if(!location.hash)return;
+   const id=decodeURIComponent(location.hash.slice(1));
+   const target=document.getElementById(id);
+   if(!target)return;
+   let group=target.closest('[data-course-category]');
+   if(!group && (id==='handouts'||id==='training'))group=document.querySelector('[data-course-category="mechanics"]');
+   if(!group)return;
+   showCourse(group.dataset.courseCategory);
+   if(target.matches('.supplement-panel'))target.open=true;
+   const detail=target.matches('.lesson-card')?target.querySelector('.lesson-detail'):target.closest('.lesson-detail');
+   if(detail)detail.open=true;
+   requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+ }
+ openLinkedCourse();
  window.addEventListener('hashchange',openLinkedCourse);
+
   </script>
 </body>
 </html>
