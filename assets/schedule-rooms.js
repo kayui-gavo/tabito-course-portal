@@ -303,12 +303,21 @@
     return a.date === b.date && minutes(a.start) < minutes(b.end) && minutes(b.start) < minutes(a.end);
   }
 
+  function isSharedMathIAPractice(a, b) {
+    const pair = [a.course, b.course];
+    return a.teacher === '胡泽铭' && b.teacher === '胡泽铭' &&
+      pair.some(value => value.includes('数学ⅠA') && value.includes('1班')) &&
+      pair.some(value => value.includes('数学ⅠA') && value.includes('2班')) &&
+      a.title.startsWith('实战') && b.title.startsWith('实战') &&
+      a.start === b.start && a.end === b.end && a.date === b.date;
+  }
+
   function teacherConflicts(events) {
     const active = events.filter(event => !event.cancelled && event.teacher !== '—');
     const conflicts = [];
     for (let i = 0; i < active.length; i += 1) {
       for (let j = i + 1; j < active.length; j += 1) {
-        if (active[i].teacher === active[j].teacher && intervalsOverlap(active[i], active[j])) conflicts.push([active[i], active[j]]);
+        if (!isSharedMathIAPractice(active[i], active[j]) && active[i].teacher === active[j].teacher && intervalsOverlap(active[i], active[j])) conflicts.push([active[i], active[j]]);
       }
     }
     return conflicts;
@@ -319,7 +328,7 @@
     const conflicts = [];
     for (let i = 0; i < active.length; i += 1) {
       for (let j = i + 1; j < active.length; j += 1) {
-        if (active[i].room === active[j].room && intervalsOverlap(active[i], active[j])) conflicts.push([active[i], active[j]]);
+        if (!isSharedMathIAPractice(active[i], active[j]) && active[i].room === active[j].room && intervalsOverlap(active[i], active[j])) conflicts.push([active[i], active[j]]);
       }
     }
     return conflicts;
