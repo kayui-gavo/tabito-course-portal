@@ -2,16 +2,11 @@
   'use strict';
 
   const subjectMeta = {
-    politics: { name: '公共政治经济', teacher: '刘淼', mode: '线下' },
-    japanese: { name: '国语', teacher: '刘淼', mode: '线下' },
-    english: { name: '共通英语阅读', teacher: '刘淼', mode: '线下' },
-    mathIA: { name: '数学IA', teacher: '脇村 剛', mode: '网课' },
-    mathIIBC: { name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课' },
+    ...window.TabitoWinter2026.subjects,
+    english: { name: '共通英语阅读', teacher: '刘淼', mode: '网课' },
     chemCurrent: { name: '化学（上半期）', teacher: '孫', mode: '网课' },
     biologySummer: { name: '生物（夏期集中）', teacher: '周梓杰', mode: '网课' },
-    geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
-    commonPhysics: { name: '物理共通考试冲刺课程', teacher: '刘可惟', mode: '暂定线下＋线上同步' },
-    privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
+    privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '线下' }
   };
 
   const subjectKeys = Object.keys(subjectMeta);
