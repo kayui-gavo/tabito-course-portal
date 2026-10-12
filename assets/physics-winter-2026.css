@@ -321,3 +321,9 @@ main{padding-bottom:64px}
  .schedule-image-link{padding:5px}
  .lesson-head h3{font-size:14px}
 }
+
+/* Retired review downloads: two recording resources per lecture */
+@media(min-width:961px){
+.lesson-card-lecture .lesson-resources{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lesson-card-lecture .lesson-resources:has(> .resource-item:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+}
