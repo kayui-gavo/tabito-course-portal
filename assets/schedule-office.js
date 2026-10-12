@@ -200,6 +200,13 @@
         const ta = parseTimes(a);
         const tb = parseTimes(b);
         if (!ta || !tb) continue;
+        // 两个数学ⅠA班在12月起同一时段使用同一套真题，属于合班实战而非教师撞课。
+        const sharedIA = ((a.classList.contains('mathIA1') && b.classList.contains('mathIA2')) ||
+          (a.classList.contains('mathIA2') && b.classList.contains('mathIA1'))) &&
+          ta.start === tb.start && ta.end === tb.end &&
+          /实战/.test(a.querySelector('.event-name,.month-event-top strong,.mobile-event strong')?.textContent || '') &&
+          /实战/.test(b.querySelector('.event-name,.month-event-top strong,.mobile-event strong')?.textContent || '');
+        if (sharedIA) continue;
         const overlap = timeToMinutes(ta.start) < timeToMinutes(tb.end) && timeToMinutes(tb.start) < timeToMinutes(ta.end);
         if (overlap) count += 1;
       }
@@ -210,8 +217,8 @@
   function pendingEnglishMatchesFilters() {
     if (!['all', 'english'].includes(subjectFilter.value)) return false;
     if (!['all', '刘淼'].includes(teacherFilter.value)) return false;
-    if (!['all', 'offline'].includes(modeFilter.value)) return false;
-    if (!['all', 'pending'].includes(roomFilter.value)) return false;
+    if (!['all', 'online'].includes(modeFilter.value)) return false;
+    if (!['all', 'online'].includes(roomFilter.value)) return false;
     return true;
   }
 
