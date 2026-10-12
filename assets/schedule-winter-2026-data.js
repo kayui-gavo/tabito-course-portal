@@ -118,7 +118,7 @@ window.TabitoWinter2026 = {
       "teacher": "刘可惟",
       "mode": "线下",
       "type": "班课",
-      "meta": "拟排｜周二18:00–21:00｜第1・7回模考＋5回精讲｜共21h"
+      "meta": "拟排｜周二18:00–21:00｜第1・8回模考＋6回专题精讲｜24h"
     }
   ],
   "events": [
@@ -1863,71 +1863,81 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-01",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-11-24",
+      "date": "2026-11-17",
       "start": "18:00",
       "end": "21:00",
       "title": "第1回｜诊断模拟考试",
-      "topic": "模拟考①：2024年度原卷（60分钟）＋全卷讲评、个人弱点分析",
+      "topic": "模拟考①：2024年度完整原卷（拟按60分钟）＋全卷讲评、个人失分诊断",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-02",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-01",
+      "date": "2026-11-24",
       "start": "18:00",
       "end": "21:00",
-      "title": "第2回｜力学精讲",
-      "topic": "相对运动、非惯性系与保存则｜精讲2021年第1题；作业2022年第1题、2018年第1题选问",
+      "title": "第2回｜力学Ⅰ：相对运动与守恒",
+      "topic": "相对运动、质心、动量与能量守恒｜例题2022年第1题；演习2016年第1题选问",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-03",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-08",
+      "date": "2026-12-01",
       "start": "18:00",
       "end": "21:00",
-      "title": "第3回｜波动精讲",
-      "topic": "反射、驻波、光路差与干涉｜精讲2023年第3题；作业2017年第3题、2020年第4题",
+      "title": "第3回｜力学Ⅱ：运动与单振动",
+      "topic": "非惯性系、圆周运动、单振动｜例题2021年第1题；作业2018年第1题",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-04",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-15",
+      "date": "2026-12-08",
       "start": "18:00",
       "end": "21:00",
-      "title": "第4回｜热力学精讲",
-      "topic": "分子运动论、P–V图、热力学过程｜精讲2021年第3题；作业2022年第3题、2016年第3题选问",
+      "title": "第4回｜波动精讲",
+      "topic": "反射、驻波、光路差、干涉｜例题2023年第3题；作业2017年第3题、2020年第4题选问",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-05",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-22",
+      "date": "2026-12-15",
       "start": "18:00",
       "end": "21:00",
-      "title": "第5回｜静电学精讲",
-      "topic": "高斯定律、电容器、静电能及做功｜精讲2023年第2题；作业2020年第2题、2018年第2题选问",
+      "title": "第5回｜热力学精讲",
+      "topic": "分子运动论、P–V图、理想气体过程｜例题2021年第3题；作业2022年第3题",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-06",
       "subject": "scienceTokyoPhysics",
-      "date": "2027-01-05",
+      "date": "2026-12-22",
       "start": "18:00",
       "end": "21:00",
-      "title": "第6回｜电磁学精讲",
-      "topic": "导体棒与回转棒电磁感应、磁场运动｜精讲2021年第2题；作业2019年第2题、2017年第2题",
+      "title": "第6回｜静电学精讲",
+      "topic": "高斯定律、电容器、静电能与做功｜例题2023年第2题；作业2020年第2题选问",
       "status": "tentative"
     },
     {
       "id": "winter26-scienceTokyoPhysics-07",
       "subject": "scienceTokyoPhysics",
+      "date": "2027-01-05",
+      "start": "18:00",
+      "end": "21:00",
+      "title": "第7回｜磁场与电磁感应",
+      "topic": "导体棒、旋转棒、磁场运动与能量｜例题2021年第2题；作业2019年第2题",
+      "status": "tentative"
+    },
+    {
+      "id": "winter26-scienceTokyoPhysics-08",
+      "subject": "scienceTokyoPhysics",
       "date": "2027-01-12",
       "start": "18:00",
       "end": "21:00",
-      "title": "第7回｜考前模拟考试",
-      "topic": "模拟考②：2025年度原卷（60分钟）＋考前讲评；取得2026原卷后可调整",
+      "title": "第8回｜考前模拟考试",
+      "topic": "模拟考②：2025年度完整原卷（拟按60分钟）＋最终讲评；2026真题到手后可替换",
       "status": "tentative"
     }
   ]
