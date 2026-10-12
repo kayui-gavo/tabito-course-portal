@@ -698,7 +698,7 @@
      card.querySelector('.lesson-status')?.textContent.trim()==='已开课'
    ).map(card=>{
      const date=card.querySelector('.lesson-tags time')?.textContent||'';
-     const matched=date.match(/^(\\d{1,2})\\/(\\d{1,2})/);
+     const matched=date.match(new RegExp('^([0-9]{1,2})/([0-9]{1,2})'));
      if(!matched)return null;
      const month=Number(matched[1]),day=Number(matched[2]);
      const year=month>=9?2026:2027;
