@@ -355,3 +355,57 @@ main{padding-bottom:64px}
  .course-group .resource-item{grid-template-columns:40px minmax(0,1fr)}
  .course-group .resource-btn{grid-column:2}
 }
+
+/* October UX refinement: short path to recent lesson and essential materials. */
+.latest-course[hidden]{display:none!important}
+.latest-course{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 auto 18px;max-width:860px;padding:15px 18px;background:#f8fbfd;border:1px solid #cbdce6;border-left:3px solid var(--brand-deep)}
+.latest-course-copy{display:flex;align-items:center;gap:16px;min-width:0}
+.latest-course-kicker{flex:none;color:#41677f;font-size:11px;font-weight:750;white-space:nowrap}
+.latest-course-title{display:flex;flex-direction:column;min-width:0;gap:2px}
+.latest-course-title strong{font-size:14px;font-weight:750;line-height:1.5;color:#243a48}
+.latest-course-title>span{font-size:11px;color:#6d7b84;line-height:1.5}
+.latest-course-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
+.latest-course-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:7px 11px;border:1px solid #b8cdd9;background:#fff;color:#35617b;font-size:11px;font-weight:720;line-height:1.45;white-space:nowrap}
+.latest-course-link:hover{border-color:#5889a4;background:#edf5f9}
+.latest-course-link-detail{background:#3f718e;border-color:#3f718e;color:#fff}
+.latest-course-link-detail:hover{background:#2f617c;color:#fff}
+.material-jump-nav{display:flex;flex-wrap:wrap;gap:8px;margin:11px 0 18px}
+.material-jump-nav a{display:inline-flex;align-items:center;min-height:38px;padding:7px 13px;border:1px solid #cbd9e1;background:#fff;color:#38647d;font-size:12px;line-height:1.45;font-weight:680}
+.material-jump-nav a:hover{background:#eef5f9;border-color:#7fa7bc}
+.material-jump-nav a:focus-visible,.latest-course-link:focus-visible{outline:2px solid var(--brand-deep);outline-offset:2px}
+#handouts,#training,#lesson-records-mechanics{scroll-margin-top:110px}
+.course-group .lesson-card-upcoming .lesson-resources{display:none!important}
+.course-group .lesson-card-upcoming .lesson-head{padding:13px 17px;border-bottom:0}
+.course-group .lesson-card-upcoming .lesson-head h3{font-size:14px}
+.course-group .lesson-card-upcoming .lesson-no{padding:14px 8px}
+.course-group .lesson-card-upcoming .lesson-head .lesson-status{margin-top:0}
+.course-group .lesson-card-upcoming .lesson-head p{display:none}
+.course-group .lesson-card-upcoming .lesson-detail{min-height:0}
+.course-group .resource-btn{min-height:40px;padding:8px 11px}
+.course-group .resource-item small{font-size:11px}
+.course-group .handout-meta span{font-size:10.5px;line-height:1.5}
+@media(max-width:900px){
+ .latest-course{flex-direction:column;align-items:stretch;gap:11px}
+ .latest-course-actions{justify-content:flex-start}
+}
+@media(max-width:760px){
+ .latest-course{padding:12px 13px;gap:10px}
+ .latest-course-copy{align-items:flex-start;gap:10px}
+ .latest-course-kicker{font-size:11px;padding-top:2px}
+ .latest-course-title strong{font-size:13px}
+ .latest-course-title>span{font-size:11.5px}
+ .latest-course-link,.material-jump-nav a{min-height:44px;padding:10px 12px;font-size:12px}
+ .course-group .resource-btn{min-height:44px;padding:9px 12px;font-size:12px}
+ .course-group .resource-item small{font-size:11.5px}
+ .material-jump-nav{gap:6px;margin:10px 0 15px}
+ .course-group .lesson-card-upcoming .lesson-head{padding:13px 12px}
+ .course-group .lesson-card-upcoming .lesson-head h3{font-size:14px}
+}
+@media(max-width:480px){
+ .latest-course-copy{flex-direction:column;gap:3px}
+ .latest-course-kicker{padding:0}
+ .latest-course-actions{gap:6px}
+ .latest-course-link{flex:1 1 auto}
+ .material-jump-nav a{flex:1 1 auto;justify-content:center;padding-inline:8px}
+ .course-group .lesson-card-upcoming .lesson-no{padding:13px 5px}
+}
