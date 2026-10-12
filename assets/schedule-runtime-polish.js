@@ -98,20 +98,14 @@
     ]
   };
 
-  const EXTRA_COURSES = [MATHIA, CHEMISTRY, BIOLOGY];
+  const EXTRA_COURSES = [CHEMISTRY, BIOLOGY];
   EXTRA_COURSES.forEach(course => {
     course.events = course.events.map(([id,date,start,end,title,topic]) => ({id,date,start,end,title,topic,course}));
   });
   const EXTRA_EVENT_BY_ID = new Map(EXTRA_COURSES.flatMap(course => course.events.map(event => [event.id,event])));
 
-  const REMOVED_EVENTS = new Set(['jp-09','jp-11','jp-13']);
-  const EVENT_OVERRIDES = new Map([
-    ['jp-08',{start:'13:40',end:'16:40',title:'第8回',topic:'小说读解技巧，基础现代文练习5・6'}],
-    ['jp-10',{start:'13:40',end:'16:40',title:'第9回',topic:'2020年评论・小说'}],
-    ['jp-12',{start:'13:40',end:'16:40',title:'第10回',topic:'2021年评论・小说'}],
-    ['jp-14',{start:'13:40',end:'16:40',title:'第11回',topic:'2022年评论'}],
-    ...Array.from({length:18},(_,i)=>[`geo-${String(i+3).padStart(2,'0')}`,{start:'18:00',end:'21:00'}])
-  ]);
+  const REMOVED_EVENTS = new Set();
+  const EVENT_OVERRIDES = new Map();
 
   const minutes = value => {
     const [h,m] = String(value).split(':').map(Number);
@@ -486,18 +480,6 @@
     if (mt&&mt.textContent!==m) mt.textContent=m;
     if (ct&&ct.textContent!==c) ct.textContent=c;
 
-    [...body.rows].forEach(row => {
-      if (row.textContent.includes('共通考试地理')) {
-        const meta=row.querySelector('.course-overview-name span');
-        const next='9/6 09:00–12:00｜9/13起周日 18:00–21:00｜讲义・刷题一体';
-        if (meta&&meta.textContent!==next) meta.textContent=next;
-      }
-      if (row.textContent.includes('国语')) {
-        const meta=row.querySelector('.course-overview-name span');
-        const next='10/9起周五 13:40–16:40';
-        if (meta&&meta.textContent!==next) meta.textContent=next;
-      }
-    });
   }
 
   function patchPendingCourseList() {
