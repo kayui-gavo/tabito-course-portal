@@ -714,12 +714,13 @@
  }
 
 
- // Default view is already open; no jump away from the timetable.
+ // Default to the subject being taught, without forcing the page to scroll.
  showCourse(currentStudyCategory());
  document.getElementById('selection-prompt').textContent='已按当前授课进度显示，可选择其他分野';
  // Links to an individual lecture or document override the default subject.
- openLinkedCourse();
- window.addEventListener('hashchange',openLinkedCourse);
+  openLinkedCourse();
+  if(location.hash==='#schedule')document.getElementById('timetable-disclosure').open=true;
+  window.addEventListener('hashchange',openLinkedCourse);
 
   </script>
 </body>
