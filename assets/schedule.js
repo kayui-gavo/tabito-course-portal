@@ -140,7 +140,7 @@
   function renderTimeAxis(){ const rows=[]; for(let minute=START_MINUTE;minute<=END_MINUTE;minute+=60){ const top=((minute-START_MINUTE)/(END_MINUTE-START_MINUTE))*GRID_HEIGHT; const hour=String(Math.floor(minute/60)).padStart(2,'0'); rows.push(`<span class="${minute===START_MINUTE?'time-label start':'time-label'}" style="top:${top}px">${hour}:00</span>`); } els.timeAxis.innerHTML=rows.join(''); }
   function renderHeader(){ const dates=visibleDates(); els.calendarHead.style.gridTemplateColumns=`68px repeat(${dates.length},minmax(0,1fr))`; const now=new Date(); const todayKey=formatDate(new Date(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate()))); els.calendarHead.innerHTML=['<div class="corner" aria-hidden="true"></div>',...dates.map((date,index)=>`<div class="day-head${formatDate(date)===todayKey?' today':''}"><span class="weekday">${weekdayNames[index]}</span><span class="date">${date.getUTCMonth()+1}/${date.getUTCDate()}</span></div>`)].join(''); }
   function eventClass(event){ if(event.status==='cancelled')return `${event.subject} cancelled`; if(event.status==='tentative')return `${event.subject} tentative`; return event.subject; }
-  function eventStatusLabel(event){ if(event.status==='cancelled')return '休讲'; if(event.status==='tentative')return '暂定线上'; return '正常授课'; }
+  function eventStatusLabel(event){ if(event.status==='cancelled')return '休讲'; if(event.status==='tentative')return '拟排（待确认）'; return '正常授课'; }
 
   function layoutDayEvents(dayEvents){
     const sorted=[...dayEvents].sort((a,b)=>a.start.localeCompare(b.start)||a.end.localeCompare(b.end)); const result=[]; let group=[],groupEnd=-1;
