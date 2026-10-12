@@ -327,3 +327,31 @@ main{padding-bottom:64px}
 .lesson-card-lecture .lesson-resources{grid-template-columns:repeat(2,minmax(0,1fr))}
 .lesson-card-lecture .lesson-resources:has(> .resource-item:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+/* 2026-10-12: consistent typography for course information and resources. */
+.course-group .lesson-head h3{font-size:16px;line-height:1.45;font-weight:730;letter-spacing:0}
+.course-group .lesson-head p{font-size:12px;line-height:1.65}
+.course-group .lesson-tags span,.course-group .lesson-tags time{font-size:11px;line-height:1.5;font-weight:650}
+.course-group .lesson-status,.course-group .lesson-status.muted{font-size:11px;line-height:1.5;font-weight:650}
+.course-group .resource-label{min-width:38px;padding:4px 6px;font-size:10.5px;line-height:1.4;font-weight:700}
+.course-group .resource-item strong{font-size:12px;line-height:1.5;font-weight:700}
+.course-group .resource-item small{margin-top:3px;font-size:11px;line-height:1.5;font-weight:450}
+.course-group .resource-btn{min-width:72px;font-size:11px;line-height:1.45;font-weight:700}
+.course-group .lesson-review>summary{font-size:12px;line-height:1.5;font-weight:700}
+.course-group .review-overview,.course-group .review-columns ul,.course-group .review-columns ol,.course-group .review-columns p{font-size:12px;line-height:1.75}
+.course-group .review-columns h4{font-size:12px;line-height:1.5;font-weight:750}
+.course-group .handout-copy h3,.course-group .training-copy h3{font-size:15px;line-height:1.45;font-weight:700}
+.course-group .handout-copy p,.course-group .training-copy p{font-size:12px;line-height:1.65}
+.course-group .handout-meta,.course-group .course-material-heading>span{font-size:11px;line-height:1.5}
+@media(max-width:760px){
+ .course-group .lesson-head h3{font-size:15px}
+ .course-group .lesson-head p{font-size:11.5px}
+ .course-group .resource-item strong{font-size:11.5px}
+ .course-group .resource-item small{font-size:10.5px}
+ .course-group .resource-btn{min-width:70px}
+}
+@media(max-width:480px){
+ .course-group .lesson-head h3{font-size:14px}
+ .course-group .resource-item{grid-template-columns:40px minmax(0,1fr)}
+ .course-group .resource-btn{grid-column:2}
+}
