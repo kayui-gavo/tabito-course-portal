@@ -44,7 +44,7 @@ window.TabitoWinter2026 = {
     "scienceTokyoPhysics": {
       "name": "东京科学大学（原东工大）校内考物理班",
       "teacher": "刘可惟",
-      "mode": "暂定线上"
+      "mode": "线下"
     }
   },
   "courses": [
@@ -116,9 +116,9 @@ window.TabitoWinter2026 = {
       "key": "scienceTokyoPhysics",
       "name": "东京科学大学（原东工大）校内考物理班",
       "teacher": "刘可惟",
-      "mode": "暂定线上",
+      "mode": "线下",
       "type": "班课",
-      "meta": "拟排｜周日10:00–13:00｜7回・21h｜1/20笔试"
+      "meta": "拟排｜周二18:00–21:00｜7回・21h｜1/20笔试"
     }
   ],
   "events": [
@@ -1863,9 +1863,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-01",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-11-15",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2026-11-24",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第1回",
       "topic": "力学Ⅰ：运动方程、约束条件、功与能量",
       "status": "tentative"
@@ -1873,9 +1873,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-02",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-11-22",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2026-12-01",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第2回",
       "topic": "力学Ⅱ：动量、碰撞、圆周运动与单振动",
       "status": "tentative"
@@ -1883,9 +1883,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-03",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-11-29",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2026-12-08",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第3回",
       "topic": "波动：驻波、干涉与光学综合",
       "status": "tentative"
@@ -1893,9 +1893,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-04",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-06",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2026-12-15",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第4回",
       "topic": "热力学：状态变化、热力学第一定律与过程分析",
       "status": "tentative"
@@ -1903,9 +1903,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-05",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-13",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2026-12-22",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第5回",
       "topic": "电磁学Ⅰ：静电场、电容器与直流电路",
       "status": "tentative"
@@ -1913,9 +1913,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-06",
       "subject": "scienceTokyoPhysics",
-      "date": "2026-12-20",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2027-01-05",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第6回",
       "topic": "电磁学Ⅱ：磁场、洛伦兹力与电磁感应",
       "status": "tentative"
@@ -1923,9 +1923,9 @@ window.TabitoWinter2026 = {
     {
       "id": "winter26-scienceTokyoPhysics-07",
       "subject": "scienceTokyoPhysics",
-      "date": "2027-01-10",
-      "start": "10:00",
-      "end": "13:00",
+      "date": "2027-01-12",
+      "start": "18:00",
+      "end": "21:00",
       "title": "第7回",
       "topic": "校内考过去问限时演习、综合讲评与考前答疑",
       "status": "tentative"
