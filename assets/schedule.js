@@ -1,126 +1,16 @@
 (() => {
   'use strict';
 
+  // The 2026-10-12 consolidated PDF is the source of truth for winter classes.
+  const data = window.TabitoWinter2026;
+  if (!data) throw new Error('Missing 2026 winter schedule data');
   const subjects = {
-    politics: { name: '公共政治经济', teacher: '刘淼', mode: '线下' },
-    japanese: { name: '国语', teacher: '刘淼', mode: '线下' },
-    english: { name: '共通英语阅读', teacher: '刘淼', mode: '线下' },
-    mathIIBC: { name: '共通考试数学IIBC', teacher: '坂野健晟', mode: '网课' },
-    geography: { name: '共通考试地理', teacher: '丁玺', mode: '线下' },
-    commonPhysics: { name: '物理共通考试冲刺课程', teacher: '刘可惟', mode: '暂定线下＋线上同步' },
-    privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '网课' }
+    ...data.subjects,
+    english: { name: '共通英语阅读', teacher: '刘淼', mode: '网课' },
+    privatePhysics: { name: '魏思远物理一对一', teacher: '刘可惟', mode: '线下' }
   };
-
   const scheduleEvents = [
-    { id: 'pol-01', subject: 'politics', date: '2026-08-30', start: '14:00', end: '17:00', title: '第1回', topic: '政治哲学编年史、政治体系基础，哲学史入门', status: 'normal' },
-    { id: 'pol-off-01', subject: 'politics', date: '2026-09-06', start: '14:00', end: '17:00', title: '休讲', topic: '公共政治经济', status: 'cancelled' },
-    { id: 'pol-02', subject: 'politics', date: '2026-09-13', start: '14:00', end: '17:00', title: '第2回', topic: '日本国宪法', status: 'normal' },
-    { id: 'pol-03', subject: 'politics', date: '2026-09-20', start: '14:00', end: '17:00', title: '第3回', topic: '选举制度和立法权与行政权', status: 'normal' },
-    { id: 'pol-04', subject: 'politics', date: '2026-09-27', start: '14:00', end: '17:00', title: '第4回', topic: '日本地方行政和司法权', status: 'normal' },
-    { id: 'pol-off-02', subject: 'politics', date: '2026-10-04', start: '14:00', end: '17:00', title: '休讲', topic: '公共政治经济', status: 'cancelled' },
-    { id: 'pol-05', subject: 'politics', date: '2026-10-11', start: '14:00', end: '17:00', title: '第5回', topic: '经济思想入门', status: 'normal' },
-    { id: 'pol-06', subject: 'politics', date: '2026-10-18', start: '14:00', end: '17:00', title: '第6回', topic: '宏观经济基础', status: 'normal' },
-    { id: 'pol-07', subject: 'politics', date: '2026-10-25', start: '14:00', end: '17:00', title: '第7回', topic: '市场与金融', status: 'normal' },
-    { id: 'pol-08', subject: 'politics', date: '2026-11-01', start: '14:00', end: '17:00', title: '第8回', topic: '日本经济与国际经济局式', status: 'normal' },
-    { id: 'pol-09', subject: 'politics', date: '2026-11-08', start: '14:00', end: '17:00', title: '第9回', topic: '战后日本政党史和战后国际关系史', status: 'normal' },
-    { id: 'pol-10', subject: 'politics', date: '2026-11-15', start: '14:00', end: '17:00', title: '第10回', topic: '国际法基础', status: 'normal' },
-    { id: 'pol-11', subject: 'politics', date: '2026-11-22', start: '14:00', end: '17:00', title: '第11回', topic: '国际关系基础', status: 'normal' },
-
-    { id: 'jp-01', subject: 'japanese', date: '2026-08-28', start: '14:00', end: '16:00', title: '第1回', topic: '基础读解方法：组合意图，接续词', status: 'normal' },
-    { id: 'jp-02', subject: 'japanese', date: '2026-08-30', start: '18:30', end: '20:30', title: '第2回', topic: '基础读解方法：读题技巧', status: 'normal' },
-    { id: 'jp-03', subject: 'japanese', date: '2026-09-04', start: '14:00', end: '16:00', title: '第3回', topic: '基础现代文练习1', status: 'tentative', mode: '暂定线上' },
-    { id: 'jp-off-01', subject: 'japanese', date: '2026-09-06', start: '18:30', end: '20:30', title: '休讲', topic: '国语', status: 'cancelled' },
-    { id: 'jp-04', subject: 'japanese', date: '2026-09-11', start: '14:00', end: '16:00', title: '第4回', topic: '基础现代文练习1', status: 'normal' },
-    { id: 'jp-05', subject: 'japanese', date: '2026-09-13', start: '18:30', end: '20:30', title: '第5回', topic: '基础现代文练习2', status: 'normal' },
-    { id: 'jp-06', subject: 'japanese', date: '2026-09-18', start: '14:00', end: '16:00', title: '第6回', topic: '基础现代文练习3', status: 'normal' },
-    { id: 'jp-07', subject: 'japanese', date: '2026-09-20', start: '18:30', end: '20:30', title: '第7回', topic: '基础现代文练习4', status: 'normal' },
-    { id: 'jp-off-02', subject: 'japanese', date: '2026-10-02', start: '14:00', end: '16:00', title: '休讲', topic: '国语', status: 'cancelled' },
-    { id: 'jp-off-03', subject: 'japanese', date: '2026-10-04', start: '18:30', end: '20:30', title: '休讲', topic: '国语', status: 'cancelled' },
-    { id: 'jp-08', subject: 'japanese', date: '2026-10-09', start: '14:00', end: '16:00', title: '第8回', topic: '小说读解技巧，基础现代文练习5', status: 'normal' },
-    { id: 'jp-09', subject: 'japanese', date: '2026-10-11', start: '18:30', end: '20:30', title: '第9回', topic: '基础现代文练习6', status: 'normal' },
-    { id: 'jp-10', subject: 'japanese', date: '2026-10-16', start: '14:00', end: '16:00', title: '第10回', topic: '2020年评论', status: 'normal' },
-    { id: 'jp-11', subject: 'japanese', date: '2026-10-18', start: '18:30', end: '20:30', title: '第11回', topic: '2020年小说', status: 'normal' },
-    { id: 'jp-12', subject: 'japanese', date: '2026-10-23', start: '14:00', end: '16:00', title: '第12回', topic: '2021年评论', status: 'normal' },
-    { id: 'jp-13', subject: 'japanese', date: '2026-10-25', start: '18:30', end: '20:30', title: '第13回', topic: '2021年小说', status: 'normal' },
-    { id: 'jp-14', subject: 'japanese', date: '2026-10-30', start: '14:00', end: '16:00', title: '第14回', topic: '2022年评论', status: 'normal' },
-
-    { id: 'math-01', subject: 'mathIIBC', date: '2026-09-26', start: '17:30', end: '19:30', title: '第1回', topic: '等式的证明・因式定理', status: 'normal' },
-    { id: 'math-02', subject: 'mathIIBC', date: '2026-09-28', start: '19:00', end: '21:00', title: '第2回', topic: '点的坐标・直线方程式・圆的方程式', status: 'normal' },
-    { id: 'math-03', subject: 'mathIIBC', date: '2026-10-05', start: '19:00', end: '21:00', title: '第3回', topic: '轨迹・区域', status: 'normal' },
-    { id: 'math-04', subject: 'mathIIBC', date: '2026-10-10', start: '17:30', end: '19:30', title: '第4回', topic: '三角函数的性质与图像・加法定理・指数函数的性质', status: 'normal' },
-    { id: 'math-05', subject: 'mathIIBC', date: '2026-10-12', start: '19:00', end: '21:00', title: '第5回', topic: '函数的增减・极值・最大值最小值', status: 'normal' },
-    { id: 'math-06', subject: 'mathIIBC', date: '2026-10-17', start: '17:30', end: '19:30', title: '第6回', topic: '导函数・切线方程式・面积计算', status: 'normal' },
-    { id: 'math-07', subject: 'mathIIBC', date: '2026-10-19', start: '19:00', end: '21:00', title: '第7回', topic: '指数函数的性质・对数函数的性质・换底公式', status: 'normal' },
-    { id: 'math-08', subject: 'mathIIBC', date: '2026-10-24', start: '17:30', end: '19:30', title: '第8回', topic: '等差数列・等比数列的一般项与和', status: 'normal' },
-    { id: 'math-09', subject: 'mathIIBC', date: '2026-10-26', start: '19:00', end: '21:00', title: '第9回', topic: '数列的和・递推式基础', status: 'normal' },
-    { id: 'math-10', subject: 'mathIIBC', date: '2026-10-31', start: '17:30', end: '19:30', title: '第10回', topic: '向量运算・分量・平行条件', status: 'normal' },
-    { id: 'math-11', subject: 'mathIIBC', date: '2026-11-02', start: '19:00', end: '21:00', title: '第11回', topic: '向量内积・垂直条件・位置向量', status: 'normal' },
-    { id: 'math-12', subject: 'mathIIBC', date: '2026-11-07', start: '17:30', end: '19:30', title: '第12回', topic: '空间坐标与向量・空间图形应用', status: 'normal' },
-    { id: 'math-13', subject: 'mathIIBC', date: '2026-11-09', start: '19:00', end: '21:00', title: '第13回', topic: '抛物线・椭圆・双曲线的性质与方程', status: 'normal' },
-    { id: 'math-14', subject: 'mathIIBC', date: '2026-11-14', start: '17:30', end: '19:30', title: '第14回', topic: '复数的极形式・棣莫弗定理', status: 'normal' },
-    { id: 'math-15', subject: 'mathIIBC', date: '2026-11-16', start: '19:00', end: '21:00', title: '第15回', topic: '曲线与复数平面演习', status: 'normal' },
-    { id: 'math-16', subject: 'mathIIBC', date: '2026-11-21', start: '17:30', end: '19:30', title: '第16回', topic: '随机变量与概率分布・期望・方差', status: 'normal' },
-    { id: 'math-17', subject: 'mathIIBC', date: '2026-11-23', start: '19:00', end: '21:00', title: '第17回', topic: '二项分布・正态分布的性质与应用', status: 'normal' },
-    { id: 'math-18', subject: 'mathIIBC', date: '2026-11-28', start: '17:30', end: '19:30', title: '第18回', topic: '总体与样本・样本均值分布・估计', status: 'normal' },
-    { id: 'math-19', subject: 'mathIIBC', date: '2026-11-30', start: '19:00', end: '21:00', title: '第19回', topic: '数学IIBC主要单元总复习', status: 'normal' },
-    { id: 'math-20', subject: 'mathIIBC', date: '2026-12-05', start: '17:30', end: '19:30', title: '第20回', topic: '数学IIBC主要单元总复习', status: 'normal' },
-
-    { id: 'geo-01', subject: 'geography', date: '2026-08-30', start: '09:00', end: '12:00', title: '第1回', topic: '大地形', status: 'normal' },
-    { id: 'geo-02', subject: 'geography', date: '2026-09-06', start: '09:00', end: '12:00', title: '第2回', topic: '小地形', status: 'normal' },
-    { id: 'geo-03', subject: 'geography', date: '2026-09-13', start: '09:00', end: '12:00', title: '第3回', topic: '气候・植生・土壤', status: 'normal' },
-    { id: 'geo-04', subject: 'geography', date: '2026-09-20', start: '09:00', end: '12:00', title: '第4回', topic: '农业', status: 'normal' },
-    { id: 'geo-05', subject: 'geography', date: '2026-09-27', start: '09:00', end: '12:00', title: '第5回', topic: '工业', status: 'normal' },
-    { id: 'geo-06', subject: 'geography', date: '2026-10-04', start: '09:00', end: '12:00', title: '第6回', topic: '文化・宗教・语言／民族・纷争', status: 'normal' },
-    { id: 'geo-07', subject: 'geography', date: '2026-10-11', start: '09:00', end: '12:00', title: '第7回', topic: '人口・村落・都市／商业・交通', status: 'normal' },
-    { id: 'geo-08', subject: 'geography', date: '2026-10-18', start: '09:00', end: '12:00', title: '第8回', topic: '日本地理', status: 'normal' },
-    { id: 'geo-09', subject: 'geography', date: '2026-10-25', start: '09:00', end: '12:00', title: '第9回', topic: '地形 专题演习', status: 'normal' },
-    { id: 'geo-10', subject: 'geography', date: '2026-11-01', start: '09:00', end: '12:00', title: '第10回', topic: '气候・植生・土壤 专题演习', status: 'normal' },
-    { id: 'geo-11', subject: 'geography', date: '2026-11-08', start: '09:00', end: '12:00', title: '第11回', topic: '农业 专题演习', status: 'normal' },
-    { id: 'geo-12', subject: 'geography', date: '2026-11-15', start: '09:00', end: '12:00', title: '第12回', topic: '工业 专题演习', status: 'normal' },
-    { id: 'geo-13', subject: 'geography', date: '2026-11-22', start: '09:00', end: '12:00', title: '第13回', topic: '人文地理 专题演习', status: 'normal' },
-    { id: 'geo-14', subject: 'geography', date: '2026-11-29', start: '09:00', end: '12:00', title: '第14回', topic: '地形图・图法 专题演习', status: 'normal' },
-    { id: 'geo-15', subject: 'geography', date: '2026-12-06', start: '09:00', end: '12:00', title: '第15回', topic: '地域地理 专题演习', status: 'normal' },
-    { id: 'geo-16', subject: 'geography', date: '2026-12-13', start: '09:00', end: '12:00', title: '第16回', topic: '2023 地理 本试＋追试', status: 'normal' },
-    { id: 'geo-17', subject: 'geography', date: '2026-12-20', start: '09:00', end: '12:00', title: '第17回', topic: '2024 地理 本试＋追试', status: 'normal' },
-    { id: 'geo-18', subject: 'geography', date: '2026-12-27', start: '09:00', end: '12:00', title: '第18回', topic: '2025 旧地理B 本试＋追试', status: 'normal' },
-    { id: 'geo-19', subject: 'geography', date: '2027-01-03', start: '09:00', end: '12:00', title: '第19回', topic: '2025 地理 本试＋追试', status: 'normal' },
-    { id: 'geo-20', subject: 'geography', date: '2027-01-10', start: '09:00', end: '12:00', title: '第20回', topic: '2026 地理 本试＋追试', status: 'normal' },
-
-    { id: 'phys-lecture-01', subject: 'commonPhysics', date: '2026-09-12', start: '14:00', end: '17:00', title: '讲座1', topic: '平面运动、力与刚体', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-02', subject: 'commonPhysics', date: '2026-09-17', start: '18:30', end: '20:30', title: '讲座2', topic: '能量与动量', status: 'normal', teacher: '刘可惟', mode: '仅线上' },
-    { id: 'phys-off-01', subject: 'commonPhysics', date: '2026-09-19', start: '14:00', end: '17:00', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
-    { id: 'phys-off-02', subject: 'commonPhysics', date: '2026-09-24', start: '18:30', end: '20:30', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
-    { id: 'phys-off-03', subject: 'commonPhysics', date: '2026-09-26', start: '14:00', end: '17:00', title: '休讲', topic: '9月中下旬休讲', status: 'cancelled', teacher: '', mode: '' },
-    { id: 'phys-lecture-03', subject: 'commonPhysics', date: '2026-10-01', start: '18:30', end: '20:30', title: '讲座3', topic: '力学实验、综合专题1', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-04', subject: 'commonPhysics', date: '2026-10-03', start: '14:00', end: '17:00', title: '讲座4', topic: '圆周运动、简谐振动 / 万有引力、天体运动', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-05', subject: 'commonPhysics', date: '2026-10-08', start: '18:30', end: '20:30', title: '讲座5', topic: '力学实验、综合专题2', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-01', subject: 'commonPhysics', date: '2026-10-10', start: '15:00', end: '17:00', title: '实战1', topic: '力学｜抛体运动、刚体平衡、动量与冲量', status: 'normal', teacher: '金老师' },
-    { id: 'phys-lecture-06', subject: 'commonPhysics', date: '2026-10-15', start: '18:30', end: '20:30', title: '讲座6', topic: '波的基本性质、波面与射线', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-02', subject: 'commonPhysics', date: '2026-10-17', start: '15:00', end: '17:00', title: '实战2', topic: '力学｜圆周运动、简谐振动、万有引力', status: 'normal', teacher: '金老师' },
-    { id: 'phys-lecture-07', subject: 'commonPhysics', date: '2026-10-22', start: '18:30', end: '20:30', title: '讲座7', topic: '波的干涉与衍射', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-08', subject: 'commonPhysics', date: '2026-10-24', start: '14:00', end: '17:00', title: '讲座8', topic: '声音与光', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-09', subject: 'commonPhysics', date: '2026-10-29', start: '18:30', end: '20:30', title: '讲座9', topic: '波动实验、综合专题', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-10', subject: 'commonPhysics', date: '2026-10-31', start: '14:00', end: '17:00', title: '讲座10', topic: '理想气体的状态变化', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-11', subject: 'commonPhysics', date: '2026-11-05', start: '18:30', end: '20:30', title: '讲座11', topic: '分子运动论', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-12', subject: 'commonPhysics', date: '2026-11-07', start: '14:00', end: '17:00', title: '讲座12', topic: '热力学第一定律', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-03', subject: 'commonPhysics', date: '2026-11-12', start: '18:30', end: '20:30', title: '实战3', topic: '波动｜正弦波、声音与光', status: 'normal', teacher: '金老师' },
-    { id: 'phys-lecture-13', subject: 'commonPhysics', date: '2026-11-14', start: '14:00', end: '17:00', title: '讲座13', topic: '热力学实验、综合专题', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-14', subject: 'commonPhysics', date: '2026-11-19', start: '18:30', end: '20:30', title: '讲座14', topic: '电场、电势与电容器', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-04', subject: 'commonPhysics', date: '2026-11-21', start: '15:00', end: '17:00', title: '实战4', topic: '热力学｜状态变化、分子运动论、热力学第一定律', status: 'normal', teacher: '金老师' },
-    { id: 'phys-lecture-15', subject: 'commonPhysics', date: '2026-11-26', start: '18:30', end: '20:30', title: '讲座15', topic: '直流电路', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-16', subject: 'commonPhysics', date: '2026-11-28', start: '14:00', end: '17:00', title: '讲座16', topic: '电流与磁场 / 电磁学实验、综合专题1', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-lecture-17', subject: 'commonPhysics', date: '2026-12-03', start: '18:30', end: '20:30', title: '讲座17', topic: '电磁感应', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-05', subject: 'commonPhysics', date: '2026-12-05', start: '15:00', end: '17:00', title: '实战5', topic: '电磁学｜点电荷、电容器、电路', status: 'normal', teacher: '金老师' },
-    { id: 'phys-lecture-18', subject: 'commonPhysics', date: '2026-12-12', start: '14:00', end: '17:00', title: '讲座18', topic: '电磁学实验、综合专题2', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-06', subject: 'commonPhysics', date: '2026-12-17', start: '18:30', end: '20:30', title: '实战6', topic: '电磁学｜电流与磁场、电磁感应', status: 'normal', teacher: '金老师' },
-    { id: 'phys-practice-07', subject: 'commonPhysics', date: '2026-12-19', start: '14:00', end: '17:00', title: '实战7', topic: '原子与交流电｜真题、模拟题', status: 'normal', teacher: '刘可惟' },
-    { id: 'phys-practice-08', subject: 'commonPhysics', date: '2026-12-24', start: '18:30', end: '20:30', title: '实战8', topic: '模拟考试1', status: 'normal', teacher: '金老师' },
-    { id: 'phys-practice-09', subject: 'commonPhysics', date: '2026-12-26', start: '15:00', end: '17:00', title: '实战9', topic: '模拟考试2', status: 'normal', teacher: '金老师' },
-    { id: 'phys-off-04', subject: 'commonPhysics', date: '2026-12-31', start: '18:30', end: '20:30', title: '休讲', topic: '年末休讲', status: 'cancelled', teacher: '', mode: '' },
-    { id: 'phys-practice-10', subject: 'commonPhysics', date: '2027-01-02', start: '15:00', end: '17:00', title: '实战10', topic: '模拟考试3', status: 'normal', teacher: '金老师' },
-    { id: 'phys-practice-11', subject: 'commonPhysics', date: '2027-01-07', start: '18:30', end: '20:30', title: '实战11', topic: '模拟考试4', status: 'normal', teacher: '金老师' },
-    { id: 'phys-practice-12', subject: 'commonPhysics', date: '2027-01-09', start: '15:00', end: '17:00', title: '实战12', topic: '模拟考试5', status: 'normal', teacher: '金老师' },
-
+    ...data.events,
     { id: 'private-physics-01', subject: 'privatePhysics', date: '2026-08-30', start: '15:00', end: '17:00', title: '个别指导', topic: '魏思远｜物理一对一', status: 'normal' }
   ];
 
@@ -166,22 +56,42 @@
     style.textContent = `
       :root {
         --math-iibc:#3d7790; --math-iibc-bg:#edf5f7;
+        --math-ia1:#7a5d8e; --math-ia1-bg:#f4f0f7;
+        --math-ia2:#566e8a; --math-ia2-bg:#edf2f7;
+        --chinese:#aa6845; --chinese-bg:#faf1eb;
+        --science-tokyo:#366c72; --science-tokyo-bg:#edf6f5;
         --geography:#8a6a3f; --geography-bg:#f7f1e8;
         --common-physics:#496d8b; --common-physics-bg:#eef4f8;
         --private-physics:#695f8d; --private-physics-bg:#f1eff7;
       }
       .subject-legend.mathIIBC i{background:var(--math-iibc)}
+      .subject-legend.mathIA1 i{background:var(--math-ia1)}
+      .subject-legend.mathIA2 i{background:var(--math-ia2)}
+      .subject-legend.chinese i{background:var(--chinese)}
+      .subject-legend.scienceTokyoPhysics i{background:var(--science-tokyo)}
       .subject-legend.geography i{background:var(--geography)}
       .subject-legend.commonPhysics i{background:var(--common-physics)}
       .subject-legend.privatePhysics i{background:var(--private-physics)}
+      .event.mathIA1{border-color:#d6cbe0;border-left-color:var(--math-ia1);background:var(--math-ia1-bg)}
+      .event.mathIA2{border-color:#c4d2e0;border-left-color:var(--math-ia2);background:var(--math-ia2-bg)}
+      .event.chinese{border-color:#e2cabc;border-left-color:var(--chinese);background:var(--chinese-bg)}
+      .event.scienceTokyoPhysics{border-color:#bad8d6;border-left-color:var(--science-tokyo);background:var(--science-tokyo-bg)}
       .event.mathIIBC{border-color:#b9d1da;border-left-color:var(--math-iibc);background:var(--math-iibc-bg)}
       .event.geography{border-color:#d9c8af;border-left-color:var(--geography);background:var(--geography-bg)}
       .event.commonPhysics{border-color:#bfd0de;border-left-color:var(--common-physics);background:var(--common-physics-bg)}
       .event.privatePhysics{border-color:#cbc4df;border-left-color:var(--private-physics);background:var(--private-physics-bg)}
+      .month-event.mathIA1{border-left-color:var(--math-ia1);background:var(--math-ia1-bg)}
+      .month-event.mathIA2{border-left-color:var(--math-ia2);background:var(--math-ia2-bg)}
+      .month-event.chinese{border-left-color:var(--chinese);background:var(--chinese-bg)}
+      .month-event.scienceTokyoPhysics{border-left-color:var(--science-tokyo);background:var(--science-tokyo-bg)}
       .month-event.mathIIBC{border-left-color:var(--math-iibc);background:var(--math-iibc-bg)}
       .month-event.geography{border-left-color:var(--geography);background:var(--geography-bg)}
       .month-event.commonPhysics{border-left-color:var(--common-physics);background:var(--common-physics-bg)}
       .month-event.privatePhysics{border-left-color:var(--private-physics);background:var(--private-physics-bg)}
+      .course-overview-dot.mathIA1{background:var(--math-ia1)}
+      .course-overview-dot.mathIA2{background:var(--math-ia2)}
+      .course-overview-dot.chinese{background:var(--chinese)}
+      .course-overview-dot.scienceTokyoPhysics{background:var(--science-tokyo)}
       .event-meta,.month-event-meta,.mobile-event-meta{color:rgba(24,34,48,.58);font-weight:650}
       .event-meta{display:block;margin-top:2px;font-size:9px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       .month-event-meta{display:block;margin-top:2px;font-size:8.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
