@@ -4,8 +4,9 @@
   const winter = window.TabitoWinter2026;
   const courses = winter.courses.map(course => ({
     ...course,
-    mode: course.mode,
-    room: ['线下','线下＋线上同步'].includes(course.mode) ? '待分配' : '无需教室',
+    mode: course.key === 'mathIA1' ? '讲座与前期实战线上／后期实战同步'
+      : course.key === 'mathIA2' ? '讲座线下／实战同步' : course.mode,
+    room: ['mathIA1','mathIA2'].includes(course.key) || ['线下','线下＋线上同步'].includes(course.mode) ? '待分配' : '无需教室',
     events: winter.events.filter(event => event.subject === course.key)
       .map(event => [event.date, (Number(event.end.slice(0,2))*60+Number(event.end.slice(3))
         -Number(event.start.slice(0,2))*60-Number(event.start.slice(3)))/60, event.status === 'cancelled' ? 1 : 0])
